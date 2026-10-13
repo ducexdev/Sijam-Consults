@@ -4,6 +4,17 @@
   :root {
     --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --font-heading: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+    /* ── SIJAM Brand Colors (pixel-extracted from official logo) ───────────── */
+    --sijam-purple-950:    #0D0826;
+    --sijam-purple-900:    #1A1040;
+    --sijam-purple-800:    #2D186B;
+    --sijam-purple-700:    #3B1F8C;
+    --sijam-purple:        #402493;   /* PRIMARY — circle mark + "Sijam" text */
+    --sijam-purple-shadow: #2E2064;
+    --sijam-red:           #DC2F11;   /* ACCENT  — "CONSULTS" wordmark + dot   */
+    --sijam-red-hover:     #B82B10;
+    --sijam-red-muted:     rgba(220, 47, 17, 0.12);
   }
 
   body {
@@ -52,6 +63,26 @@
 }
 .border-sijam-orange {
   border-color: #F45A2A;
+}
+
+/* ── SIJAM Brand Red — logo "CONSULTS" accent (#DC2F11) ───────────────── */
+.bg-sijam-red {
+  background-color: #DC2F11;
+}
+.bg-sijam-red-hover:hover {
+  background-color: #B82B10;
+}
+.bg-sijam-red-muted {
+  background-color: rgba(220, 47, 17, 0.12);
+}
+.text-sijam-red {
+  color: #DC2F11;
+}
+.border-sijam-red {
+  border-color: #DC2F11;
+}
+.shadow-neon-red {
+  box-shadow: 0 0 30px -5px rgba(220, 47, 17, 0.55);
 }
 
 .bg-sijam-coral {
