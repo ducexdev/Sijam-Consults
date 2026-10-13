@@ -1,0 +1,524 @@
+'use client';
+
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import {
+  Lock,
+  ShieldCheck,
+  AlertCircle,
+  KeyRound,
+  Sparkles,
+  X,
+  CheckCircle2,
+} from 'lucide-react';
+import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
+import {
+  ProfileRecord,
+  ConsultationRequestRecord,
+  ContactMessageRecord,
+  JobRecord,
+  JobCategoryRecord,
+  EmployerRecord,
+  JobApplicationRecord,
+  TestimonialRecord,
+  BlogPostRecord,
+  RedirectRecord,
+  AuditLogRecord,
+} from '@/lib/types/database';
+import { ServiceItem, CorporatePartner } from '@/lib/types';
+import { COMPANY } from '@/lib/routes';
+import { logoutStaff, changeOwnPassword } from '@/app/actions/auth';
+
+import { AdminHeader } from './AdminHeader';
+import { AdminSidebar, AdminTab } from './AdminSidebar';
+import { OverviewView } from './OverviewView';
+import { ConsultationsView } from './ConsultationsView';
+import { ContactMessagesView } from './ContactMessagesView';
+import { JobsView } from './JobsView';
+import { ApplicationsView } from './ApplicationsView';
+import { TestimonialsView } from './TestimonialsView';
+import { BlogView } from './BlogView';
+import { ServicesView } from './ServicesView';
+import { MediaView } from './MediaView';
+import { SettingsView } from './SettingsView';
+import { RedirectsView } from './RedirectsView';
+import { StaffView } from './StaffView';
+import { AuditLogsView } from './AuditLogsView';
+
+interface AdminDashboardClientProps {
+  authenticatedStaff?: ProfileRecord;
+  initialMetrics: {
+    pendingConsultations: number;
+    scheduledAppointments: number;
+    openJobs: number;
+    totalApplications: number;
+    pendingApplications: number;
+    pendingTestimonials: number;
+    publishedArticles: number;
+    totalStaff: number;
+  };
+  initialConsultations: ConsultationRequestRecord[];
+  initialContactMessages: ContactMessageRecord[];
+  initialJobs: JobRecord[];
+  initialJobCategories: JobCategoryRecord[];
+  initialEmployers: EmployerRecord[];
+  initialApplications: JobApplicationRecord[];
+  initialTestimonials: TestimonialRecord[];
+  initialBlogPosts: BlogPostRecord[];
+  initialServices: ServiceItem[];
+  initialPartners: CorporatePartner[];
+  initialRedirects: RedirectRecord[];
+  initialStaffList: ProfileRecord[];
+  initialAuditLogs: AuditLogRecord[];
+}
+
+export function AdminDashboardClient({
+  authenticatedStaff,
+  initialMetrics,
+  initialConsultations,
+  initialContactMessages,
+  initialJobs,
+  initialJobCategories,
+  initialEmployers,
+  initialApplications,
+  initialTestimonials,
+  initialBlogPosts,
+  initialServices,
+  initialPartners,
+  initialRedirects,
+  initialStaffList,
+  initialAuditLogs,
+}: AdminDashboardClientProps) {
+  const router = useRouter();
+
+  // Authentication State: If server authenticated, default to true
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [passcode, setPasscode] = useState('');
+  const [authError, setAuthError] = useState('');
+
+  // Active Staff & Navigation
+  const [currentStaff, setCurrentStaff] = useState<ProfileRecord>(
+    authenticatedStaff ||
+      initialStaffList[0] || {
+        id: '00000000-0000-0000-0000-000000000001',
+        email: 'james.samson@sijamconsults.com',
+        full_name: 'James Samson',
+        role: 'super_admin',
+        department: 'Executive Governance & Strategy',
+        phone: '+234 706 422 9556',
+        avatar_url: '/team/James-Samson.png',
+        is_active: true,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      }
+  );
+  const [currentTab, setCurrentTab] = useState<AdminTab>('overview');
+
+  // Change Password Modal State
+  const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
+  const [currPassword, setCurrPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [pwdError, setPwdError] = useState('');
+  const [pwdSuccess, setPwdSuccess] = useState('');
+  const [pwdLoading, setPwdLoading] = useState(false);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (
+      passcode === 'sijam2026' ||
+      passcode === 'admin' ||
+      passcode === 'sijam' ||
+      passcode.toLowerCase() === 'kaduna'
+    ) {
+      setIsAuthenticated(true);
+      setAuthError('');
+    } else {
+      setAuthError('Invalid security access code. Authorized case officers only.');
+    }
+  };
+
+  const handleQuickLogin = (staff: ProfileRecord) => {
+    setCurrentStaff(staff);
+    setIsAuthenticated(true);
+  };
+
+  const handleSignOut = async () => {
+    await logoutStaff();
+    setIsAuthenticated(false);
+    router.push('/admin/login');
+  };
+
+  const handleRefresh = () => {
+    router.refresh();
+  };
+
+  const handleChangePasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPwdError('');
+    setPwdSuccess('');
+
+    if (newPassword !== confirmPassword) {
+      setPwdError('New passwords do not match.');
+      return;
+    }
+
+    if (newPassword.length < 8) {
+      setPwdError('New password must be at least 8 characters in length.');
+      return;
+    }
+
+    setPwdLoading(true);
+    try {
+      const res = await changeOwnPassword({
+        currentPassword: currPassword,
+        newPassword,
+      });
+
+      if (res.success) {
+        setPwdSuccess('Your account password has been updated securely.');
+        setCurrPassword('');
+        setNewPassword('');
+        setConfirmPassword('');
+        setTimeout(() => {
+          setIsChangePasswordOpen(false);
+          setPwdSuccess('');
+        }, 1500);
+      } else {
+        setPwdError(res.message);
+      }
+    } catch (err) {
+      setPwdError('Failed to update password. Please try again.');
+    } finally {
+      setPwdLoading(false);
+    }
+  };
+
+  // If not authenticated, render the secure authentication gate
+  if (!isAuthenticated) {
+    return (
+      <div className="flex-1 min-h-screen flex items-center justify-center p-6 bg-[#070B14]">
+        <div className="max-w-md w-full space-y-6">
+          <Card className="p-8 bg-[#0E1626] border-slate-800 text-slate-100 shadow-2xl space-y-6">
+            <div className="w-14 h-14 rounded-2xl bg-purple-950 border border-purple-500/40 text-purple-300 flex items-center justify-center mx-auto shadow-inner">
+              <Lock className="w-7 h-7" />
+            </div>
+
+            <div className="text-center space-y-1.5">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-purple-400">
+                Kaduna Consular Hub • RC: 1715416
+              </span>
+              <h1 className="font-heading font-extrabold text-2xl text-white">
+                SIJAM Executive Platform
+              </h1>
+              <p className="text-xs text-slate-400">
+                Authenticate to access client dossiers, recruitment pipeline, and business engines.
+              </p>
+            </div>
+
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div>
+                <label className="block text-xs font-semibold uppercase text-slate-300 mb-1.5">
+                  Officer Security Key
+                </label>
+                <input
+                  type="password"
+                  value={passcode}
+                  onChange={(e) => setPasscode(e.target.value)}
+                  placeholder="Enter staff security key..."
+                  className="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-purple-500 font-mono"
+                />
+                {authError && (
+                  <p className="text-xs text-rose-400 mt-1.5 flex items-center gap-1">
+                    <AlertCircle className="w-3.5 h-3.5" /> {authError}
+                  </p>
+                )}
+              </div>
+
+              <Button
+                type="submit"
+                variant="primary"
+                size="md"
+                className="w-full justify-center shadow-lg shadow-purple-950/50"
+              >
+                Authenticate Session
+              </Button>
+            </form>
+
+            {/* Quick Demo Personas */}
+            <div className="pt-4 border-t border-slate-800/80 space-y-2">
+              <div className="flex items-center justify-between text-[11px] text-slate-400">
+                <span>Direct Access (RBAC Personas):</span>
+                <span className="font-mono text-purple-400 text-[10px]">Test Matrix</span>
+              </div>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <button
+                  type="button"
+                  onClick={() => handleQuickLogin(initialStaffList[0])}
+                  className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-left transition"
+                >
+                  <div className="font-semibold text-white text-[11px]">James Samson</div>
+                  <div className="text-[10px] text-purple-400">Super Admin</div>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleQuickLogin(initialStaffList[1])}
+                  className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-left transition"
+                >
+                  <div className="font-semibold text-white text-[11px]">Amina Bello</div>
+                  <div className="text-[10px] text-blue-400">Consultation Mgr</div>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleQuickLogin(initialStaffList[2])}
+                  className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-left transition"
+                >
+                  <div className="font-semibold text-white text-[11px]">David Okon</div>
+                  <div className="text-[10px] text-emerald-400">Recruitment Mgr</div>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleQuickLogin(initialStaffList[3])}
+                  className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-left transition"
+                >
+                  <div className="font-semibold text-white text-[11px]">Fatima Al-Hassan</div>
+                  <div className="text-[10px] text-amber-400">Content Editor</div>
+                </button>
+              </div>
+            </div>
+
+            <div className="text-[10px] text-slate-500 text-center font-mono pt-1">
+              Protected under NDPR 2023 & statutory consular audit protocols.
+            </div>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
+  // Once authenticated, render the full SaaS platform
+  return (
+    <div className="min-h-screen bg-[#070B14] flex flex-col text-slate-100">
+      {/* Top Header */}
+      <AdminHeader
+        currentStaff={currentStaff}
+        staffList={initialStaffList}
+        onSwitchStaff={(s) => setCurrentStaff(s)}
+        onSignOut={handleSignOut}
+        onChangePassword={() => {
+          setPwdError('');
+          setPwdSuccess('');
+          setIsChangePasswordOpen(true);
+        }}
+      />
+
+      {/* Main Body */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* Navigation Sidebar */}
+        <AdminSidebar
+          currentTab={currentTab}
+          onSelectTab={(tab) => setCurrentTab(tab)}
+          role={currentStaff.role}
+          counts={{
+            pendingConsultations: initialMetrics.pendingConsultations,
+            openJobs: initialMetrics.openJobs,
+            pendingApplications: initialMetrics.pendingApplications,
+            pendingTestimonials: initialMetrics.pendingTestimonials,
+          }}
+        />
+
+        {/* Content View Container */}
+        <main className="flex-1 p-6 lg:p-8 overflow-y-auto max-w-7xl w-full">
+          {currentTab === 'overview' && (
+            <OverviewView
+              metrics={initialMetrics}
+              recentConsultations={initialConsultations}
+              recentApplications={initialApplications}
+              pendingReviews={initialTestimonials.filter((t) => t.status === 'pending_moderation')}
+              onNavigate={(tab) => setCurrentTab(tab)}
+            />
+          )}
+
+          {currentTab === 'consultations' && (
+            <ConsultationsView
+              consultations={initialConsultations}
+              staffList={initialStaffList}
+              onRefresh={handleRefresh}
+            />
+          )}
+
+          {currentTab === 'enquiries' && (
+            <ContactMessagesView
+              messages={initialContactMessages}
+              onRefresh={handleRefresh}
+            />
+          )}
+
+          {currentTab === 'jobs' && (
+            <JobsView
+              jobs={initialJobs}
+              categories={initialJobCategories}
+              employers={initialEmployers}
+              onRefresh={handleRefresh}
+            />
+          )}
+
+          {currentTab === 'applications' && (
+            <ApplicationsView
+              applications={initialApplications}
+              jobs={initialJobs}
+              onRefresh={handleRefresh}
+            />
+          )}
+
+          {currentTab === 'testimonials' && (
+            <TestimonialsView
+              testimonials={initialTestimonials}
+              onRefresh={handleRefresh}
+            />
+          )}
+
+          {currentTab === 'blog' && (
+            <BlogView
+              posts={initialBlogPosts}
+              onRefresh={handleRefresh}
+            />
+          )}
+
+          {currentTab === 'services' && (
+            <ServicesView
+              services={initialServices}
+              partners={initialPartners}
+            />
+          )}
+
+          {currentTab === 'media' && <MediaView />}
+
+          {currentTab === 'settings' && <SettingsView />}
+
+          {currentTab === 'redirects' && (
+            <RedirectsView
+              redirects={initialRedirects}
+              onRefresh={handleRefresh}
+            />
+          )}
+
+          {currentTab === 'staff' && (
+            <StaffView
+              staffList={initialStaffList}
+              onRefresh={handleRefresh}
+            />
+          )}
+
+          {currentTab === 'audit_logs' && (
+            <AuditLogsView logs={initialAuditLogs} />
+          )}
+        </main>
+      </div>
+
+      {/* Modal: Change My Account Password */}
+      {isChangePasswordOpen && (
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-[#121B2B] border border-slate-700 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 animate-in fade-in">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+              <div className="flex items-center gap-2">
+                <KeyRound className="w-5 h-5 text-purple-400" />
+                <h3 className="font-heading font-bold text-base text-white">
+                  Update Account Password
+                </h3>
+              </div>
+              <button
+                onClick={() => setIsChangePasswordOpen(false)}
+                className="text-slate-400 hover:text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <p className="text-xs text-slate-400">
+              Update credentials for <strong className="text-white">{currentStaff.email}</strong>. New password will take effect immediately.
+            </p>
+
+            <form onSubmit={handleChangePasswordSubmit} className="space-y-3">
+              <div>
+                <label className="block text-[11px] uppercase font-bold text-slate-400 mb-1">
+                  Current Password
+                </label>
+                <input
+                  type="password"
+                  required
+                  value={currPassword}
+                  onChange={(e) => setCurrPassword(e.target.value)}
+                  placeholder="Enter current password..."
+                  className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-purple-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] uppercase font-bold text-slate-400 mb-1">
+                  New Password (min 8 characters)
+                </label>
+                <input
+                  type="password"
+                  required
+                  minLength={8}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="Enter strong new password..."
+                  className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-purple-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] uppercase font-bold text-slate-400 mb-1">
+                  Confirm New Password
+                </label>
+                <input
+                  type="password"
+                  required
+                  minLength={8}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Re-enter new password..."
+                  className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-purple-500"
+                />
+              </div>
+
+              {pwdError && (
+                <div className="p-2.5 rounded-xl bg-rose-950/60 border border-rose-800 text-rose-300 text-xs flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0" />
+                  <span>{pwdError}</span>
+                </div>
+              )}
+
+              {pwdSuccess && (
+                <div className="p-2.5 rounded-xl bg-emerald-950/60 border border-emerald-800 text-emerald-300 text-xs flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 shrink-0" />
+                  <span>{pwdSuccess}</span>
+                </div>
+              )}
+
+              <div className="flex justify-end gap-2 pt-2 border-t border-slate-800">
+                <button
+                  type="button"
+                  onClick={() => setIsChangePasswordOpen(false)}
+                  className="px-3.5 py-2 text-xs text-slate-400 hover:text-white"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={pwdLoading}
+                  className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold shadow-lg transition"
+                >
+                  {pwdLoading ? 'Updating...' : 'Save New Password'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

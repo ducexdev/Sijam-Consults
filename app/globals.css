@@ -1,26 +1,239 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-heading: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: #070415;
+    color: #F8FAFC;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Custom Cinematic Utilities for Sijam Theme */
+.bg-sijam-purple {
+  background-color: #402493;
+}
+.bg-sijam-purple-950 {
+  background-color: #0D0826;
+}
+.bg-sijam-purple-900 {
+  background-color: #1A1040;
+}
+.bg-sijam-purple-800 {
+  background-color: #2D186B;
+}
+.text-sijam-purple {
+  color: #402493;
+}
+.border-sijam-purple {
+  border-color: #402493;
+}
+
+.bg-sijam-orange {
+  background-color: #F45A2A;
+}
+.bg-sijam-orange-hover:hover {
+  background-color: #DD4819;
+}
+.text-sijam-orange {
+  color: #F45A2A;
+}
+.border-sijam-orange {
+  border-color: #F45A2A;
+}
+
+.bg-sijam-coral {
+  background-color: #F98864;
+}
+.text-sijam-coral {
+  color: #F98864;
+}
+
+/* Luxury Glows & Shadows */
+.shadow-cta {
+  box-shadow: 0 4px 24px 0 rgba(37, 124, 255, 0.45), 0 0 0 1px rgba(77, 165, 236, 0.3);
+}
+.shadow-cta-hover:hover {
+  box-shadow: 0 8px 36px 0 rgba(37, 124, 255, 0.65), 0 0 0 1px rgba(77, 165, 236, 0.5);
+}
+.shadow-card {
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+.shadow-neon-purple {
+  box-shadow: 0 0 35px -5px rgba(64, 36, 147, 0.55);
+}
+.shadow-neon-orange {
+  box-shadow: 0 0 30px -5px rgba(244, 90, 42, 0.55);
+}
+.shadow-neon-blue {
+  box-shadow: 0 0 32px -4px rgba(37, 124, 255, 0.6);
+}
+
+.btn-gradient-blue {
+  background: linear-gradient(135deg, #4DA5EC 0%, #257CFF 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 24px 0 rgba(37, 124, 255, 0.45), 0 0 0 1px rgba(77, 165, 236, 0.3);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-gradient-blue:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 8px 36px 0 rgba(37, 124, 255, 0.65), 0 0 0 1px rgba(77, 165, 236, 0.5);
+  transform: translateY(-1px);
+}
+
+/* Glassmorphism Classes */
+.glass-panel-dark {
+  background: rgba(13, 8, 38, 0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+}
+
+.glass-panel-dark-subtle {
+  background: rgba(26, 16, 64, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.glass-panel-light {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 15px 35px -10px rgba(15, 23, 42, 0.08);
+}
+
+/* Cinematic Video Overlay Mask */
+.cinematic-vignette {
+  background: radial-gradient(circle at 50% 30%, rgba(7, 4, 21, 0.35) 0%, rgba(7, 4, 21, 0.82) 70%, rgba(7, 4, 21, 0.97) 100%);
+}
+
+.cinematic-hero-overlay {
+  background: linear-gradient(180deg, rgba(7, 4, 21, 0.6) 0%, rgba(7, 4, 21, 0.4) 40%, rgba(7, 4, 21, 0.92) 85%, #070415 100%);
+}
+
+/* Premium Gradient Text Fills */
+.text-gradient-gold,
+.text-gradient-blue {
+  background: linear-gradient(135deg, #4DA5EC 0%, #257CFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-white {
+  background: linear-gradient(180deg, #FFFFFF 0%, #CBD5E1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-purple {
+  background: linear-gradient(135deg, #FFFFFF 0%, #C4B5FD 50%, #A78BFA 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Grid pattern */
+.bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+/* Accessible Interactive Focus Rings */
+:focus-visible {
+  outline: 2px solid #257CFF;
+  outline-offset: 2px;
+}
+
+/* Premium Motion & Animation System */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Stagger entrance delays */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+
+/* Micro-interaction Button Feedback */
+button:active,
+a:active {
+  transform: scale(0.985);
+  transition-duration: 75ms;
+}
+
+/* Accessibility: Full Reduced Motion Respect */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  video[autoplay] {
+    animation: none !important;
+  }
+  .motion-reduce-hide {
+    display: none !important;
+  }
+  .motion-reduce-show {
+    display: block !important;
+  }
 }

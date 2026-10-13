@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sijam Consults Limited — Enterprise Consular & Travel Facilitation Platform
 
-## Getting Started
+Official web platform for **SIJAM Consults Limited** (CAC Registered: **RC 1715416**), an educational advisory, international employment visa facilitation, and corporate travel consultancy headquartered in Kaduna, Nigeria.
 
-First, run the development server:
+---
+
+## 🛠 Technology Stack
+
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router, Server Actions, Server Components)
+- **Language**: TypeScript 5 (Strict Mode)
+- **Styling**: Tailwind CSS 4, Custom Design Tokens
+- **Database**: [Supabase](https://supabase.com/) PostgreSQL with Row Level Security (RLS) & dual-mode resilient repository
+- **Email Delivery**: cPanel SMTP Relay via `nodemailer` (Direct SMTPS on Port 465) with durable outbox logging
+- **SEO & Metadata**: JSON-LD Structured Data (Organization, BreadcrumbList, Article, JobPosting, Service), dynamic XML sitemaps, RSS 2.0 feed
+- **Icons**: Lucide React
+
+---
+
+## 🚀 Key Features
+
+1. **Service Pathways**:
+   - Study Abroad & Student Visa Advisory
+   - Work Permits & Employment Placement Advisory
+   - Tourist & Visitor Visa Assistance
+   - Visa Application Assistance & Review
+   - Foreign Company Registration & European Corporate Incorporation
+   - Travel Document Legalization, Authentication & Notarization
+   - Flight Reservation & Ticketing Coordination
+
+2. **Interactive Consultation Booking**:
+   - Multi-step service wizard with real-time field validation
+   - Immediate Supabase persistence with unique reference codes (`SJM-XXXXXX`)
+   - Automatic transactional email dispatch to applicant + internal alert to Kaduna operations desk
+
+3. **International Opportunities & Job Board**:
+   - Filterable opportunities directory with verified employers
+   - Application eligibility criteria and document checklists
+   - Secure private candidate application submissions with email confirmations
+
+4. **Editorial & SEO Engine**:
+   - Editorial blog with category and tag archives
+   - RSS 2.0 feed (`/blog/rss.xml`)
+   - Complete Schema.org JSON-LD microdata on all service, job, and blog pages
+   - Dynamic XML sitemaps and robots.txt
+
+5. **Staff Governance & Operations Dashboard**:
+   - Role-based administrative access control
+   - Consultation lifecycle tracking (new, assigned, scheduled, completed)
+   - Candidate application reviews and status history
+   - Client review moderation engine
+   - Real-time durable email outbox delivery monitoring
+
+---
+
+## 🏁 Getting Started
+
+### Prerequisites
+
+- Node.js 20+ (Node 22+ recommended)
+- npm or pnpm
+- Supabase project credentials
+- cPanel mail credentials
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone git@github.com:ducexdev/Sijam-Consults.git
+   cd Sijam-Consults
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Configure environment variables:
+   ```bash
+   cp .env.example .env.local
+   # Fill in your Supabase and SMTP credentials in .env.local
+   ```
+
+4. Run database migrations:
+   ```bash
+   # Apply SQL files in supabase/migrations/ via Supabase CLI or SQL Editor
+   ```
+
+5. Start the development server:
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) to view the application.
+
+---
+
+## 🏗 Build & Production
+
+To create an optimized production build:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+To run lint checks:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run lint
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🏛 Statutory Notice & Regulatory Compliance
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+SIJAM Consults Limited (RC: 1715416) is a private corporate advisory and travel facilitation consultancy. The company is **NOT** an embassy, consulate, or sovereign visa-issuing authority. The issuance or denial of any visa remains the exclusive prerogative of respective sovereign governments. Sijam Consults strictly adheres to NDPR data protection regulations.
