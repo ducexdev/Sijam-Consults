@@ -12,7 +12,7 @@ const SUPABASE_PROJECT_URL =
 const SUPABASE_VIDEOS_BASE = `${SUPABASE_PROJECT_URL}/storage/v1/object/public/videos`;
 
 const USE_SUPABASE_VIDEOS =
-  process.env.NEXT_PUBLIC_USE_SUPABASE_VIDEOS === 'true';
+  process.env.NEXT_PUBLIC_USE_SUPABASE_VIDEOS !== 'false';
 
 /**
  * Helper to resolve a video file name to either Supabase CDN or local /videos path.
