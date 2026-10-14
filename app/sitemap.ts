@@ -8,6 +8,8 @@ import { getPublishedPosts, BLOG_CATEGORIES, BLOG_TAGS } from '@/lib/data/blog';
  * Next.js MetadataRoute sitemap (used by Next.js sitemap discovery).
  * The comprehensive /sitemap.xml route handler is at app/sitemap.xml/route.ts.
  */
+export const dynamic = 'force-static';
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://sijamconsults.com';
   const now = new Date();

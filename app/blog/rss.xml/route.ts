@@ -1,5 +1,7 @@
 import { getPublishedPosts } from '@/lib/data/blog';
 
+export const dynamic = 'force-static';
+
 const BASE_URL = 'https://sijamconsults.com';
 
 export async function GET() {

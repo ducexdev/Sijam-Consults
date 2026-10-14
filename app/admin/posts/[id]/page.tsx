@@ -1,18 +1,21 @@
-'use client';
-
-import { use } from 'react';
-import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Info, Eye } from 'lucide-react';
 import { BLOG_POSTS } from '@/lib/data/blog';
+import { notFound } from 'next/navigation';
+
+export function generateStaticParams() {
+  return BLOG_POSTS.map((post) => ({
+    id: post.id,
+  }));
+}
 
 interface PageProps {
   params: Promise<{ id: string }>;
 }
 
-export default function EditPostPage({ params }: PageProps) {
-  const resolvedParams = use(params);
-  const post = BLOG_POSTS.find((p) => p.id === resolvedParams.id);
+export default async function EditPostPage({ params }: PageProps) {
+  const { id } = await params;
+  const post = BLOG_POSTS.find((p) => p.id === id);
   if (!post) return notFound();
 
   return (
@@ -58,41 +61,46 @@ export default function EditPostPage({ params }: PageProps) {
 
           {/* SEO Preview */}
           <div className="mt-5 pt-5 border-t border-slate-100">
-            <p className="text-xs text-slate-500 uppercase tracking-widest font-semibold mb-3">SEO Settings</p>
-            <div className="rounded-xl border border-blue-100 bg-blue-50 p-4 space-y-2 text-xs">
-              <div>
-                <span className="font-semibold text-blue-800">Title: </span>
-                <span className="text-blue-700">{post.seo.title || post.title}</span>
-              </div>
-              <div>
-                <span className="font-semibold text-blue-800">Description: </span>
-                <span className="text-blue-700">{post.seo.description || post.excerpt}</span>
-              </div>
-              <div>
-                <span className="font-semibold text-blue-800">Canonical: </span>
-                <code className="text-blue-700">https://sijamconsults.com/blog/{post.slug}</code>
-              </div>
-              <div>
-                <span className="font-semibold text-blue-800">Indexable: </span>
-                <span className={post.seo.noIndex ? 'text-red-700 font-semibold' : 'text-green-700 font-semibold'}>
-                  {post.seo.noIndex ? 'No (noindex)' : 'Yes'}
-                </span>
-              </div>
+            <p className="text-xs text-slate-500 uppercase tracking-widest font-semibold mb-2">Google SERP Preview</p>
+            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
+              <p className="text-xs text-[#257CFF] line-clamp-1">https://sijamconsults.com/blog/{post.slug}</p>
+              <p className="text-sm font-semibold text-[#1A0DAB] hover:underline cursor-pointer line-clamp-1 mt-0.5">
+                {post.seo.title || post.title} | SIJAM Consults
+              </p>
+              <p className="text-xs text-slate-600 line-clamp-2 mt-1">
+                {post.seo.description || post.excerpt}
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="rounded-xl border border-amber-200 bg-amber-50 p-5 flex gap-3 text-sm text-amber-900">
-          <Info className="w-4 h-4 mt-0.5 flex-shrink-0 text-amber-600" />
-          <div>
-            <strong className="font-semibold">Static Data File</strong>
-            <p className="mt-1 leading-relaxed">
-              To edit this post, update the entry with id{' '}
-              <code className="bg-amber-100 px-1 rounded text-xs">{post.id}</code> in{' '}
-              <code className="bg-amber-100 px-1 rounded text-xs">lib/data/blog.ts</code>.
-              A full rich-text editor UI requires Supabase CMS integration.
+        {/* Sections Summary */}
+        <div className="bg-white rounded-2xl border border-slate-200 p-6 mb-5">
+          <h2 className="font-heading font-bold text-sm text-[#0D0826] uppercase tracking-wider mb-3">
+            Article Structure ({post.sections.length} Sections)
+          </h2>
+          <ol className="space-y-2 text-xs">
+            {post.sections.map((section, idx) => (
+              <li key={idx} className="flex items-start gap-2 text-slate-700">
+                <span className="font-mono text-slate-400 font-bold">{idx + 1}.</span>
+                <div>
+                  <p className="font-semibold">{section.heading}</p>
+                  <p className="text-slate-500 line-clamp-1">{section.content}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        {/* Live Preview Info */}
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 text-xs text-amber-900 flex items-start gap-3">
+          <Info className="w-4 h-4 text-amber-600 mt-0.5 flex-shrink-0" />
+          <div className="space-y-1">
+            <p className="font-semibold">Dynamic Content Management</p>
+            <p className="text-amber-800">
+              In this release, blog posts are statically compiled from verified source definitions in <code>lib/data/blog.ts</code> to maintain consular accuracy and SEO authority. Direct inline editing will sync to Supabase in the next update.
             </p>
-            <div className="mt-4 flex gap-3">
+            <div className="pt-2 flex gap-3">
               <a
                 href={`/blog/${post.slug}`}
                 target="_blank"
