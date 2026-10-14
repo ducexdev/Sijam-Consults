@@ -879,7 +879,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     heroHeadline: 'Global Workforce Solutions & Overseas Job Placement for Nigerians',
     summary: 'Sijam Consults Limited acts as an accredited workforce intermediary bridging skilled Nigerian professionals and certified artisans with reputable employers across Poland, Romania, Croatia, the UK, the Middle East, and Canada. Our international recruitment Nigeria division manages the end-to-end relocation lifecycle: talent screening, skills verification, employer interviews, work authorization approvals, visa processing, flight bookings, and post-arrival settlement. Discover genuine work abroad Nigeria and overseas job placement Nigeria without falling prey to unlicensed job merchants.',
     badge: 'Employer Verified',
-    videoUrl: '',
+    videoUrl: 'https://youtu.be/LOB8JuM_Lrg?si=79jxrCUy7nkK7sy_',
     videoPoster: '',
     whoIsThisFor: [
       'Skilled professionals in Healthcare, IT, Engineering, Hospitality, and Construction seeking overseas job placement Nigeria.',

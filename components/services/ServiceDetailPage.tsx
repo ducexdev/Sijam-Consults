@@ -29,6 +29,15 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { VideoPlayer } from '@/components/ui/VideoPlayer';
 import { ROUTES, COMPANY } from '@/lib/routes';
 
+// Extract YouTube video ID from any YouTube URL format
+function getYouTubeId(url: string): string | null {
+  if (!url) return null;
+  const match = url.match(
+    /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/
+  );
+  return match ? match[1] : null;
+}
+
 // Featured destinations for Study Visa specialization
 const STUDY_DESTINATIONS = [
   {
@@ -92,40 +101,54 @@ export const ServiceDetailPage: React.FC<{ service: ServiceItem }> = ({ service 
   );
 
   const isStudyVisa = service.slug === 'study-visa';
+  const heroYtId = getYouTubeId(service.videoUrl ?? '');
 
   return (
     <div className="bg-[#070415] text-white min-h-screen">
       {/* 1. Dramatic Cinematic Hero Section with High-Visibility Video Background */}
       <section className="relative overflow-hidden pt-8 pb-16 lg:pt-12 lg:pb-24 border-b border-purple-950/80">
-        {/* Background Ambient Video Layer - Optimized for High Visibility */}
+        {/* Background Ambient Video Layer */}
         {service.videoUrl && (
           <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-            <video
-              ref={videoRef}
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="auto"
-              poster={service.videoPoster ?? undefined}
-              className="absolute inset-0 w-full h-full object-cover opacity-100 filter contrast-105 saturate-110 scale-105 transition-all duration-700"
-              aria-hidden="true"
-              onCanPlay={(e) => {
-                const v = e.currentTarget;
-                if (isPlaying) v.play().catch(() => {});
-              }}
-            >
-              <source src={service.videoUrl} type="video/mp4" />
-            </video>
-            {/* Minimal left-only overlay — dark enough for text WCAG contrast, transparent everywhere else so the video is fully visible */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#070415]/75 via-[#070415]/30 to-transparent" />
-            {/* Thin top scrim to blend with navbar */}
+            {heroYtId ? (
+              /* ── YouTube background iframe ── */
+              <iframe
+                src={`https://www.youtube-nocookie.com/embed/${heroYtId}?autoplay=1&mute=1&loop=1&playlist=${heroYtId}&controls=0&modestbranding=1&playsinline=1&rel=0&disablekb=1&fs=0&iv_load_policy=3`}
+                title="Background ambient video"
+                aria-hidden="true"
+                allow="autoplay; encrypted-media"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[177.78vh] min-w-full min-h-full aspect-video scale-110 filter contrast-105 saturate-110 pointer-events-none border-0"
+                style={{ minWidth: '100%', minHeight: '100%' }}
+              />
+            ) : (
+              /* ── mp4 background video ── */
+              <video
+                ref={videoRef}
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+                poster={service.videoPoster ?? undefined}
+                className="absolute inset-0 w-full h-full object-cover opacity-100 filter contrast-105 saturate-110 scale-105 transition-all duration-700"
+                aria-hidden="true"
+                onCanPlay={(e) => {
+                  const v = e.currentTarget;
+                  if (isPlaying) v.play().catch(() => {});
+                }}
+              >
+                <source src={service.videoUrl} type="video/mp4" />
+              </video>
+            )}
+            {/* Cinematic overlay — keeps text readable without burying the video */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#070415]/80 via-[#070415]/35 to-transparent" />
+            {/* Top scrim to blend with navbar */}
             <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#070415]/60 to-transparent" />
           </div>
         )}
 
-        {/* Ambient Video Control Badge */}
-        {service.videoUrl && (
+        {/* Ambient Video Control Badge — only for mp4 (can't control YouTube iframe cross-origin) */}
+        {service.videoUrl && !heroYtId && (
           <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-8 z-20 flex items-center gap-2">
             <button
               type="button"
@@ -137,6 +160,16 @@ export const ServiceDetailPage: React.FC<{ service: ServiceItem }> = ({ service 
               <span>{isPlaying ? 'Pause Ambient Motion' : 'Play Ambient Motion'}</span>
               {isPlaying ? <Pause className="w-3 h-3 ml-0.5" /> : <Play className="w-3 h-3 ml-0.5" />}
             </button>
+          </div>
+        )}
+
+        {/* YouTube "Live" badge when it's a YouTube background */}
+        {heroYtId && (
+          <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-8 z-20">
+            <span className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-[11px] font-medium text-slate-200 shadow-lg">
+              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+              Playing Ambient Motion
+            </span>
           </div>
         )}
 
