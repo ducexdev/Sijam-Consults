@@ -10,6 +10,7 @@ import {
   FileText,
   ExternalLink,
   Lock,
+  AlertTriangle,
 } from 'lucide-react';
 import { COMPANY, ROUTES } from '@/lib/routes';
 
@@ -212,9 +213,16 @@ export const Footer: React.FC = () => {
 
         {/* Regulatory Disclaimer Banner */}
         <div className="mt-12 pt-8 border-t border-purple-900/60">
-          <div className="bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] rounded-xl p-4 text-[11px] sm:text-xs text-white leading-relaxed">
-            <strong className="font-bold">Statutory Regulatory Disclaimer: </strong>
-            {COMPANY.disclaimers.regulatory}
+          <div className="bg-amber-500/[0.08] border border-amber-500/30 rounded-xl p-4 sm:p-5 text-xs text-slate-200 leading-relaxed shadow-lg flex items-start gap-3.5 backdrop-blur-sm">
+            <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+            <div>
+              <strong className="text-amber-300 font-bold uppercase tracking-wider block sm:inline mr-1.5">
+                Statutory Regulatory Disclaimer:
+              </strong>
+              <span className="text-slate-100 font-normal leading-relaxed">
+                {COMPANY.disclaimers.regulatory}
+              </span>
+            </div>
           </div>
         </div>
 
