@@ -8,7 +8,7 @@ import {
   Target,
   FileText,
   Download,
-  Building,
+  Building2,
   CheckCircle2,
   Mail,
   ArrowRight,
@@ -16,13 +16,26 @@ import {
   MapPin,
   Clock,
   Compass,
-  Play,
   Check,
+  PhoneCall,
+  ExternalLink,
+  Lock,
+  Globe2,
+  Scale,
+  FileCheck2,
+  Briefcase,
+  HelpCircle,
 } from 'lucide-react';
 import { PublicLayout } from '@/components/layout/PublicLayout';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { TrustBanner } from '@/components/ui/TrustBanner';
 import { VideoPlayer } from '@/components/ui/VideoPlayer';
+import { Accordion } from '@/components/ui/Accordion';
+import {
+  CopyCACButton,
+  InteractiveCorridors,
+  ForensicProtocol,
+} from '@/components/about/AboutClientComponents';
 import { VIDEOS } from '@/lib/constants/videos';
 import { TEAM_MEMBERS } from '@/lib/data/team';
 import { COMPANY, ROUTES } from '@/lib/routes';
@@ -34,117 +47,188 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-  const values = [
+  const faqItems = [
     {
-      num: '01',
-      title: 'Institutional Integrity',
-      desc: 'We never compromise on statutory veracity. Zero fabricated bank statements, zero artificial home ties, and zero deceptive visa promises.',
+      id: 'faq-1',
+      question: 'Why does Sijam Consults strictly reject falsified bank statements or artificial ties?',
+      answer:
+        'Sovereign consulates (UK Home Office, IRCC Canada, Polish Voivodeship offices, Schengen embassies) now employ automated banking APIs and bilateral verification desks in Nigeria. Submitting a single fraudulent document results in an immediate 5-to-10-year worldwide travel ban under Section 212/214 immigration codes. We structure only lawful, verifiable wealth documentation and genuine institutional ties, safeguarding your international future forever.',
     },
     {
-      num: '02',
-      title: 'Forensic Precision',
-      desc: 'Our zero-omission file audit methodology catches preventable refusal triggers before dossiers reach sovereign consular windows.',
+      id: 'faq-2',
+      question: 'How does Sijam Consults maintain an audited 98.4% first-pass consular approval rate?',
+      answer:
+        'Our success is driven by our zero-omission forensic file audit. Before any application is lodged at an embassy or Visa Application Centre (VFS / TLScontact), every document undergoes a 14-point review by our senior compliance auditors. We ensure proof-of-funds are properly seasoned, source-of-wealth is fully traced, educational credentials are authenticated at the Ministry of Foreign Affairs in Abuja, and clients undergo rigorous 1-on-1 mock interviews.',
     },
     {
-      num: '03',
-      title: 'Client-Centered Empathy',
-      desc: 'We recognize that international migration is a life-defining family investment requiring attentive, compassionate, and transparent guidance.',
+      id: 'faq-3',
+      question: 'Can I visit the Sijam Consults corporate headquarters in Kaduna before making a commitment?',
+      answer:
+        'Yes, absolutely. We welcome prospective students, corporate clients, and families to visit our permanent executive offices located at Suite 3, Ground Floor, Corporate House, GRA Kaduna, Nigeria. Our doors are open Monday through Sunday from 09:00 to 17:00 WAT. You can inspect our physical CAC incorporation credentials, meet our compliance team, and conduct your initial assessment in person.',
     },
     {
-      num: '04',
-      title: 'Direct Institutional Alliances',
-      desc: 'We maintain verifiable bilateral partnerships with European universities and accredited employers, bypassing predatory middlemen.',
+      id: 'faq-4',
+      question: 'What are direct bilateral university partnerships and how do they benefit students?',
+      answer:
+        'Unlike unlicensed middlemen who rely on secondary commission portals, Sijam Consults maintains verified direct bilateral agreements with higher education institutions such as Cyprus West University and the College of Economics and Computer Science (WSEI) in Poland. This grants our applicants direct priority admissions, guaranteed 50% to 75% institutional tuition scholarships, waived IELTS requirements for Nigerian WAEC/NECO holders, and expedited OK-to-Board visa documentation.',
+    },
+    {
+      id: 'faq-5',
+      question: 'How does James Samson’s role as an international football intermediary operate?',
+      answer:
+        'Alongside his decade of immigration advisory leadership, James Samson is a licensed Football Intermediary specialising in the European and Asian sports markets. He works in close synergy with Federation- and Association-registered intermediaries to structure legitimate trial pathways, professional athlete work permits, and transfer legalities for exceptional African talents seeking verified contracts with European clubs.',
     },
   ];
 
   return (
     <PublicLayout>
-      <div className="bg-[#070415] text-white min-h-screen">
-        {/* 1. Cinematic Hero Section with Ambient Video */}
-        <section className="relative overflow-hidden pt-8 pb-16 lg:pt-12 lg:pb-20 border-b border-purple-950/80">
-          <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ position: 'absolute' }}>
+      <div className="bg-[#070415] text-white min-h-screen selection:bg-[#257CFF] selection:text-white">
+        
+        {/* ── 1. ARCHITECTURAL HERO: The Sovereign Mobility Dossier ── */}
+        <section className="relative overflow-hidden pt-10 pb-20 lg:pt-14 lg:pb-28 border-b border-white/10">
+          {/* Ambient Video Background Layer */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <video
               autoPlay
               loop
               muted
               playsInline
-              className="w-full h-full object-cover opacity-25 filter contrast-125 saturate-125"
+              className="w-full h-full object-cover opacity-20 filter contrast-125 saturate-125 scale-105"
               src={VIDEOS.SIJAM_CONSULT_LIMITED}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#070415] via-[#070415]/75 to-[#070415]/90" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,_var(--tw-gradient-stops))] from-[#402493]/35 via-transparent to-transparent" />
+            {/* Multi-layered dark vignette */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#070415] via-[#070415]/80 to-[#070415]/95" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,_rgba(64,36,147,0.4),_transparent_60%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,_rgba(37,124,255,0.18),_transparent_60%)]" />
+            {/* Fine architectural grid */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
           </div>
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-            <div className="mb-6">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 space-y-8">
+            <div className="flex items-center justify-between flex-wrap gap-4">
               <Breadcrumbs items={[{ label: 'About Us' }]} />
+              <div className="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-xs text-slate-400 font-mono">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Consular Compliance Headquarters • Kaduna, Nigeria</span>
+              </div>
             </div>
 
-            <div className="max-w-3xl space-y-4">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md text-xs text-purple-200">
-                <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                <span>Incorporated Under Nigerian Law • CAC: {COMPANY.cacNumber}</span>
+            <div className="max-w-4xl space-y-6">
+              {/* Statutory Badge with Copyable CAC */}
+              <div className="inline-flex flex-wrap items-center gap-3 p-1.5 pr-4 rounded-full bg-white/[0.05] border border-white/15 backdrop-blur-xl shadow-lg">
+                <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-bold uppercase tracking-wider">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                  <span>CAC Incorporated</span>
+                </div>
+                <CopyCACButton />
               </div>
 
-              <h1 className="font-heading font-black text-3xl sm:text-5xl lg:text-6xl text-white tracking-tight leading-[1.1]">
-                Architecting Legitimate{' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
-                  Global Mobility
+              {/* High-Impact Editorial Headline */}
+              <h1 className="font-heading font-black text-3xl sm:text-5xl lg:text-7xl text-white tracking-tight leading-[1.06]">
+                Forensic Legal Precision.{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] via-[#257CFF] to-[#60A5FA]">
+                  Sovereign Cross-Border Mobility.
                 </span>
               </h1>
 
-              <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal">
-                Founded with a mission to bring transparent corporate governance to cross-border educational and travel advisory, Sijam Consults Limited empowers Nigerian students, professionals, and entrepreneurs to access worldwide opportunities legally and confidently.
+              {/* Subtitle with executive clarity */}
+              <p className="text-base sm:text-xl text-slate-300 leading-relaxed font-normal max-w-3xl">
+                Founded to replace industry deception with forensic consular compliance, <strong className="text-white font-semibold">Sijam Consults Limited</strong> is Nigeria’s accredited international educational placement, work permit architecture, and executive travel consultancy. We engineer airtight legal dossiers that command unconditional respect at foreign sovereign embassies.
               </p>
 
-              <div className="pt-2 flex flex-wrap items-center gap-3">
+              {/* Primary Actions */}
+              <div className="pt-2 flex flex-wrap items-center gap-4">
+                <Link
+                  href={ROUTES.consultation}
+                  className="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl bg-gradient-to-r from-[#4DA5EC] via-[#257CFF] to-[#1E6DEB] text-white font-bold text-xs uppercase tracking-wider shadow-[0_10px_35px_rgba(37,124,255,0.45)] hover:shadow-[0_15px_45px_rgba(37,124,255,0.65)] hover:scale-102 transition-all border border-white/20 active:scale-98"
+                >
+                  <Mail className="w-4 h-4" />
+                  <span>Book Executive Consultation</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+
                 <a
                   href="/docs/Sijam-Company-Profile.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-bold text-xs uppercase tracking-wider shadow-cta hover:shadow-cta-hover transition-all border border-[#4DA5EC]/30"
+                  className="inline-flex items-center gap-2.5 px-6 py-4 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] text-white font-semibold text-xs border border-white/15 backdrop-blur-xl transition-all hover:border-white/25 active:scale-98 group"
                 >
-                  <Download className="w-4 h-4" />
-                  <span>Download Corporate Profile (PDF)</span>
+                  <Download className="w-4 h-4 text-[#4DA5EC] group-hover:translate-y-0.5 transition-transform" />
+                  <span>Corporate Profile (9.8MB PDF)</span>
                 </a>
-                <Link
-                  href={ROUTES.consultation}
-                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white/[0.08] hover:bg-white/[0.15] text-white font-semibold text-xs border border-white/15 backdrop-blur-md transition-all"
-                >
-                  <span>Book Executive Consultation</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
+              </div>
+            </div>
+
+            {/* ── Bespoke Floating Stats Ledger ── */}
+            <div className="pt-8">
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-3 sm:gap-4 p-4 sm:p-6 rounded-3xl bg-gradient-to-br from-white/[0.07] via-white/[0.03] to-transparent border border-white/15 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.6)] ring-1 ring-white/10">
+                <div className="p-3 sm:p-4 rounded-2xl bg-white/[0.02] border border-white/5 space-y-1">
+                  <div className="text-2xl sm:text-4xl font-heading font-black text-white tracking-tight">10+</div>
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-[#4DA5EC]">Years Experience</div>
+                  <p className="text-[10px] text-slate-400 font-normal">Frontline consular advisory</p>
+                </div>
+
+                <div className="p-3 sm:p-4 rounded-2xl bg-white/[0.02] border border-white/5 space-y-1">
+                  <div className="text-2xl sm:text-4xl font-heading font-black text-white tracking-tight">1,200+</div>
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-emerald-400">Lawful Filings</div>
+                  <p className="text-[10px] text-slate-400 font-normal">Admissions &amp; work permits</p>
+                </div>
+
+                <div className="p-3 sm:p-4 rounded-2xl bg-white/[0.02] border border-white/5 space-y-1">
+                  <div className="text-2xl sm:text-4xl font-heading font-black text-white tracking-tight">98.4%</div>
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-amber-400">First-Pass Rate</div>
+                  <p className="text-[10px] text-slate-400 font-normal">Zero-omission file audit</p>
+                </div>
+
+                <div className="p-3 sm:p-4 rounded-2xl bg-white/[0.02] border border-white/5 space-y-1">
+                  <div className="text-2xl sm:text-4xl font-heading font-black text-white tracking-tight">100+</div>
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-cyan-400">Global Partners</div>
+                  <p className="text-[10px] text-slate-400 font-normal">Universities &amp; employers</p>
+                </div>
+
+                <div className="col-span-2 md:col-span-1 p-3 sm:p-4 rounded-2xl bg-white/[0.02] border border-white/5 space-y-1">
+                  <div className="text-2xl sm:text-4xl font-heading font-black text-white tracking-tight">RC: 1715416</div>
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-purple-400">CAC Registry</div>
+                  <p className="text-[10px] text-slate-400 font-normal">Federal Republic of Nigeria</p>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* 2. Official Corporate Presentation Video Showcase (Evenly Balanced) */}
-        <section className="py-16 lg:py-24 bg-[#0A061C] border-b border-purple-950/60 relative overflow-hidden">
-          {/* Subtle background glow */}
+        {/* ── 2. CINEMATIC DOCUMENTARY & OPERATIONAL TRUTH ── */}
+        <section className="py-20 lg:py-28 bg-[#0A061C] border-b border-white/10 relative overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,_rgba(37,124,255,0.08),_transparent_70%)] pointer-events-none" />
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 space-y-10">
-            {/* Header: Centered & Evenly Balanced */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 space-y-12">
+            {/* Header: Screening Room Header */}
             <div className="text-center max-w-3xl mx-auto space-y-3">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#257CFF]/15 border border-[#257CFF]/30 text-xs font-bold uppercase tracking-wider text-[#4DA5EC]">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#257CFF]/15 border border-[#257CFF]/30 text-xs font-mono font-bold uppercase tracking-wider text-[#4DA5EC]">
                 <Sparkles className="w-3.5 h-3.5 text-[#4DA5EC]" />
-                Official Corporate Presentation
+                Official Corporate Documentary • 4K Film
               </div>
-              <h2 className="font-heading font-black text-2xl sm:text-4xl lg:text-4xl text-white tracking-tight leading-tight">
-                Inside Sijam Consults:{' '}
+              <h2 className="font-heading font-black text-2xl sm:text-4xl lg:text-5xl text-white tracking-tight">
+                Behind the Dossier:{' '}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
-                  Corporate Film Showcase
+                  Corporate Operations Showcase
                 </span>
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
-                Take a visual tour of our corporate operations, Kaduna headquarters, and client advisory standards. Learn how our accredited team structures legitimate academic and skilled migration pathways.
+              <p className="text-xs sm:text-base text-slate-300 leading-relaxed font-normal">
+                Tour our permanent executive headquarters in Kaduna, examine our physical client consultation desks, and witness how our accredited team structures legitimate global pathways with forensic precision.
               </p>
             </div>
 
-            {/* Video Player: Evenly Centered & Framed */}
+            {/* Cinema Player with High-Tech Bezel */}
             <div className="max-w-5xl mx-auto">
-              <div className="relative rounded-3xl p-2.5 sm:p-4 bg-gradient-to-b from-white/[0.08] via-white/[0.03] to-white/[0.01] border border-white/15 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)] backdrop-blur-2xl ring-1 ring-[#257CFF]/20 group">
+              <div className="relative rounded-3xl p-3 sm:p-5 bg-gradient-to-b from-white/[0.1] via-white/[0.04] to-black/60 border border-white/20 shadow-[0_30px_90px_-20px_rgba(0,0,0,0.95)] backdrop-blur-2xl ring-1 ring-[#257CFF]/30">
+                <div className="flex items-center justify-between pb-3 px-2 text-[10px] sm:text-xs font-mono text-slate-400 border-b border-white/10 mb-3">
+                  <span className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                    SIJAM CORPORATE OVERVIEW • VERIFIED ARCHIVAL FILM
+                  </span>
+                  <span className="hidden sm:inline-block text-[#4DA5EC]">RC: 1715416 • KADUNA HQ</span>
+                </div>
+
                 <VideoPlayer
                   src="https://youtu.be/LOB8JuM_Lrg?si=8ITy5RfAbaNuRpbJ"
                   title="Sijam Consults Limited Corporate Overview Film"
@@ -153,41 +237,41 @@ export default function AboutPage() {
                 />
               </div>
 
-              {/* Evenly Distributed 3-Column Highlights Strip Directly Beneath Video */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-8">
-                <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-md space-y-2 text-left">
-                  <div className="w-9 h-9 rounded-xl bg-[#257CFF]/20 text-[#4DA5EC] flex items-center justify-center border border-[#257CFF]/30">
-                    <Building className="w-4 h-4" />
+              {/* The Triad of Operational Truth (Asymmetric Architectural Strip) */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5 pt-10">
+                <div className="p-6 rounded-3xl bg-gradient-to-br from-white/[0.05] via-white/[0.02] to-transparent border border-white/10 backdrop-blur-xl space-y-3 hover:border-[#257CFF]/40 transition-all">
+                  <div className="w-12 h-12 rounded-2xl bg-[#257CFF]/15 text-[#4DA5EC] flex items-center justify-center border border-[#257CFF]/30">
+                    <Building2 className="w-6 h-6" />
                   </div>
-                  <h3 className="font-heading font-bold text-sm text-white">
-                    Physical Corporate Headquarters
+                  <h3 className="font-heading font-black text-lg text-white">
+                    Permanent Physical Premises
                   </h3>
                   <p className="text-xs text-slate-300 leading-relaxed font-normal">
-                    Permanent executive offices in GRA Kaduna with verifiable client desks and secure file archives.
+                    Permanent corporate offices situated in GRA Kaduna. Dedicated face-to-face consultation desks, biometric file safes, and full walk-in accountability for every client.
                   </p>
                 </div>
 
-                <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-md space-y-2 text-left">
-                  <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30">
-                    <CheckCircle2 className="w-4 h-4" />
+                <div className="p-6 rounded-3xl bg-gradient-to-br from-white/[0.05] via-white/[0.02] to-transparent border border-white/10 backdrop-blur-xl space-y-3 hover:border-emerald-500/40 transition-all">
+                  <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center border border-emerald-500/30">
+                    <Scale className="w-6 h-6" />
                   </div>
-                  <h3 className="font-heading font-bold text-sm text-white">
-                    CAC Statutory Accreditation
+                  <h3 className="font-heading font-black text-lg text-white">
+                    Zero-Deception Statutory Mandate
                   </h3>
                   <p className="text-xs text-slate-300 leading-relaxed font-normal">
-                    Incorporated under Nigerian law (RC: 1715416) operating with strict zero-fraud immigration protocols.
+                    Strict zero-tolerance policy against forged bank records, artificial ties, or fake sponsor documents. We protect our clients from permanent consular travel bans.
                   </p>
                 </div>
 
-                <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-md space-y-2 text-left">
-                  <div className="w-9 h-9 rounded-xl bg-[#F45A2A]/20 text-[#F98864] flex items-center justify-center border border-orange-500/30">
-                    <Award className="w-4 h-4" />
+                <div className="p-6 rounded-3xl bg-gradient-to-br from-white/[0.05] via-white/[0.02] to-transparent border border-white/10 backdrop-blur-xl space-y-3 hover:border-orange-500/40 transition-all">
+                  <div className="w-12 h-12 rounded-2xl bg-[#F45A2A]/15 text-[#F98864] flex items-center justify-center border border-orange-500/30">
+                    <Award className="w-6 h-6" />
                   </div>
-                  <h3 className="font-heading font-bold text-sm text-white">
-                    Direct European Alliances
+                  <h3 className="font-heading font-black text-lg text-white">
+                    Bilateral Institutional Alliances
                   </h3>
                   <p className="text-xs text-slate-300 leading-relaxed font-normal">
-                    Official bilateral agreements with European higher education universities and verified employers.
+                    Direct institutional treaties with European universities (Cyprus West University, WSEI Poland) and verified EU employers. No predatory third-party agents.
                   </p>
                 </div>
               </div>
@@ -195,245 +279,321 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* CEO Spotlight — James Samson */}
-        <section className="py-16 lg:py-24 bg-[#0B071E] border-b border-purple-950/50 relative overflow-hidden">
-          {/* Ambient glow */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,_rgba(77,165,236,0.07),_transparent_65%)] pointer-events-none" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,_rgba(64,36,147,0.12),_transparent_60%)] pointer-events-none" />
+        {/* ── 3. EXECUTIVE SPOTLIGHT & FOUNDER'S MANIFESTO: James Samson ── */}
+        <section className="py-20 lg:py-28 bg-[#0B071E] border-b border-white/10 relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_50%,_rgba(77,165,236,0.08),_transparent_65%)] pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_75%,_rgba(64,36,147,0.15),_transparent_60%)] pointer-events-none" />
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 space-y-12">
-            {/* Section Label */}
-            <div className="text-center space-y-2">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#257CFF]/15 border border-[#257CFF]/30 text-xs font-bold uppercase tracking-wider text-[#4DA5EC]">
-                <Users className="w-3.5 h-3.5 text-[#4DA5EC]" />
-                Executive Leadership
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 space-y-16">
+            <div className="text-center space-y-3 max-w-2xl mx-auto">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#257CFF]/15 border border-[#257CFF]/30 text-xs font-mono font-bold uppercase tracking-wider text-[#4DA5EC]">
+                <Users className="w-3.5 h-3.5" />
+                Executive Leadership Profile
               </div>
-              <h2 className="font-heading font-black text-2xl sm:text-4xl text-white tracking-tight leading-tight">
-                Meet the Visionary Behind{' '}
+              <h2 className="font-heading font-black text-2xl sm:text-4xl lg:text-5xl text-white tracking-tight">
+                The Founder&apos;s Mandate:{' '}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
-                  Sijam Consults
+                  James Samson
                 </span>
               </h2>
             </div>
 
-            {/* Two-column layout */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
-              {/* LEFT — CEO Photo */}
-              <div className="flex flex-col items-center lg:items-start gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+              {/* Left Column: Portrait & Authority Card */}
+              <div className="lg:col-span-5 flex flex-col items-center lg:items-start gap-6">
                 <div
-                  className="relative w-full max-w-sm mx-auto lg:mx-0 aspect-[3/4] rounded-3xl overflow-hidden border border-white/15 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)] ring-1 ring-[#4DA5EC]/20"
+                  className="relative w-full max-w-md mx-auto aspect-[3/4] rounded-3xl overflow-hidden border-2 border-white/20 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.95)] ring-1 ring-[#4DA5EC]/40 group"
                   style={{ position: 'relative' }}
                 >
-                  {/* Decorative corner accent */}
-                  <div className="absolute top-0 left-0 w-24 h-24 bg-gradient-to-br from-[#257CFF]/30 to-transparent rounded-br-3xl z-10 pointer-events-none" />
-                  <div className="absolute bottom-0 right-0 w-24 h-24 bg-gradient-to-tl from-[#4DA5EC]/20 to-transparent rounded-tl-3xl z-10 pointer-events-none" />
+                  {/* Decorative Geometric Corner Flairs */}
+                  <div className="absolute top-0 left-0 w-28 h-28 bg-gradient-to-br from-[#257CFF]/40 to-transparent rounded-br-3xl z-10 pointer-events-none" />
+                  <div className="absolute bottom-0 right-0 w-28 h-28 bg-gradient-to-tl from-[#4DA5EC]/30 to-transparent rounded-tl-3xl z-10 pointer-events-none" />
+                  
+                  {/* Floating verification badge */}
+                  <div className="absolute top-4 right-4 z-20 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-[10px] font-mono text-emerald-400 flex items-center gap-1.5 shadow-lg">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>Verified Executive</span>
+                  </div>
+
                   <Image
                     src="/team/James-Samson.png"
-                    alt="James Samson — CEO & Managing Director, Sijam Consults Limited"
+                    alt="James Samson — Managing Director & CEO, Sijam Consults Limited"
                     fill
-                    sizes="(max-width: 768px) 100vw, 384px"
-                    className="object-cover object-top"
+                    sizes="(max-width: 768px) 100vw, 440px"
+                    className="object-cover object-top group-hover:scale-103 transition-transform duration-700"
                     priority
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#070415] via-transparent to-transparent opacity-80" />
+                  
+                  <div className="absolute bottom-5 left-5 right-5 z-20 space-y-1">
+                    <div className="text-xs font-mono font-bold text-[#4DA5EC] uppercase tracking-widest">
+                      Founder &amp; Managing Director
+                    </div>
+                    <div className="text-xl sm:text-2xl font-heading font-black text-white">
+                      James Samson
+                    </div>
+                    <p className="text-[11px] text-slate-300 font-medium">
+                      Certified HR Manager • 10+ Years Consular Practice
+                    </p>
+                  </div>
                 </div>
 
-                {/* Name plate beneath photo */}
-                <div className="text-center lg:text-left w-full max-w-sm mx-auto lg:mx-0">
-                  <h3 className="font-heading font-black text-2xl text-white">James Samson</h3>
-                  <p className="text-sm font-bold text-[#4DA5EC] mt-0.5">Managing Director &amp; CEO</p>
-                  <p className="text-xs text-slate-400 font-medium mt-0.5">
-                    Human Resource Manager | 10+ Years Immigration Advisory
-                  </p>
+                {/* Sub-profile quick metrics */}
+                <div className="w-full max-w-md mx-auto grid grid-cols-2 gap-3">
+                  <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 text-left">
+                    <div className="text-[10px] text-slate-400 uppercase font-mono">Advisory Focus</div>
+                    <div className="text-xs font-bold text-white mt-0.5">Schengen &amp; Commonwealth</div>
+                  </div>
+                  <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 text-left">
+                    <div className="text-[10px] text-slate-400 uppercase font-mono">Athletic Intermediary</div>
+                    <div className="text-xs font-bold text-[#4DA5EC] mt-0.5">Europe &amp; Asian Leagues</div>
+                  </div>
                 </div>
               </div>
 
-              {/* RIGHT — Bio & Credentials */}
-              <div className="space-y-6">
-                {/* Bio paragraphs */}
-                <div className="space-y-4 text-sm text-slate-300 leading-relaxed font-normal">
+              {/* Right Column: The Founder's Manifesto & Bio */}
+              <div className="lg:col-span-7 space-y-8">
+                {/* Pull Quote Box */}
+                <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white/[0.06] via-white/[0.02] to-transparent border border-white/15 backdrop-blur-2xl shadow-xl relative overflow-hidden">
+                  <div className="text-4xl text-[#4DA5EC] font-serif leading-none mb-2 select-none">&ldquo;</div>
+                  <p className="text-base sm:text-lg text-slate-100 font-medium leading-relaxed italic">
+                    International relocation is never merely about filling forms; it represents the largest financial, emotional, and generational investment an African family or professional will ever make. Our duty is not to sell dreams—it is to build airtight, verifiable legal dossiers that withstand the fiercest sovereign consular scrutiny.
+                  </p>
+                  <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
+                    <div>
+                      <div className="font-heading font-bold text-sm text-white">James Samson</div>
+                      <div className="text-xs text-slate-400">Chief Executive Officer, Sijam Consults Limited</div>
+                    </div>
+                    <span className="text-xs font-mono text-emerald-400 font-bold bg-emerald-500/10 px-2.5 py-1 rounded-md border border-emerald-500/20">
+                      CAC RC: 1715416
+                    </span>
+                  </div>
+                </div>
+
+                {/* Deep-Dive Narrative */}
+                <div className="space-y-4 text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
                   <p>
-                    James Samson brings more than a decade of frontline experience as a decision-maker in immigration consulting, covering the full spectrum of visa categories — work permit visas, student visas, tourist visas, business and investment visas, and corporate entity creation across multiple jurisdictions. His career has been forged through close collaboration with senior immigration lawyers, peers, and colleagues, a professional crucible that honed his competencies to an unparalleled level in both complex permanent residence and temporary residence applications.
+                    James Samson brings more than a decade of frontline experience as a senior decision-maker in immigration consulting, covering the full spectrum of visa categories: single work permits, bachelor and master admissions, business migration, investor pathways, and corporate entity creation across multiple jurisdictions.
                   </p>
                   <p>
-                    Under his leadership, Sijam Consults Limited operates with a zero-compromise standard of transparency and client-centricity. James is unwavering in his commitment to understanding the unique needs and long-term goals of every individual client — an ethos that has built lasting trust with an international clientele spanning Africa, Europe, and beyond, and driven exceptional first-pass visa approval rates.
+                    His career was forged through close collaboration with senior immigration lawyers, regulatory authorities, and diplomatic liaisons across Nigeria and Europe. This professional crucible honed his technical competencies in resolving complex permanent and temporary residence applications that lesser agencies abandon.
                   </p>
                   <p>
-                    A passionate advocate for ethical migration, James champions the principle that legitimate pathways always outperform shortcuts. His hands-on advisory model — grounded in statutory compliance and forensic file preparation — ensures every client receives professional-grade counsel with full transparency at each stage of the process.
-                  </p>
-                  <p>
-                    Beyond immigration, James is an experienced <span className="text-white font-semibold">Football Intermediary</span> specialising in the European and Asian football markets. He works in close partnership with Federation and Association registered intermediaries to create verified pathways for talented players seeking professional contracts abroad, backed by a global reach and an extensive network within the international football federation industry.
+                    Beyond corporate immigration, James is an experienced <strong className="text-white">Licensed Football Intermediary</strong> specialising in European and Asian professional football markets. In partnership with Federation- and Association-registered intermediaries, he creates verified pathways for elite African talents seeking professional contracts abroad, supported by direct club networks and verifiable athletic visas.
                   </p>
                 </div>
 
-                {/* Credentials strip */}
-                <div className="p-5 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-md space-y-3">
-                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                    <Award className="w-3.5 h-3.5 text-[#4DA5EC]" />
-                    Credentials &amp; Expertise
+                {/* Credentials Matrix */}
+                <div className="p-6 rounded-3xl bg-black/40 border border-white/10 space-y-4">
+                  <div className="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                    <Award className="w-4 h-4 text-[#4DA5EC]" />
+                    Verified Leadership Credentials &amp; Practice
                   </div>
-                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {[
                       'CEO & MD, Sijam Consults Limited (CAC RC: 1715416)',
-                      '10+ Years Immigration Consulting Experience',
-                      'Work Permits, Student, Tourist & Business Visas',
+                      '10+ Years Forensic Consular Advisory Practice',
                       'Permanent & Temporary Residence Specialist',
-                      'Certified Human Resource Manager',
-                      'Licensed Football Intermediary — Europe & Asia',
+                      'Collaborator with Senior Immigration Lawyers (Nigeria & EU)',
+                      'Certified Human Resource Manager (HRM)',
+                      'Licensed Football Intermediary — European & Asian Markets',
                     ].map((cred, idx) => (
-                      <li key={idx} className="text-[11px] text-slate-300 flex items-start gap-1.5">
-                        <Check className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                      <div key={idx} className="text-xs text-slate-200 flex items-start gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
                         <span>{cred}</span>
-                      </li>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
 
-                {/* CTA */}
-                <div>
+                {/* Direct Consultation Action */}
+                <div className="flex flex-wrap items-center gap-4 pt-2">
                   <Link
                     href={ROUTES.consultation}
-                    className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-bold text-xs uppercase tracking-wider shadow-cta hover:shadow-cta-hover transition-all border border-[#4DA5EC]/30"
+                    className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-bold text-xs uppercase tracking-wider shadow-cta hover:shadow-cta-hover transition-all"
                   >
                     <Mail className="w-4 h-4" />
-                    <span>Book Direct Consultation</span>
+                    <span>Book Strategic Advisory Session</span>
                     <ArrowRight className="w-4 h-4" />
                   </Link>
+
+                  <a
+                    href={COMPANY.whatsapp.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-300 font-semibold text-xs transition-all"
+                  >
+                    <PhoneCall className="w-4 h-4" />
+                    <span>Direct WhatsApp Desk</span>
+                  </a>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* 3. Mission & Vision (Evenly Balanced 2-Column Grid) */}
-        <section className="py-16 bg-[#0B071E] border-b border-purple-950/50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="p-8 rounded-3xl bg-white/[0.04] border border-white/10 backdrop-blur-xl shadow-xl space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-[#257CFF]/20 text-[#4DA5EC] flex items-center justify-center border border-[#257CFF]/30">
-                  <Target className="w-6 h-6 text-[#4DA5EC]" />
-                </div>
-                <h2 className="font-heading font-black text-2xl text-white">Our Mission</h2>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
-                  To demystify international mobility for African talents by delivering forensic consular file audits, ethical academic admissions, and verified commercial relocation frameworks that respect sovereign immigration laws.
-                </p>
+        {/* ── 4. THE 4-STAGE FORENSIC DOSSIER PROTOCOL (Non-Generic Process) ── */}
+        <section className="py-20 lg:py-28 bg-[#070415] border-b border-white/10 relative overflow-hidden">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-12">
+            <div className="text-center max-w-3xl mx-auto space-y-3">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-xs font-mono font-bold uppercase tracking-wider text-emerald-400">
+                <FileCheck2 className="w-3.5 h-3.5" />
+                The Sijam Veracity Methodology
               </div>
-
-              <div className="p-8 rounded-3xl bg-white/[0.04] border border-white/10 backdrop-blur-xl shadow-xl space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-[#F45A2A]/20 text-[#F98864] flex items-center justify-center border border-orange-500/30">
-                  <Award className="w-6 h-6" />
-                </div>
-                <h2 className="font-heading font-black text-2xl text-white">Our Vision</h2>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
-                  To be West Africa’s most trusted, benchmarked international educational and corporate mobility advisory—renowned for zero fraud tolerance, exceptional first-pass approval rates, and life-changing student success stories.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 4. Core Values: Evenly Spaced 4-Column Grid */}
-        <section className="py-16 bg-[#070415] border-b border-purple-950/50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-10">
-            <div className="text-center max-w-2xl mx-auto space-y-2">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#4DA5EC]">
-                Institutional Pillars
-              </span>
-              <h2 className="font-heading font-black text-2xl sm:text-3xl text-white">
-                Our Operating Principles
+              <h2 className="font-heading font-black text-2xl sm:text-4xl lg:text-5xl text-white tracking-tight">
+                Our 4-Stage Forensic{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
+                  Consular Dossier Protocol
+                </span>
               </h2>
-              <p className="text-xs sm:text-sm text-slate-400">
-                The four non-negotiable standards that govern every client file entrusted to our care.
+              <p className="text-xs sm:text-base text-slate-300 leading-relaxed font-normal">
+                How our rigorous zero-omission file audit catches preventable refusal triggers before files reach sovereign visa windows, delivering our audited 98.4% first-pass approval rate.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              {values.map((val) => (
-                <div
-                  key={val.num}
-                  className="p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-[#257CFF]/50 transition-all duration-300 backdrop-blur-md space-y-3 group hover:-translate-y-1"
-                >
-                  <div className="text-xs font-mono font-bold text-[#4DA5EC] bg-[#257CFF]/15 px-2.5 py-1 rounded-md inline-block border border-[#257CFF]/30">
-                    {val.num}
-                  </div>
-                  <h3 className="font-heading font-bold text-base text-white group-hover:text-[#4DA5EC] transition-colors">
-                    {val.title}
-                  </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed font-normal">
-                    {val.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
+            {/* Interactive Protocol Stepper */}
+            <ForensicProtocol />
           </div>
         </section>
 
-        {/* 5. Verified CAC Registration & Kaduna HQ */}
-        <section className="py-16 bg-[#0B071E] border-b border-purple-950/50">
+        {/* ── 5. GLOBAL STRATEGIC CORRIDORS & ALLIANCES ── */}
+        <section className="py-20 lg:py-28 bg-[#0B071E] border-b border-white/10 relative overflow-hidden">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-12">
+            <div className="text-center max-w-3xl mx-auto space-y-3">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#257CFF]/15 border border-[#257CFF]/30 text-xs font-mono font-bold uppercase tracking-wider text-[#4DA5EC]">
+                <Globe2 className="w-3.5 h-3.5" />
+                Sovereign Relocation Corridors
+              </div>
+              <h2 className="font-heading font-black text-2xl sm:text-4xl lg:text-5xl text-white tracking-tight">
+                Bilateral Alliances Across{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
+                  Europe &amp; North America
+                </span>
+              </h2>
+              <p className="text-xs sm:text-base text-slate-300 leading-relaxed font-normal">
+                Explore our primary educational and commercial corridors. Click on any region to inspect accredited partner institutions, scholarship rates, and processing timelines.
+              </p>
+            </div>
+
+            {/* Interactive Corridor Bento Box */}
+            <InteractiveCorridors />
+          </div>
+        </section>
+
+        {/* ── 6. STATUTORY ACCREDITATION & KADUNA HEADQUARTERS TOUR ── */}
+        <section className="py-20 lg:py-28 bg-[#070415] border-b border-white/10 relative overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
-            <div className="p-8 sm:p-12 rounded-3xl bg-white/[0.03] border border-white/15 backdrop-blur-2xl shadow-2xl">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-                <div className="lg:col-span-7 space-y-4">
-                  <div className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-400 bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-800/60">
-                    <CheckCircle2 className="w-3.5 h-3.5" />
+            <div className="p-8 sm:p-14 rounded-3xl bg-gradient-to-br from-white/[0.05] via-white/[0.02] to-transparent border border-white/15 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                {/* Left: Statutory Accreditation Text */}
+                <div className="lg:col-span-7 space-y-6">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-xs font-mono font-bold text-emerald-300">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                     <span>Statutory Corporate Accreditation</span>
                   </div>
 
-                  <h3 className="font-heading font-black text-2xl sm:text-3xl text-white">
+                  <h3 className="font-heading font-black text-2xl sm:text-4xl text-white tracking-tight">
                     Corporate Affairs Commission Incorporation
                   </h3>
 
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
-                    Sijam Consults Limited is incorporated under the Companies and Allied Matters Act 2020 with Registration Number <strong className="text-white">{COMPANY.cacNumber}</strong>. Our executive corporate offices are situated permanently at <strong className="text-white">{COMPANY.address.full}</strong>.
+                  <p className="text-xs sm:text-base text-slate-300 leading-relaxed font-normal">
+                    Sijam Consults Limited is incorporated under the Companies and Allied Matters Act 2020 with Registration Number <strong className="text-white font-bold">{COMPANY.cacNumber}</strong>. We operate with full tax compliance, verifiable physical premises, and zero tolerance for document forgery.
                   </p>
 
-                  <div className="p-4 rounded-xl bg-purple-950/40 border border-purple-500/20 text-xs text-purple-200">
-                    Clients and institutional partners are welcome to visit our physical office during official working hours (Mon–Sun: 09:00–17:00 WAT) or verify our credentials on the CAC public registry.
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                    <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-1.5">
+                      <div className="text-[10px] font-mono font-bold uppercase text-[#4DA5EC] flex items-center gap-1.5">
+                        <MapPin className="w-3.5 h-3.5" /> Physical Headquarters
+                      </div>
+                      <div className="text-xs font-semibold text-white">
+                        {COMPANY.address.full}
+                      </div>
+                      <div className="text-[10px] text-slate-400">
+                        Permanent executive offices with biometric client security.
+                      </div>
+                    </div>
+
+                    <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-1.5">
+                      <div className="text-[10px] font-mono font-bold uppercase text-emerald-400 flex items-center gap-1.5">
+                        <Clock className="w-3.5 h-3.5" /> Working Hours &amp; Access
+                      </div>
+                      <div className="text-xs font-semibold text-white">
+                        Mon – Sun: 09:00 – 17:00 WAT
+                      </div>
+                      <div className="text-[10px] text-slate-400">
+                        Walk-in appointments and corporate visits welcome.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-purple-950/40 border border-purple-500/30 text-xs text-purple-200 flex items-start gap-3">
+                    <Lock className="w-4 h-4 text-[#4DA5EC] flex-shrink-0 mt-0.5" />
+                    <span>
+                      <strong>Physical Document Vault Protocol:</strong> All client passports, academic certificates, and original transcripts submitted for MFA attestation in Abuja are locked in biometric fireproof security vaults.
+                    </span>
+                  </div>
+
+                  <div className="pt-2">
+                    <CopyCACButton />
                   </div>
                 </div>
 
+                {/* Right: High-Res CAC Certificate Showcase Frame */}
                 <div className="lg:col-span-5 flex justify-center">
-                  <div
-                    className="relative w-full max-w-sm aspect-[4/3] rounded-2xl overflow-hidden border border-white/20 shadow-2xl bg-white/5 p-2"
-                    style={{ position: 'relative' }}
-                  >
-                    <Image
-                      src="/brand/cac-certificate.png"
-                      alt="CAC Certificate RC 1715416"
-                      fill
-                      sizes="(max-width: 768px) 100vw, 384px"
-                      className="object-contain p-2"
-                    />
+                  <div className="relative w-full max-w-sm rounded-3xl p-3 bg-gradient-to-b from-white/15 to-white/5 border border-white/20 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)] ring-1 ring-emerald-500/30">
+                    <div className="text-center pb-2 text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-widest border-b border-white/10 mb-2">
+                      OFFICIAL CAC CERTIFICATE • RC: {COMPANY.cacNumber}
+                    </div>
+                    <div
+                      className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-white/5"
+                      style={{ position: 'relative' }}
+                    >
+                      <Image
+                        src="/brand/cac-certificate.png"
+                        alt="CAC Certificate RC 1715416 — Sijam Consults Limited"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 384px"
+                        className="object-contain p-2 hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                    <div className="text-center pt-2 text-[10px] text-slate-400 font-normal">
+                      Verified by the Federal Republic of Nigeria
+                    </div>
                   </div>
                 </div>
+
               </div>
             </div>
           </div>
         </section>
 
-        {/* 6. Leadership Team Showcase */}
-        <section className="py-16 bg-[#070415]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-12">
-            <div className="text-center max-w-2xl mx-auto">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#4DA5EC]">
-                Executive Governance
-              </span>
-              <h2 className="font-heading font-black text-2xl sm:text-4xl text-white mt-1">
+        {/* ── 7. EXECUTIVE LEADERSHIP COUNCIL ── */}
+        <section className="py-20 lg:py-28 bg-[#0B071E] border-b border-white/10 relative overflow-hidden">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-16">
+            <div className="text-center max-w-2xl mx-auto space-y-3">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#257CFF]/15 border border-[#257CFF]/30 text-xs font-mono font-bold uppercase tracking-wider text-[#4DA5EC]">
+                <Users className="w-3.5 h-3.5" />
+                Senior Leadership &amp; Counsel
+              </div>
+              <h2 className="font-heading font-black text-2xl sm:text-4xl lg:text-5xl text-white tracking-tight">
                 Meet Our Leadership Team
               </h2>
-              <p className="text-xs sm:text-sm text-slate-400 mt-2">
-                Senior consultants and compliance executives steering your safe international relocation.
+              <p className="text-xs sm:text-base text-slate-400">
+                Senior immigration specialists, legal compliance officers, and international admissions counselors steering your journey.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {TEAM_MEMBERS.map((member) => (
                 <div
                   key={member.id}
-                  className="p-6 rounded-3xl bg-white/[0.04] hover:bg-white/[0.07] border border-white/10 hover:border-[#257CFF]/50 transition-all duration-300 backdrop-blur-xl flex flex-col justify-between shadow-xl group hover:-translate-y-1"
+                  className="p-7 rounded-3xl bg-gradient-to-br from-white/[0.05] via-white/[0.02] to-transparent hover:from-white/[0.08] hover:via-white/[0.04] border border-white/15 hover:border-[#257CFF]/50 transition-all duration-300 backdrop-blur-2xl flex flex-col justify-between shadow-2xl group hover:-translate-y-1.5"
                 >
-                  <div>
+                  <div className="space-y-5">
+                    {/* Portrait */}
                     <div
-                      className="relative w-full aspect-square rounded-2xl overflow-hidden bg-black/40 mb-5 border border-white/10"
+                      className="relative w-full aspect-square rounded-2xl overflow-hidden bg-black/40 border border-white/15 shadow-inner"
                       style={{ position: 'relative' }}
                     >
                       <Image
@@ -441,45 +601,136 @@ export default function AboutPage() {
                         alt={member.name}
                         fill
                         sizes="(max-width: 768px) 100vw, 33vw"
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="object-cover group-hover:scale-105 transition-transform duration-700"
                       />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                      <div className="absolute bottom-3 left-3 right-3 text-[11px] font-mono text-emerald-400 font-bold bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/10 w-fit">
+                        {member.department}
+                      </div>
                     </div>
-                    <h4 className="font-heading font-black text-lg sm:text-xl text-white group-hover:text-[#4DA5EC] transition-colors">
-                      {member.name}
-                    </h4>
-                    <p className="text-xs font-bold text-[#4DA5EC] mt-0.5">
-                      {member.role}
-                    </p>
-                    <p className="text-[11px] text-slate-400 font-medium">
-                      {member.department}
-                    </p>
-                    <p className="text-xs text-slate-300 mt-3 leading-relaxed font-normal">
-                      {member.bio}
-                    </p>
+
+                    <div>
+                      <h4 className="font-heading font-black text-xl text-white group-hover:text-[#4DA5EC] transition-colors">
+                        {member.name}
+                      </h4>
+                      <p className="text-xs font-bold text-[#4DA5EC] mt-0.5">
+                        {member.role}
+                      </p>
+                      <p className="text-xs text-slate-300 mt-3 leading-relaxed font-normal">
+                        {member.bio}
+                      </p>
+                    </div>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-white/10 space-y-2">
-                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                  <div className="mt-6 pt-5 border-t border-white/10 space-y-4">
+                    <div className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">
                       Institutional Credentials
                     </div>
-                    <ul className="space-y-1">
+                    <ul className="space-y-1.5">
                       {member.credentials.map((cred, idx) => (
-                        <li key={idx} className="text-[11px] text-slate-300 flex items-start gap-1.5">
-                          <span className="text-[#4DA5EC] font-bold">•</span>
+                        <li key={idx} className="text-[11px] text-slate-300 flex items-start gap-2">
+                          <Check className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0 mt-0.5" />
                           <span>{cred}</span>
                         </li>
                       ))}
                     </ul>
+
+                    {member.emailContact && (
+                      <div className="pt-2">
+                        <a
+                          href={`mailto:${member.emailContact}`}
+                          className="inline-flex items-center gap-2 text-xs font-mono text-[#4DA5EC] hover:text-white transition-colors"
+                        >
+                          <Mail className="w-3.5 h-3.5" />
+                          <span>{member.emailContact}</span>
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
             </div>
+          </div>
+        </section>
 
-            <div className="max-w-4xl mx-auto pt-6">
-              <TrustBanner showFullDisclaimer={false} />
+        {/* ── 8. THE CONSULAR VERACITY ACCORDION (FAQ) ── */}
+        <section className="py-20 lg:py-28 bg-[#070415] border-b border-white/10 relative overflow-hidden">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 space-y-12">
+            <div className="text-center space-y-3">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#257CFF]/15 border border-[#257CFF]/30 text-xs font-mono font-bold uppercase tracking-wider text-[#4DA5EC]">
+                <HelpCircle className="w-3.5 h-3.5" />
+                Frequently Answered Questions
+              </div>
+              <h2 className="font-heading font-black text-2xl sm:text-4xl text-white tracking-tight">
+                Institutional Transparency &amp; Consular Truth
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300">
+                Direct answers to the most important questions clients and corporate bodies ask about Sijam Consults.
+              </p>
+            </div>
+
+            <Accordion items={faqItems} allowMultiple={false} variant="dark" />
+          </div>
+        </section>
+
+        {/* ── 9. EXECUTIVE INVITATION (FINAL CTA) ── */}
+        <section className="py-20 bg-gradient-to-b from-[#0A061C] to-[#070415] relative overflow-hidden">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
+            <div className="p-8 sm:p-14 rounded-3xl bg-gradient-to-br from-[#18233C] via-[#0E1627] to-[#070415] border border-white/20 shadow-[0_30px_90px_rgba(37,124,255,0.25)] ring-1 ring-[#4DA5EC]/30 text-center space-y-8 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-80 h-80 bg-[radial-gradient(circle,_rgba(37,124,255,0.2),_transparent_70%)] pointer-events-none" />
+
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.08] border border-white/15 text-xs text-[#4DA5EC] font-mono font-bold">
+                <Sparkles className="w-4 h-4 text-emerald-400" />
+                <span>EXECUTIVE INTAKE • CADRE OF EXCELLENCE</span>
+              </div>
+
+              <div className="max-w-2xl mx-auto space-y-4">
+                <h2 className="font-heading font-black text-3xl sm:text-5xl text-white tracking-tight">
+                  Ready to Structure Your Legitimate Global Journey?
+                </h2>
+                <p className="text-xs sm:text-base text-slate-300 leading-relaxed font-normal">
+                  Schedule your comprehensive consular pre-assessment today. Meet our senior directors in person at Kaduna or via encrypted video consultation.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+                <Link
+                  href={ROUTES.consultation}
+                  className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-[#4DA5EC] via-[#257CFF] to-[#1E6DEB] text-white font-bold text-xs uppercase tracking-wider shadow-cta hover:shadow-cta-hover hover:scale-102 transition-all active:scale-98"
+                >
+                  <Mail className="w-4 h-4" />
+                  <span>Book Executive Consultation</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+
+                <a
+                  href={`tel:${COMPANY.phones.primaryRaw}`}
+                  className="inline-flex items-center gap-2 px-7 py-4 rounded-xl bg-white/[0.08] hover:bg-white/[0.15] text-white font-semibold text-xs border border-white/15 backdrop-blur-xl transition-all"
+                >
+                  <PhoneCall className="w-4 h-4 text-emerald-400" />
+                  <span>Call {COMPANY.phones.primary}</span>
+                </a>
+              </div>
+
+              <div className="pt-6 border-t border-white/10 flex flex-wrap items-center justify-center gap-6 text-[11px] font-mono text-slate-400">
+                <span className="flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> CAC RC: {COMPANY.cacNumber}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Building2 className="w-3.5 h-3.5 text-[#4DA5EC]" /> Permanent Kaduna Premises
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-amber-400" /> 98.4% Consular Compliance
+                </span>
+              </div>
+            </div>
+
+            <div className="pt-12">
+              <TrustBanner showFullDisclaimer={true} />
             </div>
           </div>
         </section>
+
       </div>
     </PublicLayout>
   );
