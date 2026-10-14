@@ -36,7 +36,7 @@ export function BlogSidebar({
     .slice(0, 4);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto lg:pr-1.5 lg:scrollbar-thin">
       {/* 1. Search Box Widget */}
       <div className="rounded-2xl border border-purple-100 bg-white p-5 shadow-sm">
         <h3 className="font-heading font-bold text-sm uppercase tracking-wider text-[#0D0826] mb-3 flex items-center gap-2">

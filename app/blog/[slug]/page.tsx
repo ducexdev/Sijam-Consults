@@ -295,8 +295,8 @@ export default async function BlogArticlePage({ params }: PageProps) {
               </Link>
             </div>
 
-            {/* Sidebar */}
-            <aside className="w-full">
+            {/* Sticky Sidebar */}
+            <aside className="w-full lg:sticky lg:top-24 lg:self-start">
               <BlogSidebar
                 sections={post.sections}
                 categories={BLOG_CATEGORIES}

@@ -200,8 +200,8 @@ export const ArticleDetailPage: React.FC<{
             </div>
           </div>
 
-          {/* Sidebar Column */}
-          <aside className="w-full">
+          {/* Sticky Sidebar Column */}
+          <aside className="w-full lg:sticky lg:top-24 lg:self-start">
             <BlogSidebar
               sections={article.sections}
               categories={BLOG_CATEGORIES}
