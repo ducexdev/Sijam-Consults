@@ -6,6 +6,7 @@ import { Star, ArrowRight, Video, Sparkles } from 'lucide-react';
 import { VideoPlayer } from '@/components/ui/VideoPlayer';
 import { CLIENT_REVIEWS } from '@/lib/data/reviews';
 import { ROUTES } from '@/lib/routes';
+import { VIDEOS } from '@/lib/constants/videos';
 
 export const VideoTestimonialsSection: React.FC = () => {
   return (
@@ -43,7 +44,7 @@ export const VideoTestimonialsSection: React.FC = () => {
           <div className="lg:col-span-6 space-y-4">
             <div className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-black">
               <VideoPlayer
-                src="/videos/WhatsApp Video 2026-10-12 at 10.45.26 AM.mp4"
+                src={VIDEOS.TESTIMONIAL_1}
                 poster="/visas/1.png"
                 title="Client Review: Approved Polish Admission & Visa"
               />
@@ -67,7 +68,7 @@ export const VideoTestimonialsSection: React.FC = () => {
           <div className="lg:col-span-6 space-y-4">
             <div className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-black">
               <VideoPlayer
-                src="/videos/WhatsApp Video 2026-10-12 at 10.45.27 AM.mp4"
+                src={VIDEOS.TESTIMONIAL_2}
                 poster="/visas/2.png"
                 title="Client Review: Polish Skilled Labor Authorization"
               />

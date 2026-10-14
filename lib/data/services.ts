@@ -1,4 +1,5 @@
 import type { ServiceItem } from '../types';
+import { VIDEOS } from '../constants/videos';
 
 export const SERVICES_DATA: ServiceItem[] = [
   {
@@ -11,7 +12,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     heroHeadline: 'Gain Direct Admission to Globally Recognized Universities',
     summary: 'Sijam Consults Limited partners with accredited higher education institutions across Cyprus, Poland, Greece, Portugal, and the UK. We guide ambitious Nigerian students through course selection, genuine offer letter issuance, tuition deposit security, and compliant embassy student visa filings.',
     badge: 'Popular Choice',
-    videoUrl: '/videos/Study-visa.mp4',
+    videoUrl: VIDEOS.STUDY_VISA,
     videoPoster: '/partners/COLLEGE-OF-ECONOMICS-AND-COMPUTER-SCIENCE-POLAND.jpg',
     whoIsThisFor: [
       'Secondary school leavers seeking undergraduate degrees with flexible English waivers.',
@@ -144,7 +145,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     heroHeadline: 'Verified Pathways for Skilled Professionals & Tradespeople',
     summary: 'International employment migration requires rigorous legal authorization. Sijam Consults assists Nigerian professionals, healthcare workers, and skilled tradesmen in understanding genuine employer sponsorships, vetting foreign work permits, and assembling embassy-compliant work visa submissions for Europe and beyond.',
     badge: 'High Demand',
-    videoUrl: '/videos/Work-visa.mp4',
+    videoUrl: VIDEOS.WORK_VISA,
     videoPoster: '/partners/NOVARIC-Academy-Logo.png',
     whoIsThisFor: [
       'Registered nurses, midwives, and allied healthcare professionals eyeing European and UK clinical roles.',
@@ -242,7 +243,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     heroHeadline: 'Explore the World with Verifiable Itineraries & Confident Filing',
     summary: 'A successful visitor visa application hinges on demonstrating strong ties to Nigeria, clear travel intent, and financial self-sufficiency. Sijam Consults Limited structures flawless tourist and visitor applications for individuals, families, and corporate executives.',
     badge: 'High Approval Rate',
-    videoUrl: '/videos/Tourist-visa.mp4',
+    videoUrl: VIDEOS.TOURIST_VISA,
     videoPoster: '/blogs/Why-Study-Nursing-in-Canada-20262027.png',
     whoIsThisFor: [
       'Vacationers and holidaymakers traveling to the UK, US, Schengen countries, or Canada.',
@@ -335,7 +336,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     heroHeadline: 'Independent Pre-Submission Audit to Protect Your Investment',
     summary: 'A single inconsistent date, unexplained bank deposit, or contradictory answer at an embassy window can derail months of planning. Sijam Consults provides an objective, forensic review of self-prepared visa applications and rigorous simulated interviews before you face consular officers.',
     badge: 'Refusal Prevention',
-    videoUrl: '/videos/SIjam-Consult-Limited.mp4',
+    videoUrl: VIDEOS.SIJAM_CONSULT_LIMITED,
     videoPoster: '/blogs/Why-Study-Nursing-in-Canada-20262027.png',
     whoIsThisFor: [
       'Applicants who have already filled their own visa forms and desire expert validation.',
@@ -405,7 +406,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     heroHeadline: 'European Company Registration & Business Visa Advisory for Global Entrepreneurs',
     summary: 'Sijam Consult provides comprehensive foreign business registration and European company registration services for Nigerian entrepreneurs, founders, and corporate investors looking to incorporate in Poland (Sp. z o.o.). From statutory corporate formation and KRS court registry filings to corporate bank accounts and the subsequent Schengen business visa (National D-Type residency), our advisors guide every stage with consular precision.',
     badge: 'Investor Suite',
-    videoUrl: '/videos/SIjam-Consult-Limited.mp4',
+    videoUrl: VIDEOS.SIJAM_CONSULT_LIMITED,
     videoPoster: '/brand/cac-certificate.png',
     whoIsThisFor: [
       'Enterprise leaders seeking European company registration to establish an official operational footprint across 27 Schengen member states.',
@@ -505,7 +506,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     heroHeadline: 'Government-Certified Legalization for Overseas Validity',
     summary: 'Foreign embassies and international universities require official Nigerian civil and academic documents to undergo rigorous state authentication before they are accepted. Sijam Consults handles the complex bureaucratic trail in Abuja and Kaduna on your behalf.',
     badge: 'Certified Courier',
-    videoUrl: '/videos/Travel-Document-Legalization-Notarization.mp4',
+    videoUrl: VIDEOS.DOCUMENT_LEGALIZATION,
     videoPoster: '/visas/2.png',
     whoIsThisFor: [
       'Students whose overseas universities require MFA-authenticated WAEC certificates or degree transcripts.',
@@ -581,7 +582,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     heroHeadline: 'Verifiable Flight Reservation and Ticketing Services in Nigeria',
     summary: 'Embassy guidelines strongly advise applicants against purchasing expensive non-refundable flight tickets before receiving a visa. Sijam Consult provides legitimate, GDS-verifiable flight reservation itineraries with active 6-character PNR booking codes for visa applications, followed by complete international flight reservation and ticketing once your visa is issued.',
     badge: 'Instant Delivery',
-    videoUrl: '/videos/Flight-Reservation-Ticketing.mp4',
+    videoUrl: VIDEOS.FLIGHT_RESERVATIONS,
     videoPoster: '/visas/1.png',
     whoIsThisFor: [
       'Visa applicants attending embassy biometrics needing an authentic, verifiable flight reservation.',

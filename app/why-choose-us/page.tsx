@@ -20,6 +20,7 @@ import {
   HeartHandshake,
 } from "lucide-react";
 import { COMPANY, ROUTES } from "@/lib/routes";
+import { VIDEOS } from "@/lib/constants/videos";
 
 export const metadata = {
   title: "Why Choose Sijam Consults Limited | Trust, Compliance & Track Record",
@@ -92,7 +93,7 @@ export default function WhyChooseUsPage() {
               muted
               playsInline
               className="w-full h-full object-cover opacity-25 filter contrast-125 saturate-125"
-              src="/videos/SIjam-Consult-Limited.mp4"
+              src={VIDEOS.SIJAM_CONSULT_LIMITED}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#070415] via-[#070415]/75 to-[#070415]/90" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,_var(--tw-gradient-stops))] from-[#402493]/35 via-transparent to-transparent" />

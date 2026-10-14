@@ -17,6 +17,7 @@ import {
   Pause,
 } from "lucide-react";
 import { ROUTES } from "@/lib/routes";
+import { VIDEOS } from "@/lib/constants/videos";
 import { BreadcrumbSchema } from "@/components/seo/BreadcrumbSchema";
 
 
@@ -126,7 +127,7 @@ export default function FlightReservationsPage() {
               if (isPlaying) e.currentTarget.play().catch(() => {});
             }}
           >
-            <source src="/videos/Flight-Reservation-Ticketing.mp4" type="video/mp4" />
+            <source src={VIDEOS.FLIGHT_RESERVATIONS} type="video/mp4" />
           </video>
           {/* Lean left-only overlay — text contrast on left, transparent on right */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#070415]/80 via-[#070415]/35 to-transparent" />

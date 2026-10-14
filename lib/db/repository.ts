@@ -35,6 +35,7 @@ import { SERVICES_DATA } from '@/lib/data/services';
 import { PARTNERS_DATA } from '@/lib/data/partners';
 import { emailOutboxStore } from '@/lib/email/cpanel-smtp';
 import { SEED_SALT, SEED_PASSWORD_HASH } from '@/lib/auth/session';
+import { VIDEOS } from '@/lib/constants/videos';
 
 // ------------------------------------------------------------------------------
 // Seed Staff Profiles for Administrative Access
@@ -399,7 +400,7 @@ class DataStore {
       full_story: 'After a disappointing refusal with another agent in Lagos who didn’t understand Polish bank statement requirements, Sijam audited my entire file.',
       verified_approval_date: '2026-08-12',
       proof_type: 'video',
-      proof_media_url: '/videos/WhatsApp Video 2026-10-12 at 10.45.26 AM.mp4',
+      proof_media_url: VIDEOS.TESTIMONIAL_1,
       is_redacted_compliant: true,
       permission_to_publish: true,
       privacy_acknowledged: true,

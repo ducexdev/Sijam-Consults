@@ -15,6 +15,7 @@ import { CLIENT_REVIEWS, VISA_PROOFS } from '@/lib/data/reviews';
 import { Modal } from '@/components/ui/Modal';
 import { VideoPlayer } from '@/components/ui/VideoPlayer';
 import { SubmitReviewModal } from '@/components/reviews/SubmitReviewModal';
+import { VIDEOS } from '@/lib/constants/videos';
 import { MessageSquarePlus } from 'lucide-react';
 
 type ReviewTab = 'all' | 'stamps' | 'videos' | 'corporate';
@@ -74,7 +75,7 @@ export const ReviewsShowcase: React.FC = () => {
             <div className="p-5 rounded-3xl bg-white/[0.04] border border-white/10 backdrop-blur-xl shadow-xl space-y-4">
               <div className="rounded-2xl overflow-hidden border border-white/10">
                 <VideoPlayer
-                  src="/videos/WhatsApp Video 2026-10-12 at 10.45.26 AM.mp4"
+                  src={VIDEOS.TESTIMONIAL_1}
                   poster="/visas/1.png"
                   title="Client Review: Approved Polish Admission & Visa"
                 />
@@ -97,7 +98,7 @@ export const ReviewsShowcase: React.FC = () => {
             <div className="p-5 rounded-3xl bg-white/[0.04] border border-white/10 backdrop-blur-xl shadow-xl space-y-4">
               <div className="rounded-2xl overflow-hidden border border-white/10">
                 <VideoPlayer
-                  src="/videos/WhatsApp Video 2026-10-12 at 10.45.27 AM.mp4"
+                  src={VIDEOS.TESTIMONIAL_2}
                   poster="/visas/2.png"
                   title="Client Review: Polish Skilled Labor Authorization"
                 />

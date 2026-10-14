@@ -1,4 +1,5 @@
 import { ReviewItem } from '../types';
+import { VIDEOS } from '../constants/videos';
 
 export const VISA_PROOFS = [
   { id: 'v1', image: '/visas/1.png', label: 'Poland National D-Type Work Visa', country: 'Poland', category: 'Work Permit' },
@@ -36,7 +37,7 @@ export const CLIENT_REVIEWS: ReviewItem[] = [
     quote: 'Sijam Consults handled my admission into the College of Economics and Computer Science in Poland without any stress. They reviewed my transcript, guided my tuition deposit, and coached me through the embassy interview. My visa was approved in 4 weeks!',
     fullStory: 'After a disappointing refusal with another agent in Lagos who didn’t understand Polish bank statement requirements, Sijam audited my entire file. They pointed out the discrepancy in my sponsor affidavit, helped me correct it at the High Court, and I walked into the embassy confident. True professionals.',
     proofType: 'video',
-    proofMediaUrl: '/videos/WhatsApp Video 2026-10-12 at 10.45.26 AM.mp4',
+    proofMediaUrl: VIDEOS.TESTIMONIAL_1,
     proofThumbnail: '/visas/1.png',
     isRedactedCompliant: true,
   },
@@ -65,7 +66,7 @@ export const CLIENT_REVIEWS: ReviewItem[] = [
     verifiedApprovalDate: '2026-06-25',
     quote: 'What I respect most about Sijam Consults is honesty. They told me plainly what documents I needed for the Voivodeship work permit and did not charge me any hidden fees. My work visa was granted and I am now working legally in Poland.',
     proofType: 'video',
-    proofMediaUrl: '/videos/WhatsApp Video 2026-10-12 at 10.45.27 AM.mp4',
+    proofMediaUrl: VIDEOS.TESTIMONIAL_2,
     proofThumbnail: '/visas/2.png',
     isRedactedCompliant: true,
   },

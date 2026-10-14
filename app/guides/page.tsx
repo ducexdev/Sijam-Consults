@@ -3,6 +3,7 @@ import { PublicLayout } from '@/components/layout/PublicLayout';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArticleDirectory } from '@/components/guides/ArticleDirectory';
 import { GUIDES_DATA } from '@/lib/data/guides';
+import { VIDEOS } from '@/lib/constants/videos';
 import { BookOpen, Compass, ShieldCheck, Sparkles } from 'lucide-react';
 import { ConsultationBanner } from '@/components/home/ConsultationBanner';
 
@@ -24,7 +25,7 @@ export default function GuidesPage() {
               muted
               playsInline
               className="w-full h-full object-cover opacity-20 filter contrast-125 saturate-125"
-              src="/videos/Study-visa.mp4"
+              src={VIDEOS.STUDY_VISA}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#070415] via-[#070415]/75 to-[#070415]/90" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,_var(--tw-gradient-stops))] from-[#402493]/35 via-transparent to-transparent" />

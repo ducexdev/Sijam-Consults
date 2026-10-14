@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { VideoPlayer } from '@/components/ui/VideoPlayer';
 import { ROUTES } from '@/lib/routes';
+import { VIDEOS } from '@/lib/constants/videos';
 
 function subscribeReducedMotion(callback: () => void) {
   if (typeof window === 'undefined') return () => {};
@@ -204,7 +205,7 @@ export const HeroSection: React.FC = () => {
               {/* Video Player */}
               <div className="relative aspect-video w-full overflow-hidden" style={{ position: 'relative' }}>
                 <VideoPlayer
-                  src="/videos/SIjam-Consult-Limited.mp4"
+                  src={VIDEOS.SIJAM_CONSULT_LIMITED}
                   poster="/blogs/Why-Study-Nursing-in-Canada-20262027.png"
                   title="Sijam Consults Corporate Reel"
                   autoPlay={false}

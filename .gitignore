@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# media / large assets (hosted on Supabase Storage)
+/public/videos/
+*.mp4
+*.mov
+

@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button';
 import { TrustBanner } from '@/components/ui/TrustBanner';
 import { PARTNERS_DATA } from '@/lib/data/partners';
 import { ROUTES, COMPANY } from '@/lib/routes';
+import { VIDEOS } from '@/lib/constants/videos';
 
 export const metadata: Metadata = {
   title: 'Global Academic & Institutional Partners | Sijam Consults Limited',
@@ -30,7 +31,7 @@ export default function PartnersPage() {
               muted
               playsInline
               className="w-full h-full object-cover opacity-25 filter contrast-125 saturate-125"
-              src="/videos/Sijam-Consults-Partners.mp4"
+              src={VIDEOS.SIJAM_CONSULTS_PARTNERS}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#070415] via-[#070415]/75 to-[#070415]/90" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,_var(--tw-gradient-stops))] from-[#402493]/35 via-transparent to-transparent" />
