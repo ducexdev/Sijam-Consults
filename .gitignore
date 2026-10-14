@@ -45,3 +45,9 @@ next-env.d.ts
 *.mp4
 *.mov
 
+# cloudflare / open-next
+/.open-next/
+/.wrangler/
+
+
+
