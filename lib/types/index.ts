@@ -5,9 +5,12 @@ export type ServiceSlug =
   | 'visa-assistance'
   | 'business-registration'
   | 'document-legalization'
-  | 'flight-reservations';
+  | 'flight-reservations'
+  | 'citizenship-assistance'
+  | 'permanent-residency'
+  | 'recruitment-supply';
 
-export type ServiceGroup = 'Academic' | 'Employment' | 'Tourism' | 'Corporate' | 'Logistics';
+export type ServiceGroup = 'Academic' | 'Employment' | 'Tourism' | 'Corporate' | 'Logistics' | 'Immigration';
 
 export interface ServiceFAQ {
   question: string;
@@ -140,6 +143,7 @@ export interface TeamMember {
   role: string;
   department: string;
   bio: string;
+  bioExtended?: string;
   credentials: string[];
   image: string;
   emailContact?: string;

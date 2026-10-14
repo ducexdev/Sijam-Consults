@@ -10,7 +10,7 @@ import { generatePageMetadata } from '@/lib/seo/metadata';
 export async function generateMetadata(): Promise<Metadata> {
   return generatePageMetadata({
     title: 'Study Abroad & Student Visa Advisory',
-    description: 'Gain admission to top accredited universities in Cyprus, Poland, Greece, Canada, and the UK. End-to-end admission guidance, scholarship assistance, and visa processing.',
+    description: 'Gain admission to top accredited universities in Cyprus, Poland, Greece, Canada, and the UK with Sijam Consults, leading student visa consultants Nigeria. Comprehensive study visa Nigeria and study abroad Nigeria advisory across our 100+ university network with scholarship and visa processing support.',
     path: '/services/study-visa',
   });
 }

@@ -28,8 +28,9 @@ import { TEAM_MEMBERS } from '@/lib/data/team';
 import { COMPANY, ROUTES } from '@/lib/routes';
 
 export const metadata: Metadata = {
-  title: 'About Sijam Consults Limited | Mission, Leadership & Registered Credentials (RC: 1715416)',
-  description: 'Meet the executive leadership and credentials behind Sijam Consults Limited. Incorporated under Nigerian CAC law, providing ethical cross-border educational and travel advisory.',
+  title: 'About Sijam Consults Limited | James Samson CEO | Immigration & Visa Agency Nigeria (RC: 1715416)',
+  description:
+    'Meet James Samson, CEO of Sijam Consults Limited. 10+ years immigration consulting expertise in work permits, student visas, business visas, citizenship assistance, and recruitment. CAC RC: 1715416. Kaduna, Nigeria.',
 };
 
 export default function AboutPage() {
@@ -188,6 +189,115 @@ export default function AboutPage() {
                   <p className="text-xs text-slate-300 leading-relaxed font-normal">
                     Official bilateral agreements with European higher education universities and verified employers.
                   </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CEO Spotlight — James Samson */}
+        <section className="py-16 lg:py-24 bg-[#0B071E] border-b border-purple-950/50 relative overflow-hidden">
+          {/* Ambient glow */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,_rgba(77,165,236,0.07),_transparent_65%)] pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,_rgba(64,36,147,0.12),_transparent_60%)] pointer-events-none" />
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 space-y-12">
+            {/* Section Label */}
+            <div className="text-center space-y-2">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#257CFF]/15 border border-[#257CFF]/30 text-xs font-bold uppercase tracking-wider text-[#4DA5EC]">
+                <Users className="w-3.5 h-3.5 text-[#4DA5EC]" />
+                Executive Leadership
+              </div>
+              <h2 className="font-heading font-black text-2xl sm:text-4xl text-white tracking-tight leading-tight">
+                Meet the Visionary Behind{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
+                  Sijam Consults
+                </span>
+              </h2>
+            </div>
+
+            {/* Two-column layout */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+              {/* LEFT — CEO Photo */}
+              <div className="flex flex-col items-center lg:items-start gap-6">
+                <div
+                  className="relative w-full max-w-sm mx-auto lg:mx-0 aspect-[3/4] rounded-3xl overflow-hidden border border-white/15 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)] ring-1 ring-[#4DA5EC]/20"
+                  style={{ position: 'relative' }}
+                >
+                  {/* Decorative corner accent */}
+                  <div className="absolute top-0 left-0 w-24 h-24 bg-gradient-to-br from-[#257CFF]/30 to-transparent rounded-br-3xl z-10 pointer-events-none" />
+                  <div className="absolute bottom-0 right-0 w-24 h-24 bg-gradient-to-tl from-[#4DA5EC]/20 to-transparent rounded-tl-3xl z-10 pointer-events-none" />
+                  <Image
+                    src="/team/James-Samson.png"
+                    alt="James Samson — CEO & Managing Director, Sijam Consults Limited"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 384px"
+                    className="object-cover object-top"
+                    priority
+                  />
+                </div>
+
+                {/* Name plate beneath photo */}
+                <div className="text-center lg:text-left w-full max-w-sm mx-auto lg:mx-0">
+                  <h3 className="font-heading font-black text-2xl text-white">James Samson</h3>
+                  <p className="text-sm font-bold text-[#4DA5EC] mt-0.5">Managing Director &amp; CEO</p>
+                  <p className="text-xs text-slate-400 font-medium mt-0.5">
+                    Human Resource Manager | 10+ Years Immigration Advisory
+                  </p>
+                </div>
+              </div>
+
+              {/* RIGHT — Bio & Credentials */}
+              <div className="space-y-6">
+                {/* Bio paragraphs */}
+                <div className="space-y-4 text-sm text-slate-300 leading-relaxed font-normal">
+                  <p>
+                    James Samson brings more than a decade of frontline experience as a decision-maker in immigration consulting, covering the full spectrum of visa categories — work permit visas, student visas, tourist visas, business and investment visas, and corporate entity creation across multiple jurisdictions. His career has been forged through close collaboration with senior immigration lawyers, peers, and colleagues, a professional crucible that honed his competencies to an unparalleled level in both complex permanent residence and temporary residence applications.
+                  </p>
+                  <p>
+                    Under his leadership, Sijam Consults Limited operates with a zero-compromise standard of transparency and client-centricity. James is unwavering in his commitment to understanding the unique needs and long-term goals of every individual client — an ethos that has built lasting trust with an international clientele spanning Africa, Europe, and beyond, and driven exceptional first-pass visa approval rates.
+                  </p>
+                  <p>
+                    A passionate advocate for ethical migration, James champions the principle that legitimate pathways always outperform shortcuts. His hands-on advisory model — grounded in statutory compliance and forensic file preparation — ensures every client receives professional-grade counsel with full transparency at each stage of the process.
+                  </p>
+                  <p>
+                    Beyond immigration, James is an experienced <span className="text-white font-semibold">Football Intermediary</span> specialising in the European and Asian football markets. He works in close partnership with Federation and Association registered intermediaries to create verified pathways for talented players seeking professional contracts abroad, backed by a global reach and an extensive network within the international football federation industry.
+                  </p>
+                </div>
+
+                {/* Credentials strip */}
+                <div className="p-5 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-md space-y-3">
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                    <Award className="w-3.5 h-3.5 text-[#4DA5EC]" />
+                    Credentials &amp; Expertise
+                  </div>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
+                    {[
+                      'CEO & MD, Sijam Consults Limited (CAC RC: 1715416)',
+                      '10+ Years Immigration Consulting Experience',
+                      'Work Permits, Student, Tourist & Business Visas',
+                      'Permanent & Temporary Residence Specialist',
+                      'Certified Human Resource Manager',
+                      'Licensed Football Intermediary — Europe & Asia',
+                    ].map((cred, idx) => (
+                      <li key={idx} className="text-[11px] text-slate-300 flex items-start gap-1.5">
+                        <Check className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                        <span>{cred}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* CTA */}
+                <div>
+                  <Link
+                    href={ROUTES.consultation}
+                    className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-bold text-xs uppercase tracking-wider shadow-cta hover:shadow-cta-hover transition-all border border-[#4DA5EC]/30"
+                  >
+                    <Mail className="w-4 h-4" />
+                    <span>Book Direct Consultation</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
                 </div>
               </div>
             </div>

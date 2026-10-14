@@ -13,14 +13,16 @@ import {
   ArrowRight,
   ShieldCheck,
   Sparkles,
+  Award,
+  Users,
 } from "lucide-react";
 import { SERVICES_DATA } from "@/lib/data/services";
 import { ROUTES } from "@/lib/routes";
 import { VIDEOS } from "@/lib/constants/videos";
 
 export const metadata = {
-  title: "All Immigration, Travel & Mobility Services | Sijam Consults Limited",
-  description: "Explore the complete catalog of international mobility, study visa, work permit, company registration, and documentation services by Sijam Consults Limited.",
+  title: 'All Services | Sijam Consults Limited — Visa, Citizenship, Recruitment & Immigration Advisory Nigeria',
+  description: 'Complete range of immigration and travel services from Sijam Consults Limited. Study visa, work permit, tourist visa, citizenship assistance, permanent residency, recruitment & labour supply. Expert advisory from Kaduna, Nigeria. RC: 1715416.',
 };
 
 const iconMap: Record<string, React.ElementType> = {
@@ -31,6 +33,9 @@ const iconMap: Record<string, React.ElementType> = {
   'business-registration': Building2,
   'document-legalization': FileCheck,
   'flight-reservations': Plane,
+  'citizenship-assistance': Award,
+  'permanent-residency': ShieldCheck,
+  'recruitment-supply': Users,
 };
 
 export default function ServicesCatalogPage() {
