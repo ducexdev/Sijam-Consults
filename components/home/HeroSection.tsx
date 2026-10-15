@@ -81,12 +81,12 @@ export const HeroSection: React.FC = () => {
         {/* Mobile Static Poster (Avoids 12MB mobile payload on cellular connections) */}
         <div className="sm:hidden absolute inset-0">
           <Image
-            src="/blogs/Why-Study-Nursing-in-Canada-20262027.png"
-            alt="Sijam Consult Global Mobility"
+            src="/hero/passport-hero.png"
+            alt="Nigerian applicants holding approved passports in Europe — Sijam Consults success stories"
             fill
             priority
             sizes="100vw"
-            className="object-cover opacity-35 filter contrast-125"
+            className="object-cover opacity-40 filter contrast-125"
           />
         </div>
 
@@ -98,7 +98,7 @@ export const HeroSection: React.FC = () => {
           muted
           playsInline
           preload="metadata"
-          poster="/blogs/Why-Study-Nursing-in-Canada-20262027.png"
+          poster="/hero/passport-hero.png"
           className="hidden sm:block w-full h-full object-cover opacity-60 filter contrast-110 saturate-125"
           src="/media/hero-preview.mp4"
           aria-hidden="true"
@@ -146,37 +146,43 @@ export const HeroSection: React.FC = () => {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
               </span>
               <span className="font-semibold text-white tracking-wide">
-                Trusted Immigration &amp; Travel Agency in Nigeria
+                CAC-Registered · RC: 1715416 · Consultations Open Now
               </span>
             </div>
 
             {/* Display Headline */}
             <h1 className="font-heading font-black text-3xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.08] text-white">
-              Bridge Ambition to{' '}
+              Stop Getting Refused.{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] drop-shadow-sm">
-                Global Horizons
-              </span>{' '}
-              With Consular Precision.
+                Start Getting Approved.
+              </span>
             </h1>
+
+            {/* Conversion Sub-headline */}
+            <p className="text-xl sm:text-2xl font-semibold text-slate-100 leading-snug max-w-xl">
+              Your UK, Canada, Schengen & Europe Visa — handled by experts who&apos;ve done it hundreds of times.
+            </p>
 
             {/* Editorial Subtitle */}
             <p className="text-base sm:text-lg text-slate-300/90 leading-relaxed max-w-2xl font-normal">
-              Simplify your travel desire with Sijam Consult. As your trusted <strong className="text-white font-medium">travel agency</strong> in Nigeria, we deliver accredited study abroad admissions, verified work permits, flight bookings, and forensic visa file audits with consular precision. Experience the dedication of <span className="text-purple-200">a travel agency</span> built on integrity and zero false promises.
+              Sijam Consults Limited (RC: 1715416) is Kaduna&apos;s leading CAC-registered immigration consultancy. We help Nigerian students, professionals & families secure{' '}
+              <strong className="text-white font-medium">study visas, work permits, tourist visas, citizenship assistance & permanent residency</strong>{' '}
+              — with zero fake documents, fully transparent fees, and close ties to senior immigration lawyers in Europe, Canada & the UK.
             </p>
 
             {/* Micro-Trust Signals Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1 pb-2">
               <div className="flex items-center gap-2 text-xs text-slate-200 bg-white/[0.03] p-2.5 rounded-xl border border-white/5 backdrop-blur-sm">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" aria-hidden="true" />
-                <span className="font-medium">Zero-Omission File Audit</span>
+                <span className="font-medium">Zero Fake Documents</span>
               </div>
               <div className="flex items-center gap-2 text-xs text-slate-200 bg-white/[0.03] p-2.5 rounded-xl border border-white/5 backdrop-blur-sm">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" aria-hidden="true" />
-                <span className="font-medium">Direct Partner Universities</span>
+                <span className="font-medium">Transparent Flat Fees</span>
               </div>
               <div className="flex items-center gap-2 text-xs text-slate-200 bg-white/[0.03] p-2.5 rounded-xl border border-white/5 backdrop-blur-sm col-span-2 sm:col-span-1">
                 <Lock className="w-4 h-4 text-[#4DA5EC] shrink-0" aria-hidden="true" />
-                <span className="font-medium">No Document Demands Pre-Contract</span>
+                <span className="font-medium">Senior Immigration Lawyers On-File</span>
               </div>
             </div>
 
@@ -206,7 +212,7 @@ export const HeroSection: React.FC = () => {
               <div className="relative aspect-video w-full overflow-hidden" style={{ position: 'relative' }}>
                 <VideoPlayer
                   src={VIDEOS.SIJAM_CONSULT_LIMITED}
-                  poster="/blogs/Why-Study-Nursing-in-Canada-20262027.png"
+                  poster="/hero/passport-hero.png"
                   title="Sijam Consults Corporate Reel"
                   autoPlay={false}
                   loop={false}
