@@ -38,7 +38,6 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
   const [isPlaying, setIsPlaying] = useState(autoPlay);
   const [isMuted, setIsMuted] = useState(muted);
   const [hasError, setHasError] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   if (ytId) {
     return (
@@ -117,55 +116,73 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
             ref={videoRef}
             src={src}
             poster={poster}
-            preload={autoPlay ? 'auto' : 'none'}
+            preload="metadata"
             autoPlay={autoPlay}
             loop={loop}
             muted={muted}
             playsInline
-            onLoadedData={() => setIsLoaded(true)}
             onError={() => setHasError(true)}
             onEnded={() => setIsPlaying(false)}
             className="w-full h-full object-cover"
             aria-label={title}
           />
 
-          {/* Custom Controls Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
-            <div className="text-white text-xs font-medium drop-shadow-md">
-              {title}
-            </div>
+          {/* ── PAUSED STATE: always-visible play button + video badge ── */}
+          {!isPlaying && (
+            <>
+              {/* Subtle dark scrim so play button pops on any thumbnail */}
+              <div className="absolute inset-0 bg-black/25 pointer-events-none" />
 
-            <div className="flex items-center justify-between">
+              {/* VIDEO TESTIMONIAL badge — top left — removes all ambiguity */}
+              <div className="absolute top-3 left-3 z-20 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/25 text-white text-[10px] font-bold uppercase tracking-wider pointer-events-none">
+                <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                Video Testimonial
+              </div>
+
+              {/* Glowing central play button — always visible, not gated on isLoaded */}
               <button
                 type="button"
                 onClick={togglePlay}
-                aria-label={isPlaying ? 'Pause video' : 'Play video'}
-                className="w-11 h-11 rounded-full bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white flex items-center justify-center shadow-lg hover:scale-110 transition-transform cursor-pointer border border-[#4DA5EC]/30"
+                aria-label="Play video"
+                className="absolute inset-0 m-auto w-18 h-18 w-[4.5rem] h-[4.5rem] rounded-full bg-gradient-to-br from-[#4DA5EC] to-[#257CFF] text-white flex items-center justify-center shadow-[0_0_45px_rgba(37,124,255,0.75)] hover:shadow-[0_0_60px_rgba(37,124,255,0.95)] transition-all duration-300 hover:scale-110 cursor-pointer z-20 border-2 border-white/30"
               >
-                {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" />}
+                <Play className="w-8 h-8 ml-1 fill-white drop-shadow-lg" />
               </button>
 
+              {/* Mute toggle — bottom right */}
               <button
                 type="button"
                 onClick={toggleMute}
                 aria-label={isMuted ? 'Unmute video' : 'Mute video'}
-                className="w-9 h-9 rounded-full bg-white/20 text-white backdrop-blur-sm flex items-center justify-center hover:bg-white/40 transition-colors cursor-pointer"
+                className="absolute bottom-3 right-3 z-20 w-8 h-8 rounded-full bg-black/60 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/80 transition-colors cursor-pointer border border-white/20"
               >
-                {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                {isMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
               </button>
-            </div>
-          </div>
+            </>
+          )}
 
-          {/* Central Play Indicator when paused */}
-          {!isPlaying && isLoaded && (
-            <button
-              type="button"
-              onClick={togglePlay}
-              aria-label="Play video"
-              className="absolute inset-0 m-auto w-16 h-16 rounded-full bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white flex items-center justify-center shadow-[0_0_35px_rgba(37,124,255,0.6)] transition-all duration-300 hover:scale-110 cursor-pointer z-10 border border-[#4DA5EC]/40"
-            >
-              <Play className="w-7 h-7 ml-1 fill-white" />
-            </button>
+          {/* ── PLAYING STATE: hover-to-reveal controls ── */}
+          {isPlaying && (
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+              <div className="flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={togglePlay}
+                  aria-label="Pause video"
+                  className="w-10 h-10 rounded-full bg-black/60 backdrop-blur-md text-white flex items-center justify-center shadow-lg hover:bg-black/80 transition cursor-pointer border border-white/20"
+                >
+                  <Pause className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={toggleMute}
+                  aria-label={isMuted ? 'Unmute video' : 'Mute video'}
+                  className="w-9 h-9 rounded-full bg-white/20 text-white backdrop-blur-sm flex items-center justify-center hover:bg-white/40 transition-colors cursor-pointer"
+                >
+                  {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                </button>
+              </div>
+            </div>
           )}
         </>
       )}

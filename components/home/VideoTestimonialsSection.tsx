@@ -45,7 +45,6 @@ export const VideoTestimonialsSection: React.FC = () => {
             <div className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-black">
               <VideoPlayer
                 src={VIDEOS.TESTIMONIAL_1}
-                poster="/visas/1.png"
                 title="Client Review: Approved Polish Admission & Visa"
               />
             </div>
@@ -69,7 +68,6 @@ export const VideoTestimonialsSection: React.FC = () => {
             <div className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-black">
               <VideoPlayer
                 src={VIDEOS.TESTIMONIAL_2}
-                poster="/visas/2.png"
                 title="Client Review: Polish Skilled Labor Authorization"
               />
             </div>
