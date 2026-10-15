@@ -11,9 +11,23 @@ if (fs.existsSync(workerPath)) {
   content = content.replace(/export\s*\{\s*DOShardedTagCache\s*\}\s*from\s*["'][^"']+["'];?/g, '// DOShardedTagCache removed for standard worker deployment');
   content = content.replace(/export\s*\{\s*BucketCachePurge\s*\}\s*from\s*["'][^"']+["'];?/g, '// BucketCachePurge removed for standard worker deployment');
 
-  // Check if error boundary is already patched
-  if (!content.includes('__OPENNEXT_ERROR_BOUNDARY__')) {
-    const replacement = `
+  // Strip any old error boundary or handler import to allow re-patching cleanly
+  content = content.replace(/\/\/ __OPENNEXT_SERVER_HANDLER_IMPORT__[\s\S]*?\/\/ END __OPENNEXT_SERVER_HANDLER_IMPORT__\n?/g, '');
+  content = content.replace(/\/\/ __OPENNEXT_ERROR_BOUNDARY__[\s\S]*?\/\/ END __OPENNEXT_ERROR_BOUNDARY__\n?/g, '');
+
+  // Add top-level static import for the 6.4MB server handler.
+  // This shifts module compilation and initialization to Worker startup (where Cloudflare grants
+  // up to 1,000ms CPU startup time), completely preventing the 10ms CPU limit (exceededCpu 503)
+  // on Cloudflare Free tier requests.
+  const handlerImport = `
+// __OPENNEXT_SERVER_HANDLER_IMPORT__
+import { handler as serverHandler } from "./server-functions/default/handler.mjs";
+// END __OPENNEXT_SERVER_HANDLER_IMPORT__
+`;
+
+  content = handlerImport.trim() + '\n' + content;
+
+  const replacement = `
 // __OPENNEXT_ERROR_BOUNDARY__
 export default {
     async fetch(request, env, ctx) {
@@ -35,8 +49,7 @@ export default {
                 if (reqOrResp instanceof Response) {
                     return reqOrResp;
                 }
-                const { handler } = await import("./server-functions/default/handler.mjs");
-                return await handler(reqOrResp, env, ctx, request.signal);
+                return await serverHandler(reqOrResp, env, ctx, request.signal);
             });
         } catch (error) {
             console.error("[CRITICAL WORKER EXCEPTION]", error);
@@ -58,16 +71,15 @@ export default {
 // END __OPENNEXT_ERROR_BOUNDARY__
 `;
 
-    const fullFetchPattern = /export default\s*\{[\s\S]*?\};\s*$/;
-    if (fullFetchPattern.test(content)) {
-      content = content.replace(fullFetchPattern, replacement.trim());
-    } else {
-      console.warn('⚠️ Could not find default export pattern in .open-next/worker.js');
-    }
+  const fullFetchPattern = /export default\s*\{[\s\S]*?\};\s*$/;
+  if (fullFetchPattern.test(content)) {
+    content = content.replace(fullFetchPattern, replacement.trim());
+  } else {
+    content = content.trim() + '\n\n' + replacement.trim() + '\n';
   }
 
   fs.writeFileSync(workerPath, content, 'utf8');
-  console.log('✓ Successfully patched .open-next/worker.js (Durable Objects stripped & error boundary injected).');
+  console.log('✓ Successfully patched .open-next/worker.js (Durable Objects stripped, static serverHandler hoisted to top-level, & error boundary injected).');
 }
 
 // 2. Patch .open-next/server-functions/default/handler.mjs for preview-props.json manifest
