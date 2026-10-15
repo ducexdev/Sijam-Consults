@@ -14,7 +14,7 @@ import {
   NotificationRecord,
 } from '@/lib/types/database';
 import { supabaseAdmin, isSupabaseConfigured } from '@/lib/supabase';
-import nodemailer from 'nodemailer';
+// Lazy imported inside deliverEmailDirectly to support edge and Cloudflare runtime isolation
 
 // ------------------------------------------------------------------------------
 // Configuration & Environment Variables
@@ -274,6 +274,8 @@ export async function enqueueAndDispatchEmail(input: DispatchEmailInput): Promis
     outboxRecord.status = 'sending';
 
     if (config.pass) {
+      const nodemailerModule = await import('nodemailer');
+      const nodemailer = nodemailerModule.default || nodemailerModule;
       const transporter = nodemailer.createTransport({
         host: config.host,
         port: config.port,
