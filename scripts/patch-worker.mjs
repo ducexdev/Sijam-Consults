@@ -1,8 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+// 1. Patch .open-next/worker.js
 const workerPath = path.resolve('.open-next/worker.js');
-
 if (fs.existsSync(workerPath)) {
   let content = fs.readFileSync(workerPath, 'utf8');
 
@@ -13,7 +13,6 @@ if (fs.existsSync(workerPath)) {
 
   // Check if error boundary is already patched
   if (!content.includes('__OPENNEXT_ERROR_BOUNDARY__')) {
-    // Replace export default with a resilient try/catch wrapped fetch
     const replacement = `
 // __OPENNEXT_ERROR_BOUNDARY__
 export default {
@@ -59,7 +58,6 @@ export default {
 // END __OPENNEXT_ERROR_BOUNDARY__
 `;
 
-    // Replace the default fetch handler
     const fullFetchPattern = /export default\s*\{[\s\S]*?\};\s*$/;
     if (fullFetchPattern.test(content)) {
       content = content.replace(fullFetchPattern, replacement.trim());
@@ -70,6 +68,18 @@ export default {
 
   fs.writeFileSync(workerPath, content, 'utf8');
   console.log('✓ Successfully patched .open-next/worker.js (Durable Objects stripped & error boundary injected).');
-} else {
-  console.log('ℹ .open-next/worker.js not found yet (will be patched after build).');
+}
+
+// 2. Patch .open-next/server-functions/default/handler.mjs for preview-props.json manifest
+const handlerPath = path.resolve('.open-next/server-functions/default/handler.mjs');
+if (fs.existsSync(handlerPath)) {
+  let handlerContent = fs.readFileSync(handlerPath, 'utf8');
+  if (handlerContent.includes('Unexpected loadManifest')) {
+    handlerContent = handlerContent.replace(
+      /throw new Error\(`Unexpected loadManifest\(\$\{[^}]+\}\) call!`\)/g,
+      '{return {previewModeId:"sijam-preview-id",previewModeSigningKey:"sijam-preview-key",previewModeEncryptionKey:"sijam-preview-enc-key"}}'
+    );
+    fs.writeFileSync(handlerPath, handlerContent, 'utf8');
+    console.log('✓ Successfully patched handler.mjs to safely resolve preview-props manifest.');
+  }
 }

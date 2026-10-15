@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "opennextjs-cloudflare build && node scripts/patch-worker.mjs",
+    "build": "node scripts/patch-opennext.mjs && opennextjs-cloudflare build && node scripts/patch-worker.mjs",
     "build:next": "next build --webpack && rm -rf .next/cache",
-    "preview": "opennextjs-cloudflare build && node scripts/patch-worker.mjs && opennextjs-cloudflare preview",
-    "deploy": "opennextjs-cloudflare build && node scripts/patch-worker.mjs && opennextjs-cloudflare deploy",
+    "preview": "node scripts/patch-opennext.mjs && opennextjs-cloudflare build && node scripts/patch-worker.mjs && opennextjs-cloudflare preview",
+    "deploy": "node scripts/patch-opennext.mjs && opennextjs-cloudflare build && node scripts/patch-worker.mjs && opennextjs-cloudflare deploy",
     "start": "next start",
     "lint": "eslint"
   },
