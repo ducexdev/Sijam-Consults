@@ -6,10 +6,13 @@ const workerPath = path.resolve('.open-next/worker.js');
 if (fs.existsSync(workerPath)) {
   let content = fs.readFileSync(workerPath, 'utf8');
 
-  // Check if already patched
+  // Strip Durable Object exports that crash workers without DO bindings
+  content = content.replace(/export\s*\{\s*DOQueueHandler\s*\}\s*from\s*["'][^"']+["'];?/g, '// DOQueueHandler removed for standard worker deployment');
+  content = content.replace(/export\s*\{\s*DOShardedTagCache\s*\}\s*from\s*["'][^"']+["'];?/g, '// DOShardedTagCache removed for standard worker deployment');
+  content = content.replace(/export\s*\{\s*BucketCachePurge\s*\}\s*from\s*["'][^"']+["'];?/g, '// BucketCachePurge removed for standard worker deployment');
+
+  // Check if error boundary is already patched
   if (!content.includes('__OPENNEXT_ERROR_BOUNDARY__')) {
-    const originalExportPattern = /export default\s*\{[\s\S]*?async\s*fetch\s*\([^)]*\)\s*\{/;
-    
     // Replace export default with a resilient try/catch wrapped fetch
     const replacement = `
 // __OPENNEXT_ERROR_BOUNDARY__
@@ -60,14 +63,13 @@ export default {
     const fullFetchPattern = /export default\s*\{[\s\S]*?\};\s*$/;
     if (fullFetchPattern.test(content)) {
       content = content.replace(fullFetchPattern, replacement.trim());
-      fs.writeFileSync(workerPath, content, 'utf8');
-      console.log('✓ Successfully patched .open-next/worker.js with error boundary.');
     } else {
       console.warn('⚠️ Could not find default export pattern in .open-next/worker.js');
     }
-  } else {
-    console.log('✓ .open-next/worker.js is already patched.');
   }
+
+  fs.writeFileSync(workerPath, content, 'utf8');
+  console.log('✓ Successfully patched .open-next/worker.js (Durable Objects stripped & error boundary injected).');
 } else {
   console.log('ℹ .open-next/worker.js not found yet (will be patched after build).');
 }
