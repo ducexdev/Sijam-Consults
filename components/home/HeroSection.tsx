@@ -158,16 +158,11 @@ export const HeroSection: React.FC = () => {
               </span>
             </h1>
 
-            {/* Conversion Sub-headline */}
-            <p className="text-xl sm:text-2xl font-semibold text-slate-100 leading-snug max-w-xl">
-              Your UK, Canada, Schengen & Europe Visa — handled by experts who&apos;ve done it hundreds of times.
-            </p>
-
             {/* Editorial Subtitle */}
             <p className="text-base sm:text-lg text-slate-300/90 leading-relaxed max-w-2xl font-normal">
-              Sijam Consults Limited (RC: 1715416) is Kaduna&apos;s leading CAC-registered immigration consultancy. We help Nigerian students, professionals & families secure{' '}
-              <strong className="text-white font-medium">study visas, work permits, tourist visas, citizenship assistance & permanent residency</strong>{' '}
-              — with zero fake documents, fully transparent fees, and close ties to senior immigration lawyers in Europe, Canada & the UK.
+              Sijam Consults is a leading immigration consultancy agency that help students, professionals &amp; families secure{' '}
+              <strong className="text-white font-medium">study visas, work permits, tourist visas, citizenship assistance &amp; permanent residency</strong>{' '}
+              with zero fake documents, fully transparent fees, and close ties to senior immigration lawyers in Europe, Canada &amp; the UK.
             </p>
 
             {/* Micro-Trust Signals Grid */}
@@ -251,7 +246,7 @@ export const HeroSection: React.FC = () => {
                   <Shield className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-white group-hover:text-[#4DA5EC]">33+ Visa Stamps</div>
+                  <div className="text-xs font-bold text-white group-hover:text-[#4DA5EC]">100+ Visa Stamps</div>
                   <div className="text-[10px] text-slate-400">View Verified Approvals</div>
                 </div>
               </Link>
