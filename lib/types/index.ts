@@ -59,7 +59,9 @@ export type JobCategory =
   | 'Engineering & Construction'
   | 'Hospitality & Tourism'
   | 'Agriculture & Processing'
-  | 'Skilled Trades';
+  | 'Skilled Trades'
+  | 'Logistics & Transport'
+  | 'Manufacturing & Production';
 
 export type EmploymentType = 'Full-time' | 'Contract' | 'Seasonal' | 'Apprenticeship';
 
@@ -71,6 +73,7 @@ export interface JobListing {
   isEmployerVerified: boolean;
   location: string;
   country: string;
+  flag?: string;
   category: JobCategory;
   employmentType: EmploymentType;
   salaryRange?: string;
@@ -83,6 +86,10 @@ export interface JobListing {
   visaSupportDetails: string;
   applicationInstructions: string;
   disclaimer: string;
+  perks?: string[];
+  experienceLevel?: string;
+  vacanciesCount?: number;
+  featured?: boolean;
 }
 
 export interface GuideArticle {
