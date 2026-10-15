@@ -2,12 +2,22 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "sijam-consults",
   "main": ".open-next/worker.js",
-  "compatibility_date": "2025-02-01",
+  "compatibility_date": "2026-03-01",
   "compatibility_flags": [
     "nodejs_compat"
   ],
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "NEXT_PUBLIC_SUPABASE_URL": "https://tpoxyelvhitwbjjvijwc.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRwb3h5ZWx2aGl0d2JqanZpandjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE3OTUzNTUsImV4cCI6MjEwNzM3MTM1NX0.A1iVLpjG_-2QJecLlqotL_yct4epQPk0oY-F2idSMKc",
+    "NEXT_PUBLIC_USE_SUPABASE_VIDEOS": "true",
+    "NEXT_PUBLIC_APP_URL": "https://sijamconsults.com",
+    "NEXT_PUBLIC_APP_ENV": "production"
   }
 }
