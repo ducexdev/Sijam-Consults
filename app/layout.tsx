@@ -5,11 +5,11 @@ import { OrganizationSchema } from "@/components/seo/OrganizationSchema";
 export const metadata: Metadata = {
   metadataBase: new URL('https://sijamconsults.com'),
   title: {
-    default: "Sijam Consults Limited | Premier Immigration, Study & Travel Agency (RC: 1715416)",
+    default: "Sijam Consults Limited | International Recruitment, Manpower Supply & Global Mobility (RC: 1715416)",
     template: "%s | Sijam Consults Limited",
   },
-  description: "Unlock global opportunities with Sijam Consults Limited (CAC RC: 1715416). Study abroad admissions, overseas work permits, European company registration, flight bookings, and embassy document legalisation in Nigeria.",
-  keywords: "immigration agency Nigeria, study abroad Kaduna, work permit Europe, Schengen business visa, flight reservations Kaduna, travel consultant Nigeria",
+  description: "Unlock global careers and overseas migration with Sijam Consults Limited (CAC RC: 1715416). Licensed international recruitment & manpower supply, verified foreign employer quotas (UK, Poland, Slovakia, Saudi Arabia), European work permits, study abroad, and B2B workforce sourcing.",
+  keywords: "international recruitment agency Nigeria, manpower supply agency, overseas jobs Nigeria, work permit Europe, Poland work permit, Slovakia work permit, Saudi Arabia recruitment, study abroad, travel consultancy, European business setup, Sijam Consults",
   openGraph: {
     title: "Sijam Consults Limited | Premier Immigration & Travel Agency",
     description: "Bridging Nigerian students, professionals, and entrepreneurs with authentic global opportunities.",

@@ -19,6 +19,7 @@ import {
   MapPin,
   Lock,
   Globe2,
+  Users,
 } from 'lucide-react';
 import { VideoPlayer } from '@/components/ui/VideoPlayer';
 import { ROUTES } from '@/lib/routes';
@@ -66,12 +67,12 @@ export const HeroSection: React.FC = () => {
   };
 
   const pathways = [
-    { id: 'study', label: 'Study Abroad', icon: GraduationCap, href: ROUTES.services.studyVisa, desc: 'Cyprus, Poland, Greece, UK & Canada university admissions.', tag: 'Merit Scholarships' },
-    { id: 'work', label: 'Work Permits', icon: Briefcase, href: ROUTES.services.workVisa, desc: 'Verified European employer sponsorships & statutory labor filings.', tag: 'Verified Sponsors' },
-    { id: 'tourist', label: 'Tourist Visas', icon: Compass, href: ROUTES.services.touristVisa, desc: 'UK, US, Canada & Schengen 90-day visitor authorizations.', tag: 'Fast-Track Filings' },
-    { id: 'business', label: 'EU Business Reg', icon: Building2, href: ROUTES.services.businessRegistration, desc: 'Polish Sp. z o.o. incorporation & Schengen D-Residency.', tag: 'European Access' },
-    { id: 'legalization', label: 'Document Legalization', icon: FileCheck, href: ROUTES.services.documentLegalization, desc: 'MFA Abuja attestation & bilateral embassy apostilles.', tag: 'Zero Omission' },
-    { id: 'flights', label: 'Flight Reservations', icon: Plane, href: ROUTES.services.flightReservations, desc: '100% verifiable PNR itineraries for visa appointments.', tag: 'Active PNR Codes' },
+    { id: 'recruitment', label: 'Foreign Jobs & Quotas', icon: Briefcase, href: ROUTES.jobs.root, desc: 'Verified foreign employer sponsorships in UK, Poland, Slovakia & Saudi Arabia.', tag: 'Primary Flagship' },
+    { id: 'work', label: 'Work Permits', icon: FileCheck, href: ROUTES.services.workVisa, desc: 'Polish Voivodeship permits, Slovakian labor filings & UK CoS review.', tag: 'Statutory Filings' },
+    { id: 'study', label: 'Study Abroad', icon: GraduationCap, href: ROUTES.services.studyVisa, desc: 'Direct university admissions in Cyprus West, Poland, Spain, UK & Canada.', tag: 'Up to 50% Grants' },
+    { id: 'manpower', label: 'B2B Manpower Supply', icon: Building2, href: ROUTES.partners, desc: 'Turnkey skilled & technical workforce mobilization for global employers.', tag: 'Enterprise Desk' },
+    { id: 'visa', label: 'Visa Consultancy', icon: Compass, href: ROUTES.services.visaAssistance, desc: '47-point file audit, embassy appointments & mock interview coaching.', tag: 'Zero Omission' },
+    { id: 'flights', label: 'Flight Reservations', icon: Plane, href: ROUTES.services.flightReservations, desc: '100% verifiable GDS PNR airline itineraries for visa applications.', tag: 'Active PNR Codes' },
   ];
 
   return (
@@ -146,56 +147,55 @@ export const HeroSection: React.FC = () => {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
               </span>
               <span className="font-semibold text-white tracking-wide">
-                Trusted Immigration &amp; Travel Agency
+                CAC Registered (RC: 1715416) • International Recruitment &amp; Manpower Agency
               </span>
             </div>
 
             {/* Display Headline */}
             <h1 className="font-heading font-black text-3xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.08] text-white">
-              Stop Getting Refused.{' '}
+              International Recruitment,{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] drop-shadow-sm">
-                Start Getting Approved.
-              </span>
+                Manpower Supply
+              </span>{' '}
+              &amp; Global Mobility
             </h1>
 
             {/* Editorial Subtitle */}
             <p className="text-base sm:text-lg text-slate-300/90 leading-relaxed max-w-2xl font-normal">
-              Sijam Consults is a leading immigration consultancy agency that help students, professionals &amp; families secure{' '}
-              <strong className="text-white font-medium">study visas, work permits, tourist visas, citizenship assistance &amp; permanent residency</strong>{' '}
-              with zero fake documents, fully transparent fees, and close ties to senior immigration lawyers in Europe, Canada &amp; the UK.
+              Sijam Consults Limited is an accredited international recruitment and manpower consultancy in Nigeria. We specialize in verified foreign employer quotas across the <strong className="text-white font-medium">United Kingdom, Poland, Slovakia, Portugal, Cyprus, and Saudi Arabia</strong> — with zero illegal placement fees, statutory work permits, and full consular legalisation.
             </p>
 
             {/* Micro-Trust Signals Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1 pb-2">
               <div className="flex items-center gap-2 text-xs text-slate-200 bg-white/[0.03] p-2.5 rounded-xl border border-white/5 backdrop-blur-sm">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" aria-hidden="true" />
-                <span className="font-medium">Zero Fake Documents</span>
+                <span className="font-medium">100% Verified Employer Quotas</span>
               </div>
               <div className="flex items-center gap-2 text-xs text-slate-200 bg-white/[0.03] p-2.5 rounded-xl border border-white/5 backdrop-blur-sm">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" aria-hidden="true" />
-                <span className="font-medium">Transparent Flat Fees</span>
+                <span className="font-medium">Statutory Work Permits &amp; MFA</span>
               </div>
               <div className="flex items-center gap-2 text-xs text-slate-200 bg-white/[0.03] p-2.5 rounded-xl border border-white/5 backdrop-blur-sm col-span-2 sm:col-span-1">
-                <Lock className="w-4 h-4 text-[#4DA5EC] shrink-0" aria-hidden="true" />
-                <span className="font-medium">Senior Immigration Lawyers On-File</span>
+                <Building2 className="w-4 h-4 text-[#4DA5EC] shrink-0" aria-hidden="true" />
+                <span className="font-medium">B2B Manpower (EU &amp; Saudi Arabia)</span>
               </div>
             </div>
 
             {/* CTA Group */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
               <Link
-                href={ROUTES.consultation}
+                href={ROUTES.jobs.root}
                 className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-bold text-sm tracking-wide shadow-cta hover:shadow-cta-hover transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] border border-[#4DA5EC]/40"
               >
-                <span>Book 1-on-1 Strategy Session</span>
+                <span>Explore Live Foreign Job Quotas</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
-                href={ROUTES.assessment}
+                href="/contact?intent=hire_manpower"
                 className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] text-white font-semibold text-sm tracking-wide border border-white/15 backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
-                <Sparkles className="w-4 h-4 text-[#4DA5EC]" />
-                <span>Check Visa Eligibility Free</span>
+                <Users className="w-4 h-4 text-emerald-400" />
+                <span>Hire Manpower (Employers)</span>
               </Link>
             </div>
           </div>
