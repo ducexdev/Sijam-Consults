@@ -5,7 +5,7 @@ const BASE_URL = 'https://sijamconsults.com';
 const SITE_NAME = 'Sijam Consults Limited';
 const DEFAULT_OG_IMAGE = '/og/sijam-og-default.png';
 const DEFAULT_DESCRIPTION =
-  'Sijam Consults Limited (CAC RC: 1715416) — Nigeria\'s trusted immigration advisory firm. Study visas, work permits, tourist visas, business registration, and document legalisation services.';
+  'Sijam Consults Limited is a Nigerian-based consultancy company specializing in Recruitment & Manpower Solutions, International Student Recruitment & Study Abroad Services, Immigration & Work Permit Consultancy, Travel Consultancy, and International Business Consultancy. RC: 1715416.';
 
 /**
  * Resolve an absolute URL from a relative path or passthrough if already absolute.

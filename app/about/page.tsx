@@ -196,7 +196,82 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ── 2. CINEMATIC DOCUMENTARY & OPERATIONAL TRUTH ── */}
+        {/* ── 2. ABOUT SIJAM CONSULTS LIMITED: OFFICIAL CORPORATE IDENTITY ── */}
+        <section className="py-16 sm:py-24 bg-[#0B071E] border-b border-white/10 relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,_rgba(37,124,255,0.06),_transparent_70%)] pointer-events-none" />
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 space-y-12">
+            <div className="p-8 sm:p-14 rounded-3xl bg-gradient-to-br from-white/[0.06] via-white/[0.02] to-transparent border border-white/15 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
+              <div className="max-w-4xl space-y-6">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/15 border border-blue-500/30 text-xs font-mono font-bold uppercase tracking-wider text-[#4DA5EC]">
+                  <Building2 className="w-3.5 h-3.5 text-[#4DA5EC]" />
+                  <span>Corporate Overview</span>
+                </div>
+
+                <h2 className="font-heading font-black text-2xl sm:text-4xl lg:text-5xl text-white tracking-tight">
+                  About Sijam Consults Limited
+                </h2>
+
+                <p className="text-base sm:text-xl text-slate-200 leading-relaxed font-normal">
+                  Sijam Consults Limited is a Nigerian-based consultancy company specializing in <strong className="text-white font-semibold">Recruitment &amp; Manpower Solutions</strong>, <strong className="text-white font-semibold">International Student Recruitment &amp; Study Abroad Services</strong>, <strong className="text-white font-semibold">Immigration &amp; Work Permit Consultancy</strong>, <strong className="text-white font-semibold">Travel Consultancy</strong>, and <strong className="text-white font-semibold">International Business Consultancy</strong>.
+                </p>
+
+                <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+                  We connect employers with qualified talent, assist students in accessing international education opportunities, and provide professional guidance to individuals and businesses seeking employment, immigration, travel, and business opportunities across borders.
+                </p>
+
+                <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+                  Driven by professionalism, integrity, transparency, and client satisfaction, Sijam Consults Limited is committed to building trusted partnerships and delivering reliable solutions to clients in Nigeria and internationally.
+                </p>
+
+                {/* 4 Core Pillars of Practice */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-6 border-t border-white/10">
+                  <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2 hover:border-emerald-500/30 transition-colors">
+                    <div className="flex items-center gap-2 text-emerald-400 font-mono text-xs font-bold uppercase tracking-wider">
+                      <CheckCircle2 className="w-4 h-4" />
+                      <span>Professionalism</span>
+                    </div>
+                    <div className="text-xs text-slate-300 leading-relaxed">
+                      Rigorous compliance, certified procedures, and industry-leading standards across all casework.
+                    </div>
+                  </div>
+
+                  <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2 hover:border-blue-500/30 transition-colors">
+                    <div className="flex items-center gap-2 text-[#4DA5EC] font-mono text-xs font-bold uppercase tracking-wider">
+                      <ShieldCheck className="w-4 h-4" />
+                      <span>Integrity</span>
+                    </div>
+                    <div className="text-xs text-slate-300 leading-relaxed">
+                      Zero tolerance for document falsification, authentic employer quotas, and verified pathways.
+                    </div>
+                  </div>
+
+                  <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2 hover:border-purple-500/30 transition-colors">
+                    <div className="flex items-center gap-2 text-purple-400 font-mono text-xs font-bold uppercase tracking-wider">
+                      <Sparkles className="w-4 h-4" />
+                      <span>Transparency</span>
+                    </div>
+                    <div className="text-xs text-slate-300 leading-relaxed">
+                      Clear operational timelines, explicit contract terms, and direct accountability to our clients.
+                    </div>
+                  </div>
+
+                  <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2 hover:border-amber-500/30 transition-colors">
+                    <div className="flex items-center gap-2 text-amber-400 font-mono text-xs font-bold uppercase tracking-wider">
+                      <Award className="w-4 h-4" />
+                      <span>Client Satisfaction</span>
+                    </div>
+                    <div className="text-xs text-slate-300 leading-relaxed">
+                      End-to-end support from preliminary assessment to cross-border settlement and onboarding.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── 3. CINEMATIC DOCUMENTARY & OPERATIONAL TRUTH ── */}
         <section className="py-20 lg:py-28 bg-[#0A061C] border-b border-white/10 relative overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,_rgba(37,124,255,0.08),_transparent_70%)] pointer-events-none" />
 

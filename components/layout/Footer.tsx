@@ -77,7 +77,7 @@ export const Footer: React.FC = () => {
               </div>
             </Link>
             <p className="text-xs sm:text-sm text-purple-200 leading-relaxed max-w-sm">
-              Sijam Consults Limited is an executive international travel and education consultancy agency based in Kaduna, Nigeria. We bridge Nigerian students, skilled professionals, and entrepreneurs to accredited European universities, legal labor permits, and business mobility.
+              Sijam Consults Limited is a Nigerian-based consultancy company specializing in Recruitment &amp; Manpower Solutions, International Student Recruitment &amp; Study Abroad Services, Immigration &amp; Work Permit Consultancy, Travel Consultancy, and International Business Consultancy.
             </p>
             <div className="pt-2">
               <a

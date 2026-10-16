@@ -20,7 +20,7 @@ export function OrganizationSchema() {
           height: 60,
         },
         description:
-          'Sijam Consults Limited (CAC RC: 1715416) is a premier international recruitment, manpower supply, and global immigration advisory in Nigeria. We specialize in verified foreign employer quotas, overseas manpower supply, work permits, study abroad admissions, visa consultancy, and cross-border business setup.',
+          'Sijam Consults Limited is a Nigerian-based consultancy company specializing in Recruitment & Manpower Solutions, International Student Recruitment & Study Abroad Services, Immigration & Work Permit Consultancy, Travel Consultancy, and International Business Consultancy.',
         foundingDate: '2019',
         legalStatus: 'Incorporated company registered with the Corporate Affairs Commission (CAC) of Nigeria',
         identifier: {
