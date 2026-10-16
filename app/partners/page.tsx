@@ -62,7 +62,7 @@ export default function PartnersPage() {
               </h1>
 
               <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal">
-                Sijam Consults Limited (RC: 1715416) maintains verified bilateral ties with accredited international academic consultancies, credential evaluators, and official recruitment &amp; manpower agencies across Australia, Europe, the UK, and Saudi Arabia / GCC. No sub-agent markups. Direct bilateral pipelines.
+                Sijam Consults Limited maintains verified bilateral ties with official recruitment &amp; Manpower agencies, international academic consultancies, credential evaluators across Europe, Australia, UK, Middle East/GCC.
               </p>
 
               {/* Fast Trust Counters */}
