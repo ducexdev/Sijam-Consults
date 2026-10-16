@@ -6,6 +6,8 @@ import { JOBS_DATA } from '@/lib/data/jobs';
 import { ROUTES } from '@/lib/routes';
 import { JobApplicationForm } from '@/components/jobs/JobApplicationForm';
 
+import { JobApplyClientFallback } from '@/components/jobs/JobApplyClientFallback';
+
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
@@ -19,7 +21,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const job = JOBS_DATA.find((j) => j.slug === slug);
-  if (!job) return { title: 'Apply - Opportunity Not Found' };
+  if (!job) return { title: 'Apply - Foreign Opportunity | Sijam Consults' };
 
   return {
     title: `Apply: ${job.title} | Sijam Consults Limited`,
@@ -32,7 +34,11 @@ export default async function JobApplyPage({ params }: PageProps) {
   const job = JOBS_DATA.find((j) => j.slug === slug);
 
   if (!job) {
-    notFound();
+    return (
+      <PublicLayout>
+        <JobApplyClientFallback slug={slug} />
+      </PublicLayout>
+    );
   }
 
   return (

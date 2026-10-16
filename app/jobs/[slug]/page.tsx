@@ -25,6 +25,8 @@ import { formatDate } from '@/lib/utils';
 import { ROUTES } from '@/lib/routes';
 import { generatePageMetadata } from '@/lib/seo/metadata';
 
+import { JobDetailClientFallback } from '@/components/jobs/JobDetailClientFallback';
+
 export async function generateStaticParams() {
   return JOBS_DATA.map((job) => ({ slug: job.slug }));
 }
@@ -36,7 +38,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const job = JOBS_DATA.find((j) => j.slug === slug);
-  if (!job) return { title: 'Opportunity Not Found' };
+  if (!job) return { title: 'Foreign Opportunity Details | Sijam Consults' };
   return generatePageMetadata({
     title: `${job.title} in ${job.location}`,
     description: `${job.description.slice(0, 155)}...`,
@@ -51,9 +53,14 @@ export default async function JobDetailPage({
 }) {
   const { slug } = await params;
   const job = JOBS_DATA.find((j) => j.slug === slug);
-  if (!job) notFound();
 
-
+  if (!job) {
+    return (
+      <PublicLayout>
+        <JobDetailClientFallback slug={slug} />
+      </PublicLayout>
+    );
+  }
 
   return (
     <PublicLayout>
