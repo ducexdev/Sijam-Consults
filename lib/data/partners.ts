@@ -52,6 +52,16 @@ export const PARTNERS_DATA: CorporatePartner[] = [
     websiteUrl: 'https://visionaus.com.au/',
   },
   {
+    id: 'quality-immigration',
+    name: 'Quality Immigration',
+    category: 'Education & Migration Agency',
+    country: 'The Netherlands & Worldwide 🇳🇱',
+    logoUrl: '/partners/quality-immigration-logo-dark.svg',
+    description: 'Premier Netherlands-headquartered immigration and global mobility consultancy led by Elena Diachenko (17+ years experience). Specialist advisory in European residence permits, study abroad visas, family relocation, and cross-border citizenship across Europe, Eurasia, and the Americas.',
+    collaborationScope: 'Dutch and Schengen residence permit facilitation, cross-border study and work mobility, family relocation support, and bilateral immigrant casework.',
+    websiteUrl: 'https://quality-immigration.com',
+  },
+  {
     id: 'qanwati',
     name: 'Qanwati Consultation',
     category: 'Manpower Services',
@@ -69,5 +79,15 @@ export const PARTNERS_DATA: CorporatePartner[] = [
     description: 'Premier aviation ticketing and corporate travel management consultancy providing live GDS airline reservations (Amadeus & Sabre), verifiable PNR codes, flexible flight re-routing, and international flight ticketing.',
     collaborationScope: 'Official strategic partner for embassy-verifiable flight reservations, 2-hour PNR delivery, student baggage waivers, and confirmed flight ticketing for European, UK, and Gulf migration routes.',
     websiteUrl: 'https://sijamconsults.com/services/flight-reservations',
+  },
+  {
+    id: 'basic-soccer-academy',
+    name: 'Basic Soccer Academy',
+    category: 'Sports & Football Academy',
+    country: 'Nigeria & International 🇳🇬',
+    logoUrl: '/partners/basic-soccer-academy-crest.png',
+    description: 'Accredited youth football development academy (RC: 2839888, Est. 2015) dedicated to discovering, training, and transitioning talented African players to professional European and global football clubs under the motto "Soccer to the World". Official scouting, trial management, and athletic talent partner of Sijam Consults.',
+    collaborationScope: 'Official talent scouting pipeline, European club trial showcases, player dossier verification, sports visa documentation, and athlete welfare management.',
+    websiteUrl: 'https://sijamconsults.com/services/football-talent',
   },
 ];

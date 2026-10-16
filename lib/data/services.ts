@@ -983,7 +983,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     group: 'Sports Mobility',
     tagline: 'Bridging elite African football players and academies with European clubs, FIFA intermediaries, verified showcase trials, and athletic visa facilitation.',
     heroHeadline: 'Professional Football Intermediary, European Club Trials & Athletic Visas',
-    summary: 'Sijam Consults Limited CEO James Samson is an experienced football intermediary specializing in the European and Asian football markets. In partnership with registered football federation and association intermediaries, we provide transparent player representation, authentic trial invitations, club showcases, and complete athletic mobility services for talented players (18+) and grassroots football academies. From club liaison and contract negotiations to travel visas, flights, accommodation, and player welfare management, we bridge ambitious football talent to international professional careers.',
+    summary: 'Sijam Consults Limited CEO James Samson is an experienced football intermediary specializing in the European and Asian football markets. In official strategic alliance with Basic Soccer Academy (RC: 2839888, Est. 2015, Kaduna State) and registered football federation intermediaries, we discover, evaluate, and transition talented African players and grassroots academies to verified European club trials, tournament showcases, and legitimate athletic mobility pathways across Spain, Portugal, Eastern Europe, Turkey, and Asia.',
     badge: 'FIFA Intermediary Network',
     videoUrl: VIDEOS.SIJAM_CONSULT_LIMITED,
     videoPoster: '/hero/passport-hero.png',

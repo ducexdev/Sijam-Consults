@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ExternalLink, Handshake, ShieldCheck, CheckCircle2, ArrowRight, Award, GraduationCap, Globe2, Briefcase, Building2, Plane } from 'lucide-react';
+import { ExternalLink, Handshake, ShieldCheck, CheckCircle2, ArrowRight, Award, GraduationCap, Globe2, Briefcase, Building2, Plane, Trophy } from 'lucide-react';
 import { PublicLayout } from '@/components/layout/PublicLayout';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { TrustBanner } from '@/components/ui/TrustBanner';
@@ -23,6 +23,9 @@ export default function PartnersPage() {
   );
   const aviationPartners = PARTNERS_DATA.filter((p) =>
     ['Aviation & Ticketing Partner'].includes(p.category)
+  );
+  const sportsPartners = PARTNERS_DATA.filter((p) =>
+    ['Sports & Football Academy'].includes(p.category)
   );
 
   return (
@@ -354,6 +357,91 @@ export default function PartnersPage() {
                           className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white text-xs font-bold shadow-cta border border-[#4DA5EC]/30 hover:brightness-110 transition-all"
                         >
                           <span>Request Flight PNR</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Group 4: Sports & Athletic Talent Alliances */}
+            {sportsPartners.length > 0 && (
+              <div className="space-y-6 pt-4">
+                <div className="flex items-center justify-between flex-wrap gap-3">
+                  <div>
+                    <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-400 mb-1">
+                      <Trophy className="w-4 h-4" />
+                      <span>Sports Intermediary &amp; Talent Scouting</span>
+                    </div>
+                    <h2 className="font-heading font-black text-2xl sm:text-3xl text-white">
+                      Sports &amp; Football Talent Alliances
+                    </h2>
+                    <p className="text-xs sm:text-sm text-slate-400 mt-1">
+                      Accredited youth academies, licensed football intermediaries, and athletic showcases connecting African football talents with European and Asian clubs.
+                    </p>
+                  </div>
+                  <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                    Direct Scouting Desk
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {sportsPartners.map((partner) => (
+                    <div
+                      key={partner.id}
+                      className="p-6 sm:p-8 rounded-3xl bg-white/[0.04] hover:bg-white/[0.07] border border-white/10 hover:border-amber-500/40 transition-all duration-300 backdrop-blur-xl flex flex-col justify-between shadow-xl group"
+                    >
+                      <div className="space-y-4">
+                        <div className="flex items-start justify-between gap-4">
+                          <div
+                            className="h-20 w-48 relative bg-white rounded-2xl p-3 flex items-center justify-center overflow-hidden border border-white/20 shadow-md"
+                            style={{ position: 'relative' }}
+                          >
+                            <Image
+                              src={partner.logoUrl}
+                              alt={partner.name}
+                              fill
+                              sizes="192px"
+                              className="object-contain p-1.5"
+                            />
+                          </div>
+                          <span className="text-xs font-bold px-3 py-1.5 rounded-full bg-amber-950/70 text-amber-300 border border-amber-500/30 whitespace-nowrap">
+                            {partner.country}
+                          </span>
+                        </div>
+
+                        <div>
+                          <div className="text-[11px] font-bold uppercase tracking-wider text-[#F98864]">
+                            {partner.category}
+                          </div>
+                          <h3 className="font-heading font-bold text-xl sm:text-2xl text-white group-hover:text-amber-400 transition-colors mt-0.5">
+                            {partner.name}
+                          </h3>
+                          <p className="text-xs sm:text-sm text-slate-300 mt-2.5 leading-relaxed font-normal">
+                            {partner.description}
+                          </p>
+                        </div>
+
+                        <div className="p-3.5 rounded-xl bg-amber-950/30 border border-amber-500/20 text-xs text-amber-200">
+                          <strong className="text-white">Bilateral Scope:</strong> {partner.collaborationScope}
+                        </div>
+                      </div>
+
+                      <div className="pt-6 mt-6 border-t border-white/10 flex items-center justify-between gap-3 flex-wrap">
+                        <Link
+                          href="/services/football-talent"
+                          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-white transition-colors"
+                        >
+                          <span>Explore Football Pipeline</span>
+                          <ExternalLink className="w-3.5 h-3.5 text-amber-400" />
+                        </Link>
+                        <Link
+                          href="/services/football-talent#apply"
+                          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white text-xs font-bold shadow-cta border border-[#4DA5EC]/30 hover:brightness-110 transition-all"
+                        >
+                          <span>Talent Showcase Inquiries</span>
                           <ArrowRight className="w-3.5 h-3.5" />
                         </Link>
                       </div>
