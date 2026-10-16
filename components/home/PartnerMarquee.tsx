@@ -10,7 +10,7 @@ export const PartnerMarquee: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-8">
           <p className="text-[11px] font-bold uppercase tracking-widest text-[#F98864]">
-            Institutional Alliances & Accredited Higher Education Partners
+            Verified Bilateral Alliances &amp; Global Mobility Partners
           </p>
         </div>
 
@@ -38,7 +38,7 @@ export const PartnerMarquee: React.FC = () => {
             href={ROUTES.partners}
             className="text-xs font-semibold text-slate-400 hover:text-white transition-colors"
           >
-            Learn more about our university partnerships & accreditation →
+            Explore all bilateral partnerships, university placements &amp; recruitment quotas →
           </Link>
         </div>
       </div>

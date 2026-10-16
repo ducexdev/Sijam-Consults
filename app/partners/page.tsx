@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ExternalLink, Handshake, ShieldCheck, CheckCircle2, ArrowRight, Award, GraduationCap, Building2 } from 'lucide-react';
+import { ExternalLink, Handshake, ShieldCheck, CheckCircle2, ArrowRight, Award, GraduationCap, Globe2, Briefcase, Building2 } from 'lucide-react';
 import { PublicLayout } from '@/components/layout/PublicLayout';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { Button } from '@/components/ui/Button';
 import { TrustBanner } from '@/components/ui/TrustBanner';
 import { PARTNERS_DATA } from '@/lib/data/partners';
 import { ROUTES, COMPANY } from '@/lib/routes';
@@ -12,12 +11,16 @@ import { VIDEOS } from '@/lib/constants/videos';
 
 export const metadata: Metadata = {
   title: 'Global Academic & Institutional Partners | Sijam Consults Limited',
-  description: 'Explore Sijam Consults Limited’s official academic and corporate partnerships across Cyprus, Poland, Europe, and Nigeria. Direct university admissions and certified verification.',
+  description: 'Explore Sijam Consults Limited’s official bilateral partnerships across Australia, Europe, the UK, and Saudi Arabia. Verified direct admissions, work permit quotas, and international recruitment.',
 };
 
 export default function PartnersPage() {
-  const universities = PARTNERS_DATA.filter((p) => p.category === 'University');
-  const others = PARTNERS_DATA.filter((p) => p.category !== 'University');
+  const educationPartners = PARTNERS_DATA.filter((p) =>
+    ['Accreditation Body', 'Academic Consultancy', 'Education & Mobility', 'Education & Migration Agency'].includes(p.category)
+  );
+  const recruitmentPartners = PARTNERS_DATA.filter((p) =>
+    ['Foreign Job Placement', 'Manpower Services', 'Recruitment Partner'].includes(p.category)
+  );
 
   return (
     <PublicLayout>
@@ -45,7 +48,7 @@ export default function PartnersPage() {
             <div className="max-w-3xl space-y-5">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md text-xs text-purple-200">
                 <Handshake className="w-4 h-4 text-[#F45A2A]" />
-                <span>Verified Bilateral Academic & Corporate Accreditations</span>
+                <span>Verified Bilateral Educational & Recruitment Accreditations</span>
               </div>
 
               <h1 className="font-heading font-black text-3xl sm:text-5xl lg:text-6xl text-white tracking-tight leading-[1.1]">
@@ -56,24 +59,24 @@ export default function PartnersPage() {
               </h1>
 
               <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal">
-                Sijam Consults Limited (RC: 1715416) maintains verified bilateral ties with accredited European universities, credential evaluators, and international corporate mobility desks. No sub-agent markups. Guaranteed merit scholarship quotas.
+                Sijam Consults Limited (RC: 1715416) maintains verified bilateral ties with accredited international academic consultancies, credential evaluators, and official recruitment &amp; manpower agencies across Australia, Europe, the UK, and Saudi Arabia / GCC. No sub-agent markups. Direct bilateral pipelines.
               </p>
 
               {/* Fast Trust Counters */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
                 <div className="bg-white/[0.04] p-3 rounded-xl border border-white/10 backdrop-blur-sm">
                   <div className="text-xs font-bold text-white flex items-center gap-1.5">
-                    <GraduationCap className="w-4 h-4 text-[#F98864]" />
-                    <span>Direct Admissions</span>
+                    <Globe2 className="w-4 h-4 text-[#4DA5EC]" />
+                    <span>Global Corridors</span>
                   </div>
-                  <div className="text-[11px] text-slate-400 mt-0.5">Cyprus West & Poland</div>
+                  <div className="text-[11px] text-slate-400 mt-0.5">Australia, EU, UK &amp; Saudi Arabia</div>
                 </div>
                 <div className="bg-white/[0.04] p-3 rounded-xl border border-white/10 backdrop-blur-sm">
                   <div className="text-xs font-bold text-white flex items-center gap-1.5">
                     <Award className="w-4 h-4 text-emerald-400" />
-                    <span>Up to 50% Grants</span>
+                    <span>Direct Quotas</span>
                   </div>
-                  <div className="text-[11px] text-slate-400 mt-0.5">Merit scholarship quotas</div>
+                  <div className="text-[11px] text-slate-400 mt-0.5">Sponsorships &amp; admissions</div>
                 </div>
                 <div className="bg-white/[0.04] p-3 rounded-xl border border-white/10 backdrop-blur-sm col-span-2 sm:col-span-1">
                   <div className="text-xs font-bold text-white flex items-center gap-1.5">
@@ -90,80 +93,88 @@ export default function PartnersPage() {
         {/* 2. Main Partners Showcase */}
         <section className="py-16 bg-[#0B071E]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-16">
-            {/* Direct Partner Universities */}
+            
+            {/* Group 1: Education & Academic Mobility Alliances */}
             <div className="space-y-6">
               <div className="flex items-center justify-between flex-wrap gap-3">
                 <div>
+                  <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#4DA5EC] mb-1">
+                    <GraduationCap className="w-4 h-4" />
+                    <span>Academic &amp; Migration Alliances</span>
+                  </div>
                   <h2 className="font-heading font-black text-2xl sm:text-3xl text-white">
-                    Direct Partner Higher Education Institutions
+                    International Education &amp; Migration Partners
                   </h2>
                   <p className="text-xs sm:text-sm text-slate-400 mt-1">
-                    European universities offering direct admissions, English instruction waivers, and scholarship quotas
+                    Accredited education agencies, MARA-registered migration advisors, and credential evaluators across Australia, Europe, and the UK.
                   </p>
                 </div>
                 <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                  Accredited Programs
+                  Accredited Pathways
                 </span>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {universities.map((uni) => (
+                {educationPartners.map((partner) => (
                   <div
-                    key={uni.id}
-                    className="p-6 sm:p-8 rounded-3xl bg-white/[0.04] hover:bg-white/[0.07] border border-white/10 hover:border-[#F45A2A]/40 transition-all duration-300 backdrop-blur-xl flex flex-col justify-between shadow-xl group"
+                    key={partner.id}
+                    className="p-6 sm:p-8 rounded-3xl bg-white/[0.04] hover:bg-white/[0.07] border border-white/10 hover:border-[#4DA5EC]/40 transition-all duration-300 backdrop-blur-xl flex flex-col justify-between shadow-xl group"
                   >
                     <div className="space-y-4">
                       <div className="flex items-start justify-between gap-4">
                         <div
-                          className="h-16 w-40 relative bg-white/10 rounded-2xl p-2.5 flex items-center justify-center overflow-hidden border border-white/15"
+                          className="h-20 w-48 relative bg-black/60 rounded-2xl p-3 flex items-center justify-center overflow-hidden border border-white/15"
                           style={{ position: 'relative' }}
                         >
                           <Image
-                            src={uni.logoUrl}
-                            alt={uni.name}
+                            src={partner.logoUrl}
+                            alt={partner.name}
                             fill
-                            sizes="160px"
-                            className="object-contain p-1"
+                            sizes="192px"
+                            className="object-contain p-1.5"
                           />
                         </div>
-                        <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#402493]/60 text-purple-200 border border-purple-500/30">
-                          {uni.country}
+                        <span className="text-xs font-bold px-3 py-1.5 rounded-full bg-[#402493]/60 text-purple-200 border border-purple-500/30 whitespace-nowrap">
+                          {partner.country}
                         </span>
                       </div>
 
                       <div>
-                        <h3 className="font-heading font-bold text-lg sm:text-xl text-white group-hover:text-[#F98864] transition-colors">
-                          {uni.name}
+                        <div className="text-[11px] font-bold uppercase tracking-wider text-[#F98864]">
+                          {partner.category}
+                        </div>
+                        <h3 className="font-heading font-bold text-xl sm:text-2xl text-white group-hover:text-[#4DA5EC] transition-colors mt-0.5">
+                          {partner.name}
                         </h3>
-                        <p className="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed font-normal">
-                          {uni.description}
+                        <p className="text-xs sm:text-sm text-slate-300 mt-2.5 leading-relaxed font-normal">
+                          {partner.description}
                         </p>
                       </div>
 
                       <div className="p-3.5 rounded-xl bg-purple-950/40 border border-purple-500/20 text-xs text-purple-200">
-                        <strong className="text-white">Bilateral Scope:</strong> {uni.collaborationScope}
+                        <strong className="text-white">Bilateral Scope:</strong> {partner.collaborationScope}
                       </div>
                     </div>
 
-                    <div className="pt-6 mt-6 border-t border-white/10 flex items-center justify-between gap-3">
-                      {uni.websiteUrl ? (
+                    <div className="pt-6 mt-6 border-t border-white/10 flex items-center justify-between gap-3 flex-wrap">
+                      {partner.websiteUrl ? (
                         <a
-                          href={uni.websiteUrl}
+                          href={partner.websiteUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
+                          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-white transition-colors"
                         >
-                          <span>Institutional Portal</span>
-                          <ExternalLink className="w-3.5 h-3.5" />
+                          <span>Official Portal</span>
+                          <ExternalLink className="w-3.5 h-3.5 text-[#4DA5EC]" />
                         </a>
                       ) : (
                         <span className="text-xs text-slate-400">Direct Institutional Agreement</span>
                       )}
                       <Link
-                        href={ROUTES.services.studyVisa}
-                        className="inline-flex items-center gap-1 px-4 py-2 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white text-xs font-bold shadow-cta border border-[#4DA5EC]/30"
+                        href={ROUTES.contact}
+                        className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white text-xs font-bold shadow-cta border border-[#4DA5EC]/30 hover:brightness-110 transition-all"
                       >
-                        <span>Apply via Sijam</span>
+                        <span>Inquire via Sijam</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </Link>
                     </div>
@@ -172,64 +183,92 @@ export default function PartnersPage() {
               </div>
             </div>
 
-            {/* Commercial & Professional Alliances */}
-            <div className="space-y-6">
-              <div>
-                <h2 className="font-heading font-black text-2xl sm:text-3xl text-white">
-                  Corporate & Credentialing Alliances
-                </h2>
-                <p className="text-xs sm:text-sm text-slate-400 mt-1">
-                  Accredited academies, international recruitment networks, and industry verification partners
-                </p>
+            {/* Group 2: International Recruitment & Manpower Corridors */}
+            <div className="space-y-6 pt-4">
+              <div className="flex items-center justify-between flex-wrap gap-3">
+                <div>
+                  <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-400 mb-1">
+                    <Briefcase className="w-4 h-4" />
+                    <span>Foreign Employment &amp; Manpower Pipelines</span>
+                  </div>
+                  <h2 className="font-heading font-black text-2xl sm:text-3xl text-white">
+                    International Manpower &amp; Recruitment Networks
+                  </h2>
+                  <p className="text-xs sm:text-sm text-slate-400 mt-1">
+                    Verified foreign recruitment desks and manpower suppliers for direct employer sponsorship in Europe, Turkey, Saudi Arabia, and the GCC.
+                  </p>
+                </div>
+                <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                  Direct Quotas
+                </span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-                {others.map((partner) => (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {recruitmentPartners.map((partner) => (
                   <div
                     key={partner.id}
-                    className="p-5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 transition-all backdrop-blur-md flex flex-col justify-between"
+                    className="p-6 sm:p-8 rounded-3xl bg-white/[0.04] hover:bg-white/[0.07] border border-white/10 hover:border-emerald-500/40 transition-all duration-300 backdrop-blur-xl flex flex-col justify-between shadow-xl group"
                   >
-                    <div className="space-y-3">
-                      <div
-                        className="h-16 w-full relative bg-black rounded-xl overflow-hidden border border-white/10"
-                        style={{ position: 'relative' }}
-                      >
-                        <Image
-                          src={partner.logoUrl}
-                          alt={partner.name}
-                          fill
-                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                          className="object-contain p-2"
-                        />
-                      </div>
-                      <div>
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#F98864]">
-                          {partner.category}
+                    <div className="space-y-4">
+                      <div className="flex items-start justify-between gap-4">
+                        <div
+                          className="h-20 w-48 relative bg-black/60 rounded-2xl p-3 flex items-center justify-center overflow-hidden border border-white/15"
+                          style={{ position: 'relative' }}
+                        >
+                          <Image
+                            src={partner.logoUrl}
+                            alt={partner.name}
+                            fill
+                            sizes="192px"
+                            className="object-contain p-1.5"
+                          />
+                        </div>
+                        <span className="text-xs font-bold px-3 py-1.5 rounded-full bg-emerald-950/70 text-emerald-300 border border-emerald-500/30 whitespace-nowrap">
+                          {partner.country}
                         </span>
-                        <h4 className="font-heading font-bold text-sm text-white mt-0.5">
+                      </div>
+
+                      <div>
+                        <div className="text-[11px] font-bold uppercase tracking-wider text-[#F98864]">
+                          {partner.category}
+                        </div>
+                        <h3 className="font-heading font-bold text-xl sm:text-2xl text-white group-hover:text-emerald-400 transition-colors mt-0.5">
                           {partner.name}
-                        </h4>
-                        <p className="text-xs text-slate-300 mt-1 line-clamp-3 leading-relaxed">
+                        </h3>
+                        <p className="text-xs sm:text-sm text-slate-300 mt-2.5 leading-relaxed font-normal">
                           {partner.description}
                         </p>
                       </div>
+
+                      <div className="p-3.5 rounded-xl bg-emerald-950/30 border border-emerald-500/20 text-xs text-emerald-200">
+                        <strong className="text-white">Bilateral Scope:</strong> {partner.collaborationScope}
+                      </div>
                     </div>
 
-                    <div className="pt-3 mt-4 border-t border-white/10 space-y-2">
-                      <div className="text-[11px] text-purple-300">
-                        <strong className="text-slate-400">Scope:</strong> {partner.collaborationScope}
-                      </div>
-                      {partner.websiteUrl && (
+                    <div className="pt-6 mt-6 border-t border-white/10 flex items-center justify-between gap-3 flex-wrap">
+                      {partner.websiteUrl ? (
                         <a
                           href={partner.websiteUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#4DA5EC] hover:text-white transition-colors"
+                          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-white transition-colors"
                         >
-                          <ExternalLink className="w-3 h-3" />
-                          <span>Visit Website</span>
+                          <span>Official Portal</span>
+                          <ExternalLink className="w-3.5 h-3.5 text-emerald-400" />
                         </a>
+                      ) : (
+                        <span className="inline-flex items-center gap-1.5 text-xs text-emerald-400 font-semibold">
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          <span>Direct Consular Quota Agreement</span>
+                        </span>
                       )}
+                      <Link
+                        href={ROUTES.jobs.root}
+                        className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white text-xs font-bold shadow-cta border border-[#4DA5EC]/30 hover:brightness-110 transition-all"
+                      >
+                        <span>Explore Vacancies</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
                     </div>
                   </div>
                 ))}
@@ -245,7 +284,7 @@ export default function PartnersPage() {
                 Explore Institutional Alliances With Sijam Consults
               </h3>
               <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto leading-relaxed">
-                Are you an accredited international university, vocational training academy, or verified European employer seeking authenticated Nigerian candidate referrals? Connect with our corporate liaisons desk.
+                Are you an accredited international university, migration advisory, or verified employer seeking authenticated Nigerian candidate referrals? Connect with our corporate liaisons desk.
               </p>
               <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
                 <Link
