@@ -26,7 +26,11 @@ import {
   JobCategoryRecord,
   EmployerRecord,
 } from '@/lib/types/database';
-import { adminCreateJob, adminUpdateJob, adminDeleteJob } from '@/app/actions/jobs';
+import {
+  apiCreateJob as adminCreateJob,
+  apiUpdateJob as adminUpdateJob,
+  apiDeleteJob as adminDeleteJob,
+} from '@/lib/api/jobs-client';
 
 interface JobsViewProps {
   jobs: JobRecord[];

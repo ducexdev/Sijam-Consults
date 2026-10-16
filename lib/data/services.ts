@@ -975,4 +975,113 @@ export const SERVICES_DATA: ServiceItem[] = [
     relatedServices: ['work-visa', 'visa-assistance', 'flight-reservations'],
     disclaimer: 'Sijam Consults Limited complies strictly with Nigerian and international labour laws. Sijam Consults is not an employer but a recruitment and travel facilitation partner. Job offer issuance and visa decisions remain subject to employer discretion and sovereign immigration authorities.',
   },
+  {
+    id: 'football-talent',
+    slug: 'football-talent',
+    title: 'Football Talent Networking & International Partnerships',
+    shortTitle: 'Football Intermediary',
+    group: 'Sports Mobility',
+    tagline: 'Bridging elite African football players and academies with European clubs, FIFA intermediaries, verified showcase trials, and athletic visa facilitation.',
+    heroHeadline: 'Professional Football Intermediary, European Club Trials & Athletic Visas',
+    summary: 'Sijam Consults Limited CEO James Samson is an experienced football intermediary specializing in the European and Asian football markets. In partnership with registered football federation and association intermediaries, we provide transparent player representation, authentic trial invitations, club showcases, and complete athletic mobility services for talented players (18+) and grassroots football academies. From club liaison and contract negotiations to travel visas, flights, accommodation, and player welfare management, we bridge ambitious football talent to international professional careers.',
+    badge: 'FIFA Intermediary Network',
+    videoUrl: VIDEOS.SIJAM_CONSULT_LIMITED,
+    videoPoster: '/hero/passport-hero.png',
+    whoIsThisFor: [
+      'Talented African football/soccer players (18+) without a club seeking verified European trial invitations and showcases.',
+      'Professional footballers seeking international club transfers, contract advisory, and commercial PR management.',
+      'Grassroots football academies, sports directors, and youth coaches seeking bilateral European academy partnerships and scout showcases.',
+      'Ambitious athletes and sports families requiring legitimate athletic visas, travel logistics, and contract protection.',
+    ],
+    assistanceOffered: [
+      'Official trial and showcase placement with clubs in Spain, Portugal, Turkey, Romania, Serbia, Montenegro, Belarus, Ukraine, Greece, and across Asia.',
+      'Bilateral networking with accredited European football clubs, certified scouts, and FIFA-licensed intermediaries.',
+      'Full sports visa and athletic mobility dossier preparation with bilateral consular representation.',
+      'Direct club liaison and professional contract review ensuring comprehensive player welfare and transparent terms.',
+      'Trial travel logistics: verified invitation letters, flight ticketing, and European accommodation arrangements.',
+      'Public relations (PR) solutions, commercial branding advice, and ongoing player welfare monitoring.',
+      'Football education advisory and dual-career pathways for young athletes.',
+    ],
+    keyBenefits: [
+      'Direct contact with verified club managers, licensed intermediaries, and accredited academy directors across Europe & Asia.',
+      'Zero undocumented migration: 100% legal sports mobility with official invitation letters and authenticated consular visas.',
+      'Complete player welfare protection throughout trials and during the full length of any professional contract.',
+      'Transparent advisory led personally by CEO James Samson, an experienced and registered football intermediary.',
+    ],
+    requirements: [
+      {
+        category: 'Player Athletic Profile & Footage',
+        mandatory: true,
+        items: [
+          'Comprehensive Football CV detailing playing history, positions, physical stats (height, weight, preferred foot), and past club registrations.',
+          'High-definition video highlight reel (minimum 5–10 minutes) showing competitive match footage, tactical awareness, and physical attributes.',
+          'Proof of free agency status, club release letter, or academy training certificate.',
+        ],
+      },
+      {
+        category: 'Travel & Identity Credentials',
+        mandatory: true,
+        items: [
+          'Valid International Passport with at least 18 months validity remaining.',
+          'Recent digital passport photographs complying with Schengen/European visa guidelines.',
+          'National Identification Number (NIN) registration document.',
+        ],
+      },
+      {
+        category: 'Medical & Legal Compliance',
+        mandatory: true,
+        items: [
+          'Comprehensive Sports Physical and Pre-Competition Medical Assessment (PCMA) from an accredited medical facility.',
+          'Nigeria Police Character Certificate (CID Alagbon/Abuja) authenticated by the Ministry of Foreign Affairs (MFA).',
+          'Player representation agreement and parent/guardian consent (for academy youth showcases).',
+        ],
+      },
+    ],
+    processSteps: [
+      {
+        step: 1,
+        title: 'Athletic Assessment & Video Evaluation',
+        description: 'Our sports desk reviews your competitive match footage, tactical profile, physical benchmarks, and documentation.',
+        timeline: '3–5 Business Days',
+      },
+      {
+        step: 2,
+        title: 'Club Matching & Formal Trial Invitation',
+        description: 'We present your vetted athletic dossier to partner clubs and licensed European intermediaries to secure an official trial invitation.',
+        timeline: '2–4 Weeks',
+      },
+      {
+        step: 3,
+        title: 'Sports Visa Dossier & Consular Processing',
+        description: 'Assembly of authenticated club invitation, accommodation guarantee, medical insurance, and consular sports visa submission.',
+        timeline: '2–4 Weeks',
+      },
+      {
+        step: 4,
+        title: 'Flight Logistics, European Trial & Club Liaison',
+        description: 'Verifiable flight booking, pre-departure orientation, arrival reception, and on-ground trial management with continuous player welfare monitoring.',
+        timeline: '1–3 Weeks',
+      },
+    ],
+    faqs: [
+      {
+        question: 'How does Sijam Consults assist football players with European club trials?',
+        answer: 'Sijam Consults CEO James Samson is an experienced football intermediary who maintains direct relationships with clubs, agents, scouts, and football academies in Spain, Portugal, Turkey, Romania, Serbia, Montenegro, Greece, and across Asia. We evaluate player profiles, arrange authentic trial invitations, manage consular sports visa documentation, and coordinate travel logistics.',
+      },
+      {
+        question: 'What are the minimum requirements to apply for a football trial abroad?',
+        answer: 'Players must be at least 18 years of age (or represent an accredited academy with institutional consent), possess a valid international passport, have high-quality competitive match video footage, clear medical fitness certification, and maintain a documented playing record or free-agent release letter.',
+      },
+      {
+        question: 'Does Sijam Consults guarantee a professional football contract?',
+        answer: 'We provide transparent intermediary services: securing authentic club trial invitations, compliant visa facilitation, and contract negotiations. Performance during trials, physical fitness, and club squad needs ultimately determine contract offers, which we review to ensure fair compensation and robust player welfare.',
+      },
+      {
+        question: 'Can grassroots academies partner with Sijam Consults for squad tours or scouting showcases?',
+        answer: 'Yes. We collaborate with grassroots football academies across Nigeria and West Africa to organize bilateral training camps, scouting showcases, and youth tournaments with accredited academies in Southern and Eastern Europe.',
+      },
+    ],
+    relatedServices: ['visa-assistance', 'flight-reservations', 'document-legalization'],
+    disclaimer: 'Sijam Consults Limited (RC: 1715416) provides legitimate football intermediary, sports mobility, and trial facilitation services in partnership with registered intermediaries and football associations. We do not participate in unverified trials, fake invitations, or unauthorized player trafficking. All trial invitations are vetted directly with European and Asian clubs, and final visa grants remain under sovereign consular jurisdiction.',
+  },
 ];

@@ -49,6 +49,7 @@ export const ROUTES = {
     citizenshipAssistance: '/services/citizenship-assistance',
     permanentResidency: '/services/permanent-residency',
     recruitmentSupply: '/services/recruitment-supply',
+    footballTalent: '/services/football-talent',
   },
   consultation: '/consultation',
   assessment: '/assessment',

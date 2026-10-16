@@ -8,9 +8,10 @@ export type ServiceSlug =
   | 'flight-reservations'
   | 'citizenship-assistance'
   | 'permanent-residency'
-  | 'recruitment-supply';
+  | 'recruitment-supply'
+  | 'football-talent';
 
-export type ServiceGroup = 'Academic' | 'Employment' | 'Tourism' | 'Corporate' | 'Logistics' | 'Immigration';
+export type ServiceGroup = 'Academic' | 'Employment' | 'Tourism' | 'Corporate' | 'Logistics' | 'Immigration' | 'Sports Mobility';
 
 export interface ServiceFAQ {
   question: string;

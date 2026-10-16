@@ -15,6 +15,7 @@ import {
   Sparkles,
   Award,
   Users,
+  Trophy,
 } from "lucide-react";
 import { SERVICES_DATA } from "@/lib/data/services";
 import { ROUTES } from "@/lib/routes";
@@ -22,7 +23,7 @@ import { VIDEOS } from "@/lib/constants/videos";
 
 export const metadata = {
   title: 'All Services | Sijam Consults Limited — Visa, Citizenship, Recruitment & Immigration Advisory Nigeria',
-  description: 'Complete range of immigration and travel services from Sijam Consults Limited. Study visa, work permit, tourist visa, citizenship assistance, permanent residency, recruitment & labour supply. Expert advisory from Kaduna, Nigeria. RC: 1715416.',
+  description: 'Complete range of immigration and travel services from Sijam Consults Limited. Study visa, work permit, tourist visa, citizenship assistance, permanent residency, recruitment & labour supply, and football talent intermediary. Expert advisory from Kaduna, Nigeria. RC: 1715416.',
 };
 
 const iconMap: Record<string, React.ElementType> = {
@@ -36,6 +37,7 @@ const iconMap: Record<string, React.ElementType> = {
   'citizenship-assistance': Award,
   'permanent-residency': ShieldCheck,
   'recruitment-supply': Users,
+  'football-talent': Trophy,
 };
 
 export default function ServicesCatalogPage() {

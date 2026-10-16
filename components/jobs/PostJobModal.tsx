@@ -30,8 +30,12 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import { JobListing, JobCategory, EmploymentType } from '@/lib/types';
-import { loginStaff, logoutStaff, getStaffSession } from '@/app/actions/auth';
-import { adminCreateJob } from '@/app/actions/jobs';
+import {
+  apiLoginStaff as loginStaff,
+  apiLogoutStaff as logoutStaff,
+  apiGetStaffSession as getStaffSession,
+  apiCreateJob as adminCreateJob,
+} from '@/lib/api/jobs-client';
 
 interface PostJobModalProps {
   isOpen: boolean;

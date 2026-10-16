@@ -18,6 +18,7 @@ import { Card } from '@/components/ui/Card';
 import { validateJobApplication } from '@/lib/validation';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { ROUTES } from '@/lib/routes';
+import { apiApplyCandidate } from '@/lib/api/jobs-client';
 
 export const JobApplicationForm: React.FC<{ job: JobListing }> = ({ job }) => {
   const [formData, setFormData] = useState({
@@ -59,8 +60,7 @@ export const JobApplicationForm: React.FC<{ job: JobListing }> = ({ job }) => {
 
     setIsSubmitting(true);
     try {
-      const { submitCandidateApplication } = await import('@/app/actions/jobs');
-      const res = await submitCandidateApplication({
+      const res = await apiApplyCandidate({
         jobId: job.id,
         jobSlug: job.slug,
         fullName: formData.fullName,

@@ -225,8 +225,8 @@ const PILLARS_DATA: PillarItem[] = [
       'Athlete management contract verification and international advisory',
     ],
     corridors: 'Spain, Portugal, Italy, Malta & Central Europe',
-    ctaText: 'Inquire on Sports Mobility',
-    ctaHref: `${ROUTES.contact}?intent=football_talent`,
+    ctaText: 'Explore Sports Mobility',
+    ctaHref: ROUTES.services.footballTalent,
   },
 ];
 

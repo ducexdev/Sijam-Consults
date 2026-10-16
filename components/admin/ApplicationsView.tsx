@@ -24,7 +24,7 @@ import {
   JobApplicationStatus,
   JobRecord,
 } from '@/lib/types/database';
-import { adminUpdateApplicationStatus } from '@/app/actions/jobs';
+import { apiUpdateApplicationStatus as adminUpdateApplicationStatus } from '@/lib/api/jobs-client';
 
 interface ApplicationsViewProps {
   applications: JobApplicationRecord[];
