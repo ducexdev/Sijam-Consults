@@ -39,7 +39,6 @@ import { JobListing } from '@/lib/types';
 import { formatDate, formatRelativeDays } from '@/lib/utils';
 import { formatSalaryDisplay } from '@/lib/utils/currency';
 import { ROUTES } from '@/lib/routes';
-import { PostJobModal } from './PostJobModal';
 import { JobSpecsSlideover } from './JobSpecsSlideover';
 
 interface JobsDirectoryProps {
@@ -59,9 +58,6 @@ export const JobsDirectory: React.FC<JobsDirectoryProps> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
   const [showNaira, setShowNaira] = useState(false);
-
-  // Management Frontend Post Job Modal state
-  const [isPostModalOpen, setIsPostModalOpen] = useState(false);
 
   // Slideover Detail Modal state
   const [activeJobForSpecs, setActiveJobForSpecs] = useState<JobListing | null>(null);
@@ -248,23 +244,9 @@ export const JobsDirectory: React.FC<JobsDirectoryProps> = ({
     <div ref={listingsRef} className="space-y-6">
       {/* ── TOP BILLION-DOLLAR CONTROL HUD ── */}
       <div className="p-5 sm:p-7 rounded-3xl bg-[#0E092B]/95 border border-purple-500/25 backdrop-blur-2xl shadow-2xl space-y-5">
-        {/* Top Control Bar with POST A JOB + Currency Toggle */}
+        {/* Top Control Bar with Saved Roles Tab + Currency Toggle */}
         <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 pb-4 border-b border-white/10">
           <div className="flex items-center gap-3 flex-wrap">
-            {/* MANAGEMENT: POST A JOB BUTTON (Gated by staff authentication) */}
-            <button
-              type="button"
-              onClick={() => setIsPostModalOpen(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-black font-black text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(16,185,129,0.4)] transition-all hover:scale-105 active:scale-95 cursor-pointer"
-            >
-              <ShieldCheck className="w-4 h-4 stroke-[2.5]" />
-              <span>Post A Job (Management)</span>
-              <span className="text-[10px] bg-black/20 text-black px-1.5 py-0.5 rounded font-extrabold flex items-center gap-1">
-                <Lock className="w-2.5 h-2.5" />
-                <span>Staff Auth</span>
-              </span>
-            </button>
-
             {/* Saved Jobs Filter Tab */}
             <button
               type="button"
@@ -465,17 +447,9 @@ export const JobsDirectory: React.FC<JobsDirectoryProps> = ({
             <button
               type="button"
               onClick={clearAllFilters}
-              className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-colors"
+              className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-bold text-xs shadow-md transition-all hover:brightness-110 cursor-pointer"
             >
-              Show All Quotas
-            </button>
-            <button
-              type="button"
-              onClick={() => setIsPostModalOpen(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-black font-bold text-xs"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              <span>Post This Vacancy</span>
+              Clear Search Filters &amp; Show All Quotas
             </button>
           </div>
         </div>
@@ -746,17 +720,7 @@ export const JobsDirectory: React.FC<JobsDirectoryProps> = ({
       </div>
 
       {/* ── MODALS & SLIDEOVERS ── */}
-      {/* 1. Frontend Management Post Job Modal */}
-      <PostJobModal
-        isOpen={isPostModalOpen}
-        onClose={() => setIsPostModalOpen(false)}
-        onJobCreated={(newJob) => {
-          setUserJobs((prev) => [newJob, ...prev]);
-          setActiveJobForSpecs(newJob);
-        }}
-      />
-
-      {/* 2. Slideover Full Specifications Drawer */}
+      {/* Slideover Full Specifications Drawer */}
       <JobSpecsSlideover
         job={activeJobForSpecs}
         onClose={() => setActiveJobForSpecs(null)}

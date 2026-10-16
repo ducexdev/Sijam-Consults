@@ -23,6 +23,7 @@ import {
   BookOpen,
   Sparkles,
   Award,
+  Plus,
 } from 'lucide-react';
 import { COMPANY, NAV_LINKS, ROUTES } from '@/lib/routes';
 import { Button } from '@/components/ui/Button';
@@ -337,8 +338,18 @@ export const Header: React.FC = () => {
             })}
           </nav>
 
-          {/* Action CTAs (Free Assessment & Book Consultation) */}
+          {/* Action CTAs (Free Assessment, Book Consultation, and Post A Job on jobs route) */}
           <div className="hidden lg:flex items-center gap-2.5 shrink-0">
+            {pathname.startsWith(ROUTES.jobs.root) && (
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new CustomEvent('sijam:open_post_job'))}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-black font-extrabold text-xs uppercase tracking-wider shadow-sm transition-all hover:scale-105 active:scale-95 cursor-pointer"
+              >
+                <Plus className="w-3.5 h-3.5 stroke-[3]" />
+                <span>Post A Job</span>
+              </button>
+            )}
             <Button
               href={ROUTES.assessment}
               variant="outline"

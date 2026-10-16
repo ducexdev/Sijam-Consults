@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   CheckCircle2,
@@ -40,6 +40,13 @@ export const JobsClientWrapper: React.FC = () => {
   const [countryFilter, setCountryFilter] = useState('All');
   const [isPostModalOpen, setIsPostModalOpen] = useState(false);
 
+  // Listen for global open post job event (e.g. from top header)
+  useEffect(() => {
+    const handleOpen = () => setIsPostModalOpen(true);
+    window.addEventListener('sijam:open_post_job', handleOpen);
+    return () => window.removeEventListener('sijam:open_post_job', handleOpen);
+  }, []);
+
   const handleHeroSearch = (term: string) => {
     setSearchTerm(term);
   };
@@ -78,6 +85,26 @@ export const JobsClientWrapper: React.FC = () => {
 
         {/* ── Content ── */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full space-y-6 sm:space-y-7">
+          {/* TOP RIGHT CORNER: Sijam Management "+ Post A Job" Action Bar */}
+          <div className="flex items-center justify-between gap-3 w-full pb-1">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/50 border border-white/15 text-slate-300 text-xs backdrop-blur-md">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="font-medium text-white/95">Official Foreign Quota Board</span>
+              <span className="text-white/30 hidden sm:inline">•</span>
+              <span className="text-slate-400 hidden sm:inline">Verified Employer Sponsorships</span>
+            </div>
+
+            {/* THE CANONICAL "+ POST A JOB" BUTTON IN TOP RIGHT CORNER */}
+            <button
+              type="button"
+              onClick={() => setIsPostModalOpen(true)}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-black font-black text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(16,185,129,0.45)] transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0"
+            >
+              <Plus className="w-4 h-4 stroke-[3]" />
+              <span>Post A Job</span>
+            </button>
+          </div>
+
           {/* Main Headline & Write-up (Centered) */}
           <div className="space-y-3.5 max-w-5xl mx-auto text-center">
             <h1 className="font-heading font-black text-2xl sm:text-3xl md:text-4xl lg:text-[42px] xl:text-[46px] text-white tracking-tight leading-tight drop-shadow-xl sm:whitespace-nowrap">
@@ -92,11 +119,10 @@ export const JobsClientWrapper: React.FC = () => {
             </p>
           </div>
 
-          {/* ── Connected Hero Job Search Bar with Frontend "Post A Job" Trigger ── */}
+          {/* ── Connected Hero Job Search Bar ── */}
           <HeroJobSearch
             onSearchChange={handleHeroSearch}
             onCountryChange={handleHeroCountry}
-            onOpenPostModal={() => setIsPostModalOpen(true)}
           />
 
           {/* ── Bottom Trust Stats (Centered) ── */}
@@ -169,18 +195,6 @@ export const JobsClientWrapper: React.FC = () => {
               <p className="text-sm sm:text-base text-slate-300 max-w-2xl">
                 Browse open positions with authorized visa sponsorships. Filter by destination nation, technical trade, or contract type.
               </p>
-            </div>
-
-            {/* Quick Management Link */}
-            <div className="shrink-0">
-              <button
-                type="button"
-                onClick={() => setIsPostModalOpen(true)}
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-black font-black text-xs uppercase tracking-wider shadow-lg shadow-emerald-500/20 transition-all hover:scale-105 active:scale-95 cursor-pointer"
-              >
-                <Plus className="w-4 h-4 stroke-[3]" />
-                <span>Post A Foreign Vacancy</span>
-              </button>
             </div>
           </div>
 

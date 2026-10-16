@@ -27,7 +27,7 @@ import {
   KeyRound,
   UserCheck,
   Mail,
-  ShieldAlert,
+  ExternalLink,
 } from 'lucide-react';
 import { JobListing, JobCategory, EmploymentType } from '@/lib/types';
 import { loginStaff, logoutStaff, getStaffSession } from '@/app/actions/auth';
@@ -103,9 +103,9 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4>(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [createdJobSlug, setCreatedJobSlug] = useState<string>('');
+  const [validationError, setValidationError] = useState<string | null>(null);
 
-  // Form Fields State
+  // Step 1: Core Job Details
   const [title, setTitle] = useState('');
   const [companyName, setCompanyName] = useState('Sijam Verified Partner Network');
   const [isEmployerVerified, setIsEmployerVerified] = useState(true);
@@ -115,8 +115,9 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
   const [employmentType, setEmploymentType] = useState<EmploymentType>('Full-time');
   const [vacanciesCount, setVacanciesCount] = useState<number>(10);
   const [experienceLevel, setExperienceLevel] = useState('Mid-Level (2+ Years)');
+  const [deadline, setDeadline] = useState('2026-12-31');
 
-  // Compensation & Perks
+  // Step 2: Remuneration & Relocation Perks
   const [currency, setCurrency] = useState('EUR');
   const [salaryMin, setSalaryMin] = useState('2200');
   const [salaryMax, setSalaryMax] = useState('3200');
@@ -130,7 +131,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
     'Paid Language Immersion Course',
   ]);
 
-  // Description & Requirements
+  // Step 3: Description, Responsibilities & Qualifications
   const [description, setDescription] = useState(
     'Seeking qualified international professionals for accredited foreign operations. Includes statutory work authorization, visa filing advisory, and structured employer onboarding.'
   );
@@ -145,15 +146,15 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
     'Valid International Passport with at least 18 months validity.',
     'Clean police conduct certificate.',
   ]);
-  const [deadline, setDeadline] = useState('2026-12-31');
 
-  // Verify staff session whenever modal opens
+  // Verify staff session on modal open
   useEffect(() => {
     if (!isOpen) return;
 
     let isMounted = true;
     setIsCheckingAuth(true);
     setAuthError(null);
+    setValidationError(null);
 
     getStaffSession()
       .then(({ session, profile }) => {
@@ -183,7 +184,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
     };
   }, [isOpen]);
 
-  // Sync destination currency and visa
+  // Sync destination currency and default visa terms
   useEffect(() => {
     const dest = DESTINATIONS.find((d) => d.name === selectedCountry);
     if (dest) {
@@ -194,7 +195,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
     }
   }, [selectedCountry]);
 
-  // Quick preset loader for management
+  // Quick preset loader for management convenience
   const loadPreset = (preset: 'poland_nurse' | 'uk_care' | 'slovakia_welder' | 'hgv_driver') => {
     if (preset === 'poland_nurse') {
       setTitle('Registered General Nurse (Hospital Placement)');
@@ -251,6 +252,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
         'Overtime Shifts Available (1.5x)',
       ]);
     }
+    setValidationError(null);
   };
 
   const handleTogglePerk = (perk: string) => {
@@ -291,7 +293,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
     setEligibilityRequirements((prev) => prev.filter((_, i) => i !== idx));
   };
 
-  // Staff Authentication Handlers
+  // Manual Staff Authentication Handler (Zero Auto-Fill, Pure Production)
   const handleStaffLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setAuthError(null);
@@ -327,18 +329,70 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
     setCurrentStep(1);
   };
 
-  const handleAutoFillTestAccount = () => {
-    setAuthEmail('admin@sijamconsults.com');
-    setAuthPassword('SijamAdmin@2026!');
-    setAuthError(null);
+  // Step Progression Validator (Industry Standard UX)
+  const validateStep = (step: number): boolean => {
+    setValidationError(null);
+    if (step === 1) {
+      if (!title.trim()) {
+        setValidationError('Please enter a descriptive Job Title.');
+        return false;
+      }
+      if (!location.trim()) {
+        setValidationError('Please enter the City / Region placement.');
+        return false;
+      }
+      if (!companyName.trim()) {
+        setValidationError('Please enter the Employer or Partner Network name.');
+        return false;
+      }
+      if (vacanciesCount < 1) {
+        setValidationError('Please specify at least 1 open quota spot.');
+        return false;
+      }
+    } else if (step === 2) {
+      const min = Number(salaryMin);
+      const max = Number(salaryMax);
+      if (isNaN(min) || min <= 0) {
+        setValidationError('Please enter a valid minimum salary amount.');
+        return false;
+      }
+      if (isNaN(max) || max < min) {
+        setValidationError('Maximum compensation cannot be less than the minimum salary.');
+        return false;
+      }
+      if (!visaSupportDetails.trim()) {
+        setValidationError('Please specify the statutory work permit and visa terms.');
+        return false;
+      }
+    } else if (step === 3) {
+      if (!description.trim() || description.trim().length < 20) {
+        setValidationError('Please provide a substantive job overview description (at least 20 characters).');
+        return false;
+      }
+      const activeResp = responsibilities.filter((r) => r.trim().length > 0);
+      if (activeResp.length === 0) {
+        setValidationError('Please include at least one operational responsibility duty.');
+        return false;
+      }
+      const activeReqs = eligibilityRequirements.filter((r) => r.trim().length > 0);
+      if (activeReqs.length === 0) {
+        setValidationError('Please include at least one candidate qualification requirement.');
+        return false;
+      }
+    }
+    return true;
   };
 
-  // Form Submit Handler (Authorized Management Only)
+  const handleNextStep = () => {
+    if (validateStep(currentStep)) {
+      setCurrentStep((prev) => (prev + 1) as any);
+    }
+  };
+
+  // Final Publish Handler
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title.trim()) {
-      alert('Please enter a Job Title');
-      setCurrentStep(1);
+    if (!validateStep(1) || !validateStep(2) || !validateStep(3)) {
       return;
     }
 
@@ -425,14 +479,13 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
       list.unshift(newJob);
       localStorage.setItem('sijam_posted_jobs', JSON.stringify(list));
 
-      // Broadcast live event to all components
+      // Broadcast live event to directory components
       window.dispatchEvent(new CustomEvent('sijam:job_created', { detail: newJob }));
 
       if (onJobCreated) {
         onJobCreated(newJob);
       }
 
-      setCreatedJobSlug(generatedSlug);
       setIsSuccess(true);
     } catch (err: any) {
       console.error('Error publishing job:', err);
@@ -446,6 +499,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
     setIsSuccess(false);
     setCurrentStep(1);
     setTitle('');
+    setValidationError(null);
     onClose();
   };
 
@@ -463,15 +517,15 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="font-heading font-black text-lg sm:text-xl text-white">
-                  Post A Foreign Job Vacancy
+                  Post A Job
                 </h2>
                 <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
                   <ShieldCheck className="w-3 h-3 text-emerald-400" />
-                  <span>Sijam Management Portal</span>
+                  <span>Management Desk</span>
                 </span>
               </div>
               <p className="text-xs text-slate-300">
-                Direct frontend submission • Authorized foreign quota issuance for Sijam Managing Team
+                Official foreign quota allocation • Verified employer sponsorships
               </p>
             </div>
           </div>
@@ -486,7 +540,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
           </button>
         </div>
 
-        {/* ── AUTHENTICATION STATUS / SESSION BANNER ── */}
+        {/* ── AUTHENTICATED OFFICER SESSION RIBBON ── */}
         {staffUser && !isSuccess && (
           <div className="px-6 py-2.5 bg-emerald-950/40 border-b border-emerald-500/20 flex items-center justify-between text-xs shrink-0">
             <div className="flex items-center gap-2 text-emerald-300">
@@ -513,7 +567,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
           </div>
         )}
 
-        {/* Step Indicator Bar (Only visible when authenticated and not in success view) */}
+        {/* Step Indicator Bar (Visible when authenticated and not in success view) */}
         {staffUser && !isSuccess && (
           <div className="px-6 py-3 bg-[#110B2F] border-b border-white/5 flex items-center justify-between text-xs shrink-0">
             <div className="flex items-center gap-2 sm:gap-6 overflow-x-auto">
@@ -526,7 +580,11 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                 <button
                   key={s.num}
                   type="button"
-                  onClick={() => setCurrentStep(s.num as any)}
+                  onClick={() => {
+                    if (s.num < currentStep || validateStep(currentStep)) {
+                      setCurrentStep(s.num as any);
+                    }
+                  }}
                   className={`flex items-center gap-1.5 py-1 px-2.5 rounded-lg font-bold transition-all cursor-pointer ${
                     currentStep === s.num
                       ? 'bg-[#4DA5EC]/20 text-[#4DA5EC] border border-[#4DA5EC]/40'
@@ -597,9 +655,9 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
               </p>
             </div>
           ) : !staffUser ? (
-            /* 2. Management Authentication Screen (Industry Standard Gate) */
-            <div className="max-w-xl mx-auto py-4 space-y-6 animate-fade-in">
-              {/* Security Header Banner */}
+            /* 2. Manual Management Authentication Screen (Industry Standard Production Gate) */
+            <div className="max-w-md mx-auto py-6 space-y-6 animate-fade-in">
+              {/* Security Badge Header */}
               <div className="text-center space-y-2">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-blue-500 p-0.5 mx-auto shadow-[0_0_40px_rgba(147,51,234,0.3)]">
                   <div className="w-full h-full bg-[#0C0824] rounded-[14px] flex items-center justify-center text-purple-300">
@@ -613,37 +671,9 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                 <h3 className="font-heading font-black text-2xl text-white">
                   Management Authentication
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-md mx-auto">
-                  To safeguard authenticity and prevent unauthorized listings, foreign job quotas can only be posted by accredited Sijam Consults officers.
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-sm mx-auto">
+                  Sign in with your corporate Sijam Consults credentials to publish and manage foreign job quotas.
                 </p>
-              </div>
-
-              {/* Instant Test Credentials Pill (Developer / Tester Convenience) */}
-              <div className="p-4 rounded-2xl bg-gradient-to-r from-purple-950/70 via-[#160E36] to-blue-950/70 border border-purple-500/35 space-y-3">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-                  <div className="flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
-                    <div>
-                      <div className="text-xs font-bold text-white flex items-center gap-2">
-                        <span>Management Test Account</span>
-                        <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded border border-emerald-500/30">
-                          Active Seed
-                        </span>
-                      </div>
-                      <p className="text-[11px] text-slate-300 font-mono mt-0.5">
-                        admin@sijamconsults.com · SijamAdmin@2026!
-                      </p>
-                    </div>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={handleAutoFillTestAccount}
-                    className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-[#257CFF] hover:brightness-110 text-white font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer shrink-0"
-                  >
-                    <span>⚡ Auto-Fill Credentials</span>
-                  </button>
-                </div>
               </div>
 
               {/* Error Message */}
@@ -654,19 +684,20 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                 </div>
               )}
 
-              {/* Login Form */}
+              {/* Clean Manual Login Form */}
               <form onSubmit={handleStaffLogin} className="space-y-4">
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
                     <Mail className="w-3.5 h-3.5 text-[#4DA5EC]" />
-                    <span>Corporate Staff Email</span>
+                    <span>Corporate Email Address</span>
                   </label>
                   <input
                     type="email"
                     required
+                    autoComplete="username"
                     value={authEmail}
                     onChange={(e) => setAuthEmail(e.target.value)}
-                    placeholder="e.g. admin@sijamconsults.com"
+                    placeholder="e.g. officer@sijamconsults.com"
                     className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/15 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-[#4DA5EC] focus:bg-white/[0.07] transition-all"
                   />
                 </div>
@@ -680,15 +711,16 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                     <input
                       type={showPassword ? 'text' : 'password'}
                       required
+                      autoComplete="current-password"
                       value={authPassword}
                       onChange={(e) => setAuthPassword(e.target.value)}
-                      placeholder="Enter your confidential staff password"
+                      placeholder="Enter your confidential password"
                       className="w-full px-4 py-3 pr-11 rounded-xl bg-white/[0.04] border border-white/15 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-[#4DA5EC] focus:bg-white/[0.07] transition-all"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword((prev) => !prev)}
-                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors cursor-pointer"
                       aria-label={showPassword ? 'Hide password' : 'Show password'}
                     >
                       {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -704,9 +736,9 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                       onChange={(e) => setRememberMe(e.target.checked)}
                       className="rounded border-white/20 bg-white/5 text-[#4DA5EC] focus:ring-0"
                     />
-                    <span>Remember management session (30 days)</span>
+                    <span>Remember management session</span>
                   </label>
-                  <span className="text-[11px] text-slate-400">CAC RC: 1715416 Authorized</span>
+                  <span className="text-[11px] text-slate-400">RC: 1715416</span>
                 </div>
 
                 <button
@@ -717,7 +749,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                   {isLoggingIn ? (
                     <>
                       <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      <span>Authenticating Sijam Management...</span>
+                      <span>Authenticating...</span>
                     </>
                   ) : (
                     <>
@@ -730,7 +762,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
 
               {/* Statutory Footnote */}
               <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 text-[11px] text-slate-400 text-center leading-relaxed">
-                Notice: All job quotas published are cryptographically attributed to the posting officer and strictly bound by Federal Republic of Nigeria CAC (RC: 1715416) recruitment standards and bilateral foreign employer covenants.
+                All foreign labor quotas are cryptographically stamped with the authorized officer&apos;s identity and verified under Federal Republic of Nigeria CAC (RC: 1715416) guidelines.
               </div>
             </div>
           ) : isSuccess ? (
@@ -748,7 +780,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                   Job Quota Successfully Published!
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  Your foreign vacancy <strong className="text-white">&ldquo;{title}&rdquo;</strong> is now live on the Sijam Consults recruitment directory and open to verified applicants.
+                  Your foreign vacancy <strong className="text-white">&ldquo;{title}&rdquo;</strong> is now live on the Sijam Consults recruitment directory and open to candidates.
                 </p>
                 <div className="pt-2 text-[11px] text-slate-400 font-mono">
                   Authorized by: {staffUser.full_name} ({staffUser.role})
@@ -772,23 +804,32 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                     setIsSuccess(false);
                     setCurrentStep(1);
                     setTitle('');
+                    setValidationError(null);
                   }}
                   className="w-full sm:w-auto px-6 py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white font-bold text-xs flex items-center justify-center gap-2 border border-white/15 cursor-pointer"
                 >
                   <Plus className="w-4 h-4" />
-                  <span>Post Another Vacancy</span>
+                  <span>Post Another Job</span>
                 </button>
               </div>
             </div>
           ) : (
-            /* 4. Authenticated 4-Step Wizard */
+            /* 4. Authenticated 4-Step Production Wizard */
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* STEP 1: Basic Role & Location */}
+              {/* Validation Error Banner */}
+              {validationError && (
+                <div className="p-3.5 rounded-xl bg-red-950/60 border border-red-500/40 text-red-200 text-xs flex items-center gap-2 animate-fade-in">
+                  <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+                  <span className="font-medium">{validationError}</span>
+                </div>
+              )}
+
+              {/* STEP 1: Core Job Details */}
               {currentStep === 1 && (
                 <div className="space-y-5 animate-fade-in">
                   <div className="border-b border-white/10 pb-3">
-                    <h3 className="font-heading font-black text-base sm:text-lg text-white flex items-center gap-2">
-                      <span>Step 1: Role Specification & Corridor</span>
+                    <h3 className="font-heading font-black text-base sm:text-lg text-white">
+                      Step 1: Role Specification & Corridor
                     </h3>
                     <p className="text-xs text-slate-400">
                       Define the exact professional title, destination country, and employer profile.
@@ -807,7 +848,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                         required
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        placeholder="e.g. Senior Registered Nurse, MIG Structural Welder, HGV Class 1 Driver"
+                        placeholder="e.g. Registered General Nurse (Inpatient), MIG Structural Welder"
                         className="w-full px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/15 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-[#4DA5EC] focus:bg-white/[0.07]"
                       />
                     </div>
@@ -821,7 +862,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                       <select
                         value={selectedCountry}
                         onChange={(e) => setSelectedCountry(e.target.value)}
-                        className="w-full px-4 py-2.5 rounded-xl bg-[#140D36] border border-white/15 text-white text-sm focus:outline-none focus:border-[#4DA5EC]"
+                        className="w-full px-4 py-2.5 rounded-xl bg-[#140D36] border border-white/15 text-white text-sm focus:outline-none focus:border-[#4DA5EC] cursor-pointer"
                       >
                         {DESTINATIONS.map((d) => (
                           <option key={d.name} value={d.name} className="bg-[#140D36] text-white">
@@ -831,7 +872,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                       </select>
                     </div>
 
-                    {/* Precise City / Region Location */}
+                    {/* Precise City / Region Placement */}
                     <div className="space-y-1.5">
                       <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
                         <MapPin className="w-3.5 h-3.5 text-[#4DA5EC]" />
@@ -868,7 +909,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                       <select
                         value={category}
                         onChange={(e) => setCategory(e.target.value as JobCategory)}
-                        className="w-full px-4 py-2.5 rounded-xl bg-[#140D36] border border-white/15 text-white text-sm focus:outline-none focus:border-[#4DA5EC]"
+                        className="w-full px-4 py-2.5 rounded-xl bg-[#140D36] border border-white/15 text-white text-sm focus:outline-none focus:border-[#4DA5EC] cursor-pointer"
                       >
                         {CATEGORIES.map((c) => (
                           <option key={c} value={c} className="bg-[#140D36] text-white">
@@ -884,7 +925,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                       <select
                         value={employmentType}
                         onChange={(e) => setEmploymentType(e.target.value as EmploymentType)}
-                        className="w-full px-4 py-2.5 rounded-xl bg-[#140D36] border border-white/15 text-white text-sm focus:outline-none focus:border-[#4DA5EC]"
+                        className="w-full px-4 py-2.5 rounded-xl bg-[#140D36] border border-white/15 text-white text-sm focus:outline-none focus:border-[#4DA5EC] cursor-pointer"
                       >
                         <option value="Full-time">Full-time (Statutory Permanent)</option>
                         <option value="Contract">Fixed-Term Work Contract (1-3 Yrs)</option>
@@ -921,12 +962,12 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                     </div>
 
                     {/* Experience Level Required */}
-                    <div className="space-y-1.5">
+                    <div className="space-y-1.5 sm:col-span-2">
                       <label className="text-xs font-bold text-slate-200">Minimum Experience</label>
                       <select
                         value={experienceLevel}
                         onChange={(e) => setExperienceLevel(e.target.value)}
-                        className="w-full px-4 py-2.5 rounded-xl bg-[#140D36] border border-white/15 text-white text-sm focus:outline-none focus:border-[#4DA5EC]"
+                        className="w-full px-4 py-2.5 rounded-xl bg-[#140D36] border border-white/15 text-white text-sm focus:outline-none focus:border-[#4DA5EC] cursor-pointer"
                       >
                         <option value="Entry-Level (0-1 Year)">Entry-Level (0-1 Year)</option>
                         <option value="Mid-Level (2+ Years)">Mid-Level (2+ Years)</option>
@@ -968,7 +1009,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                         <label className="text-[11px] text-slate-300 font-semibold">Minimum Net / Gross</label>
                         <div className="relative">
                           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-mono">
-                            {currency === 'GBP' ? '£' : currency === 'CAD' ? 'CA$' : '€'}
+                            {currency === 'GBP' ? '£' : currency === 'CAD' ? 'CA$' : currency === 'USD' ? '$' : '€'}
                           </span>
                           <input
                             type="number"
@@ -983,7 +1024,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                         <label className="text-[11px] text-slate-300 font-semibold">Maximum Potential</label>
                         <div className="relative">
                           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-mono">
-                            {currency === 'GBP' ? '£' : currency === 'CAD' ? 'CA$' : '€'}
+                            {currency === 'GBP' ? '£' : currency === 'CAD' ? 'CA$' : currency === 'USD' ? '$' : '€'}
                           </span>
                           <input
                             type="number"
@@ -999,7 +1040,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                         <select
                           value={salaryPeriod}
                           onChange={(e) => setSalaryPeriod(e.target.value)}
-                          className="w-full px-3 py-2 rounded-xl bg-[#140D36] border border-white/15 text-white text-sm focus:outline-none focus:border-[#4DA5EC]"
+                          className="w-full px-3 py-2 rounded-xl bg-[#140D36] border border-white/15 text-white text-sm focus:outline-none focus:border-[#4DA5EC] cursor-pointer"
                         >
                           <option value="/ month">/ month (Standard European)</option>
                           <option value="/ year">/ year (UK Annual Salary)</option>
@@ -1175,14 +1216,14 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                 <div className="space-y-5 animate-fade-in">
                   <div className="border-b border-white/10 pb-3">
                     <h3 className="font-heading font-black text-base sm:text-lg text-white">
-                      Step 4: Final Summary Review & Authorization Sign-Off
+                      Step 4: Live Preview & Publication Sign-Off
                     </h3>
                     <p className="text-xs text-slate-400">
-                      Verify the listing particulars before committing the quota to the live recruitment directory.
+                      Candidate-facing preview on the Sijam recruitment board.
                     </p>
                   </div>
 
-                  {/* Summary Preview Card */}
+                  {/* Candidate-Facing Preview Card */}
                   <div className="p-5 rounded-2xl bg-gradient-to-br from-[#160E36] to-[#0D0826] border border-purple-500/30 space-y-4">
                     <div className="flex items-start justify-between gap-3 flex-wrap">
                       <div>
@@ -1201,7 +1242,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
 
                       <div className="text-right">
                         <span className="text-sm font-black text-emerald-400">
-                          {currency === 'GBP' ? '£' : currency === 'CAD' ? 'CA$' : '€'}
+                          {currency === 'GBP' ? '£' : currency === 'CAD' ? 'CA$' : currency === 'USD' ? '$' : '€'}
                           {Number(salaryMin).toLocaleString()} – {currency === 'GBP' ? '£' : currency === 'CAD' ? 'CA$' : '€'}
                           {Number(salaryMax).toLocaleString()} {salaryPeriod}
                         </span>
@@ -1245,11 +1286,11 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                     )}
                   </div>
 
-                  {/* Authenticated Officer Sign-Off Badge */}
+                  {/* Authenticated Officer Sign-Off Stamp */}
                   <div className="p-4 rounded-2xl bg-emerald-950/30 border border-emerald-500/30 space-y-1.5">
                     <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold">
                       <ShieldCheck className="w-4 h-4" />
-                      <span>Authorized Officer Verification</span>
+                      <span>Authorized Officer Verification Stamp</span>
                     </div>
                     <p className="text-xs text-slate-300 leading-relaxed">
                       Publishing as <strong className="text-white">{staffUser.full_name}</strong> ({staffUser.role.replace('_', ' ')}). This quota will be stamped with your officer credentials and recorded in the Sijam management audit log.
@@ -1285,13 +1326,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                   {currentStep < 4 ? (
                     <button
                       type="button"
-                      onClick={() => {
-                        if (currentStep === 1 && !title.trim()) {
-                          alert('Please enter a Job Title');
-                          return;
-                        }
-                        setCurrentStep((prev) => (prev + 1) as any);
-                      }}
+                      onClick={handleNextStep}
                       className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white text-xs font-bold flex items-center gap-1.5 shadow-cta hover:brightness-110 transition-all cursor-pointer"
                     >
                       <span>Continue</span>
@@ -1311,7 +1346,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                       ) : (
                         <>
                           <Sparkles className="w-4 h-4" />
-                          <span>Authorize & Publish Vacancy</span>
+                          <span>Publish Quota to Live Board</span>
                         </>
                       )}
                     </button>
