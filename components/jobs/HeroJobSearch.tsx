@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Search, MapPin, Sparkles, Plus, Briefcase, Building2, CheckCircle2 } from 'lucide-react';
+import { Search, MapPin, Sparkles, Plus, Briefcase, Building2, CheckCircle2, ShieldCheck, Lock } from 'lucide-react';
 
 interface HeroJobSearchProps {
   onSearchChange?: (term: string) => void;
@@ -38,16 +38,17 @@ export const HeroJobSearch: React.FC<HeroJobSearchProps> = ({
           <span>Live Quota Board • Verified Employers</span>
         </div>
 
-        {/* PROMINENT "POST A JOB" MANAGEMENT BUTTON */}
+        {/* PROMINENT "POST A JOB (MANAGEMENT)" BUTTON */}
         <button
           type="button"
           onClick={onOpenPostModal}
           className="group inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-black font-extrabold text-xs shadow-[0_0_25px_rgba(16,185,129,0.4)] transition-all hover:scale-105 active:scale-95 cursor-pointer"
         >
-          <Plus className="w-3.5 h-3.5 stroke-[3] group-hover:rotate-90 transition-transform duration-200" />
-          <span>Post A Foreign Job</span>
-          <span className="text-[10px] bg-black/20 text-black px-1.5 py-0.5 rounded-md font-bold">
-            Frontend
+          <ShieldCheck className="w-3.5 h-3.5 stroke-[2.5]" />
+          <span>Post A Job (Management)</span>
+          <span className="text-[10px] bg-black/20 text-black px-1.5 py-0.5 rounded-md font-bold flex items-center gap-1">
+            <Lock className="w-2.5 h-2.5" />
+            <span>Staff Auth</span>
           </span>
         </button>
       </div>

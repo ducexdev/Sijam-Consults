@@ -31,6 +31,8 @@ import {
   ListFilter,
   DollarSign,
   Share2,
+  ShieldCheck,
+  Lock,
 } from 'lucide-react';
 import { JOBS_DATA } from '@/lib/data/jobs';
 import { JobListing } from '@/lib/types';
@@ -249,16 +251,17 @@ export const JobsDirectory: React.FC<JobsDirectoryProps> = ({
         {/* Top Control Bar with POST A JOB + Currency Toggle */}
         <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 pb-4 border-b border-white/10">
           <div className="flex items-center gap-3 flex-wrap">
-            {/* MANAGEMENT: POST A JOB BUTTON (Zero barrier, frontend posting) */}
+            {/* MANAGEMENT: POST A JOB BUTTON (Gated by staff authentication) */}
             <button
               type="button"
               onClick={() => setIsPostModalOpen(true)}
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-black font-black text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(16,185,129,0.4)] transition-all hover:scale-105 active:scale-95 cursor-pointer"
             >
-              <Plus className="w-4 h-4 stroke-[3]" />
-              <span>Post A Foreign Job</span>
-              <span className="text-[10px] bg-black/20 text-black px-1.5 py-0.5 rounded font-extrabold">
-                Frontend
+              <ShieldCheck className="w-4 h-4 stroke-[2.5]" />
+              <span>Post A Job (Management)</span>
+              <span className="text-[10px] bg-black/20 text-black px-1.5 py-0.5 rounded font-extrabold flex items-center gap-1">
+                <Lock className="w-2.5 h-2.5" />
+                <span>Staff Auth</span>
               </span>
             </button>
 

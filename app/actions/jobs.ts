@@ -140,8 +140,8 @@ export async function submitCandidateApplication(
 export async function adminCreateJob(
   jobData: {
     title: string;
-    slug: string;
-    employerId: string;
+    slug?: string;
+    employerId?: string | null;
     employerName: string;
     categoryId: string;
     country: string;
@@ -162,7 +162,7 @@ export async function adminCreateJob(
   const newJob = await dbRepository.createJob({
     slug: jobData.slug || jobData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
     title: jobData.title,
-    employer_id: jobData.employerId,
+    employer_id: jobData.employerId || 'e1000000-0000-0000-0000-000000000001',
     employer_name: jobData.employerName,
     is_employer_verified: true,
     category_id: jobData.categoryId,
