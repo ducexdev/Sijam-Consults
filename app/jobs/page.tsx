@@ -13,7 +13,6 @@ import { VIDEOS } from '@/lib/constants/videos';
 import { ROUTES } from '@/lib/routes';
 import {
   Briefcase,
-  ShieldCheck,
   CheckCircle2,
   Globe2,
   Sparkles,
@@ -61,32 +60,26 @@ export default function JobsPage() {
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full pb-14 pt-28 lg:pt-36 space-y-8">
 
             {/* Breadcrumbs */}
-            <Breadcrumbs items={[{ label: 'Foreign Jobs & Relocation' }]} />
-
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-xs text-white/90">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#F45A2A]" />
-              <span className="font-semibold tracking-wide">
-                100% Foreign Positions • CAC Registered (RC: 1715416) • Official Work Permit Quotas
-              </span>
+            <div className="flex justify-center">
+              <Breadcrumbs items={[{ label: 'Foreign Jobs & Relocation' }]} />
             </div>
 
-            {/* Main Headline */}
-            <div className="space-y-4 max-w-4xl">
-              <h1 className="font-heading font-black text-4xl sm:text-6xl lg:text-7xl text-white tracking-tight leading-[1.05] drop-shadow-xl">
+            {/* Main Headline & Write-up (Centered) */}
+            <div className="space-y-4 max-w-5xl mx-auto text-center">
+              <h1 className="font-heading font-black text-2xl sm:text-3xl md:text-4xl lg:text-[42px] xl:text-[46px] text-white tracking-tight leading-tight drop-shadow-xl sm:whitespace-nowrap">
                 Find your next job{' '}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#A855F7]">
                   opportunity,
                 </span>{' '}
                 faster.
               </h1>
-              <p className="text-base sm:text-lg text-white/80 leading-relaxed font-normal max-w-2xl">
+              <p className="text-sm sm:text-base md:text-lg text-white/80 leading-relaxed font-normal max-w-3xl mx-auto">
                 Verified foreign employer sponsorships in the UK, Poland, Slovakia, Portugal &amp; Cyprus — including full statutory work permit filings and relocation support.
               </p>
             </div>
 
-            {/* ── Jobberman-Style Search Bar ── */}
-            <div className="bg-white/[0.08] backdrop-blur-xl border border-white/20 rounded-2xl p-2 flex flex-col sm:flex-row gap-2 max-w-3xl shadow-2xl">
+            {/* ── Job Search Bar (Centered) ── */}
+            <div className="bg-white/[0.08] backdrop-blur-xl border border-white/20 rounded-2xl p-2 flex flex-col sm:flex-row gap-2 max-w-3xl mx-auto shadow-2xl w-full">
               <div className="flex items-center gap-3 flex-1 bg-white/10 rounded-xl px-4 py-3">
                 <Search className="w-5 h-5 text-white/60 shrink-0" />
                 <span className="text-white/50 text-sm select-none">Job title, keyword, or skill…</span>
@@ -104,8 +97,8 @@ export default function JobsPage() {
               </Link>
             </div>
 
-            {/* ── Bottom Trust Stats ── */}
-            <div className="flex flex-wrap items-center gap-x-8 gap-y-3 pt-2">
+            {/* ── Bottom Trust Stats (Centered) ── */}
+            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 pt-2 text-center">
               <div className="flex items-center gap-2 text-sm text-white/70">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span><strong className="text-white">Zero</strong> illegal placement fees</span>
