@@ -2,182 +2,208 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Globe2, ArrowRight, CheckCircle2, Building, ShieldCheck, MapPin } from 'lucide-react';
+import { ArrowRight, CheckCircle2, TrendingUp } from 'lucide-react';
 
 interface CountryCorridor {
   country: string;
   flag: string;
   status: string;
+  openRoles: number;
   popularRoles: string[];
   salaryBenchmark: string;
   visaType: string;
-  perks: string;
   accent: string;
+  accentBorder: string;
+  accentText: string;
 }
 
 const CORRIDORS: CountryCorridor[] = [
   {
-    country: 'Poland & Schengen',
+    country: 'Poland',
     flag: '🇵🇱',
-    status: 'High Volume Quotas',
-    popularRoles: ['Registered Nurses', 'Heavy Truck Drivers', 'Automation Electricians', 'Bakery Operatives'],
-    salaryBenchmark: '€1,500 – €3,500 / month',
-    visaType: 'Voivodeship Type-A Work Permit',
-    perks: 'Subsidized housing & Schengen travel',
-    accent: 'from-blue-500/20 to-purple-600/20',
+    status: 'High Volume',
+    openRoles: 42,
+    popularRoles: ['Nurses', 'Truck Drivers', 'Electricians', 'Bakery Ops'],
+    salaryBenchmark: '€1,500 – €3,500/mo',
+    visaType: 'Voivodeship Permit',
+    accent: 'from-blue-500/10 to-purple-600/10',
+    accentBorder: 'border-blue-500/30 hover:border-blue-400/60',
+    accentText: 'text-blue-300',
   },
   {
     country: 'United Kingdom',
     flag: '🇬🇧',
-    status: 'Direct Sponsor Quota',
-    popularRoles: ['Senior Care Assistants', 'Hospital Support', 'Specialist Technicians', 'Software Engineers'],
-    salaryBenchmark: '£23,800 – £38,000 / year',
-    visaType: 'Health & Care Worker / Skilled Worker CoS',
-    perks: 'NHS surcharge discount & 5-yr ILR pathway',
-    accent: 'from-red-500/20 to-blue-600/20',
+    status: 'Direct CoS',
+    openRoles: 28,
+    popularRoles: ['Care Assistants', 'Hospital Support', 'SW Engineers', 'Technicians'],
+    salaryBenchmark: '£23,800 – £38k/yr',
+    visaType: 'Health & Care Worker Visa',
+    accent: 'from-red-500/10 to-blue-600/10',
+    accentBorder: 'border-red-500/30 hover:border-red-400/60',
+    accentText: 'text-red-300',
   },
   {
     country: 'Slovakia',
     flag: '🇸🇰',
-    status: 'Heavy Industry Hiring',
-    popularRoles: ['Certified MIG/MAG Welders', 'Automotive Assemblers', 'CNC Operators', 'Fabricators'],
-    salaryBenchmark: '€1,800 – €2,600 / month',
+    status: 'Industry Hiring',
+    openRoles: 18,
+    popularRoles: ['MIG/MAG Welders', 'CNC Operators', 'Assemblers', 'Fabricators'],
+    salaryBenchmark: '€1,800 – €2,600/mo',
     visaType: 'Single Residence & Work Permit',
-    perks: 'Free employer dormitory & shift bonuses',
-    accent: 'from-amber-500/20 to-purple-600/20',
+    accent: 'from-amber-500/10 to-purple-600/10',
+    accentBorder: 'border-amber-500/30 hover:border-amber-400/60',
+    accentText: 'text-amber-300',
   },
   {
     country: 'Portugal',
     flag: '🇵🇹',
-    status: 'Agricultural & Tech',
-    popularRoles: ['Greenhouse Technicians', 'Irrigation Managers', 'D8 Tech Nomads', 'Hospitality Staff'],
-    salaryBenchmark: '€1,200 – €2,200 / month',
-    visaType: 'D1 / D3 Subordinate Work Visa',
-    perks: 'Farm accommodation & EU residency rights',
-    accent: 'from-emerald-500/20 to-teal-600/20',
+    status: 'Agri & Tech',
+    openRoles: 12,
+    popularRoles: ['Greenhouse Techs', 'Irrigation Mgrs', 'Hospitality', 'D8 Nomads'],
+    salaryBenchmark: '€1,200 – €2,200/mo',
+    visaType: 'D1 / D3 Work Visa',
+    accent: 'from-emerald-500/10 to-teal-600/10',
+    accentBorder: 'border-emerald-500/30 hover:border-emerald-400/60',
+    accentText: 'text-emerald-300',
   },
   {
     country: 'Cyprus',
     flag: '🇨🇾',
     status: 'Resort Quotas',
-    popularRoles: ['Front Office Supervisors', 'Executive Chefs', 'Guest Relations Managers', 'F&B Supervisors'],
-    salaryBenchmark: '$1,400 – $2,000 / month',
-    visaType: 'Ministry of Labor Foreign Permit',
-    perks: 'Resort accommodation + duty meals included',
-    accent: 'from-orange-500/20 to-amber-600/20',
+    openRoles: 9,
+    popularRoles: ['Front Office', 'Exec Chefs', 'Guest Relations', 'F&B Supervisors'],
+    salaryBenchmark: '$1,400 – $2,000/mo',
+    visaType: 'Ministry of Labor Permit',
+    accent: 'from-orange-500/10 to-amber-600/10',
+    accentBorder: 'border-orange-500/30 hover:border-orange-400/60',
+    accentText: 'text-orange-300',
   },
   {
     country: 'Germany',
     flag: '🇩🇪',
-    status: 'Chancenkarte Advisory',
-    popularRoles: ['Qualified Nurses (B2)', 'Mechanical Engineers', 'IT Architects', 'Apprentices (Ausbildung)'],
-    salaryBenchmark: '€2,800 – €4,800 / month',
-    visaType: 'Opportunity Card & Skilled Immigration',
-    perks: 'High standard of living & family reunification',
-    accent: 'from-yellow-500/20 to-slate-600/20',
+    status: 'Chancenkarte',
+    openRoles: 15,
+    popularRoles: ['Qualified Nurses', 'Mech Engineers', 'IT Architects', 'Ausbildung'],
+    salaryBenchmark: '€2,800 – €4,800/mo',
+    visaType: 'Opportunity Card',
+    accent: 'from-yellow-500/10 to-slate-600/10',
+    accentBorder: 'border-yellow-500/30 hover:border-yellow-400/60',
+    accentText: 'text-yellow-300',
   },
+];
+
+const QUICK_SECTORS = [
+  'Healthcare & Nursing',
+  'Logistics & Transport',
+  'Engineering & Construction',
+  'Manufacturing & Production',
+  'Information Technology',
+  'Hospitality & Tourism',
+  'Agriculture & Processing',
+  'Skilled Trades',
+  'Automotive Assembly',
+  'Residential Care',
 ];
 
 export const CountryCorridors: React.FC = () => {
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
+      {/* Section header */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-950/60 text-purple-300 border border-purple-800/40 text-[11px] font-bold uppercase tracking-wider mb-2">
-            <Globe2 className="w-3.5 h-3.5 text-[#F45A2A]" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-950/60 text-purple-300 border border-purple-800/40 text-[11px] font-bold uppercase tracking-wider mb-3">
+            <TrendingUp className="w-3.5 h-3.5 text-[#F45A2A]" />
             <span>Target Work Destinations</span>
           </div>
-          <h2 className="font-heading font-black text-2xl sm:text-3xl text-white">
-            Explore Opportunities by Foreign Destination
+          <h2 className="font-heading font-black text-2xl sm:text-3xl lg:text-4xl text-white leading-tight">
+            Explore opportunities that<br className="hidden sm:block" />{' '}
+            match your experience
           </h2>
-          <p className="text-sm text-slate-300 mt-1 max-w-2xl">
-            We only process jobs with statutory labor authority approvals in these vetted sovereign corridors.
+          <p className="text-sm text-slate-300 mt-2 max-w-2xl">
+            We process only jobs with statutory labor authority approvals in these vetted sovereign corridors.
           </p>
         </div>
+        <Link
+          href="#directory"
+          className="inline-flex items-center gap-1.5 text-sm font-bold text-[#4DA5EC] hover:text-white transition-colors shrink-0 group"
+        >
+          <span>View all open roles</span>
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+        </Link>
       </div>
 
-      {/* Grid of 6 Country Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {/* Horizontal scroll card row */}
+      <div className="flex gap-4 overflow-x-auto pb-3 -mx-1 px-1 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/10">
         {CORRIDORS.map((corridor) => (
-          <div
+          <Link
             key={corridor.country}
-            className="p-6 rounded-3xl bg-[#0D0826]/90 hover:bg-[#120A38] border border-white/10 hover:border-purple-500/40 transition-all duration-300 group hover:-translate-y-1 shadow-xl flex flex-col justify-between space-y-5 backdrop-blur-xl relative overflow-hidden"
+            href={`/services/work-visa?country=${encodeURIComponent(corridor.country)}`}
+            className={`shrink-0 w-[240px] sm:w-[260px] flex flex-col justify-between p-5 rounded-2xl bg-gradient-to-br ${corridor.accent} bg-[#0D0826] border ${corridor.accentBorder} transition-all duration-300 group hover:-translate-y-1 shadow-xl backdrop-blur-xl relative overflow-hidden cursor-pointer`}
           >
-            {/* Background Accent glow */}
-            <div className={`absolute -top-16 -right-16 w-36 h-36 rounded-full bg-gradient-to-br ${corridor.accent} blur-2xl pointer-events-none group-hover:scale-125 transition-transform`} />
+            {/* Background glow */}
+            <div className="absolute -top-8 -right-8 w-24 h-24 rounded-full bg-white/5 blur-2xl pointer-events-none group-hover:scale-150 transition-transform duration-500" />
 
-            <div className="space-y-4 relative z-10">
-              {/* Header with Flag and Status */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <span className="text-3xl filter drop-shadow-md">{corridor.flag}</span>
-                  <div>
-                    <h3 className="font-heading font-extrabold text-lg text-white group-hover:text-[#F98864] transition-colors">
-                      {corridor.country}
-                    </h3>
-                    <span className="text-[11px] text-emerald-400 font-semibold flex items-center gap-1">
-                      <CheckCircle2 className="w-3 h-3" />
-                      {corridor.status}
-                    </span>
-                  </div>
-                </div>
+            <div className="relative z-10 space-y-4">
+              {/* Flag + open count */}
+              <div className="flex items-start justify-between">
+                <span className="text-5xl leading-none filter drop-shadow-lg">{corridor.flag}</span>
+                <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-lg bg-white/10 border border-white/10 ${corridor.accentText}`}>
+                  {corridor.status}
+                </span>
               </div>
 
-              {/* Salary Package Benchmark */}
-              <div className="p-3 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
-                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                  Typical Foreign Salary Range
-                </div>
-                <div className="text-base font-black text-emerald-400">
-                  {corridor.salaryBenchmark}
-                </div>
-              </div>
-
-              {/* Popular Roles in corridor */}
+              {/* Country + open roles */}
               <div>
-                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">
-                  High-Demand Foreign Professions:
-                </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {corridor.popularRoles.map((role, i) => (
-                    <span
-                      key={i}
-                      className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-[#1F1545]/60 text-purple-200 border border-purple-500/20"
-                    >
-                      {role}
-                    </span>
-                  ))}
+                <h3 className="font-heading font-extrabold text-lg text-white group-hover:text-white leading-tight">
+                  {corridor.country}
+                </h3>
+                <div className={`text-xs font-semibold mt-0.5 flex items-center gap-1 ${corridor.accentText}`}>
+                  <CheckCircle2 className="w-3 h-3" />
+                  {corridor.openRoles} open positions
                 </div>
               </div>
 
-              {/* Visa & Perks Info */}
-              <div className="text-xs text-slate-300 space-y-1 pt-1 border-t border-white/10">
-                <div className="flex items-start gap-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-purple-400 shrink-0 mt-0.5" />
-                  <span className="text-[11px] text-slate-300">
-                    <strong className="text-white">Visa Route:</strong> {corridor.visaType}
-                  </span>
-                </div>
-                <div className="flex items-start gap-1.5">
-                  <Building className="w-3.5 h-3.5 text-[#F45A2A] shrink-0 mt-0.5" />
-                  <span className="text-[11px] text-slate-300">
-                    <strong className="text-white">Key Perks:</strong> {corridor.perks}
-                  </span>
-                </div>
+              {/* Salary */}
+              <div className="text-xs font-bold text-emerald-400">
+                {corridor.salaryBenchmark}
+              </div>
+
+              {/* Top roles */}
+              <div className="space-y-1">
+                {corridor.popularRoles.slice(0, 3).map((role, i) => (
+                  <div key={i} className="text-[11px] text-slate-300 flex items-center gap-1.5">
+                    <span className="w-1 h-1 rounded-full bg-white/30 shrink-0" />
+                    {role}
+                  </div>
+                ))}
               </div>
             </div>
 
-            <div className="pt-2 relative z-10">
-              <Link
-                href={`/services/work-visa?country=${encodeURIComponent(corridor.country)}`}
-                className="w-full inline-flex items-center justify-between px-4 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] text-xs font-bold text-white border border-white/10 transition-colors group-hover:border-[#4DA5EC]/40"
-              >
-                <span>Explore {corridor.country} Pathway</span>
-                <ArrowRight className="w-3.5 h-3.5 text-[#F45A2A] group-hover:translate-x-1 transition-transform" />
-              </Link>
+            {/* CTA */}
+            <div className="relative z-10 mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs font-bold text-white/70 group-hover:text-white transition-colors">
+              <span>Explore pathway</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform text-[#F45A2A]" />
             </div>
-          </div>
+          </Link>
         ))}
+      </div>
+
+      {/* Quick sector chips */}
+      <div className="border-t border-white/10 pt-6">
+        <div className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-3">
+          Browse by sector:
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {QUICK_SECTORS.map((sector) => (
+            <Link
+              key={sector}
+              href="#directory"
+              className="px-3 py-1.5 rounded-full text-xs font-semibold bg-white/[0.05] hover:bg-white/[0.12] text-slate-300 hover:text-white border border-white/10 hover:border-white/20 transition-all"
+            >
+              {sector}
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );
