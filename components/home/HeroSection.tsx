@@ -146,7 +146,7 @@ export const HeroSection: React.FC = () => {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
               </span>
               <span className="font-semibold text-white tracking-wide">
-                CAC-Registered · RC: 1715416 · Consultations Open Now
+                Trusted Immigration &amp; Travel Agency
               </span>
             </div>
 

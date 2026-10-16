@@ -38,14 +38,15 @@ export const VideoTestimonialsSection: React.FC = () => {
           </Link>
         </div>
 
-        {/* Video & Review Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Video & Review Grid — portrait side-by-side */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-start max-w-3xl mx-auto lg:max-w-none lg:grid-cols-2">
           {/* Main Video Testimonial 1 */}
-          <div className="lg:col-span-6 space-y-4">
+          <div className="space-y-4">
             <div className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-black">
               <VideoPlayer
                 src={VIDEOS.TESTIMONIAL_1}
                 title="Client Review: Approved Polish Admission & Visa"
+                aspectRatio="9/16"
               />
             </div>
             <div className="p-5 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-md">
@@ -63,12 +64,13 @@ export const VideoTestimonialsSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Testimonial Cards & Video 2 */}
-          <div className="lg:col-span-6 space-y-4">
+          {/* Video Testimonial 2 */}
+          <div className="space-y-4">
             <div className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-black">
               <VideoPlayer
                 src={VIDEOS.TESTIMONIAL_2}
                 title="Client Review: Polish Skilled Labor Authorization"
+                aspectRatio="9/16"
               />
             </div>
             <div className="p-5 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-md">
