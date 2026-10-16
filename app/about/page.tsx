@@ -133,7 +133,7 @@ export default function AboutPage() {
 
               {/* Subtitle with executive clarity */}
               <p className="text-base sm:text-xl text-slate-300 leading-relaxed font-normal max-w-3xl">
-                Founded to replace industry deception with forensic consular compliance, <strong className="text-white font-semibold">Sijam Consults Limited</strong> is Nigeria’s accredited international educational placement, work permit architecture, and executive travel consultancy. We engineer airtight legal dossiers that command unconditional respect at foreign sovereign embassies.
+                <strong className="text-white font-semibold">Sijam Consults Limited</strong> is a Nigerian-based consultancy company specializing in Recruitment &amp; Manpower Solutions, International Student Recruitment &amp; Study Abroad Services, Immigration &amp; Work Permit Consultancy, Travel Consultancy, and International Business Consultancy.
               </p>
 
               {/* Primary Actions */}
