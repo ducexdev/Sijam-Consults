@@ -31,6 +31,7 @@ import {
   apiUpdateJob as adminUpdateJob,
   apiDeleteJob as adminDeleteJob,
 } from '@/lib/api/jobs-client';
+import { JOB_DESTINATIONS, DESTINATION_REGIONS } from '@/lib/data/jobs';
 
 interface JobsViewProps {
   jobs: JobRecord[];
@@ -427,6 +428,39 @@ export function JobsView({
                         {cat.name}
                       </option>
                     ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-[11px] uppercase font-bold text-slate-400 mb-1">
+                    Destination Country Corridor
+                  </label>
+                  <select
+                    value={country}
+                    onChange={(e) => {
+                      const cName = e.target.value;
+                      setCountry(cName);
+                      const dest = JOB_DESTINATIONS.find((d) => d.name === cName);
+                      if (dest) {
+                        setLocation(dest.sampleLocation);
+                        setVisaSupportDetails(`Full employer ${dest.defaultVisa} sponsorship included.`);
+                      }
+                    }}
+                    className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-purple-500"
+                  >
+                    {DESTINATION_REGIONS.map((region) => {
+                      const regionDests = JOB_DESTINATIONS.filter((d) => d.region === region);
+                      if (regionDests.length === 0) return null;
+                      return (
+                        <optgroup key={region} label={region} className="bg-slate-900 text-purple-400 font-bold">
+                          {regionDests.map((d) => (
+                            <option key={d.name} value={d.name} className="text-white font-normal">
+                              {d.flag} {d.name} ({d.currency})
+                            </option>
+                          ))}
+                        </optgroup>
+                      );
+                    })}
                   </select>
                 </div>
 

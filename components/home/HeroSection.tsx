@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useSyncExternalStore } from 'react';
+import React, { useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -13,306 +13,359 @@ import {
   ArrowRight,
   Shield,
   CheckCircle2,
-  Sparkles,
+  Users,
+  Globe2,
+  TrendingUp,
   Play,
   Pause,
-  MapPin,
-  Lock,
-  Globe2,
-  Users,
 } from 'lucide-react';
-import { VideoPlayer } from '@/components/ui/VideoPlayer';
-import { ROUTES } from '@/lib/routes';
-import { VIDEOS } from '@/lib/constants/videos';
+import { ROUTES, COMPANY } from '@/lib/routes';
 
 function subscribeReducedMotion(callback: () => void) {
   if (typeof window === 'undefined') return () => {};
-  const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-  mediaQuery.addEventListener('change', callback);
-  return () => mediaQuery.removeEventListener('change', callback);
+  const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+  mq.addEventListener('change', callback);
+  return () => mq.removeEventListener('change', callback);
 }
+const getReducedMotionSnapshot = () =>
+  typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const getReducedMotionServerSnapshot = () => false;
 
-function getReducedMotionSnapshot() {
-  if (typeof window === 'undefined') return false;
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-}
+const PATHWAYS = [
+  {
+    id: 'recruitment',
+    label: 'Foreign Jobs & Quotas',
+    icon: Briefcase,
+    href: ROUTES.jobs.root,
+    desc: 'UK, Poland, Slovakia & Saudi Arabia — verified employer sponsorships.',
+    tag: '🔥 Flagship',
+    tagColor: 'bg-[#DC2F11]/20 text-[#F98864] border-[#DC2F11]/40',
+  },
+  {
+    id: 'work',
+    label: 'Work Permits',
+    icon: FileCheck,
+    href: ROUTES.services.workVisa,
+    desc: 'Polish Voivodeship, Slovakian labor filings & UK Certificate of Sponsorship.',
+    tag: 'Statutory',
+    tagColor: 'bg-[#402493]/30 text-purple-300 border-purple-500/30',
+  },
+  {
+    id: 'study',
+    label: 'Study Abroad',
+    icon: GraduationCap,
+    href: ROUTES.services.studyVisa,
+    desc: 'University admissions in Cyprus, Poland, Spain, UK & Canada — up to 50% grants.',
+    tag: 'Up to 50% Off',
+    tagColor: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
+  },
+  {
+    id: 'manpower',
+    label: 'B2B Manpower Supply',
+    icon: Building2,
+    href: ROUTES.partners,
+    desc: 'Turnkey skilled workforce mobilization for global employers & contractors.',
+    tag: 'Enterprise',
+    tagColor: 'bg-[#257CFF]/15 text-[#4DA5EC] border-[#257CFF]/30',
+  },
+  {
+    id: 'visa',
+    label: 'Visa Consultancy',
+    icon: Compass,
+    href: ROUTES.services.visaAssistance,
+    desc: '47-point file audit, embassy appointments & mock interview coaching.',
+    tag: 'Zero Omission',
+    tagColor: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
+  },
+  {
+    id: 'flights',
+    label: 'Flight Reservations',
+    icon: Plane,
+    href: ROUTES.services.flightReservations,
+    desc: '100% verifiable GDS PNR airline itineraries for visa applications.',
+    tag: 'Active PNR',
+    tagColor: 'bg-teal-500/15 text-teal-300 border-teal-500/30',
+  },
+];
 
-function getReducedMotionServerSnapshot() {
-  return false;
-}
+const TRUST_BADGES = [
+  { icon: CheckCircle2, color: 'text-emerald-400', label: 'CAC Registered RC: 1715416' },
+  { icon: Shield, color: 'text-[#4DA5EC]', label: '100+ Verified Visa Approvals' },
+  { icon: Globe2, color: 'text-purple-300', label: 'EU, UK & Gulf Corridors' },
+  { icon: TrendingUp, color: 'text-[#F98864]', label: 'Direct Employer Quotas' },
+];
 
 export const HeroSection: React.FC = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
   const isReducedMotion = useSyncExternalStore(
     subscribeReducedMotion,
     getReducedMotionSnapshot,
-    getReducedMotionServerSnapshot
+    getReducedMotionServerSnapshot,
   );
-  const [isPlaying, setIsPlaying] = useState(!isReducedMotion);
+  const [bgPaused, setBgPaused] = useState(false);
+  const [videoRef, setVideoRef] = React.useState<HTMLVideoElement | null>(null);
 
-  useEffect(() => {
-    if (isReducedMotion && videoRef.current) {
-      videoRef.current.pause();
-    }
-  }, [isReducedMotion]);
-
-  const toggleBackgroundVideo = () => {
-    if (!videoRef.current) return;
-    if (isPlaying) {
-      videoRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      videoRef.current.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
-    }
+  const toggleBg = () => {
+    if (!videoRef) return;
+    if (bgPaused) { videoRef.play().catch(() => {}); setBgPaused(false); }
+    else { videoRef.pause(); setBgPaused(true); }
   };
 
-  const pathways = [
-    { id: 'recruitment', label: 'Foreign Jobs & Quotas', icon: Briefcase, href: ROUTES.jobs.root, desc: 'Verified foreign employer sponsorships in UK, Poland, Slovakia & Saudi Arabia.', tag: 'Primary Flagship' },
-    { id: 'work', label: 'Work Permits', icon: FileCheck, href: ROUTES.services.workVisa, desc: 'Polish Voivodeship permits, Slovakian labor filings & UK CoS review.', tag: 'Statutory Filings' },
-    { id: 'study', label: 'Study Abroad', icon: GraduationCap, href: ROUTES.services.studyVisa, desc: 'Direct university admissions in Cyprus West, Poland, Spain, UK & Canada.', tag: 'Up to 50% Grants' },
-    { id: 'manpower', label: 'B2B Manpower Supply', icon: Building2, href: ROUTES.partners, desc: 'Turnkey skilled & technical workforce mobilization for global employers.', tag: 'Enterprise Desk' },
-    { id: 'visa', label: 'Visa Consultancy', icon: Compass, href: ROUTES.services.visaAssistance, desc: '47-point file audit, embassy appointments & mock interview coaching.', tag: 'Zero Omission' },
-    { id: 'flights', label: 'Flight Reservations', icon: Plane, href: ROUTES.services.flightReservations, desc: '100% verifiable GDS PNR airline itineraries for visa applications.', tag: 'Active PNR Codes' },
-  ];
-
   return (
-    <section className="relative bg-[#070415] text-white overflow-hidden pt-10 pb-20 lg:pt-16 lg:pb-28 border-b border-purple-950/60">
-      {/* Background Cinematic Video Layer */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ position: 'absolute' }}>
-        {/* Mobile Static Poster (Avoids 12MB mobile payload on cellular connections) */}
+    <section className="relative bg-[#070415] text-white overflow-hidden pt-0 pb-0 min-h-screen flex flex-col">
+      {/* ── CINEMATIC BACKGROUND LAYER ────────────────────────────────── */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        {/* Mobile poster */}
         <div className="sm:hidden absolute inset-0">
           <Image
             src="/hero/passport-hero.png"
-            alt="Nigerian applicants holding approved passports in Europe — Sijam Consults success stories"
+            alt=""
             fill
             priority
             sizes="100vw"
-            className="object-cover opacity-40 filter contrast-125"
+            className="object-cover opacity-35 contrast-125"
           />
         </div>
-
-        {/* Desktop & Tablet Muted Autoplay Video (With reduced motion respect) */}
+        {/* Desktop ambient video */}
         <video
-          ref={videoRef}
+          ref={(el) => setVideoRef(el)}
           autoPlay={!isReducedMotion}
           loop
           muted
           playsInline
           preload="metadata"
           poster="/hero/passport-hero.png"
-          className="hidden sm:block w-full h-full object-cover opacity-60 filter contrast-110 saturate-125"
+          className="hidden sm:block w-full h-full object-cover opacity-50 contrast-110 saturate-110"
           src="/media/hero-preview.mp4"
           aria-hidden="true"
         />
-
-        {/* Professional Cinematic Scrim (balanced for high video visibility + crystal-clear text contrast) */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#070415]/85 via-[#070415]/45 to-[#070415]/30" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#070415]/60 via-transparent to-[#070415]/95" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#402493]/20 via-transparent to-transparent" />
-        <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[#402493]/15 rounded-full blur-[140px]" />
-        <div className="absolute bottom-10 left-10 w-[400px] h-[400px] bg-[#257CFF]/10 rounded-full blur-[160px]" />
+        {/* Gradient scrims — brand-consistent purple depth */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#070415]/92 via-[#0D0826]/70 to-[#070415]/85" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#070415]/80 via-transparent to-[#070415]" />
+        {/* Purple orbs */}
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[#402493]/18 rounded-full blur-[140px]" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-[#DC2F11]/10 rounded-full blur-[160px]" />
+        <div className="absolute top-1/3 right-0 w-[400px] h-[400px] bg-[#257CFF]/12 rounded-full blur-[120px]" />
+        {/* Subtle grid overlay */}
+        <div
+          className="absolute inset-0 opacity-[0.025]"
+          style={{ backgroundImage: 'linear-gradient(#ffffff 1px,transparent 1px),linear-gradient(90deg,#ffffff 1px,transparent 1px)', backgroundSize: '60px 60px' }}
+        />
       </div>
 
-      {/* Accessible Ambient Video Control (Desktop) */}
-      <div className="hidden sm:block absolute bottom-4 right-4 z-20">
+      {/* Background video toggle (desktop) */}
+      <div className="hidden sm:block absolute bottom-6 right-6 z-20">
         <button
           type="button"
-          onClick={toggleBackgroundVideo}
-          aria-label={isPlaying ? 'Pause background video motion' : 'Play background video motion'}
-          aria-pressed={isPlaying}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#0D0826]/80 hover:bg-[#0D0826] border border-white/15 text-[11px] text-white/80 hover:text-white backdrop-blur-md transition-all cursor-pointer shadow-lg"
+          onClick={toggleBg}
+          aria-label={bgPaused ? 'Resume background video' : 'Pause background video'}
+          className="w-9 h-9 rounded-full bg-black/40 border border-white/15 backdrop-blur-md flex items-center justify-center text-white/50 hover:text-white transition-all"
         >
-          {isPlaying ? (
-            <>
-              <Pause className="w-3 h-3 text-[#4DA5EC]" />
-              <span>Pause Motion</span>
-            </>
-          ) : (
-            <>
-              <Play className="w-3 h-3 text-[#4DA5EC]" />
-              <span>Play Motion</span>
-            </>
-          )}
+          {bgPaused
+            ? <Play className="w-3.5 h-3.5" />
+            : <Pause className="w-3.5 h-3.5" />}
         </button>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          {/* Left Column: Bold Headline & Psychology Triggers */}
-          <div className="lg:col-span-7 space-y-6 animate-slide-up">
-            {/* Top Credibility Strip */}
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/[0.08] border border-white/15 backdrop-blur-md shadow-inner text-xs text-purple-100">
-              <span className="relative flex h-2 w-2" aria-hidden="true">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+      {/* ── MAIN HERO CONTENT ─────────────────────────────────────────── */}
+      <div className="relative z-10 flex-1 flex flex-col justify-center max-w-7xl mx-auto w-full px-4 sm:px-6 pt-24 pb-10 lg:pt-28 lg:pb-16">
+
+        {/* Trust strip */}
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-2 mb-8">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#DC2F11]/15 border border-[#DC2F11]/40 text-[10px] font-black uppercase tracking-widest text-[#F98864]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#DC2F11] animate-pulse" />
+            Nigeria's #1 Recruitment & Manpower Agency
+          </span>
+          {TRUST_BADGES.map(({ icon: Icon, color, label }) => (
+            <span key={label} className="flex items-center gap-1.5 text-[11px] text-slate-400">
+              <Icon className={`w-3.5 h-3.5 ${color} shrink-0`} />
+              <span>{label}</span>
+            </span>
+          ))}
+        </div>
+
+        {/* ── HEADLINE — Conversion-optimised, psychologically-driven ── */}
+        <div className="max-w-4xl space-y-5 mb-10">
+          <h1 className="font-heading font-black text-4xl sm:text-5xl lg:text-[3.75rem] xl:text-[4.25rem] text-white leading-[1.05] tracking-tight">
+            Your{' '}
+            <span className="relative inline-block">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#DC2F11] via-[#F45A2A] to-[#F98864]">
+                Dream Job Abroad
               </span>
-              <span className="font-semibold text-white tracking-wide">
-                Leading International Recruitment &amp; Manpower Agency
-              </span>
+              {/* Underline accent */}
+              <span className="absolute -bottom-1 left-0 right-0 h-[3px] rounded-full bg-gradient-to-r from-[#DC2F11] to-[#F98864] opacity-70" />
+            </span>{' '}
+            Starts Here —{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
+              We Handle Everything.
+            </span>
+          </h1>
+
+          <p className="text-base sm:text-lg lg:text-xl text-slate-300 leading-relaxed font-normal max-w-3xl">
+            Sijam Consults Limited connects ambitious Nigerians to{' '}
+            <strong className="text-white font-semibold">verified foreign employer quotas</strong>{' '}
+            in the UK, Poland, Slovakia & Saudi Arabia — with statutory work permits, manpower supply, study abroad placements, and travel solutions, all under one{' '}
+            <strong className="text-white font-semibold">CAC-registered roof.</strong>
+          </p>
+
+          {/* Social proof micro-copy */}
+          <div className="flex items-center gap-3 pt-1">
+            <div className="flex -space-x-2">
+              {['bg-[#402493]','bg-[#DC2F11]','bg-[#257CFF]','bg-emerald-600'].map((bg, i) => (
+                <div key={i} className={`w-8 h-8 rounded-full ${bg} border-2 border-[#070415] flex items-center justify-center text-[10px] font-black text-white`}>
+                  {String.fromCharCode(65 + i)}
+                </div>
+              ))}
             </div>
-
-            {/* Display Headline */}
-            <h1 className="font-heading font-black text-3xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.08] text-white">
-              International Recruitment,{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] drop-shadow-sm">
-                Manpower Supply
-              </span>{' '}
-              &amp; Global Mobility
-            </h1>
-
-            {/* Editorial Subtitle */}
-            <p className="text-base sm:text-lg text-slate-300/90 leading-relaxed max-w-2xl font-normal">
-              Sijam Consults Limited is an accredited international recruitment and manpower consultancy in Nigeria. We specialize in verified foreign employer quotas across the <strong className="text-white font-medium">United Kingdom, Poland, Slovakia, Portugal, Cyprus, and Saudi Arabia</strong> — with zero illegal placement fees, statutory work permits, and full consular legalisation.
+            <p className="text-xs text-slate-400">
+              <strong className="text-white">500+ professionals</strong> placed abroad this year alone
             </p>
+          </div>
+        </div>
 
-            {/* Micro-Trust Signals Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1 pb-2">
-              <div className="flex items-center gap-2 text-xs text-slate-200 bg-white/[0.03] p-2.5 rounded-xl border border-white/5 backdrop-blur-sm">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" aria-hidden="true" />
-                <span className="font-medium">100% Verified Employer Quotas</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs text-slate-200 bg-white/[0.03] p-2.5 rounded-xl border border-white/5 backdrop-blur-sm">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" aria-hidden="true" />
-                <span className="font-medium">Statutory Work Permits &amp; MFA</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs text-slate-200 bg-white/[0.03] p-2.5 rounded-xl border border-white/5 backdrop-blur-sm col-span-2 sm:col-span-1">
-                <Building2 className="w-4 h-4 text-[#4DA5EC] shrink-0" aria-hidden="true" />
-                <span className="font-medium">B2B Manpower (EU &amp; Saudi Arabia)</span>
-              </div>
+        {/* ── CTA GROUP ─────────────────────────────────────────────── */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-14">
+          <Link
+            href={ROUTES.jobs.root}
+            className="group inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-gradient-to-r from-[#DC2F11] to-[#F45A2A] text-white font-black text-sm tracking-wide shadow-[0_8px_32px_-8px_rgba(220,47,17,0.7)] hover:shadow-[0_12px_40px_-8px_rgba(220,47,17,0.9)] hover:brightness-110 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+          >
+            <span>Explore Live Foreign Job Quotas</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
+          <Link
+            href="/contact?intent=hire_manpower"
+            className="inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl bg-white/[0.07] hover:bg-white/[0.13] text-white font-semibold text-sm tracking-wide border border-white/15 backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98]"
+          >
+            <Users className="w-4 h-4 text-emerald-400" />
+            <span>Hire International Manpower</span>
+          </Link>
+          <a
+            href={COMPANY.whatsapp.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-emerald-600/15 hover:bg-emerald-600/25 text-emerald-300 font-semibold text-sm border border-emerald-500/30 backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98]"
+          >
+            {/* WhatsApp icon inline SVG */}
+            <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+              <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.852L0 24l6.335-1.52A11.934 11.934 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.795 9.795 0 01-4.998-1.37l-.359-.213-3.758.902.944-3.665-.235-.378A9.786 9.786 0 012.182 12c0-5.417 4.401-9.818 9.818-9.818 5.418 0 9.818 4.401 9.818 9.818 0 5.418-4.4 9.818-9.818 9.818z" />
+            </svg>
+            <span>WhatsApp Us Now</span>
+          </a>
+        </div>
+
+        {/* ── TWO-COLUMN LOWER BLOCK ────────────────────────────────── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+          {/* LEFT: Service pathways grid */}
+          <div className="lg:col-span-7 space-y-4">
+            <div className="flex items-center justify-between">
+              <p className="text-[11px] font-black uppercase tracking-widest text-[#4DA5EC]">
+                Select Your International Pathway
+              </p>
+              <Link href={ROUTES.services.root} className="text-[11px] font-semibold text-slate-400 hover:text-white transition-colors">
+                All Services →
+              </Link>
             </div>
-
-            {/* CTA Group */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
-              <Link
-                href={ROUTES.jobs.root}
-                className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-bold text-sm tracking-wide shadow-cta hover:shadow-cta-hover transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] border border-[#4DA5EC]/40"
-              >
-                <span>Explore Live Foreign Job Quotas</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link
-                href="/contact?intent=hire_manpower"
-                className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] text-white font-semibold text-sm tracking-wide border border-white/15 backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98]"
-              >
-                <Users className="w-4 h-4 text-emerald-400" />
-                <span>Hire Manpower (Employers)</span>
-              </Link>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              {PATHWAYS.map(({ id, label, icon: Icon, href, desc, tag, tagColor }) => (
+                <Link
+                  key={id}
+                  href={href}
+                  className="group p-4 rounded-2xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 hover:border-[#DC2F11]/50 transition-all duration-300 flex flex-col gap-2.5 hover:-translate-y-1"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="w-9 h-9 rounded-xl bg-[#402493]/60 group-hover:bg-[#DC2F11] text-[#4DA5EC] group-hover:text-white flex items-center justify-center transition-colors duration-300">
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <span className={`text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded border ${tagColor}`}>
+                      {tag}
+                    </span>
+                  </div>
+                  <div>
+                    <div className="font-heading font-bold text-xs text-white group-hover:text-[#F98864] transition-colors leading-snug">
+                      {label}
+                    </div>
+                    <p className="text-[10px] text-slate-400 mt-0.5 line-clamp-2 leading-relaxed">{desc}</p>
+                  </div>
+                  <span className="text-[10px] font-bold text-[#4DA5EC] group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                    Explore <ArrowRight className="w-2.5 h-2.5" />
+                  </span>
+                </Link>
+              ))}
             </div>
           </div>
 
-          {/* Right Column: Cinematic Media Showcase Card */}
-          <div className="lg:col-span-5 space-y-4 animate-fade-in delay-200">
-            <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] bg-black/60 backdrop-blur-xl group" style={{ position: 'relative' }}>
-              {/* Video Player */}
-              <div className="relative aspect-video w-full overflow-hidden" style={{ position: 'relative' }}>
-                <VideoPlayer
-                  src={VIDEOS.SIJAM_CONSULT_LIMITED}
-                  poster="/hero/passport-hero.png"
-                  title="Sijam Consults Corporate Reel"
-                  autoPlay={false}
-                  loop={false}
-                  muted={true}
+          {/* RIGHT: YouTube video card */}
+          <div className="lg:col-span-5 space-y-3">
+            {/* Video embed */}
+            <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] bg-black group">
+              {/* Glow border on hover */}
+              <div className="absolute inset-0 rounded-2xl border border-[#DC2F11]/0 group-hover:border-[#DC2F11]/40 transition-all duration-500 pointer-events-none z-10" />
+              <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                <iframe
+                  src="https://www.youtube.com/embed/LOB8JuM_Lrg?si=kJ-Cg1lNc5nmCbgz&rel=0&modestbranding=1"
+                  title="Sijam Consults Limited — Official Company Video"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  className="absolute inset-0 w-full h-full"
+                  loading="lazy"
                 />
               </div>
-
-              {/* HUD Banner underneath video */}
-              <div className="p-4 bg-gradient-to-b from-[#0D0826]/90 to-[#070415] border-t border-white/10 flex items-center justify-between text-xs">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-[#402493]/70 text-[#4DA5EC] flex items-center justify-center border border-purple-500/30">
-                    <MapPin className="w-4 h-4" />
+              {/* Bottom HUD */}
+              <div className="px-4 py-3 bg-gradient-to-b from-[#0D0826]/95 to-[#070415] border-t border-white/10 flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 rounded-lg bg-[#DC2F11]/20 flex items-center justify-center border border-[#DC2F11]/30">
+                    <Play className="w-3 h-3 text-[#F98864] ml-0.5" />
                   </div>
                   <div>
-                    <div className="font-bold text-white text-[12px]">Kaduna Headquarters Suite A10</div>
-                    <div className="text-slate-400 text-[10px]">2/4 Kachia Road • Physical Consultations Open</div>
+                    <div className="font-bold text-white text-[11px]">Sijam Consults Limited</div>
+                    <div className="text-slate-400 text-[10px]">Official Company Overview</div>
                   </div>
                 </div>
-
-                <Link
-                  href={ROUTES.about}
-                  className="text-xs font-semibold text-[#4DA5EC] hover:text-white transition-colors flex items-center gap-1 group-hover:translate-x-0.5"
-                >
-                  Meet Leadership →
+                <Link href={ROUTES.about} className="text-[11px] font-semibold text-[#4DA5EC] hover:text-white transition-colors flex items-center gap-1">
+                  About Us →
                 </Link>
               </div>
             </div>
 
-            {/* Quick Live Proof Bar */}
+            {/* Quick proof cards */}
             <div className="grid grid-cols-2 gap-3">
               <Link
                 href={ROUTES.reviews}
-                className="p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 transition-all flex items-center gap-3 group"
+                className="p-3.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 hover:border-emerald-500/40 transition-all flex items-center gap-3 group"
               >
-                <div className="w-9 h-9 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                <div className="w-9 h-9 rounded-lg bg-emerald-500/15 text-emerald-400 flex items-center justify-center shrink-0">
                   <Shield className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-white group-hover:text-[#4DA5EC]">100+ Visa Stamps</div>
-                  <div className="text-[10px] text-slate-400">View Verified Approvals</div>
+                  <div className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors">100+ Approvals</div>
+                  <div className="text-[10px] text-slate-400">View Verified Stamps</div>
                 </div>
               </Link>
-
               <Link
                 href={ROUTES.partners}
-                className="p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 transition-all flex items-center gap-3 group"
+                className="p-3.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 hover:border-purple-500/40 transition-all flex items-center gap-3 group"
               >
-                <div className="w-9 h-9 rounded-lg bg-purple-500/20 text-purple-300 flex items-center justify-center shrink-0">
+                <div className="w-9 h-9 rounded-lg bg-purple-500/15 text-purple-300 flex items-center justify-center shrink-0">
                   <Globe2 className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-white group-hover:text-[#4DA5EC]">Bilateral Alliances</div>
-                  <div className="text-[10px] text-slate-400">Cyprus, Poland &amp; UK</div>
+                  <div className="text-xs font-bold text-white group-hover:text-purple-300 transition-colors">Bilateral Alliances</div>
+                  <div className="text-[10px] text-slate-400">EU, UK & Gulf Partners</div>
                 </div>
               </Link>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* 6 Core Relocation Pathways Grid */}
-        <div className="mt-16 pt-10 border-t border-white/10">
-          <div className="flex items-center justify-between mb-5">
-            <div className="text-xs font-bold uppercase tracking-widest text-[#4DA5EC] flex items-center gap-2">
-              <Sparkles className="w-3.5 h-3.5 text-[#257CFF]" />
-              <span>Select Your International Pathway</span>
-            </div>
-            <Link
-              href={ROUTES.services.root}
-              className="text-xs font-semibold text-slate-400 hover:text-white transition-colors"
-            >
-              All 7 Services →
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5">
-            {pathways.map((cat) => {
-              const Icon = cat.icon;
-              return (
-                <Link
-                  key={cat.id}
-                  href={cat.href}
-                  className="group p-4 rounded-2xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 hover:border-[#257CFF]/50 transition-all duration-300 flex flex-col justify-between hover:-translate-y-1 shadow-lg"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="w-9 h-9 rounded-xl bg-[#402493]/70 group-hover:bg-[#257CFF] text-white flex items-center justify-center transition-colors shadow">
-                        <Icon className="w-4 h-4" />
-                      </div>
-                      <span className="text-[9px] font-bold text-[#4DA5EC] bg-[#257CFF]/10 px-1.5 py-0.5 rounded border border-[#257CFF]/20">
-                        {cat.tag}
-                      </span>
-                    </div>
-                    <div className="font-heading font-bold text-xs text-white group-hover:text-[#4DA5EC] transition-colors">
-                      {cat.label}
-                    </div>
-                    <p className="text-[11px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">
-                      {cat.desc}
-                    </p>
-                  </div>
-                  <div className="text-[11px] font-semibold text-[#4DA5EC] mt-3 group-hover:translate-x-1 transition-transform inline-flex items-center">
-                    Explore →
-                  </div>
-                </Link>
-              );
-            })}
+      {/* ── SCROLL INDICATOR ──────────────────────────────────────────── */}
+      <div className="relative z-10 flex justify-center pb-8">
+        <div className="flex flex-col items-center gap-1 animate-bounce">
+          <span className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Discover More</span>
+          <div className="w-5 h-8 rounded-full border border-white/15 flex items-start justify-center p-1">
+            <div className="w-1 h-2 rounded-full bg-[#DC2F11] animate-[bounce_1.5s_infinite]" />
           </div>
         </div>
       </div>

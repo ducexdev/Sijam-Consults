@@ -62,7 +62,15 @@ export type JobCategory =
   | 'Agriculture & Processing'
   | 'Skilled Trades'
   | 'Logistics & Transport'
-  | 'Manufacturing & Production';
+  | 'Manufacturing & Production'
+  | 'Sports Mobility & Athletics'
+  | 'Energy, Oil & Gas'
+  | 'Corporate & Financial Services'
+  | 'Security & Facility Management'
+  | 'Sales, Retail & Customer Support'
+  | 'Education & Vocational Training'
+  | 'Automotive & Heavy Equipment'
+  | 'Mining, Extraction & Metallurgy';
 
 export type EmploymentType = 'Full-time' | 'Contract' | 'Seasonal' | 'Apprenticeship';
 

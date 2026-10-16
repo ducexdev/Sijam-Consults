@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { Search, MapPin, Sparkles } from 'lucide-react';
 
+import { JOB_DESTINATIONS, DESTINATION_REGIONS } from '@/lib/data/jobs';
+
 interface HeroJobSearchProps {
   onSearchChange?: (term: string) => void;
   onCountryChange?: (country: string) => void;
@@ -56,15 +58,22 @@ export const HeroJobSearch: React.FC<HeroJobSearchProps> = ({
               setCountry(e.target.value);
               if (onCountryChange) onCountryChange(e.target.value);
             }}
-            className="w-full bg-transparent text-white text-sm font-medium focus:outline-none cursor-pointer [&>option]:bg-[#0D0826] [&>option]:text-white"
+            className="w-full bg-transparent text-white text-sm font-medium focus:outline-none cursor-pointer [&>option]:bg-[#0D0826] [&>option]:text-white [&>optgroup]:bg-[#0D0826] [&>optgroup]:text-purple-300"
           >
-            <option value="All">All Destination Corridors (Europe & UK)</option>
-            <option value="Poland">Poland 🇵🇱 (Voivodeship Type A)</option>
-            <option value="United Kingdom">United Kingdom 🇬🇧 (CoS / NHS)</option>
-            <option value="Slovakia">Slovakia 🇸🇰 (Single Work Permit)</option>
-            <option value="Portugal">Portugal 🇵🇹 (D1 / D3 Work Visa)</option>
-            <option value="Cyprus">Cyprus 🇨🇾 (Resort & Hotel Quotas)</option>
-            <option value="Germany">Germany 🇩🇪 (Chancenkarte / Skilled)</option>
+            <option value="All">🌍 All Destination Corridors (Europe, UK & Global)</option>
+            {DESTINATION_REGIONS.map((region) => {
+              const regionDests = JOB_DESTINATIONS.filter((d) => d.region === region);
+              if (regionDests.length === 0) return null;
+              return (
+                <optgroup key={region} label={region}>
+                  {regionDests.map((d) => (
+                    <option key={d.name} value={d.name}>
+                      {d.flag} {d.name} ({d.currency})
+                    </option>
+                  ))}
+                </optgroup>
+              );
+            })}
           </select>
         </div>
 

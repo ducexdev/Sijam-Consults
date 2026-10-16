@@ -34,7 +34,12 @@ import {
   ShieldCheck,
   Lock,
 } from 'lucide-react';
-import { JOBS_DATA } from '@/lib/data/jobs';
+import {
+  JOBS_DATA,
+  JOB_DESTINATIONS,
+  DESTINATION_REGIONS,
+  COMPREHENSIVE_SECTORS,
+} from '@/lib/data/jobs';
 import { JobListing } from '@/lib/types';
 import { formatDate, formatRelativeDays } from '@/lib/utils';
 import { formatSalaryDisplay } from '@/lib/utils/currency';
@@ -115,28 +120,15 @@ export const JobsDirectory: React.FC<JobsDirectoryProps> = ({
     return [...userJobs, ...dedupedStatic];
   }, [userJobs]);
 
-  const categories = [
-    'All',
-    'Healthcare & Nursing',
-    'Logistics & Transport',
-    'Engineering & Construction',
-    'Manufacturing & Production',
-    'Information Technology',
-    'Hospitality & Tourism',
-    'Agriculture & Processing',
-    'Skilled Trades',
-  ];
+  const categories = useMemo(() => ['All', ...COMPREHENSIVE_SECTORS.map((s) => s.name)], []);
 
-  const countries = [
-    { name: 'All', flag: '🌍' },
-    { name: 'Poland', flag: '🇵🇱' },
-    { name: 'United Kingdom', flag: '🇬🇧' },
-    { name: 'Slovakia', flag: '🇸🇰' },
-    { name: 'Portugal', flag: '🇵🇹' },
-    { name: 'Cyprus', flag: '🇨🇾' },
-    { name: 'Germany', flag: '🇩🇪' },
-    { name: 'Canada', flag: '🇨🇦' },
-  ];
+  const countries = useMemo(
+    () => [
+      { name: 'All', flag: '🌍', region: 'All' },
+      ...JOB_DESTINATIONS,
+    ],
+    []
+  );
 
   const popularTags = [
     { label: 'Registered Nurse', country: 'Poland', category: 'Healthcare & Nursing' },
@@ -349,7 +341,7 @@ export const JobsDirectory: React.FC<JobsDirectoryProps> = ({
           </div>
 
           {/* Destination Corridor Select */}
-          <div className="relative min-w-[200px]">
+          <div className="relative min-w-[220px]">
             <select
               value={selectedCountry}
               onChange={(e) => {
@@ -358,11 +350,22 @@ export const JobsDirectory: React.FC<JobsDirectoryProps> = ({
               }}
               className="w-full appearance-none px-4 py-3.5 rounded-2xl bg-[#170F3B]/90 border border-purple-500/25 text-white text-xs font-semibold focus:outline-none focus:border-[#4DA5EC] cursor-pointer"
             >
-              {countries.map((c) => (
-                <option key={c.name} value={c.name} className="bg-[#0B071E] text-white">
-                  {c.flag} {c.name === 'All' ? 'All Destination Corridors' : c.name}
-                </option>
-              ))}
+              <option value="All" className="bg-[#0B071E] text-white font-bold">
+                🌍 All Destination Corridors ({JOB_DESTINATIONS.length}+ Countries)
+              </option>
+              {DESTINATION_REGIONS.map((region) => {
+                const regionDests = JOB_DESTINATIONS.filter((d) => d.region === region);
+                if (regionDests.length === 0) return null;
+                return (
+                  <optgroup key={region} label={region} className="bg-[#0C0824] text-purple-300 font-bold">
+                    {regionDests.map((c) => (
+                      <option key={c.name} value={c.name} className="bg-[#0B071E] text-white font-normal">
+                        {c.flag} {c.name} ({c.currency})
+                      </option>
+                    ))}
+                  </optgroup>
+                );
+              })}
             </select>
             <div className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-purple-400 text-xs">
               ▼

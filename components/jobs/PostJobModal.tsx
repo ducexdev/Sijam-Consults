@@ -31,6 +31,12 @@ import {
 } from 'lucide-react';
 import { JobListing, JobCategory, EmploymentType } from '@/lib/types';
 import {
+  JOB_DESTINATIONS,
+  DESTINATION_REGIONS,
+  COMPREHENSIVE_SECTORS,
+  SECTOR_GROUPS,
+} from '@/lib/data/jobs';
+import {
   apiLoginStaff as loginStaff,
   apiLogoutStaff as logoutStaff,
   apiGetStaffSession as getStaffSession,
@@ -51,27 +57,8 @@ interface StaffUser {
   department?: string | null;
 }
 
-const CATEGORIES: JobCategory[] = [
-  'Healthcare & Nursing',
-  'Logistics & Transport',
-  'Engineering & Construction',
-  'Manufacturing & Production',
-  'Information Technology',
-  'Hospitality & Tourism',
-  'Agriculture & Processing',
-  'Skilled Trades',
-];
-
-const DESTINATIONS = [
-  { name: 'Poland', flag: '🇵🇱', currency: 'EUR', defaultVisa: 'Voivodeship Type A Labor Permit (Wojewoda)' },
-  { name: 'United Kingdom', flag: '🇬🇧', currency: 'GBP', defaultVisa: 'Health & Care / Skilled Worker CoS' },
-  { name: 'Slovakia', flag: '🇸🇰', currency: 'EUR', defaultVisa: 'Single Residence & Work Permit' },
-  { name: 'Portugal', flag: '🇵🇹', currency: 'EUR', defaultVisa: 'D1 / D3 Subordinate Work Contract Visa' },
-  { name: 'Cyprus', flag: '🇨🇾', currency: 'EUR', defaultVisa: 'Ministry of Labor Foreign Permit' },
-  { name: 'Germany', flag: '🇩🇪', currency: 'EUR', defaultVisa: 'Opportunity Card (Chancenkarte) / Skilled Worker' },
-  { name: 'Canada', flag: '🇨🇦', currency: 'CAD', defaultVisa: 'LMIA-Approved Work Permit' },
-  { name: 'Ireland', flag: '🇮🇪', currency: 'EUR', defaultVisa: 'Critical Skills Employment Permit' },
-];
+const CATEGORIES: JobCategory[] = COMPREHENSIVE_SECTORS.map((s) => s.name as JobCategory);
+const DESTINATIONS = JOB_DESTINATIONS;
 
 const PERK_OPTIONS = [
   'Voivodeship Permit Sponsored',
@@ -859,21 +846,61 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
 
                     {/* Destination Country Corridor */}
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
-                        <Globe2 className="w-3.5 h-3.5 text-[#4DA5EC]" />
-                        <span>Destination Country Corridor *</span>
-                      </label>
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+                          <Globe2 className="w-3.5 h-3.5 text-[#4DA5EC]" />
+                          <span>Destination Country Corridor *</span>
+                        </label>
+                        <span className="text-[10px] text-purple-300 font-semibold px-2 py-0.5 rounded-md bg-purple-900/40 border border-purple-500/20">
+                          {DESTINATIONS.length} Corridors
+                        </span>
+                      </div>
                       <select
                         value={selectedCountry}
-                        onChange={(e) => setSelectedCountry(e.target.value)}
+                        onChange={(e) => {
+                          const newCountry = e.target.value;
+                          setSelectedCountry(newCountry);
+                          const dest = DESTINATIONS.find((d) => d.name === newCountry);
+                          if (dest) {
+                            setLocation(dest.sampleLocation);
+                          }
+                        }}
                         className="w-full px-4 py-2.5 rounded-xl bg-[#140D36] border border-white/15 text-white text-sm focus:outline-none focus:border-[#4DA5EC] cursor-pointer"
                       >
-                        {DESTINATIONS.map((d) => (
-                          <option key={d.name} value={d.name} className="bg-[#140D36] text-white">
-                            {d.flag} {d.name}
-                          </option>
-                        ))}
+                        {DESTINATION_REGIONS.map((region) => {
+                          const regionDestinations = DESTINATIONS.filter((d) => d.region === region);
+                          if (regionDestinations.length === 0) return null;
+                          return (
+                            <optgroup key={region} label={region} className="bg-[#0C0824] text-purple-300 font-bold">
+                              {regionDestinations.map((d) => (
+                                <option key={d.name} value={d.name} className="bg-[#140D36] text-white font-normal">
+                                  {d.flag} {d.name} ({d.currency}) {d.isPopular ? '• Popular' : ''}
+                                </option>
+                              ))}
+                            </optgroup>
+                          );
+                        })}
                       </select>
+
+                      {/* UX Psychology: Instant Contextual Corridor Anchor */}
+                      {(() => {
+                        const currentDest = DESTINATIONS.find((d) => d.name === selectedCountry);
+                        if (!currentDest) return null;
+                        return (
+                          <div className="p-2.5 rounded-xl bg-blue-950/40 border border-blue-500/20 text-[11px] text-blue-200 flex items-start gap-2 animate-fade-in">
+                            <span className="text-base leading-none shrink-0">{currentDest.flag}</span>
+                            <div className="flex-1 leading-tight">
+                              <div className="font-bold text-white flex items-center justify-between">
+                                <span>{currentDest.name} • {currentDest.region}</span>
+                                <span className="text-[10px] text-emerald-400 font-mono font-semibold uppercase">{currentDest.currency} Standard</span>
+                              </div>
+                              <div className="text-blue-300/90 text-[10px] mt-0.5">
+                                <strong>Statutory Visa:</strong> {currentDest.defaultVisa}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })()}
                     </div>
 
                     {/* Precise City / Region Placement */}
@@ -909,18 +936,46 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
 
                     {/* Sector Category */}
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-200">Sector Category *</label>
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+                          <Briefcase className="w-3.5 h-3.5 text-[#F98864]" />
+                          <span>Sector Category *</span>
+                        </label>
+                        <span className="text-[10px] text-amber-300 font-semibold px-2 py-0.5 rounded-md bg-amber-900/30 border border-amber-500/20">
+                          {COMPREHENSIVE_SECTORS.length} Sectors
+                        </span>
+                      </div>
                       <select
                         value={category}
                         onChange={(e) => setCategory(e.target.value as JobCategory)}
                         className="w-full px-4 py-2.5 rounded-xl bg-[#140D36] border border-white/15 text-white text-sm focus:outline-none focus:border-[#4DA5EC] cursor-pointer"
                       >
-                        {CATEGORIES.map((c) => (
-                          <option key={c} value={c} className="bg-[#140D36] text-white">
-                            {c}
-                          </option>
-                        ))}
+                        {SECTOR_GROUPS.map((group) => {
+                          const groupSectors = COMPREHENSIVE_SECTORS.filter((s) => s.group === group);
+                          if (groupSectors.length === 0) return null;
+                          return (
+                            <optgroup key={group} label={group} className="bg-[#0C0824] text-[#F98864] font-bold">
+                              {groupSectors.map((sec) => (
+                                <option key={sec.name} value={sec.name} className="bg-[#140D36] text-white font-normal">
+                                  {sec.icon} {sec.name}
+                                </option>
+                              ))}
+                            </optgroup>
+                          );
+                        })}
                       </select>
+
+                      {/* UX Psychology: Cognitive Chunking Hint */}
+                      {(() => {
+                        const currentSec = COMPREHENSIVE_SECTORS.find((s) => s.name === category);
+                        if (!currentSec) return null;
+                        return (
+                          <div className="p-2 rounded-xl bg-purple-950/30 border border-purple-500/20 text-[11px] text-slate-300">
+                            <span className="text-[#F98864] font-bold">{currentSec.icon} Key Roles:</span>{' '}
+                            <span className="text-slate-300">{currentSec.description}</span>
+                          </div>
+                        );
+                      })()}
                     </div>
 
                     {/* Employment Type */}

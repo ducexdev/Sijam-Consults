@@ -2,11 +2,8 @@ import type { Metadata } from 'next';
 import { PublicLayout } from '@/components/layout/PublicLayout';
 import { HeroSection } from '@/components/home/HeroSection';
 import { StatsBar } from '@/components/home/StatsBar';
-import { PillarsGrid } from '@/components/home/PillarsGrid';
 import { ManpowerSupplyDesk } from '@/components/home/ManpowerSupplyDesk';
-import { ServiceHighlights } from '@/components/home/ServiceHighlights';
 import { WhyUsPreview } from '@/components/home/WhyUsPreview';
-import { VisaStampGallery } from '@/components/home/VisaStampGallery';
 import { ProcessSteps } from '@/components/home/ProcessSteps';
 import { VideoTestimonialsSection } from '@/components/home/VideoTestimonialsSection';
 import { PartnerMarquee } from '@/components/home/PartnerMarquee';
@@ -16,7 +13,7 @@ import { ConsultationBanner } from '@/components/home/ConsultationBanner';
 export const metadata: Metadata = {
   title: 'Sijam Consults Limited | International Recruitment, Manpower Supply & Global Mobility',
   description:
-    'Accredited International Recruitment and Manpower Supply Agency (CAC RC: 1715416). Verified foreign employer quotas in the UK, Poland, Slovakia & Saudi Arabia, statutory work permits, study abroad, B2B workforce sourcing, and global mobility consultancy.',
+    'Nigeria\'s leading International Recruitment & Manpower Supply Agency (CAC RC: 1715416). Verified foreign employer quotas in the UK, Poland, Slovakia & Saudi Arabia, statutory work permits, study abroad, B2B workforce sourcing, and global mobility consultancy.',
   keywords: [
     'International Recruitment and Manpower Supply',
     'Work Permit and Employment Immigration Consultancy',
@@ -38,7 +35,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Sijam Consults Limited | International Recruitment, Manpower Supply & Global Mobility',
     description:
-      'Accredited International Recruitment and Manpower Supply Agency (CAC RC: 1715416). Direct foreign employer quotas for the UK, Poland, Slovakia & Saudi Arabia, statutory work permits, and B2B workforce sourcing.',
+      'Nigeria\'s leading International Recruitment & Manpower Supply Agency (CAC RC: 1715416). Direct foreign employer quotas for the UK, Poland, Slovakia & Saudi Arabia, statutory work permits, and B2B workforce sourcing.',
     url: 'https://sijamconsults.com',
     siteName: 'Sijam Consults Limited',
     type: 'website',
@@ -47,26 +44,31 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Sijam Consults Limited | International Recruitment, Manpower Supply & Global Mobility',
     description:
-      'Accredited International Recruitment and Manpower Supply Agency (CAC RC: 1715416). Direct foreign employer quotas, European work permits, study abroad, and B2B workforce sourcing.',
+      'Nigeria\'s leading International Recruitment & Manpower Supply Agency (CAC RC: 1715416). Direct foreign employer quotas, European work permits, study abroad, and B2B workforce sourcing.',
   },
 };
 
 export default function HomePage() {
   return (
     <PublicLayout>
+      {/* 1 — Cinematic hero with YouTube video + pathways grid */}
       <HeroSection />
+      {/* 2 — Animated trust metrics bar */}
       <StatsBar />
-      <PillarsGrid />
+      {/* 3 — B2B Manpower Supply flagship section */}
       <ManpowerSupplyDesk />
-      <ServiceHighlights />
+      {/* 4 — Why Sijam: proof pillars */}
       <WhyUsPreview />
-      <VisaStampGallery />
+      {/* 5 — 4-stage advisory process */}
       <ProcessSteps />
+      {/* 6 — Video testimonials */}
       <VideoTestimonialsSection />
+      {/* 7 — Partner logos marquee */}
       <PartnerMarquee />
+      {/* 8 — FAQ accordion */}
       <HomeFAQ />
+      {/* 9 — Final CTA banner */}
       <ConsultationBanner />
     </PublicLayout>
   );
 }
-
