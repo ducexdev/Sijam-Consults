@@ -191,7 +191,7 @@ export default function PartnersPage() {
                   >
                     <div className="space-y-3">
                       <div
-                        className="h-14 w-full relative bg-white/10 rounded-xl p-2 flex items-center justify-center overflow-hidden border border-white/10"
+                        className="h-16 w-full relative bg-black rounded-xl overflow-hidden border border-white/10"
                         style={{ position: 'relative' }}
                       >
                         <Image
@@ -199,7 +199,7 @@ export default function PartnersPage() {
                           alt={partner.name}
                           fill
                           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                          className="object-contain p-1"
+                          className="object-contain p-2"
                         />
                       </div>
                       <div>
@@ -215,8 +215,21 @@ export default function PartnersPage() {
                       </div>
                     </div>
 
-                    <div className="pt-3 mt-4 border-t border-white/10 text-[11px] text-purple-300">
-                      <strong className="text-slate-400">Scope:</strong> {partner.collaborationScope}
+                    <div className="pt-3 mt-4 border-t border-white/10 space-y-2">
+                      <div className="text-[11px] text-purple-300">
+                        <strong className="text-slate-400">Scope:</strong> {partner.collaborationScope}
+                      </div>
+                      {partner.websiteUrl && (
+                        <a
+                          href={partner.websiteUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#4DA5EC] hover:text-white transition-colors"
+                        >
+                          <ExternalLink className="w-3 h-3" />
+                          <span>Visit Website</span>
+                        </a>
+                      )}
                     </div>
                   </div>
                 ))}

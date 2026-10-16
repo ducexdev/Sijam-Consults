@@ -136,7 +136,7 @@ export interface ReviewItem {
 export interface CorporatePartner {
   id: string;
   name: string;
-  category: 'University' | 'Accreditation Body' | 'Commercial Enterprise' | 'Media Partner';
+  category: 'University' | 'Accreditation Body' | 'Commercial Enterprise' | 'Media Partner' | 'Recruitment Partner';
   country: string;
   logoUrl: string;
   description: string;
