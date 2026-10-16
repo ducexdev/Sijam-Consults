@@ -141,6 +141,12 @@ export const NAV_LINKS = [
         href: ROUTES.guides.root,
         desc: 'Destination requirements, visa checklists & relocation insights.',
       },
+      {
+        title: '+ Post A Job',
+        href: '/jobs?action=post',
+        desc: 'Sijam Managing Team quota allocation and foreign vacancy publisher.',
+        badge: 'Management',
+      },
     ],
   },
 ];

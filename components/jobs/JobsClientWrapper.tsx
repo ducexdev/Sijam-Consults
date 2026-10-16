@@ -44,6 +44,12 @@ export const JobsClientWrapper: React.FC = () => {
   useEffect(() => {
     const handleOpen = () => setIsPostModalOpen(true);
     window.addEventListener('sijam:open_post_job', handleOpen);
+
+    // Check if user navigated here with ?action=post
+    if (typeof window !== 'undefined' && window.location.search.includes('action=post')) {
+      setIsPostModalOpen(true);
+    }
+
     return () => window.removeEventListener('sijam:open_post_job', handleOpen);
   }, []);
 
@@ -94,11 +100,11 @@ export const JobsClientWrapper: React.FC = () => {
               <span className="text-slate-400 hidden sm:inline">Verified Employer Sponsorships</span>
             </div>
 
-            {/* THE CANONICAL "+ POST A JOB" BUTTON IN TOP RIGHT CORNER */}
+            {/* THE CANONICAL "+ POST A JOB" BUTTON IN TOP RIGHT CORNER (BRAND CONSISTENT) */}
             <button
               type="button"
               onClick={() => setIsPostModalOpen(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-black font-black text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(16,185,129,0.45)] transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white font-extrabold text-xs uppercase tracking-wider shadow-[0_4px_24px_rgba(37,124,255,0.45)] hover:shadow-[0_8px_32px_rgba(37,124,255,0.65)] border border-[#4DA5EC]/40 transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0"
             >
               <Plus className="w-4 h-4 stroke-[3]" />
               <span>Post A Job</span>

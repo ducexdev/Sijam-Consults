@@ -274,7 +274,7 @@ export function Navbar() {
               className="relative flex items-center gap-1.5 text-sm font-medium text-white/85 hover:text-white hover:bg-white/5 transition-all px-3 py-2 rounded-lg"
             >
               Jobs
-              <span className="inline-flex items-center gap-0.5 text-[9px] font-bold bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-1.5 py-0.5 rounded-full uppercase tracking-wider animate-pulse">
+              <span className="inline-flex items-center gap-0.5 text-[9px] font-bold bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white px-1.5 py-0.5 rounded-full uppercase tracking-wider animate-pulse">
                 <Sparkles className="w-2.5 h-2.5" />
                 New
               </span>
@@ -467,7 +467,7 @@ export function Navbar() {
             >
               <span className="flex items-center gap-2">
                 Jobs & Opportunities
-                <span className="inline-flex items-center gap-0.5 text-[9px] font-bold bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-1.5 py-0.5 rounded-full uppercase">
+                <span className="inline-flex items-center gap-0.5 text-[9px] font-bold bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white px-1.5 py-0.5 rounded-full uppercase">
                   <Sparkles className="w-2.5 h-2.5" /> New
                 </span>
               </span>

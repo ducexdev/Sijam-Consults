@@ -45,6 +45,7 @@ const getServiceIcon = (href: string) => {
 const getMoreIcon = (href: string) => {
   if (href.includes('reviews')) return Star;
   if (href.includes('guides')) return BookOpen;
+  if (href.includes('action=post') || href.includes('jobs')) return Briefcase;
   return Award;
 };
 
@@ -243,7 +244,15 @@ export const Header: React.FC = () => {
                             <Link
                               key={child.href}
                               href={child.href}
-                              onClick={() => setActiveDropdown(null)}
+                              onClick={(e) => {
+                                setActiveDropdown(null);
+                                if (child.href.includes('action=post')) {
+                                  if (pathname.startsWith(ROUTES.jobs.root)) {
+                                    e.preventDefault();
+                                    window.dispatchEvent(new CustomEvent('sijam:open_post_job'));
+                                  }
+                                }
+                              }}
                               className={cn(
                                 'group flex items-start gap-3 p-2.5 rounded-xl transition-colors',
                                 isItemActive
@@ -276,6 +285,8 @@ export const Header: React.FC = () => {
                                           ? 'bg-sky-100 text-sky-800'
                                           : child.badge === 'Verified'
                                           ? 'bg-emerald-100 text-emerald-800'
+                                          : child.badge === 'Management'
+                                          ? 'bg-blue-100 text-[#257CFF]'
                                           : 'bg-purple-100 text-purple-800'
                                       )}
                                     >
@@ -323,7 +334,7 @@ export const Header: React.FC = () => {
                 >
                   <span>{link.label}</span>
                   {isJobs && (
-                    <span className="inline-flex items-center gap-0.5 text-[10px] font-bold bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-1.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm shadow-emerald-500/20 animate-pulse">
+                    <span className="inline-flex items-center gap-0.5 text-[10px] font-bold bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white px-1.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm shadow-blue-500/25 animate-pulse">
                       <Sparkles className="w-2.5 h-2.5" />
                       New
                     </span>
@@ -338,18 +349,8 @@ export const Header: React.FC = () => {
             })}
           </nav>
 
-          {/* Action CTAs (Free Assessment, Book Consultation, and Post A Job on jobs route) */}
+          {/* Action CTAs (Free Assessment & Book Consultation) */}
           <div className="hidden lg:flex items-center gap-2.5 shrink-0">
-            {pathname.startsWith(ROUTES.jobs.root) && (
-              <button
-                type="button"
-                onClick={() => window.dispatchEvent(new CustomEvent('sijam:open_post_job'))}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-black font-extrabold text-xs uppercase tracking-wider shadow-sm transition-all hover:scale-105 active:scale-95 cursor-pointer"
-              >
-                <Plus className="w-3.5 h-3.5 stroke-[3]" />
-                <span>Post A Job</span>
-              </button>
-            )}
             <Button
               href={ROUTES.assessment}
               variant="outline"
@@ -465,7 +466,7 @@ export const Header: React.FC = () => {
               )}
             >
               <span>Jobs</span>
-              <span className="text-xs bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-2 py-0.5 rounded-full font-bold shadow-sm">
+              <span className="text-xs bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white px-2 py-0.5 rounded-full font-bold shadow-sm shadow-blue-500/25">
                 New
               </span>
             </Link>
@@ -541,6 +542,23 @@ export const Header: React.FC = () => {
                   >
                     <BookOpen className="w-4 h-4 text-[#257CFF]" />
                     <span className="flex-1">Travel & Immigration Guides</span>
+                  </Link>
+                  <Link
+                    href="/jobs?action=post"
+                    onClick={(e) => {
+                      setMobileMenuOpen(false);
+                      if (pathname.startsWith(ROUTES.jobs.root)) {
+                        e.preventDefault();
+                        window.dispatchEvent(new CustomEvent('sijam:open_post_job'));
+                      }
+                    }}
+                    className="flex items-center gap-2.5 px-3 py-2.5 text-sm font-medium text-slate-800 hover:text-[#257CFF] rounded-lg hover:bg-slate-50"
+                  >
+                    <Briefcase className="w-4 h-4 text-[#257CFF]" />
+                    <span className="flex-1 font-semibold">+ Post A Job</span>
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-blue-100 text-[#257CFF]">
+                      Management
+                    </span>
                   </Link>
                 </div>
               )}

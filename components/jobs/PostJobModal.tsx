@@ -792,7 +792,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                 <button
                   type="button"
                   onClick={handleResetForm}
-                  className="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-black font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg cursor-pointer"
+                  className="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_4px_24px_rgba(37,124,255,0.4)] border border-[#4DA5EC]/30 cursor-pointer"
                 >
                   <Eye className="w-4 h-4" />
                   <span>View Live Directory</span>
@@ -1336,11 +1336,11 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="px-8 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-black font-black text-xs uppercase tracking-wider flex items-center gap-2 shadow-[0_0_30px_rgba(16,185,129,0.5)] transition-all disabled:opacity-50 cursor-pointer"
+                      className="px-8 py-3 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white font-black text-xs uppercase tracking-wider flex items-center gap-2 shadow-[0_4px_28px_rgba(37,124,255,0.45)] border border-[#4DA5EC]/40 transition-all disabled:opacity-50 cursor-pointer"
                     >
                       {isSubmitting ? (
                         <>
-                          <span className="w-3.5 h-3.5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                          <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                           <span>Publishing Live Quota...</span>
                         </>
                       ) : (
