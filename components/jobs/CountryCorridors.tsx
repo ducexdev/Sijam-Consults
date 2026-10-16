@@ -92,19 +92,6 @@ const CORRIDORS: CountryCorridor[] = [
   },
 ];
 
-const QUICK_SECTORS = [
-  'Healthcare & Nursing',
-  'Logistics & Transport',
-  'Engineering & Construction',
-  'Manufacturing & Production',
-  'Information Technology',
-  'Hospitality & Tourism',
-  'Agriculture & Processing',
-  'Skilled Trades',
-  'Automotive Assembly',
-  'Residential Care',
-];
-
 export const CountryCorridors: React.FC = () => {
   return (
     <div className="space-y-8">
@@ -186,24 +173,6 @@ export const CountryCorridors: React.FC = () => {
             </div>
           </Link>
         ))}
-      </div>
-
-      {/* Quick sector chips */}
-      <div className="border-t border-white/10 pt-6">
-        <div className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-3">
-          Browse by sector:
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {QUICK_SECTORS.map((sector) => (
-            <Link
-              key={sector}
-              href="#directory"
-              className="px-3 py-1.5 rounded-full text-xs font-semibold bg-white/[0.05] hover:bg-white/[0.12] text-slate-300 hover:text-white border border-white/10 hover:border-white/20 transition-all"
-            >
-              {sector}
-            </Link>
-          ))}
-        </div>
       </div>
     </div>
   );

@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { PublicLayout } from '@/components/layout/PublicLayout';
-import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { TrustBanner } from '@/components/ui/TrustBanner';
 import { CountryCorridors } from '@/components/jobs/CountryCorridors';
 import { FeaturedEmployers } from '@/components/jobs/FeaturedEmployers';
 import { JobsDirectory } from '@/components/jobs/JobsDirectory';
@@ -33,12 +31,25 @@ export const metadata: Metadata = {
     'foreign jobs for Nigerians, UK care assistant visa, Poland work permit, Slovakia welder jobs, European work visa, overseas recruitment agency Nigeria, Sijam Consults Kaduna',
 };
 
+const QUICK_SECTORS = [
+  'Healthcare & Nursing',
+  'Logistics & Transport',
+  'Engineering & Construction',
+  'Manufacturing & Production',
+  'Information Technology',
+  'Hospitality & Tourism',
+  'Agriculture & Processing',
+  'Skilled Trades',
+  'Automotive Assembly',
+  'Residential Care',
+];
+
 export default function JobsPage() {
   return (
     <PublicLayout>
       <div className="bg-[#070415] text-white min-h-screen">
         {/* 1. Cinematic Hero — Full-Screen Video Background */}
-        <section className="relative overflow-hidden min-h-[88vh] flex flex-col justify-end border-b border-black/60">
+        <section className="relative overflow-hidden min-h-[60vh] sm:min-h-[66vh] flex flex-col justify-center border-b border-black/60 pt-4 pb-12 sm:pt-6 sm:pb-14">
 
           {/* ── Video Background ── */}
           <div className="absolute inset-0 pointer-events-none">
@@ -57,12 +68,7 @@ export default function JobsPage() {
           </div>
 
           {/* ── Content ── */}
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full pb-14 pt-28 lg:pt-36 space-y-8">
-
-            {/* Breadcrumbs */}
-            <div className="flex justify-center">
-              <Breadcrumbs items={[{ label: 'Foreign Jobs & Relocation' }]} />
-            </div>
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full space-y-6 sm:space-y-7">
 
             {/* Main Headline & Write-up (Centered) */}
             <div className="space-y-4 max-w-5xl mx-auto text-center">
@@ -98,7 +104,7 @@ export default function JobsPage() {
             </div>
 
             {/* ── Bottom Trust Stats (Centered) ── */}
-            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 pt-2 text-center">
+            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 pt-1 text-center">
               <div className="flex items-center gap-2 text-sm text-white/70">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span><strong className="text-white">Zero</strong> illegal placement fees</span>
@@ -114,6 +120,24 @@ export default function JobsPage() {
               <div className="flex items-center gap-2 text-sm text-white/70">
                 <Plane className="w-4 h-4 text-[#F98864] shrink-0" />
                 <span><strong className="text-white">Full</strong> relocation pack included</span>
+              </div>
+            </div>
+
+            {/* ── Browse by sector: immediately after trust stats ── */}
+            <div className="border-t border-white/10 pt-5 max-w-4xl mx-auto text-center space-y-2.5">
+              <div className="text-[11px] font-bold uppercase tracking-widest text-slate-300">
+                Browse by sector:
+              </div>
+              <div className="flex flex-wrap justify-center gap-2">
+                {QUICK_SECTORS.map((sector) => (
+                  <Link
+                    key={sector}
+                    href="#directory"
+                    className="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white/[0.08] hover:bg-[#4DA5EC]/20 text-slate-200 hover:text-white border border-white/15 hover:border-[#4DA5EC]/40 transition-all backdrop-blur-sm"
+                  >
+                    {sector}
+                  </Link>
+                ))}
               </div>
             </div>
           </div>
@@ -147,10 +171,6 @@ export default function JobsPage() {
               <p className="text-sm sm:text-base text-slate-300 max-w-2xl">
                 Browse open positions with authorized visa sponsorships. Filter by destination nation, technical trade, or contract type.
               </p>
-            </div>
-
-            <div className="max-w-4xl">
-              <TrustBanner showFullDisclaimer={false} />
             </div>
 
             <JobsDirectory />
