@@ -60,4 +60,14 @@ export const PARTNERS_DATA: CorporatePartner[] = [
     description: 'Leading recruitment and manpower services company based in Saudi Arabia, providing skilled, semi-skilled, technical, and blue-collar workers to employers across Saudi Arabia and Gulf countries (UAE, Qatar, Kuwait, Oman).',
     collaborationScope: 'Saudi and GCC employer quota allocation, technical manpower supply, and consular work visa processing.',
   },
+  {
+    id: 'everbright-travels',
+    name: 'Everbright Travels & Consultants Limited',
+    category: 'Aviation & Ticketing Partner',
+    country: 'Nigeria & International 🇳🇬',
+    logoUrl: '/partners/everbright-travels-logo.png',
+    description: 'Premier aviation ticketing and corporate travel management consultancy providing live GDS airline reservations (Amadeus & Sabre), verifiable PNR codes, flexible flight re-routing, and international flight ticketing.',
+    collaborationScope: 'Official strategic partner for embassy-verifiable flight reservations, 2-hour PNR delivery, student baggage waivers, and confirmed flight ticketing for European, UK, and Gulf migration routes.',
+    websiteUrl: 'https://sijamconsults.com/services/flight-reservations',
+  },
 ];

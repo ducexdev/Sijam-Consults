@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ExternalLink, Handshake, ShieldCheck, CheckCircle2, ArrowRight, Award, GraduationCap, Globe2, Briefcase, Building2 } from 'lucide-react';
+import { ExternalLink, Handshake, ShieldCheck, CheckCircle2, ArrowRight, Award, GraduationCap, Globe2, Briefcase, Building2, Plane } from 'lucide-react';
 import { PublicLayout } from '@/components/layout/PublicLayout';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { TrustBanner } from '@/components/ui/TrustBanner';
@@ -20,6 +20,9 @@ export default function PartnersPage() {
   );
   const recruitmentPartners = PARTNERS_DATA.filter((p) =>
     ['Foreign Job Placement', 'Manpower Services', 'Recruitment Partner'].includes(p.category)
+  );
+  const aviationPartners = PARTNERS_DATA.filter((p) =>
+    ['Aviation & Ticketing Partner'].includes(p.category)
   );
 
   return (
@@ -274,6 +277,91 @@ export default function PartnersPage() {
                 ))}
               </div>
             </div>
+
+            {/* Group 3: Strategic Aviation & Ticketing Alliances */}
+            {aviationPartners.length > 0 && (
+              <div className="space-y-6 pt-4">
+                <div className="flex items-center justify-between flex-wrap gap-3">
+                  <div>
+                    <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#4DA5EC] mb-1">
+                      <Plane className="w-4 h-4" />
+                      <span>Aviation &amp; Travel Management</span>
+                    </div>
+                    <h2 className="font-heading font-black text-2xl sm:text-3xl text-white">
+                      Strategic Aviation &amp; Flight Ticketing Alliances
+                    </h2>
+                    <p className="text-xs sm:text-sm text-slate-400 mt-1">
+                      Official aviation consolidator partnerships providing live GDS airline terminal reservations (Amadeus &amp; Sabre), verifiable PNR codes, and international flight ticketing.
+                    </p>
+                  </div>
+                  <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                    Live GDS Desk
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {aviationPartners.map((partner) => (
+                    <div
+                      key={partner.id}
+                      className="p-6 sm:p-8 rounded-3xl bg-white/[0.04] hover:bg-white/[0.07] border border-white/10 hover:border-[#4DA5EC]/40 transition-all duration-300 backdrop-blur-xl flex flex-col justify-between shadow-xl group"
+                    >
+                      <div className="space-y-4">
+                        <div className="flex items-start justify-between gap-4">
+                          <div
+                            className="h-20 w-48 relative bg-white rounded-2xl p-3 flex items-center justify-center overflow-hidden border border-white/20 shadow-md"
+                            style={{ position: 'relative' }}
+                          >
+                            <Image
+                              src={partner.logoUrl}
+                              alt={partner.name}
+                              fill
+                              sizes="192px"
+                              className="object-contain p-1.5"
+                            />
+                          </div>
+                          <span className="text-xs font-bold px-3 py-1.5 rounded-full bg-blue-950/70 text-blue-300 border border-blue-500/30 whitespace-nowrap">
+                            {partner.country}
+                          </span>
+                        </div>
+
+                        <div>
+                          <div className="text-[11px] font-bold uppercase tracking-wider text-[#F98864]">
+                            {partner.category}
+                          </div>
+                          <h3 className="font-heading font-bold text-xl sm:text-2xl text-white group-hover:text-[#4DA5EC] transition-colors mt-0.5">
+                            {partner.name}
+                          </h3>
+                          <p className="text-xs sm:text-sm text-slate-300 mt-2.5 leading-relaxed font-normal">
+                            {partner.description}
+                          </p>
+                        </div>
+
+                        <div className="p-3.5 rounded-xl bg-blue-950/40 border border-blue-500/20 text-xs text-blue-200">
+                          <strong className="text-white">Bilateral Scope:</strong> {partner.collaborationScope}
+                        </div>
+                      </div>
+
+                      <div className="pt-6 mt-6 border-t border-white/10 flex items-center justify-between gap-3 flex-wrap">
+                        <Link
+                          href="/services/flight-reservations"
+                          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-white transition-colors"
+                        >
+                          <span>Explore Flight Desk</span>
+                          <ExternalLink className="w-3.5 h-3.5 text-[#4DA5EC]" />
+                        </Link>
+                        <Link
+                          href="/services/flight-reservations#booking-widget"
+                          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white text-xs font-bold shadow-cta border border-[#4DA5EC]/30 hover:brightness-110 transition-all"
+                        >
+                          <span>Request Flight PNR</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Institutional Partnership Proposal Banner */}
             <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-[#1A1040] to-[#0D0826] border border-white/15 text-center max-w-3xl mx-auto shadow-2xl space-y-4">
