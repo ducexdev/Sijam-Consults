@@ -53,7 +53,7 @@ const STATS: Stat[] = [
     detail: 'Corporate Affairs Commission Verified',
     href: ROUTES.about,
     icon: ShieldCheck,
-    accentColor: '#16a34a',
+    accentColor: '#4DA5EC',
   },
 ];
 

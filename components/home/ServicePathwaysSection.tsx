@@ -145,7 +145,7 @@ export const ServicePathwaysSection: React.FC = () => {
 
           <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-[1.1]">
             Specialized Services Built for{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#DC2F11] via-[#F45A2A] to-[#F98864]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
               Global Mobility
             </span>
           </h2>

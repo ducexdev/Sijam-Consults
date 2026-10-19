@@ -20,10 +20,7 @@ export const ConsultationBanner: React.FC = () => {
 
         {/* Headline */}
         <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-[1.1] mb-6">
-          Ready to Start Your{' '}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#DC2F11] via-[#F45A2A] to-[#F98864]">
-            International Journey?
-          </span>
+          Ready to Start Your International Journey?
           <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
             Let's Make It Happen.

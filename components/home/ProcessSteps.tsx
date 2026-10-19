@@ -62,7 +62,7 @@ export const ProcessSteps: React.FC = () => {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#402493]/20 border border-[#402493]/40 text-xs">
-            <Sparkles className="w-3.5 h-3.5 text-[#F98864]" />
+            <Sparkles className="w-3.5 h-3.5 text-[#4DA5EC]" />
             <span className="font-bold uppercase tracking-wider text-[11px] text-purple-200">
               Clear &amp; Accountable Roadmap
             </span>
@@ -70,7 +70,7 @@ export const ProcessSteps: React.FC = () => {
 
           <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-[1.1]">
             Our 5-Stage{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#DC2F11] via-[#F45A2A] to-[#F98864]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
               Advisory &amp; Relocation Framework
             </span>
           </h2>

@@ -171,7 +171,7 @@ export const HeroSection: React.FC = () => {
         {/* ── HEADLINE — Conversion-optimised, authoritative, keyword-targeted ── */}
         <div className="max-w-4xl space-y-5 mb-10">
           <h1 className="font-heading font-black text-3xl sm:text-5xl lg:text-[3.5rem] xl:text-[4rem] text-white leading-[1.08] tracking-tight">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#DC2F11] via-[#F45A2A] to-[#F98864]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
               International Recruitment
             </span>{' '}
             and Manpower Solutions for{' '}

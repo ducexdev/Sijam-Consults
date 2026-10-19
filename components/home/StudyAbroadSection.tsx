@@ -56,8 +56,8 @@ export const StudyAbroadSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 space-y-14">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-950/60 border border-emerald-500/30 text-xs text-emerald-300">
-            <GraduationCap className="w-3.5 h-3.5 text-emerald-400" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#402493]/20 border border-[#402493]/40 text-xs text-purple-200">
+            <GraduationCap className="w-3.5 h-3.5 text-[#4DA5EC]" />
             <span className="font-bold uppercase tracking-wider text-[11px]">
               International Student Admissions &amp; Mobility
             </span>
@@ -65,7 +65,7 @@ export const StudyAbroadSection: React.FC = () => {
 
           <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-[1.1]">
             Global Education Pathways With{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-[#4DA5EC]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
               Direct Admissions Support
             </span>
           </h2>

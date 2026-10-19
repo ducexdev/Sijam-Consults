@@ -21,7 +21,7 @@ export const FeaturedGuidesSection: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="max-w-2xl space-y-3">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#402493]/20 border border-[#402493]/40 text-xs text-purple-200">
-              <BookOpen className="w-3.5 h-3.5 text-[#F98864]" />
+              <BookOpen className="w-3.5 h-3.5 text-[#4DA5EC]" />
               <span className="font-bold uppercase tracking-wider text-[11px]">
                 Editorial Insights &amp; Compliance Guides
               </span>
@@ -29,7 +29,7 @@ export const FeaturedGuidesSection: React.FC = () => {
 
             <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-[1.1]">
               Authoritative Relocation &amp;{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#DC2F11] via-[#F45A2A] to-[#F98864]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
                 Recruitment Intelligence
               </span>
             </h2>
@@ -41,7 +41,7 @@ export const FeaturedGuidesSection: React.FC = () => {
 
           <Link
             href={ROUTES.guides.root}
-            className="shrink-0 inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#F98864] hover:text-white transition-colors group"
+            className="shrink-0 inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#4DA5EC] hover:text-white transition-colors group"
           >
             <span>Explore All Relocation Guides</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
