@@ -5,6 +5,7 @@ import { StatsBar } from '@/components/home/StatsBar';
 import { ServicePathwaysSection } from '@/components/home/ServicePathwaysSection';
 import { ManpowerSupplyDesk } from '@/components/home/ManpowerSupplyDesk';
 import { WorkPermitsTransparencySection } from '@/components/home/WorkPermitsTransparencySection';
+import { FeaturedJobsSection } from '@/components/home/FeaturedJobsSection';
 import { StudyAbroadSection } from '@/components/home/StudyAbroadSection';
 import { ProcessSteps } from '@/components/home/ProcessSteps';
 import { WhyUsPreview } from '@/components/home/WhyUsPreview';
@@ -15,22 +16,21 @@ import { HomeFAQ } from '@/components/home/HomeFAQ';
 import { ConsultationBanner } from '@/components/home/ConsultationBanner';
 
 export const metadata: Metadata = {
-  title: 'International Recruitment Agency in Nigeria | Sijam Consults Limited',
+  title: 'Immigration & Travel Consultancy in Nigeria | SIJAM',
   description:
-    'Sijam Consults Limited (CAC RC: 1715416) is Nigeria’s accredited international recruitment agency and manpower consultancy. Verified employer quotas across the UK, Poland, Slovakia & Saudi Arabia, statutory work permits, study abroad, and ethical migration advisory.',
+    'Explore visa guidance, study abroad, work permit, international recruitment and travel services from Sijam Consults Limited in Nigeria (CAC RC: 1715416).',
   keywords: [
-    'International Recruitment Agency in Nigeria',
-    'overseas recruitment agency Nigeria',
-    'manpower supply Nigeria',
-    'international recruitment agency',
-    'work permit consultancy Nigeria',
-    'study abroad agency Nigeria',
-    'foreign employer quotas Nigeria',
-    'Poland work permit Nigeria',
-    'Slovakia work permit Nigeria',
-    'UK sponsorship jobs Nigeria',
-    'international talent recruitment',
-    'B2B manpower sourcing',
+    'immigration and travel consultancy in Nigeria',
+    'visa consultancy in Nigeria',
+    'travel agency in Nigeria',
+    'work permit consultancy',
+    'study abroad consultancy',
+    'international recruitment services',
+    'manpower solutions',
+    'flight reservation for visa application',
+    'business registration consultancy',
+    'document legalization and attestation',
+    'visa application assistance',
     'Sijam Consults Limited',
     'Sijam Consults',
   ],
@@ -38,9 +38,9 @@ export const metadata: Metadata = {
     canonical: 'https://sijamconsults.com',
   },
   openGraph: {
-    title: 'International Recruitment Agency in Nigeria | Sijam Consults Limited',
+    title: 'Immigration & Travel Consultancy in Nigeria | SIJAM',
     description:
-      'Sijam Consults Limited is Nigeria’s premier international recruitment agency (RC: 1715416). Connecting Nigerian talent with verified foreign employer quotas, European work permits, study abroad, and B2B manpower supply.',
+      'Explore visa guidance, study abroad, work permit, international recruitment and travel services from Sijam Consults Limited in Nigeria (CAC RC: 1715416).',
     url: 'https://sijamconsults.com',
     siteName: 'Sijam Consults Limited',
     locale: 'en_NG',
@@ -48,9 +48,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'International Recruitment Agency in Nigeria | Sijam Consults Limited',
+    title: 'Immigration & Travel Consultancy in Nigeria | SIJAM',
     description:
-      'Accredited international recruitment agency in Nigeria (CAC RC: 1715416). Direct foreign employer quotas, European work permits, study abroad, and ethical advisory.',
+      'Explore visa guidance, study abroad, work permit, international recruitment and travel services from Sijam Consults Limited in Nigeria.',
   },
 };
 
@@ -60,7 +60,7 @@ export default function HomePage() {
       {/* 1. Cinematic Hero Section with conversion CTAs & verified video */}
       <HeroSection />
 
-      {/* 2. Key Operational Metrics & Trust Bar */}
+      {/* 2. Key Operational Trust & Compliance Bar */}
       <StatsBar />
 
       {/* 3. Comprehensive Global Mobility & Recruitment Service Pathways */}
@@ -72,28 +72,31 @@ export default function HomePage() {
       {/* 5. Work Permits, Foreign Employment & Consular Transparency */}
       <WorkPermitsTransparencySection />
 
-      {/* 6. Study Abroad & Direct University Admissions */}
+      {/* 6. Featured International Opportunities from Live Data */}
+      <FeaturedJobsSection />
+
+      {/* 7. Study Abroad & Direct University Admissions */}
       <StudyAbroadSection />
 
-      {/* 7. 5-Stage Transparent Advisory & Compliance Process */}
+      {/* 8. 5-Stage Transparent Advisory & Compliance Process */}
       <ProcessSteps />
 
-      {/* 8. Institutional Integrity, Corporate Governance & Track Record */}
+      {/* 9. Institutional Integrity, Corporate Governance & Track Record */}
       <WhyUsPreview />
 
-      {/* 9. Verified Client Approvals & Video Testimonials */}
+      {/* 10. Verified Client Approvals & Video Testimonials */}
       <VideoTestimonialsSection />
 
-      {/* 10. Horizontal Sliding Bilateral Alliances & University Consortia */}
+      {/* 11. Horizontal Sliding Bilateral Alliances & University Consortia */}
       <PartnerMarquee />
 
-      {/* 11. Editorial Intelligence & Verified Migration Guides */}
+      {/* 12. Editorial Intelligence & Verified Migration Guides */}
       <FeaturedGuidesSection />
 
-      {/* 12. Frequently Asked Questions Accordion */}
+      {/* 13. Frequently Asked Questions Accordion */}
       <HomeFAQ />
 
-      {/* 13. Consultation Action Banner & Physical Headquarters Appointment */}
+      {/* 14. Consultation Action Banner & Physical Headquarters Appointment */}
       <ConsultationBanner />
     </PublicLayout>
   );

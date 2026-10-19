@@ -162,9 +162,9 @@ export const HeroSection: React.FC = () => {
 
         {/* Trust strip */}
         <div className="mb-8">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#DC2F11]/15 border border-[#DC2F11]/40 text-[10px] font-black uppercase tracking-widest text-[#F98864]">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#DC2F11] animate-pulse" />
-            Nigeria&apos;s #1 Recruitment &amp; Manpower Agency
+          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#402493]/20 border border-[#402493]/40 text-[10px] font-black uppercase tracking-widest text-purple-200">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#4DA5EC] animate-pulse" />
+            CAC Registered Consultancy · RC: 1715416
           </span>
         </div>
 
@@ -172,29 +172,30 @@ export const HeroSection: React.FC = () => {
         <div className="max-w-4xl space-y-5 mb-10">
           <h1 className="font-heading font-black text-3xl sm:text-5xl lg:text-[3.5rem] xl:text-[4rem] text-white leading-[1.08] tracking-tight">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
+              Immigration, Study Abroad
+            </span>{' '}
+            &amp;{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
               International Recruitment
             </span>{' '}
-            and Manpower Solutions for{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
-              Global Opportunities
-            </span>
+            Consultancy in Nigeria
           </h1>
 
           <p className="text-base sm:text-lg lg:text-xl text-slate-300 leading-relaxed font-normal max-w-3xl">
-            Sijam Consults Limited supports individuals pursuing international employment and education opportunities, while helping employers access recruitment and manpower services. Our team provides guidance across recruitment, documentation, admissions, and related international mobility services.
+            Sijam Consults Limited guides candidates, students, and employers through legitimate international relocation, accredited university admissions, statutory work permits, and global manpower solutions with forensic compliance and transparent advisory.
           </p>
 
           {/* Social proof micro-copy */}
           <div className="flex items-center gap-3 pt-1">
             <div className="flex -space-x-2">
-              {['bg-[#402493]','bg-[#DC2F11]','bg-[#257CFF]','bg-emerald-600'].map((bg, i) => (
+              {['bg-[#402493]', 'bg-[#DC2F11]', 'bg-[#257CFF]', 'bg-emerald-600'].map((bg, i) => (
                 <div key={i} className={`w-8 h-8 rounded-full ${bg} border-2 border-[#070415] flex items-center justify-center text-[10px] font-black text-white`}>
                   {String.fromCharCode(65 + i)}
                 </div>
               ))}
             </div>
             <p className="text-xs text-slate-400">
-              <strong className="text-white">500+ verified filings</strong> across UK, Poland, Slovakia &amp; Gulf corridors
+              <strong className="text-white">Authentic Case Advisories &amp; Filings</strong> across UK, Poland, Slovakia, Cyprus &amp; Gulf corridors
             </p>
           </div>
         </div>
@@ -202,32 +203,25 @@ export const HeroSection: React.FC = () => {
         {/* ── CTA GROUP ─────────────────────────────────────────────── */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-14">
           <Link
-            href={ROUTES.jobs.root}
+            href="#services"
             className="group inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-black text-sm tracking-wide shadow-[0_8px_32px_-8px_rgba(77,165,236,0.6)] hover:shadow-[0_12px_40px_-8px_rgba(37,124,255,0.8)] hover:brightness-110 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
           >
-            <span>Explore Available Opportunities</span>
+            <span>Explore Our Services</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
           <Link
-            href="/contact?intent=hire_manpower"
+            href={ROUTES.contact}
             className="inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl bg-gradient-to-r from-[#402493] to-[#2D186B] hover:from-[#3B1F8C] hover:to-[#1A1040] text-white font-semibold text-sm tracking-wide border border-purple-500/40 shadow-[0_8px_25px_-5px_rgba(64,36,147,0.5)] backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98]"
           >
             <Users className="w-4 h-4 text-[#F98864]" />
-            <span>Hire International Talent</span>
+            <span>Speak With Our Team</span>
           </Link>
-          <a
-            href={COMPANY.whatsapp.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-emerald-600/15 hover:bg-emerald-600/25 text-emerald-300 font-semibold text-sm border border-emerald-500/30 backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98]"
+          <Link
+            href={ROUTES.jobs.root}
+            className="inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-white font-semibold text-sm border border-white/10 backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98]"
           >
-            {/* WhatsApp icon inline SVG */}
-            <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
-              <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.852L0 24l6.335-1.52A11.934 11.934 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.795 9.795 0 01-4.998-1.37l-.359-.213-3.758.902.944-3.665-.235-.378A9.786 9.786 0 012.182 12c0-5.417 4.401-9.818 9.818-9.818 5.418 0 9.818 4.401 9.818 9.818 0 5.418-4.4 9.818-9.818 9.818z" />
-            </svg>
-            <span>WhatsApp Us Now</span>
-          </a>
+            <span>Explore Job Vacancies</span>
+          </Link>
         </div>
 
         {/* ── TWO-COLUMN LOWER BLOCK ────────────────────────────────── */}
@@ -316,8 +310,8 @@ export const HeroSection: React.FC = () => {
                   <Shield className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors">100+ Approvals</div>
-                  <div className="text-[10px] text-slate-400">View Verified Stamps</div>
+                  <div className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors">Client Reviews</div>
+                  <div className="text-[10px] text-slate-400">View Real Case Studies</div>
                 </div>
               </Link>
               <Link

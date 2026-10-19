@@ -129,7 +129,7 @@ export const CORE_PATHWAYS: ServicePathwayItem[] = [
 
 export const ServicePathwaysSection: React.FC = () => {
   return (
-    <section id="pathways" className="py-20 lg:py-28 bg-[#070415] text-white border-b border-purple-950/60 relative overflow-hidden">
+    <section id="services" className="py-20 lg:py-28 bg-[#070415] text-white border-b border-purple-950/60 relative overflow-hidden scroll-mt-20">
       {/* Background ambient glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[#402493]/10 rounded-full blur-[180px] pointer-events-none" />
 
