@@ -38,14 +38,14 @@ export function OrganizationSchema() {
         contactPoint: [
           {
             '@type': 'ContactPoint',
-            telephone: '+234-903-000-8218',
+            telephone: '+234-706-422-9556',
             contactType: 'customer service',
             areaServed: ['NG', 'GB', 'PL', 'SK', 'PT', 'SA', 'AU'],
             availableLanguage: ['English', 'Hausa'],
           },
           {
             '@type': 'ContactPoint',
-            telephone: '+234-708-000-7621',
+            telephone: '+234-802-856-2200',
             contactType: 'corporate recruitment',
             areaServed: ['NG', 'EU', 'GCC'],
             availableLanguage: ['English'],
@@ -53,7 +53,7 @@ export function OrganizationSchema() {
         ],
         hasOfferCatalog: {
           '@type': 'OfferCatalog',
-          name: 'Sijam Consults 9 Core Services & Manpower Solutions',
+          name: 'Sijam Consults Core Services & Manpower Solutions',
           itemListElement: [
             {
               '@type': 'Offer',
@@ -61,7 +61,7 @@ export function OrganizationSchema() {
                 '@type': 'Service',
                 name: 'International Recruitment and Manpower Supply',
                 description:
-                  'Primary flagship service connecting authenticated African skilled and technical personnel directly with foreign employer quotas across the UK, Poland, Slovakia, Portugal, Cyprus, and Saudi Arabia (GCC).',
+                  'Flagship international recruitment service connecting authenticated Nigerian skilled, healthcare, and technical personnel directly with foreign employer quotas across the UK, Poland, Slovakia, Portugal, Cyprus, and Saudi Arabia.',
                 provider: { '@id': 'https://sijamconsults.com/#organization' },
                 serviceType: 'International Recruitment and Manpower Supply',
                 areaServed: ['European Union', 'United Kingdom', 'Saudi Arabia', 'Australia', 'Nigeria'],
@@ -84,7 +84,7 @@ export function OrganizationSchema() {
                 '@type': 'Service',
                 name: 'Study Abroad and Student Recruitment',
                 description:
-                  'Direct university admissions across accredited European, UK, and Canadian higher education institutions with tuition scholarship quotas.',
+                  'Direct university admissions across accredited European, UK, and Canadian higher education institutions with tuition scholarship grants up to 50%.',
                 provider: { '@id': 'https://sijamconsults.com/#organization' },
                 serviceType: 'Study Abroad Admissions',
               },
@@ -137,17 +137,6 @@ export function OrganizationSchema() {
               '@type': 'Offer',
               itemOffered: {
                 '@type': 'Service',
-                name: 'Human Resources and Workforce Consultancy',
-                description:
-                  'Expatriate workforce advisory, statutory labor compliance, and cross-border organizational staffing.',
-                provider: { '@id': 'https://sijamconsults.com/#organization' },
-                serviceType: 'Human Resources Consultancy',
-              },
-            },
-            {
-              '@type': 'Offer',
-              itemOffered: {
-                '@type': 'Service',
                 name: 'Football Talent Networking and International Partnerships',
                 description:
                   'Connecting promising African football players and academies with verified European trial invitations, academy scouting networks, and sports visa pathways.',
@@ -179,50 +168,58 @@ export function OrganizationSchema() {
         mainEntity: [
           {
             '@type': 'Question',
-            name: 'What is Sijam Consults’ International Recruitment and Manpower Supply service?',
+            name: 'Does Sijam Consults assist individuals seeking international employment?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Sijam Consults Limited is an accredited recruitment agency in Nigeria (RC: 1715416) that connects qualified skilled, semi-skilled, technical, and healthcare candidates with legitimate foreign employer quotas in the UK, Poland, Slovakia, Portugal, Cyprus, and Saudi Arabia. We handle candidate pre-screening, trade validation, statutory work permit filings, and embassy visa legalisation.',
+              text: 'Yes. Sijam Consults Limited connects qualified Nigerian professionals, artisans, healthcare personnel, and skilled workers with legitimate international career opportunities. We guide candidates through credential screening, trade testing, compliance documentation, and statutory application stages. We operate transparently and never charge illegal placement fees.',
             },
           },
           {
             '@type': 'Question',
-            name: 'How does Sijam Consults protect candidates from fake job offers and visa scams?',
+            name: 'Can international employers hire Nigerian manpower through Sijam Consults?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Every job quota published through Sijam Consults is backed by an authentic employer contract, valid government-approved work permit allocations (e.g. Voivodeship permits in Poland, Slovakian labor quotas, or UK Certificates of Sponsorship), and attested through diplomatic and consular channels. We charge zero illegal placement fees and operate under CAC corporate regulation.',
+              text: 'Yes. Foreign employers, international staffing firms, and contractors can partner with our dedicated B2B Manpower Supply Desk to recruit pre-vetted, trade-tested Nigerian workers across construction, engineering, hospitality, healthcare, agriculture, and logistics under structured corporate agreements and verified labor quotas.',
             },
           },
           {
             '@type': 'Question',
-            name: 'How can European or Gulf employers partner with Sijam for B2B manpower sourcing?',
+            name: 'How does Sijam Consults verify foreign job offers or recruitment corridors?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'International corporations, recruitment agencies, and main contractors can engage our dedicated B2B Manpower Desk. Sijam Consults conducts comprehensive trade testing, background verification, medical clearances, and consular document attestation (MFA Abuja) to deploy reliable cohorts directly to project sites.',
+              text: 'Every recruitment pathway undergoes rigorous due diligence before any applicant is introduced. We confirm corporate registry records, verify official quotas issued by destination labor ministries (such as Polish Voivodeship permits, Slovakian Single Permits, UK Home Office CoS, or Saudi Qiwa quotas), and authenticate genuine direct employment contracts.',
             },
           },
           {
             '@type': 'Question',
-            name: 'What countries are available for Study Abroad admissions through Sijam Consults?',
+            name: 'What documents are typically required for work permit processing?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'We maintain verified bilateral partnerships with accredited higher education institutions across Northern Cyprus (Cyprus West University), Poland (WSEI Krakow), Spain, the United Kingdom, and Canada, offering up to 50% tuition scholarship quotas and direct admission without third-party markups.',
+              text: 'Requirements vary by destination country and occupation, but standard files include: a valid international passport (minimum 6–12 months validity), standardized CV/resume, police character certificate legalised by the Ministry of Foreign Affairs (MFA Abuja), certified medical fitness report, verified educational/trade credentials, and authenticated work experience records.',
             },
           },
           {
             '@type': 'Question',
-            name: 'Can Nigerian entrepreneurs incorporate a company in Europe through Sijam Consults?',
+            name: 'How does your study abroad advisory work?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Yes. Our Business Setup and International Business Consultancy service facilitates remote company incorporation in Poland (Sp. z o.o.) and the UK, including KRS court registration, VAT/NIP tax identification, EU corporate banking setup, and Schengen business residency advisory.',
+              text: 'We provide student-first educational placement connecting applicants directly to accredited universities in Northern Cyprus, Poland, Spain, the United Kingdom, and Canada. We manage admissions paperwork, assist with institutional tuition fee grants (up to 50%), guide proof of funds structuring, and provide comprehensive student visa interview preparation.',
             },
           },
           {
             '@type': 'Question',
-            name: 'What is Football Talent Networking and International Partnerships?',
+            name: 'Does Sijam Consults guarantee visa approval?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Through verified sports management networks, Sijam Consults facilitates legitimate trial invitations, youth academy scouting links, and sports mobility visa advisory for ambitious African football talent looking to showcase their abilities to European clubs and certified FIFA-licensed academies.',
+              text: 'No. In compliance with international standards and Nigerian law, Sijam Consults does not and cannot guarantee visa approvals. Sovereign consular and immigration authorities retain sole discretion over visa issuance. Our role is strictly professional advisory: eliminating administrative omissions, ensuring legitimate documentation, and maximizing your compliance.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Can I visit your Kaduna office for an in-person consultation?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Yes. Our corporate headquarters is located at Suite A10, 2/4 Kachia Road, Kaduna, Nigeria (CAC Registered RC: 1715416). Physical consultations, document verifications, and intake appointments are conducted Monday to Friday, 9:00 AM – 5:00 PM. You can schedule an appointment online or contact our desk directly.',
             },
           },
         ],

@@ -171,17 +171,83 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1">
-
-            {/* Home */}
+          <nav className="hidden xl:flex items-center gap-0.5 2xl:gap-1 text-[13px]">
+            {/* 1. Home */}
             <Link
               href={ROUTES.home}
-              className="text-sm font-medium text-white/85 hover:text-white hover:bg-white/5 transition-all px-3 py-2 rounded-lg"
+              className="font-medium text-white/85 hover:text-white hover:bg-white/5 transition-all px-2.5 py-2 rounded-lg"
             >
               Home
             </Link>
 
-            {/* Services Mega Dropdown */}
+            {/* 2. International Recruitment */}
+            <Link
+              href={ROUTES.services.recruitmentSupply}
+              className="font-medium text-white/85 hover:text-white hover:bg-white/5 transition-all px-2.5 py-2 rounded-lg whitespace-nowrap"
+            >
+              International Recruitment
+            </Link>
+
+            {/* 3. Work Permits */}
+            <Link
+              href={ROUTES.services.workVisa}
+              className="font-medium text-white/85 hover:text-white hover:bg-white/5 transition-all px-2.5 py-2 rounded-lg whitespace-nowrap"
+            >
+              Work Permits
+            </Link>
+
+            {/* 4. Study Abroad */}
+            <Link
+              href={ROUTES.services.studyVisa}
+              className="font-medium text-white/85 hover:text-white hover:bg-white/5 transition-all px-2.5 py-2 rounded-lg whitespace-nowrap"
+            >
+              Study Abroad
+            </Link>
+
+            {/* 5. Travel Services */}
+            <Link
+              href={ROUTES.services.flightReservations}
+              className="font-medium text-white/85 hover:text-white hover:bg-white/5 transition-all px-2.5 py-2 rounded-lg whitespace-nowrap"
+            >
+              Travel Services
+            </Link>
+
+            {/* 6. Business Consultancy */}
+            <Link
+              href={ROUTES.services.businessRegistration}
+              className="font-medium text-white/85 hover:text-white hover:bg-white/5 transition-all px-2.5 py-2 rounded-lg whitespace-nowrap"
+            >
+              Business Consultancy
+            </Link>
+
+            {/* 7. Jobs */}
+            <Link
+              href={ROUTES.jobs.root}
+              className="relative flex items-center gap-1 font-medium text-white/85 hover:text-white hover:bg-white/5 transition-all px-2.5 py-2 rounded-lg"
+            >
+              Jobs
+              <span className="inline-flex items-center text-[9px] font-bold bg-[#DC2F11] text-white px-1.5 py-0.2 rounded-full uppercase tracking-wider">
+                New
+              </span>
+            </Link>
+
+            {/* 8. About */}
+            <Link
+              href={ROUTES.about}
+              className="font-medium text-white/85 hover:text-white hover:bg-white/5 transition-all px-2.5 py-2 rounded-lg"
+            >
+              About
+            </Link>
+
+            {/* 9. Contact */}
+            <Link
+              href={ROUTES.contact}
+              className="font-medium text-white/85 hover:text-white hover:bg-white/5 transition-all px-2.5 py-2 rounded-lg"
+            >
+              Contact
+            </Link>
+
+            {/* More Services Dropdown */}
             <div
               ref={servicesRef}
               className="relative"
@@ -189,209 +255,116 @@ export function Navbar() {
               onMouseLeave={() => setServicesOpen(false)}
             >
               <button
-                className={`flex items-center gap-1 text-sm font-medium transition-all px-3 py-2 rounded-lg ${
-                  servicesOpen
-                    ? "text-white bg-white/8"
-                    : "text-white/85 hover:text-white hover:bg-white/5"
-                }`}
+                className="font-medium text-white/85 hover:text-white hover:bg-white/5 transition-all px-2.5 py-2 rounded-lg inline-flex items-center gap-1"
                 aria-expanded={servicesOpen}
-                aria-haspopup="true"
-              >
-                Services
-                <ChevronDown
-                  className={`w-3.5 h-3.5 text-white/50 transition-transform duration-200 ${servicesOpen ? "rotate-180 text-white/80" : ""}`}
-                />
-              </button>
-
-              {/* Services Dropdown Panel */}
-              <div
-                className={`absolute top-full left-0 mt-1 w-[360px] bg-[#100830] rounded-2xl border border-white/10 shadow-2xl p-2 transition-all duration-200 origin-top ${
-                  servicesOpen ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"
-                }`}
-              >
-                {/* Header */}
-                <div className="flex items-center justify-between px-3 py-2 mb-1">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-white/40 flex items-center gap-1.5">
-                    <LayoutGrid className="w-3 h-3" /> All Services
-                  </span>
-                </div>
-
-                <div className="grid gap-0.5">
-                  {SERVICE_LINKS.map((s) => {
-                    const Icon = s.icon;
-                    return (
-                      <Link
-                        key={s.href}
-                        href={s.href}
-                        onClick={() => setServicesOpen(false)}
-                        className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-white/6 transition-colors group"
-                      >
-                        <div className="p-1.5 rounded-lg bg-[#402493]/50 text-purple-300 group-hover:bg-gradient-to-br group-hover:from-[#4DA5EC] group-hover:to-[#257CFF] group-hover:text-white transition-all shrink-0 mt-0.5">
-                          <Icon className="w-3.5 h-3.5" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs font-semibold text-white/90 group-hover:text-white truncate">
-                              {s.label}
-                            </span>
-                            {s.badge && (
-                              <span className="text-[9px] font-bold bg-[#4DA5EC]/20 text-[#4DA5EC] px-1.5 py-0.5 rounded-full uppercase tracking-wider shrink-0">
-                                {s.badge}
-                              </span>
-                            )}
-                          </div>
-                          <div className="text-[11px] text-white/45 mt-0.5">{s.desc}</div>
-                        </div>
-                      </Link>
-                    );
-                  })}
-                </div>
-
-                <div className="border-t border-white/8 mt-2 pt-2">
-                  <Link
-                    href={ROUTES.services.root}
-                    onClick={() => setServicesOpen(false)}
-                    className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#4DA5EC] hover:bg-white/5 transition-all group"
-                  >
-                    <span>View All Services</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* Why Us */}
-            <Link
-              href={ROUTES.whyChooseUs}
-              className="text-sm font-medium text-white/85 hover:text-white hover:bg-white/5 transition-all px-3 py-2 rounded-lg"
-            >
-              Why Us
-            </Link>
-
-            {/* Jobs with "New" badge */}
-            <Link
-              href={ROUTES.jobs.root}
-              className="relative flex items-center gap-1.5 text-sm font-medium text-white/85 hover:text-white hover:bg-white/5 transition-all px-3 py-2 rounded-lg"
-            >
-              Jobs
-              <span className="inline-flex items-center gap-0.5 text-[9px] font-bold bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white px-1.5 py-0.5 rounded-full uppercase tracking-wider animate-pulse">
-                <Sparkles className="w-2.5 h-2.5" />
-                New
-              </span>
-            </Link>
-
-            {/* Partners */}
-            <Link
-              href={ROUTES.partners}
-              className="text-sm font-medium text-white/85 hover:text-white hover:bg-white/5 transition-all px-3 py-2 rounded-lg"
-            >
-              Partners
-            </Link>
-
-            {/* About */}
-            <Link
-              href={ROUTES.about}
-              className="text-sm font-medium text-white/85 hover:text-white hover:bg-white/5 transition-all px-3 py-2 rounded-lg"
-            >
-              About
-            </Link>
-
-            {/* Contact */}
-            <Link
-              href={ROUTES.contact}
-              className="text-sm font-medium text-white/85 hover:text-white hover:bg-white/5 transition-all px-3 py-2 rounded-lg"
-            >
-              Contact
-            </Link>
-
-            {/* More Dropdown — Reviews + Guides */}
-            <div
-              ref={moreRef}
-              className="relative"
-              onMouseEnter={() => setMoreOpen(true)}
-              onMouseLeave={() => setMoreOpen(false)}
-            >
-              <button
-                className={`flex items-center gap-1 text-sm font-medium transition-all px-3 py-2 rounded-lg ${
-                  moreOpen
-                    ? "text-white bg-white/8"
-                    : "text-white/85 hover:text-white hover:bg-white/5"
-                }`}
-                aria-expanded={moreOpen}
                 aria-haspopup="true"
               >
                 More
                 <ChevronDown
-                  className={`w-3.5 h-3.5 text-white/50 transition-transform duration-200 ${moreOpen ? "rotate-180 text-white/80" : ""}`}
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                    servicesOpen ? 'rotate-180 text-white' : 'text-white/60'
+                  }`}
                 />
               </button>
 
               {/* More Dropdown Panel */}
               <div
-                className={`absolute top-full right-0 mt-1 w-[260px] bg-[#100830] rounded-2xl border border-white/10 shadow-2xl p-2 transition-all duration-200 origin-top-right ${
-                  moreOpen ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"
+                className={`absolute top-full right-0 mt-2 w-72 rounded-2xl bg-[#0F0A28]/95 backdrop-blur-2xl border border-white/10 shadow-2xl p-2.5 transition-all duration-200 z-50 ${
+                  servicesOpen
+                    ? 'opacity-100 translate-y-0 pointer-events-auto'
+                    : 'opacity-0 -translate-y-2 pointer-events-none'
                 }`}
               >
-                <div className="px-3 py-2 mb-1">
+                <div className="px-3 py-1.5 mb-1">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-white/40">
-                    Discover More
+                    Additional Services &amp; Resources
                   </span>
                 </div>
 
                 <div className="grid gap-0.5">
-                  {MORE_LINKS.map((item) => {
-                    const Icon = item.icon;
-                    return (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        onClick={() => setMoreOpen(false)}
-                        className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-white/6 transition-colors group"
-                      >
-                        <div className="p-1.5 rounded-lg bg-[#402493]/50 text-purple-300 group-hover:bg-gradient-to-br group-hover:from-[#4DA5EC] group-hover:to-[#257CFF] group-hover:text-white transition-all shrink-0 mt-0.5">
-                          <Icon className="w-3.5 h-3.5" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs font-semibold text-white/90 group-hover:text-white">
-                              {item.label}
-                            </span>
-                            {item.badge && (
-                              <span className="text-[9px] font-bold bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded-full uppercase tracking-wider shrink-0">
-                                {item.badge}
-                              </span>
-                            )}
-                          </div>
-                          <div className="text-[11px] text-white/45 mt-0.5">
-                            {item.href === ROUTES.reviews && "Real visa stamps from real clients"}
-                            {item.href === ROUTES.guides.root && "Immigration & relocation insights"}
-                          </div>
-                        </div>
-                      </Link>
-                    );
-                  })}
+                  <Link
+                    href={ROUTES.services.touristVisa}
+                    onClick={() => setServicesOpen(false)}
+                    className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-white/6 transition-colors"
+                  >
+                    <Compass className="w-4 h-4 text-[#F98864]" />
+                    <span className="text-xs font-semibold text-white/90">Tourist &amp; Visitor Visas</span>
+                  </Link>
+                  <Link
+                    href={ROUTES.services.documentLegalization}
+                    onClick={() => setServicesOpen(false)}
+                    className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-white/6 transition-colors"
+                  >
+                    <FileCheck className="w-4 h-4 text-[#4DA5EC]" />
+                    <span className="text-xs font-semibold text-white/90">Document Legalization (MFA)</span>
+                  </Link>
+                  <Link
+                    href={ROUTES.services.visaAssistance}
+                    onClick={() => setServicesOpen(false)}
+                    className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-white/6 transition-colors"
+                  >
+                    <FileCheck className="w-4 h-4 text-purple-300" />
+                    <span className="text-xs font-semibold text-white/90">File Audit &amp; Mock Interview</span>
+                  </Link>
+                  <Link
+                    href={ROUTES.services.footballTalent}
+                    onClick={() => setServicesOpen(false)}
+                    className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-white/6 transition-colors"
+                  >
+                    <Users className="w-4 h-4 text-emerald-400" />
+                    <span className="text-xs font-semibold text-white/90">Football Talent Scouting</span>
+                  </Link>
+                  <div className="border-t border-white/8 my-1" />
+                  <Link
+                    href={ROUTES.whyChooseUs}
+                    onClick={() => setServicesOpen(false)}
+                    className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-white/6 transition-colors"
+                  >
+                    <Handshake className="w-4 h-4 text-amber-300" />
+                    <span className="text-xs font-semibold text-white/90">Why Choose Us</span>
+                  </Link>
+                  <Link
+                    href={ROUTES.partners}
+                    onClick={() => setServicesOpen(false)}
+                    className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-white/6 transition-colors"
+                  >
+                    <Globe className="w-4 h-4 text-teal-300" />
+                    <span className="text-xs font-semibold text-white/90">Bilateral Alliances</span>
+                  </Link>
+                  <Link
+                    href={ROUTES.reviews}
+                    onClick={() => setServicesOpen(false)}
+                    className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-white/6 transition-colors"
+                  >
+                    <Star className="w-4 h-4 text-amber-400" />
+                    <span className="text-xs font-semibold text-white/90">Client Reviews &amp; Approvals</span>
+                  </Link>
+                  <Link
+                    href={ROUTES.guides.root}
+                    onClick={() => setServicesOpen(false)}
+                    className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-white/6 transition-colors"
+                  >
+                    <BookOpen className="w-4 h-4 text-[#F98864]" />
+                    <span className="text-xs font-semibold text-white/90">Relocation Guides &amp; Insights</span>
+                  </Link>
                 </div>
-
-                {/* Decorative gradient strip */}
-                <div className="mt-2 mx-2 h-px bg-gradient-to-r from-transparent via-[#4DA5EC]/30 to-transparent" />
               </div>
             </div>
           </nav>
 
           {/* Desktop Action CTAs */}
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden xl:flex items-center gap-2.5">
             <Link
-              href={ROUTES.consultation}
-              className="text-sm font-medium text-white/75 hover:text-white border border-white/15 hover:border-white/30 px-4 py-2 rounded-lg transition-all hover:bg-white/5"
+              href="/contact?intent=hire_manpower"
+              className="text-xs font-semibold text-white/90 hover:text-white bg-[#402493]/40 hover:bg-[#402493] border border-purple-500/40 px-3.5 py-2.5 rounded-lg transition-all whitespace-nowrap"
             >
-              <Calendar className="w-3.5 h-3.5 inline mr-1.5 -mt-0.5" />
-              Book Session
+              <span>Hire Talent</span>
             </Link>
             <Link
-              href={ROUTES.assessment}
-              className="flex items-center gap-2 bg-gradient-to-r from-[#DC2F11] to-[#F45A2A] hover:brightness-110 text-white text-xs uppercase tracking-wider font-bold px-5 py-2.5 rounded-lg shadow-[0_4px_20px_rgba(220,47,17,0.4)] transition-all hover:scale-[1.02] active:scale-[0.98] border border-[#DC2F11]/40"
+              href={ROUTES.jobs.root}
+              className="flex items-center gap-1.5 bg-gradient-to-r from-[#DC2F11] to-[#F45A2A] hover:brightness-110 text-white text-xs uppercase tracking-wider font-bold px-4 py-2.5 rounded-lg shadow-[0_4px_20px_rgba(220,47,17,0.4)] transition-all hover:scale-[1.02] active:scale-[0.98] border border-[#DC2F11]/40 whitespace-nowrap"
             >
-              <span>Check Eligibility</span>
+              <span>Explore Opportunities</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>

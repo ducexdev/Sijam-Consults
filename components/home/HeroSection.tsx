@@ -168,28 +168,20 @@ export const HeroSection: React.FC = () => {
           </span>
         </div>
 
-        {/* ── HEADLINE — Conversion-optimised, psychologically-driven ── */}
+        {/* ── HEADLINE — Conversion-optimised, authoritative, keyword-targeted ── */}
         <div className="max-w-4xl space-y-5 mb-10">
-          <h1 className="font-heading font-black text-4xl sm:text-5xl lg:text-[3.75rem] xl:text-[4.25rem] text-white leading-[1.05] tracking-tight">
-            Your{' '}
-            <span className="relative inline-block">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#DC2F11] via-[#F45A2A] to-[#F98864]">
-                Dream Job Abroad
-              </span>
-              {/* Underline accent */}
-              <span className="absolute -bottom-1 left-0 right-0 h-[3px] rounded-full bg-gradient-to-r from-[#DC2F11] to-[#F98864] opacity-70" />
+          <h1 className="font-heading font-black text-3xl sm:text-5xl lg:text-[3.5rem] xl:text-[4rem] text-white leading-[1.08] tracking-tight">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#DC2F11] via-[#F45A2A] to-[#F98864]">
+              International Recruitment
             </span>{' '}
-            Starts Here —{' '}
+            and Manpower Solutions for{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
-              We Handle Everything.
+              Global Opportunities
             </span>
           </h1>
 
           <p className="text-base sm:text-lg lg:text-xl text-slate-300 leading-relaxed font-normal max-w-3xl">
-            Sijam Consults Limited connects ambitious Nigerians to{' '}
-            <strong className="text-white font-semibold">verified foreign employer quotas</strong>{' '}
-            in the UK, Poland, Slovakia & Saudi Arabia — with statutory work permits, manpower supply, study abroad placements, and travel solutions, all under one{' '}
-            <strong className="text-white font-semibold">CAC-registered roof.</strong>
+            Sijam Consults Limited supports individuals pursuing international employment and education opportunities, while helping employers access recruitment and manpower services. Our team provides guidance across recruitment, documentation, admissions, and related international mobility services.
           </p>
 
           {/* Social proof micro-copy */}
@@ -202,7 +194,7 @@ export const HeroSection: React.FC = () => {
               ))}
             </div>
             <p className="text-xs text-slate-400">
-              <strong className="text-white">500+ professionals</strong> placed abroad this year alone
+              <strong className="text-white">500+ verified filings</strong> across UK, Poland, Slovakia &amp; Gulf corridors
             </p>
           </div>
         </div>
@@ -213,7 +205,7 @@ export const HeroSection: React.FC = () => {
             href={ROUTES.jobs.root}
             className="group inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-gradient-to-r from-[#DC2F11] to-[#F45A2A] text-white font-black text-sm tracking-wide shadow-[0_8px_32px_-8px_rgba(220,47,17,0.7)] hover:shadow-[0_12px_40px_-8px_rgba(220,47,17,0.9)] hover:brightness-110 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
           >
-            <span>Explore Live Foreign Job Quotas</span>
+            <span>Explore Available Opportunities</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
           <Link
@@ -221,7 +213,7 @@ export const HeroSection: React.FC = () => {
             className="inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl bg-gradient-to-r from-[#402493] to-[#2D186B] hover:from-[#3B1F8C] hover:to-[#1A1040] text-white font-semibold text-sm tracking-wide border border-purple-500/40 shadow-[0_8px_25px_-5px_rgba(64,36,147,0.5)] backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98]"
           >
             <Users className="w-4 h-4 text-[#F98864]" />
-            <span>Hire International Manpower</span>
+            <span>Hire International Talent</span>
           </Link>
           <a
             href={COMPANY.whatsapp.link}
