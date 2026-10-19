@@ -124,7 +124,7 @@ export const ProcessSteps: React.FC = () => {
           </p>
           <Link
             href={ROUTES.consultation}
-            className="shrink-0 px-6 py-3 rounded-xl bg-gradient-to-r from-[#DC2F11] to-[#F45A2A] text-white font-bold text-xs uppercase tracking-wider shadow-md hover:brightness-110 transition-all"
+            className="shrink-0 px-6 py-3 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-bold text-xs uppercase tracking-wider shadow-[0_8px_25px_-5px_rgba(77,165,236,0.5)] hover:shadow-[0_12px_30px_-5px_rgba(37,124,255,0.7)] hover:brightness-110 transition-all"
           >
             <span>Begin Stage 01 Consultation</span>
           </Link>

@@ -203,7 +203,7 @@ export const HeroSection: React.FC = () => {
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-14">
           <Link
             href={ROUTES.jobs.root}
-            className="group inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-gradient-to-r from-[#DC2F11] to-[#F45A2A] text-white font-black text-sm tracking-wide shadow-[0_8px_32px_-8px_rgba(220,47,17,0.7)] hover:shadow-[0_12px_40px_-8px_rgba(220,47,17,0.9)] hover:brightness-110 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+            className="group inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-black text-sm tracking-wide shadow-[0_8px_32px_-8px_rgba(77,165,236,0.6)] hover:shadow-[0_12px_40px_-8px_rgba(37,124,255,0.8)] hover:brightness-110 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
           >
             <span>Explore Available Opportunities</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

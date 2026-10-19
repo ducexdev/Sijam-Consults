@@ -137,7 +137,7 @@ export const StudyAbroadSection: React.FC = () => {
             </div>
             <Link
               href={ROUTES.services.studyVisa}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#DC2F11] to-[#F45A2A] text-white font-bold text-xs uppercase tracking-wider text-center shadow-md hover:brightness-110 transition-all whitespace-nowrap"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-bold text-xs uppercase tracking-wider text-center shadow-[0_8px_25px_-5px_rgba(77,165,236,0.5)] hover:shadow-[0_12px_30px_-5px_rgba(37,124,255,0.7)] hover:brightness-110 transition-all whitespace-nowrap"
             >
               <span>Explore Study Abroad Service</span>
               <ArrowRight className="w-4 h-4" />

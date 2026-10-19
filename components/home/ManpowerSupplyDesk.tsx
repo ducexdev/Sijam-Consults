@@ -205,7 +205,7 @@ export const ManpowerSupplyDesk: React.FC = () => {
             <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
               <Link
                 href="/contact?intent=hire_manpower"
-                className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#DC2F11] to-[#F45A2A] text-white font-extrabold text-xs uppercase tracking-wider text-center shadow-[0_8px_32px_-8px_rgba(220,47,17,0.7)] hover:shadow-[0_12px_40px_-8px_rgba(220,47,17,0.9)] hover:brightness-110 transition-all flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-extrabold text-xs uppercase tracking-wider text-center shadow-[0_8px_32px_-8px_rgba(77,165,236,0.6)] hover:shadow-[0_12px_40px_-8px_rgba(37,124,255,0.8)] hover:brightness-110 transition-all flex items-center justify-center gap-2"
               >
                 <span>Initiate Manpower Requisition</span>
                 <ArrowRight className="w-4 h-4" />
