@@ -205,7 +205,7 @@ export const ManpowerSupplyDesk: React.FC = () => {
             <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
               <Link
                 href="/contact?intent=hire_manpower"
-                className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-extrabold text-xs uppercase tracking-wider text-center shadow-cta hover:brightness-110 transition-all flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#DC2F11] to-[#F45A2A] text-white font-extrabold text-xs uppercase tracking-wider text-center shadow-[0_8px_32px_-8px_rgba(220,47,17,0.7)] hover:shadow-[0_12px_40px_-8px_rgba(220,47,17,0.9)] hover:brightness-110 transition-all flex items-center justify-center gap-2"
               >
                 <span>Initiate Manpower Requisition</span>
                 <ArrowRight className="w-4 h-4" />
@@ -213,7 +213,7 @@ export const ManpowerSupplyDesk: React.FC = () => {
 
               <Link
                 href={ROUTES.jobs.root}
-                className="w-full sm:w-auto px-5 py-3.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] text-white font-bold text-xs uppercase tracking-wider text-center border border-white/15 transition-all"
+                className="w-full sm:w-auto px-5 py-3.5 rounded-xl bg-gradient-to-r from-[#402493] to-[#2D186B] hover:from-[#3B1F8C] hover:to-[#1A1040] text-white font-bold text-xs uppercase tracking-wider text-center border border-purple-500/40 shadow-[0_8px_25px_-5px_rgba(64,36,147,0.5)] transition-all"
               >
                 View Live Board
               </Link>

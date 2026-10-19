@@ -12,10 +12,8 @@ import {
   Plane,
   ArrowRight,
   Shield,
-  CheckCircle2,
   Users,
   Globe2,
-  TrendingUp,
   Play,
   Pause,
 } from 'lucide-react';
@@ -86,13 +84,6 @@ const PATHWAYS = [
     tag: 'Active PNR',
     tagColor: 'bg-teal-500/15 text-teal-300 border-teal-500/30',
   },
-];
-
-const TRUST_BADGES = [
-  { icon: CheckCircle2, color: 'text-emerald-400', label: 'CAC Registered RC: 1715416' },
-  { icon: Shield, color: 'text-[#4DA5EC]', label: '100+ Verified Visa Approvals' },
-  { icon: Globe2, color: 'text-purple-300', label: 'EU, UK & Gulf Corridors' },
-  { icon: TrendingUp, color: 'text-[#F98864]', label: 'Direct Employer Quotas' },
 ];
 
 export const HeroSection: React.FC = () => {
@@ -170,17 +161,11 @@ export const HeroSection: React.FC = () => {
       <div className="relative z-10 flex-1 flex flex-col justify-center max-w-7xl mx-auto w-full px-4 sm:px-6 pt-24 pb-10 lg:pt-28 lg:pb-16">
 
         {/* Trust strip */}
-        <div className="flex flex-wrap items-center gap-x-5 gap-y-2 mb-8">
+        <div className="mb-8">
           <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#DC2F11]/15 border border-[#DC2F11]/40 text-[10px] font-black uppercase tracking-widest text-[#F98864]">
             <span className="w-1.5 h-1.5 rounded-full bg-[#DC2F11] animate-pulse" />
-            Nigeria's #1 Recruitment & Manpower Agency
+            Nigeria&apos;s #1 Recruitment &amp; Manpower Agency
           </span>
-          {TRUST_BADGES.map(({ icon: Icon, color, label }) => (
-            <span key={label} className="flex items-center gap-1.5 text-[11px] text-slate-400">
-              <Icon className={`w-3.5 h-3.5 ${color} shrink-0`} />
-              <span>{label}</span>
-            </span>
-          ))}
         </div>
 
         {/* ── HEADLINE — Conversion-optimised, psychologically-driven ── */}
@@ -233,9 +218,9 @@ export const HeroSection: React.FC = () => {
           </Link>
           <Link
             href="/contact?intent=hire_manpower"
-            className="inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl bg-white/[0.07] hover:bg-white/[0.13] text-white font-semibold text-sm tracking-wide border border-white/15 backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98]"
+            className="inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl bg-gradient-to-r from-[#402493] to-[#2D186B] hover:from-[#3B1F8C] hover:to-[#1A1040] text-white font-semibold text-sm tracking-wide border border-purple-500/40 shadow-[0_8px_25px_-5px_rgba(64,36,147,0.5)] backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98]"
           >
-            <Users className="w-4 h-4 text-emerald-400" />
+            <Users className="w-4 h-4 text-[#F98864]" />
             <span>Hire International Manpower</span>
           </Link>
           <a

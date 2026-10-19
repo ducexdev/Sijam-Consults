@@ -102,7 +102,7 @@ export const WhyUsPreview: React.FC = () => {
         <div className="mt-12 text-center">
           <Link
             href={ROUTES.whyChooseUs}
-            className="inline-flex items-center gap-2 px-7 py-4 rounded-xl bg-white/[0.08] hover:bg-white/[0.15] text-white font-semibold text-xs uppercase tracking-wider border border-white/15 backdrop-blur-md transition-all hover:scale-[1.02]"
+            className="inline-flex items-center gap-2 px-7 py-4 rounded-xl bg-gradient-to-r from-[#402493] to-[#2D186B] hover:from-[#3B1F8C] hover:to-[#1A1040] text-white font-bold text-xs uppercase tracking-wider border border-purple-500/40 shadow-[0_8px_25px_-5px_rgba(64,36,147,0.5)] transition-all hover:scale-[1.02]"
           >
             <span>Read Our Full Track Record & Methodology</span>
             <ArrowRight className="w-4 h-4 ml-1" />

@@ -56,9 +56,9 @@ export const ConsultationBanner: React.FC = () => {
           </a>
           <a
             href={`tel:${COMPANY.phones.primary}`}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl bg-white/[0.07] hover:bg-white/[0.13] text-white font-semibold text-sm border border-white/15 backdrop-blur-md transition-all"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl bg-gradient-to-r from-[#402493] to-[#2D186B] hover:from-[#3B1F8C] hover:to-[#1A1040] text-white font-semibold text-sm border border-purple-500/40 shadow-[0_8px_20px_-5px_rgba(64,36,147,0.5)] transition-all"
           >
-            <PhoneCall className="w-4 h-4 text-[#4DA5EC]" />
+            <PhoneCall className="w-4 h-4 text-[#F98864]" />
             <span>{COMPANY.phones.primary}</span>
           </a>
         </div>

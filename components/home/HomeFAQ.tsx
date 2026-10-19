@@ -135,14 +135,14 @@ export const HomeFAQ: React.FC = () => {
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Link
               href={ROUTES.contact}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-bold text-xs shadow-cta hover:brightness-110 transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#DC2F11] to-[#F45A2A] text-white font-bold text-xs shadow-[0_8px_25px_-5px_rgba(220,47,17,0.5)] hover:shadow-[0_12px_30px_-5px_rgba(220,47,17,0.7)] hover:brightness-110 transition-all"
             >
               <MessageCircleQuestion className="w-3.5 h-3.5" />
               <span>Contact Senior Advisory Desk</span>
             </Link>
             <Link
               href={ROUTES.jobs.root}
-              className="px-5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white font-semibold text-xs border border-white/10 transition-all"
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#402493] to-[#2D186B] hover:from-[#3B1F8C] hover:to-[#1A1040] text-white font-semibold text-xs border border-purple-500/40 shadow-[0_8px_20px_-5px_rgba(64,36,147,0.5)] transition-all"
             >
               Browse Active Foreign Jobs
             </Link>
