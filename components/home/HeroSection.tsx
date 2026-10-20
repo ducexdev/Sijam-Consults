@@ -122,15 +122,8 @@ export const HeroSection: React.FC = () => {
             </div>
 
             {/* Headline */}
-            <h1 className="font-heading font-black text-3xl sm:text-5xl lg:text-[3.15rem] xl:text-[3.55rem] text-white leading-[1.08] tracking-tight">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
-                International Recruitment,
-              </span>{' '}
-              Study Abroad &amp;{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
-                Immigration Agency
-              </span>{' '}
-              in Nigeria
+            <h1 className="font-heading font-black text-[24px] sm:text-[30px] lg:text-[42px] xl:text-[52px] text-white leading-[1.15] tracking-tight">
+              International Recruitment, Study Abroad &amp; Immigration Agency in Nigeria
             </h1>
 
             <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal max-w-2xl">
