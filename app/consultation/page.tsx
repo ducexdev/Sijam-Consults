@@ -8,8 +8,20 @@ import { VIDEOS } from '@/lib/constants/videos';
 import { Calendar, Shield, Clock, MapPin, Sparkles } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Book a Consultation | Sijam Consults Limited – Strategic Immigration Advisory',
-  description: 'Schedule a 1-on-1 private strategy consultation with Sijam Consults Limited in Kaduna or online via WhatsApp / Google Meet. Professional review of your documents and goals.',
+  title: 'Book an Immigration Advisory Session | Sijam Consults',
+  description:
+    'Schedule a private advisory session with our senior documentation consultants. Comprehensive profile evaluation, roadmap planning, and transparent guidance.',
+  keywords: [
+    'book immigration consultation nigeria',
+    'study abroad consultation session',
+    'work permit advisory consultation',
+    'speak with a certified visa consultant',
+    'schedule overseas relocation assessment',
+    'Sijam Consults consultation',
+  ],
+  alternates: {
+    canonical: 'https://sijamconsults.com/consultation',
+  },
 };
 
 export default function ConsultationPage() {

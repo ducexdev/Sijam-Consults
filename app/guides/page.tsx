@@ -8,8 +8,20 @@ import { BookOpen, Compass, ShieldCheck, Sparkles } from 'lucide-react';
 import { ConsultationBanner } from '@/components/home/ConsultationBanner';
 
 export const metadata: Metadata = {
-  title: 'Travel Guides & Immigration Advisory | Sijam Consults Limited',
-  description: 'Forensic immigration roadmaps, European study admission guides, and work permit verification advice authored by Sijam Consults Limited.',
+  title: 'Authoritative Immigration & Relocation Guides | Sijam',
+  description:
+    'Fact-checked immigration, work permit, and study abroad guides for Nigerians. In-depth analysis of European visa requirements and international salary thresholds.',
+  keywords: [
+    'immigration and travel guides for nigerians',
+    'study abroad guide for nigerian students',
+    'how to evaluate a foreign job offer',
+    'visa application checklist and document guide',
+    'schengen d visa requirements explained',
+    'Sijam Consults guides',
+  ],
+  alternates: {
+    canonical: 'https://sijamconsults.com/guides',
+  },
 };
 
 export default function GuidesPage() {

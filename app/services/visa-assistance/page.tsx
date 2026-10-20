@@ -9,9 +9,9 @@ import { generatePageMetadata } from '@/lib/seo/metadata';
 
 export async function generateMetadata(): Promise<Metadata> {
   return generatePageMetadata({
-    title: 'Visa Application Assistance & File Audit | Mock Consular Interview Nigeria',
+    title: 'Accredited Visa Consultant in Nigeria',
     description:
-      'Pre-submission visa application review, document forensic audits, and intensive mock consular interview coaching for self-applying clients in Nigeria. Prevent refusals before they happen. Sijam Consults Limited, Kaduna. RC: 1715416.',
+      'Eliminate costly application errors with our 47-point visa dossier audit. Proven interview coaching and refusal mitigation by senior documentation consultants.',
     path: '/services/visa-assistance',
   });
 }

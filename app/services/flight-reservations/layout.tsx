@@ -3,9 +3,9 @@ import { generatePageMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
   return generatePageMetadata({
-    title: 'Verifiable Flight Reservation & Ticketing | Sijam Consults & Everbright Travels',
+    title: 'Verifiable Flight Reservation for Visa',
     description:
-      'Official embassy-verifiable flight reservations with live GDS PNR codes and international flight ticketing. In strategic alliance with Everbright Travels & Consultants Limited. Issued within 60–120 minutes across Nigeria.',
+      'Order 100% verifiable flight reservations with active GDS PNR codes for embassy visa applications. Fast turnaround and flexible travel date adjustments.',
     path: '/services/flight-reservations',
   });
 }

@@ -41,9 +41,19 @@ import { TEAM_MEMBERS } from '@/lib/data/team';
 import { COMPANY, ROUTES } from '@/lib/routes';
 
 export const metadata: Metadata = {
-  title: 'About Sijam Consults Limited | James Samson CEO | Immigration & Visa Agency Nigeria (RC: 1715416)',
+  title: 'About Sijam Consults Limited | Global Mobility Experts',
   description:
-    'Meet James Samson, CEO of Sijam Consults Limited. 10+ years immigration consulting expertise in work permits, student visas, business visas, citizenship assistance, and recruitment. CAC RC: 1715416. Kaduna, Nigeria.',
+    'Learn about Sijam Consults Limited (RC: 1715416). Founded on integrity, forensic compliance, and professional clarity across international relocation and recruitment.',
+  keywords: [
+    'about sijam consults limited',
+    'sijam consults corporate profile',
+    'international consultancy agency kaduna abuja',
+    'sijam consults management team and mission',
+    'cac registered consultancy rc 1715416',
+  ],
+  alternates: {
+    canonical: 'https://sijamconsults.com/about',
+  },
 };
 
 export default function AboutPage() {

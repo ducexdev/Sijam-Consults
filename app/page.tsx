@@ -16,31 +16,25 @@ import { HomeFAQ } from '@/components/home/HomeFAQ';
 import { ConsultationBanner } from '@/components/home/ConsultationBanner';
 
 export const metadata: Metadata = {
-  title: 'Immigration & Travel Consultancy in Nigeria | SIJAM',
+  title: 'Sijam Consults | International Recruitment & Immigration Agency',
   description:
-    'Explore visa guidance, study abroad, work permit, international recruitment and travel services from Sijam Consults Limited in Nigeria (CAC RC: 1715416).',
+    'Sijam Consults Limited is an accredited Nigerian consultancy providing ethical international recruitment, study abroad admissions, and statutory work permits.',
   keywords: [
-    'immigration and travel consultancy in Nigeria',
-    'visa consultancy in Nigeria',
-    'travel agency in Nigeria',
-    'work permit consultancy',
-    'study abroad consultancy',
-    'international recruitment services',
-    'manpower solutions',
-    'flight reservation for visa application',
-    'business registration consultancy',
-    'document legalization and attestation',
-    'visa application assistance',
+    'immigration and international recruitment consultancy in nigeria',
+    'study abroad agency in nigeria',
+    'work permit consultancy in nigeria',
+    'international recruitment agency in nigeria',
+    'travel and visa consultants in nigeria',
     'Sijam Consults Limited',
-    'Sijam Consults',
+    'CAC RC: 1715416',
   ],
   alternates: {
     canonical: 'https://sijamconsults.com',
   },
   openGraph: {
-    title: 'Immigration & Travel Consultancy in Nigeria | SIJAM',
+    title: 'Sijam Consults | International Recruitment & Immigration Agency',
     description:
-      'Explore visa guidance, study abroad, work permit, international recruitment and travel services from Sijam Consults Limited in Nigeria (CAC RC: 1715416).',
+      'Sijam Consults Limited is an accredited Nigerian consultancy providing ethical international recruitment, study abroad admissions, and statutory work permits.',
     url: 'https://sijamconsults.com',
     siteName: 'Sijam Consults Limited',
     locale: 'en_NG',
@@ -48,9 +42,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Immigration & Travel Consultancy in Nigeria | SIJAM',
+    title: 'Sijam Consults | International Recruitment & Immigration Agency',
     description:
-      'Explore visa guidance, study abroad, work permit, international recruitment and travel services from Sijam Consults Limited in Nigeria.',
+      'Sijam Consults Limited is an accredited Nigerian consultancy providing ethical international recruitment, study abroad admissions, and statutory work permits.',
   },
 };
 

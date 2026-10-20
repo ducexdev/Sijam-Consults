@@ -9,8 +9,9 @@ import { generatePageMetadata } from '@/lib/seo/metadata';
 
 export async function generateMetadata(): Promise<Metadata> {
   return generatePageMetadata({
-    title: 'Company Registration in Europe & Business Visa Services',
-    description: 'Expand globally with seamless European company registration and foreign business registration in Poland. Secure your corporate bank account and Schengen business visa with Sijam Consults.',
+    title: 'Foreign Company Registration & Setup',
+    description:
+      'Establish your European enterprise or register a Nigerian company with ease. Turnkey Poland Sp. z o.o. incorporation and commercial business visa advisory.',
     path: '/services/business-registration',
   });
 }

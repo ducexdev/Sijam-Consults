@@ -3,8 +3,9 @@ import { generatePageMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
   return generatePageMetadata({
-    title: 'Travel Document Legalization & Notarization',
-    description: 'Official authentication of educational degrees, marriage certificates, and police records at the Ministry of Foreign Affairs (MFA Abuja) and foreign embassies.',
+    title: 'Document Legalization & MFA Attestation',
+    description:
+      'Expedited document legalization, MFA Abuja authentication, and foreign embassy attestation for educational transcripts, corporate deeds, and police certificates.',
     path: '/services/document-legalization',
   });
 }

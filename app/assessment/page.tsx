@@ -5,8 +5,20 @@ import { TrustBanner } from '@/components/ui/TrustBanner';
 import { AssessmentCalculator } from '@/components/assessment/AssessmentCalculator';
 
 export const metadata: Metadata = {
-  title: 'Free Visa & Relocation Eligibility Assessment | Sijam Consults Limited',
-  description: 'Complete our 2-minute eligibility quiz to discover your best pathway for studying, working, or relocating abroad. Instant personalized recommendation.',
+  title: 'Free Relocation Eligibility Assessment | Sijam Consults',
+  description:
+    'Evaluate your readiness for foreign study, statutory work permits, or corporate relocation with our transparent, 2-minute eligibility assessment tool.',
+  keywords: [
+    'relocation eligibility assessment nigeria',
+    'study abroad eligibility checker',
+    'work visa qualification test',
+    'immigration eligibility pre check',
+    'check eligibility to work abroad from nigeria',
+    'Sijam Consults',
+  ],
+  alternates: {
+    canonical: 'https://sijamconsults.com/assessment',
+  },
 };
 
 export default function AssessmentPage() {

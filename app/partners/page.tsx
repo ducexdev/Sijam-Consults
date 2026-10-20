@@ -10,8 +10,20 @@ import { ROUTES, COMPANY } from '@/lib/routes';
 import { VIDEOS } from '@/lib/constants/videos';
 
 export const metadata: Metadata = {
-  title: 'Global Academic & Institutional Partners | Sijam Consults Limited',
-  description: 'Explore Sijam Consults Limited’s official bilateral partnerships across Australia, Europe, the UK, and Saudi Arabia. Verified direct admissions, work permit quotas, and international recruitment.',
+  title: 'International Recruitment & Manpower Supply | Sijam B2B',
+  description:
+    'Turnkey skilled workforce mobilization and B2B international recruitment solutions. Reliable talent supply pipelines for European and Gulf contractors.',
+  keywords: [
+    'international recruitment companies',
+    'manpower supply company in nigeria',
+    'b2b international workforce sourcing',
+    'nigerian skilled manpower recruitment agency',
+    'overseas talent acquisition partner',
+    'Sijam Consults partners',
+  ],
+  alternates: {
+    canonical: 'https://sijamconsults.com/partners',
+  },
 };
 
 export default function PartnersPage() {

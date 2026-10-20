@@ -9,9 +9,9 @@ import { generatePageMetadata } from '@/lib/seo/metadata';
 
 export async function generateMetadata(): Promise<Metadata> {
   return generatePageMetadata({
-    title: 'Tourist & Visitor Visa Processing Advisory',
+    title: 'Tourist & Visitor Visa Assistance',
     description:
-      'Expert tourist and visitor visa processing for the UK, US, Schengen Area, Canada, and Dubai with tailored travel itineraries, hotel booking vouchers, and consular interview coaching. Sijam Consults Limited, Kaduna Nigeria. RC: 1715416.',
+      'Expert visitor visa application assistance for Schengen, UK, US, and Canada. File audit, itinerary structuring, and refusal prevention for Nigerian travelers.',
     path: '/services/tourist-visa',
   });
 }

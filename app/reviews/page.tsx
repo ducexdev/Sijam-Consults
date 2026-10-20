@@ -8,8 +8,19 @@ import { VIDEOS } from '@/lib/constants/videos';
 import { ShieldCheck, Star, Award, CheckCircle2 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Client Reviews & Verified Visa Approvals | Sijam Consults Limited',
-  description: 'See authentic proof of our results. Browse real visa approval stamps, client video reviews, and success stories across Schengen, Canada, and the UK.',
+  title: 'Client Reviews & Verified Relocations | Sijam Consults',
+  description:
+    'Read genuine client reviews and watch video testimonials from Nigerian students, professionals, and families successfully relocated through Sijam Consults.',
+  keywords: [
+    'sijam consults reviews and testimonials',
+    'sijam consults success stories',
+    'verified study visa approvals nigeria',
+    'poland work permit case studies nigeria',
+    'genuine travel agency reviews kaduna',
+  ],
+  alternates: {
+    canonical: 'https://sijamconsults.com/reviews',
+  },
 };
 
 export default function ReviewsPage() {

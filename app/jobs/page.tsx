@@ -7,11 +7,20 @@ import { ROUTES } from '@/lib/routes';
 import { Sparkles, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Foreign Jobs & International Career Quotas | Sijam Consults Limited',
+  title: 'Verified International Job Vacancies | Sijam Consults',
   description:
-    'Explore authentic foreign employment opportunities in the UK, Poland, Slovakia, Portugal, and Cyprus. Verified employer sponsorships, statutory work permits (Voivodeship, CoS), and full relocation advisory for Nigerian professionals.',
-  keywords:
-    'foreign jobs for Nigerians, UK care assistant visa, Poland work permit, Slovakia welder jobs, European work visa, overseas recruitment agency Nigeria, Sijam Consults Kaduna',
+    'Explore verified overseas job vacancies with direct employer sponsorship across the UK, Poland, and Slovakia for nurses, skilled trades, and technicians.',
+  keywords: [
+    'international job vacancies for nigerians',
+    'jobs abroad for nigerians with visa sponsorship',
+    'verified overseas recruitment jobs',
+    'healthcare jobs in uk and poland for nigerians',
+    'skilled trades jobs in europe for nigerians',
+    'Sijam Consults jobs',
+  ],
+  alternates: {
+    canonical: 'https://sijamconsults.com/jobs',
+  },
 };
 
 export default function JobsPage() {

@@ -22,9 +22,23 @@ import {
 import { COMPANY, ROUTES } from "@/lib/routes";
 import { VIDEOS } from "@/lib/constants/videos";
 
-export const metadata = {
-  title: "Why Choose Sijam Consults Limited | Trust, Compliance & Track Record",
-  description: "Discover why students, professionals, and corporate leaders choose Sijam Consults Limited for their immigration, relocation, and admissions needs.",
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Why Sijam Consults | Accredited International Advisory",
+  description:
+    "Discover why hundreds of professionals, students, and employers trust Sijam Consults Limited (RC: 1715416). Transparent advisory, no false promises, CAC accredited.",
+  keywords: [
+    "accredited immigration consultancy in nigeria",
+    "why choose sijam consults limited",
+    "verified travel agency in kaduna nigeria",
+    "reliable study abroad and visa agents",
+    "ethical international recruitment standards",
+    "Sijam Consults trust",
+  ],
+  alternates: {
+    canonical: "https://sijamconsults.com/why-choose-us",
+  },
 };
 
 export default function WhyChooseUsPage() {

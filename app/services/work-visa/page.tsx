@@ -9,8 +9,9 @@ import { generatePageMetadata } from '@/lib/seo/metadata';
 
 export async function generateMetadata(): Promise<Metadata> {
   return generatePageMetadata({
-    title: 'Work Permits & Global Employment Placement',
-    description: 'Lawful work permit advisory and overseas employment placement assistance for Nigerian professionals and skilled artisans.',
+    title: 'Work Permit Consultancy in Nigeria',
+    description:
+      'Forensic advisory for European and UK work authorizations, Polish Voivodeship permits, and Slovakian single permits. Transparent, verified statutory filings.',
     path: '/services/work-visa',
   });
 }
