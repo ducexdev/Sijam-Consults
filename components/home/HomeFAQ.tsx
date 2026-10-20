@@ -63,8 +63,26 @@ export const HomeFAQ: React.FC = () => {
     setOpenIndex((prev) => (prev === index ? null : index));
   };
 
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: FAQ_ITEMS.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  };
+
   return (
     <section className="py-20 lg:py-28 bg-[#070415] text-white border-b border-purple-950/70 relative overflow-hidden">
+      {/* FAQ Schema for Google Rich Snippets */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       {/* Background Lighting */}
       <div className="absolute top-1/3 left-10 w-96 h-96 bg-[#402493]/15 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#257CFF]/10 rounded-full blur-[140px] pointer-events-none" />

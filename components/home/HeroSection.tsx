@@ -10,6 +10,8 @@ import {
   Globe2,
   Play,
   Pause,
+  MapPin,
+  Sparkles,
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 
@@ -108,10 +110,14 @@ export const HeroSection: React.FC = () => {
           {/* LEFT COLUMN: Trust, Headline, Subtext, Social Proof & CTAs */}
           <div className="lg:col-span-7 space-y-6">
             {/* Trust strip */}
-            <div>
+            <div className="flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#402493]/20 border border-[#402493]/40 text-[10px] font-black uppercase tracking-widest text-purple-200">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#4DA5EC] animate-pulse" />
                 CAC Registered Consultancy · RC: 1715416
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/10 text-[10px] font-bold text-slate-300">
+                <MapPin className="w-3 h-3 text-[#4DA5EC]" />
+                Kaduna HQ &amp; Abuja Advisory Desks
               </span>
             </div>
 
@@ -152,24 +158,51 @@ export const HeroSection: React.FC = () => {
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
               <Link
                 href="#services"
-                className="group inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-black text-sm tracking-wide shadow-[0_8px_32px_-8px_rgba(77,165,236,0.6)] hover:shadow-[0_12px_40px_-8px_rgba(37,124,255,0.8)] hover:brightness-110 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                className="group inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-black text-sm tracking-wide shadow-[0_8px_32px_-8px_rgba(77,165,236,0.6)] hover:shadow-[0_12px_40px_-8px_rgba(37,124,255,0.8)] hover:brightness-110 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
               >
-                <span>Explore Our Services</span>
+                <span>Explore Services</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
+                href={ROUTES.assessment}
+                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 font-bold text-sm tracking-wide border border-emerald-500/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <Sparkles className="w-4 h-4 text-emerald-400" />
+                <span>Eligibility Pre-Check</span>
+              </Link>
+              <Link
                 href={ROUTES.contact}
-                className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#402493] to-[#2D186B] hover:from-[#3B1F8C] hover:to-[#1A1040] text-white font-semibold text-sm tracking-wide border border-purple-500/40 shadow-[0_8px_25px_-5px_rgba(64,36,147,0.5)] backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98]"
+                className="inline-flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-xl bg-gradient-to-r from-[#402493] to-[#2D186B] hover:from-[#3B1F8C] hover:to-[#1A1040] text-white font-semibold text-sm tracking-wide border border-purple-500/40 shadow-[0_8px_25px_-5px_rgba(64,36,147,0.5)] backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
                 <Users className="w-4 h-4 text-[#F98864]" />
-                <span>Speak With Our Team</span>
+                <span>Speak With Us</span>
               </Link>
               <Link
                 href={ROUTES.jobs.root}
-                className="inline-flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-white font-semibold text-sm border border-white/10 backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98]"
+                className="inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-white font-semibold text-sm border border-white/10 backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
-                <span>Explore Job Vacancies</span>
+                <span>Job Vacancies</span>
               </Link>
+            </div>
+
+            {/* Verified Active Corridors Pill Bar */}
+            <div className="pt-1 flex flex-wrap items-center gap-2 text-[11px] text-slate-400">
+              <span className="font-semibold text-slate-300">Active Corridors:</span>
+              <span className="px-2 py-0.5 rounded-md bg-white/[0.04] border border-white/10 text-slate-300">
+                UK Healthcare (CoS)
+              </span>
+              <span className="px-2 py-0.5 rounded-md bg-white/[0.04] border border-white/10 text-slate-300">
+                Poland Voivodeship Type A
+              </span>
+              <span className="px-2 py-0.5 rounded-md bg-white/[0.04] border border-white/10 text-slate-300">
+                Slovakia Single Permits
+              </span>
+              <span className="px-2 py-0.5 rounded-md bg-white/[0.04] border border-white/10 text-slate-300">
+                Cyprus Study (50% Grants)
+              </span>
+              <span className="px-2 py-0.5 rounded-md bg-white/[0.04] border border-white/10 text-slate-300">
+                Saudi Arabia Quotas
+              </span>
             </div>
           </div>
 
