@@ -8,26 +8,20 @@ import {
   CheckCircle2,
   AlertTriangle,
   XCircle,
-  FileCheck2,
-  Clock,
   ArrowRight,
   ShieldCheck,
-  Building,
   HelpCircle,
   PhoneCall,
   Scale,
-  Award,
   Layers,
-  Banknote,
   BookOpen,
-  DollarSign,
-  Globe2,
+  Users,
+  Shield,
 } from 'lucide-react';
 import { PublicLayout } from '@/components/layout/PublicLayout';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema';
 import { ServiceSchema } from '@/components/seo/ServiceSchema';
-import { TrustBanner } from '@/components/ui/TrustBanner';
 import { Accordion, type AccordionItem } from '@/components/ui/Accordion';
 import { StudyVisaCalculator } from '@/components/services/StudyVisaCalculator';
 import { SERVICES_DATA } from '@/lib/data/services';
@@ -57,7 +51,7 @@ const STUDY_VISA_FAQS: AccordionItem[] = [
   {
     question: 'How does Sijam Consults secure up to 50% tuition grants for Nigerian students?',
     answer:
-      'We hold bilateral institutional representation agreements with accredited European and Mediterranean institutions, notably Cyprus West University and partner business colleges in Poland. Because we liaise directly with university international admissions boards, our eligible undergraduate and master’s applicants are granted direct merit tuition fee waivers without inflated third-party intermediary markups.',
+      `We hold bilateral institutional representation agreements with accredited European and Mediterranean institutions, notably Cyprus West University and partner business colleges in Poland. Because we liaise directly with university international admissions boards, our eligible undergraduate and master's applicants are granted direct merit tuition fee waivers without inflated third-party intermediary markups.`,
   },
   {
     question: 'Can I study in Europe without writing IELTS or TOEFL?',
@@ -125,7 +119,7 @@ export default function StudyVisaPage() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 pt-8 pb-20">
           {/* Breadcrumbs Navigation */}
-          <div className="mb-6">
+          <div className="mb-8">
             <Breadcrumbs
               items={[
                 { label: 'Services', href: '/services' },
@@ -134,66 +128,190 @@ export default function StudyVisaPage() {
             />
           </div>
 
-          {/* Top Trust Banner */}
-          <div className="mb-8 max-w-3xl mx-auto">
-            <TrustBanner showFullDisclaimer={false} />
-          </div>
+          {/* ─────────────────────────────────────────────────
+              SECTION 1: 2-COLUMN HERO (mirrors homepage grid)
+          ───────────────────────────────────────────────── */}
+          <section className="mb-20 sm:mb-28">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
-          {/* SECTION 1: STRONG BENEFIT-DRIVEN HEADLINE & HOOK */}
-          <header className="text-center max-w-4xl mx-auto mb-12 sm:mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.05] border border-white/10 text-xs font-semibold text-slate-300 mb-4">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Direct University Liaisons · Up to 50% Tuition Grants · Zero Sub-Agent Markups</span>
+              {/* LEFT COLUMN — Trust, Headline, Sub-text, CTAs */}
+              <div className="lg:col-span-7 space-y-6">
+                {/* Trust strip */}
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#402493]/20 border border-[#402493]/40 text-[10px] font-black uppercase tracking-widest text-purple-200">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#4DA5EC] animate-pulse" />
+                    Study Abroad Advisory
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/10 text-[10px] font-bold text-slate-300">
+                    <Shield className="w-3 h-3 text-[#4DA5EC]" />
+                    Up to 50% Tuition Grants
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/10 text-[10px] font-bold text-slate-300">
+                    <GraduationCap className="w-3 h-3 text-emerald-400" />
+                    WAEC C6+ English Waivers
+                  </span>
+                </div>
+
+                {/* H1 — matches homepage font sizing exactly */}
+                <h1 className="font-heading font-black text-[24px] sm:text-[30px] lg:text-[42px] xl:text-[52px] text-white leading-[1.15] tracking-tight">
+                  Gain Direct Admission to Accredited Universities.{' '}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
+                    With Up to 50% Tuition Grants
+                  </span>{' '}
+                  and Consular Precision.
+                </h1>
+
+                <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal max-w-2xl">
+                  Studying abroad should not cost your family&apos;s life savings or end in a heartbreaking visa
+                  refusal. Sijam Consults connects Nigerian students directly to accredited universities across Cyprus,
+                  Poland, the UK, and Canada while auditing your financial dossier to meet strict embassy standards.
+                </p>
+
+                {/* Social proof micro-copy */}
+                <div className="flex items-center gap-3 pt-1">
+                  <div className="flex -space-x-2">
+                    {['bg-[#402493]', 'bg-[#DC2F11]', 'bg-[#257CFF]', 'bg-[#4DA5EC]'].map((bg, i) => (
+                      <div
+                        key={i}
+                        className={`w-8 h-8 rounded-full ${bg} border-2 border-[#070415] flex items-center justify-center text-[10px] font-black text-white`}
+                      >
+                        {String.fromCharCode(65 + i)}
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-xs text-slate-400">
+                    <strong className="text-white">Verified student admissions & visa filings</strong> across Cyprus,
+                    Poland, UK & Canada corridors
+                  </p>
+                </div>
+
+                {/* CTA Buttons — exactly the homepage button style */}
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+                  <Link
+                    href={ROUTES.consultation}
+                    className="group inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-black text-sm tracking-wide shadow-[0_8px_32px_-8px_rgba(77,165,236,0.6)] hover:shadow-[0_12px_40px_-8px_rgba(37,124,255,0.8)] hover:brightness-110 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                  >
+                    <span>Book admissions consultation</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                  <Link
+                    href={ROUTES.assessment}
+                    className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-gradient-to-r from-[#402493] to-[#2D186B] hover:from-[#3B1F8C] hover:to-[#1A1040] text-white font-bold text-sm tracking-wide border border-purple-500/40 shadow-[0_8px_25px_-5px_rgba(64,36,147,0.5)] backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98]"
+                  >
+                    <Sparkles className="w-4 h-4 text-[#4DA5EC]" />
+                    <span>Check my eligibility</span>
+                  </Link>
+                  <a
+                    href={`https://wa.me/${COMPANY.whatsapp.number}?text=Hello%20Sijam%20Consults,%20I%20would%20like%20to%20apply%20for%20a%20study%20abroad%20admission.`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-white font-semibold text-sm border border-white/10 backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98]"
+                  >
+                    <PhoneCall className="w-4 h-4 text-emerald-400" />
+                    <span>Chat on WhatsApp</span>
+                  </a>
+                </div>
+
+                {/* Active Study Corridors Pill Bar */}
+                <div className="pt-1 flex flex-wrap items-center gap-2 text-[11px] text-slate-400">
+                  <span className="font-semibold text-slate-300">Study Corridors:</span>
+                  {[
+                    '🇨🇾 Cyprus (50% Grants)',
+                    '🇵🇱 Poland (Schengen)',
+                    '🇬🇧 UK (2-Yr Graduate Route)',
+                    '🇨🇦 Canada (PR Track)',
+                    '🇬🇷 Malta & Greece',
+                  ].map((corridor) => (
+                    <span
+                      key={corridor}
+                      className="px-2 py-0.5 rounded-md bg-white/[0.04] border border-white/10 text-slate-300"
+                    >
+                      {corridor}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* RIGHT COLUMN — Quick Proof Metrics & Visa Stamps */}
+              <div className="lg:col-span-5 space-y-4">
+                {/* Proof metrics cards */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="p-4 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-[#4DA5EC]/40 transition-all flex flex-col">
+                    <div className="text-2xl font-black text-white">50% Off</div>
+                    <div className="text-[11px] text-slate-400 mt-0.5">Guaranteed Merit Grants</div>
+                    <div className="mt-2 text-[10px] font-semibold text-emerald-400 flex items-center gap-1">
+                      <CheckCircle2 className="w-3 h-3" /> Cyprus West University
+                    </div>
+                  </div>
+                  <div className="p-4 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-[#4DA5EC]/40 transition-all flex flex-col">
+                    <div className="text-2xl font-black text-[#4DA5EC]">€1,800/yr</div>
+                    <div className="text-[11px] text-slate-400 mt-0.5">Starting Tuition Rates</div>
+                    <div className="mt-2 text-[10px] font-semibold text-emerald-400 flex items-center gap-1">
+                      <CheckCircle2 className="w-3 h-3" /> After institutional grant
+                    </div>
+                  </div>
+                  <div className="p-4 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-[#4DA5EC]/40 transition-all flex flex-col">
+                    <div className="text-2xl font-black text-white">WAEC C6+</div>
+                    <div className="text-[11px] text-slate-400 mt-0.5">English Waiver — No IELTS</div>
+                    <div className="mt-2 text-[10px] font-semibold text-[#4DA5EC] flex items-center gap-1">
+                      <Shield className="w-3 h-3" /> Save up to ₦280,000
+                    </div>
+                  </div>
+                  <div className="p-4 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-[#4DA5EC]/40 transition-all flex flex-col">
+                    <div className="text-2xl font-black text-[#F45A2A]">98.4%</div>
+                    <div className="text-[11px] text-slate-400 mt-0.5">Consular Audit Accuracy</div>
+                    <div className="mt-2 text-[10px] font-semibold text-emerald-400 flex items-center gap-1">
+                      <CheckCircle2 className="w-3 h-3" /> First-pass approvals
+                    </div>
+                  </div>
+                </div>
+
+                {/* Visa stamps row */}
+                <div className="grid grid-cols-4 gap-2">
+                  {[
+                    { src: '/visas/10-1.png', caption: 'Student D-Visa' },
+                    { src: '/visas/4.png', caption: 'UK Entry' },
+                    { src: '/visas/6.png', caption: 'Schengen' },
+                    { src: '/visas/1.png', caption: 'Poland' },
+                  ].map((stamp, idx) => (
+                    <div
+                      key={idx}
+                      className="group relative rounded-xl bg-[#0B071E] border border-white/10 overflow-hidden p-1.5 hover:border-[#4DA5EC]/50 transition-all"
+                    >
+                      <div className="relative h-20 w-full rounded-lg overflow-hidden bg-black/40">
+                        <Image
+                          src={stamp.src}
+                          alt={stamp.caption}
+                          fill
+                          sizes="25vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-300 filter contrast-110"
+                        />
+                      </div>
+                      <div className="text-[9px] font-semibold text-slate-400 text-center mt-1">{stamp.caption}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
+          </section>
 
-            <h1 className="font-heading font-black text-3xl sm:text-5xl lg:text-6xl text-white tracking-tight leading-[1.1]">
-              Gain Direct Admission to Accredited Universities.{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
-                With Up to 50% Tuition Grants
-              </span>{' '}
-              and Consular Precision.
-            </h1>
-
-            <p className="mt-5 text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
-              Studying abroad should not cost your family&apos;s life savings or end in a heartbreaking visa refusal.
-              Sijam Consults connects Nigerian students directly to accredited universities across Cyprus, Poland, the
-              UK, and Canada, while auditing your financial and legal dossier to meet strict embassy standards.
-            </p>
-
-            {/* Quick Proof Metrics Strip */}
-            <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto text-left">
-              <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10">
-                <div className="text-xl sm:text-2xl font-black text-white">50% Off</div>
-                <div className="text-[11px] text-slate-400 mt-0.5">Guaranteed Merit Grants</div>
-              </div>
-              <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10">
-                <div className="text-xl sm:text-2xl font-black text-[#4DA5EC]">€1,800/yr</div>
-                <div className="text-[11px] text-slate-400 mt-0.5">Starting Tuition Rates</div>
-              </div>
-              <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10">
-                <div className="text-xl sm:text-2xl font-black text-white">WAEC C6+</div>
-                <div className="text-[11px] text-slate-400 mt-0.5">English Waivers Accepted</div>
-              </div>
-              <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10">
-                <div className="text-xl sm:text-2xl font-black text-[#F45A2A]">98.4%</div>
-                <div className="text-[11px] text-slate-400 mt-0.5">Consular Audit Accuracy</div>
-              </div>
-            </div>
-          </header>
-
-          {/* SECTION 2: INTERACTIVE ADMISSIONS & GRANT CALCULATOR */}
+          {/* ─────────────────────────────────────────────────
+              SECTION 2: INTERACTIVE ADMISSIONS & GRANT CALCULATOR
+          ───────────────────────────────────────────────── */}
           <section className="mb-20 sm:mb-28">
             <StudyVisaCalculator />
           </section>
 
-          {/* SECTION 3: THE PROBLEM — WHY NIGERIAN STUDENTS GET DENIED */}
+          {/* ─────────────────────────────────────────────────
+              SECTION 3: WHY NIGERIAN STUDENTS GET DENIED
+          ───────────────────────────────────────────────── */}
           <section className="mb-20 sm:mb-28 max-w-5xl mx-auto">
             <div className="text-center mb-10">
               <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-rose-400 bg-rose-950/40 px-3 py-1 rounded-full border border-rose-800/40 mb-3">
                 <AlertTriangle className="w-3.5 h-3.5" />
                 <span>The Unspoken Reality</span>
               </div>
-              <h2 className="font-heading font-black text-2xl sm:text-4xl text-white tracking-tight">
+              <h2 className="font-heading font-black text-[20px] sm:text-[28px] lg:text-[36px] text-white tracking-tight">
                 Why Thousands of Nigerian Students Lose Fees &amp; Face Visa Refusals
               </h2>
               <p className="text-slate-400 text-xs sm:text-sm max-w-2xl mx-auto mt-2 leading-relaxed">
@@ -207,7 +325,7 @@ export default function StudyVisaPage() {
                 <div className="w-10 h-10 rounded-xl bg-rose-950/60 text-rose-400 flex items-center justify-center font-bold text-sm mb-4 border border-rose-800/60">
                   01
                 </div>
-                <h3 className="font-heading font-bold text-lg text-white">
+                <h3 className="font-heading font-bold text-base sm:text-lg lg:text-xl text-white">
                   The &quot;Sub-Agent Markup&quot; Trap
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">
@@ -221,7 +339,7 @@ export default function StudyVisaPage() {
                 <div className="w-10 h-10 rounded-xl bg-rose-950/60 text-rose-400 flex items-center justify-center font-bold text-sm mb-4 border border-rose-800/60">
                   02
                 </div>
-                <h3 className="font-heading font-bold text-lg text-white">
+                <h3 className="font-heading font-bold text-base sm:text-lg lg:text-xl text-white">
                   Sudden &quot;Show Money&quot; Bank Deposits
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">
@@ -235,7 +353,7 @@ export default function StudyVisaPage() {
                 <div className="w-10 h-10 rounded-xl bg-rose-950/60 text-rose-400 flex items-center justify-center font-bold text-sm mb-4 border border-rose-800/60">
                   03
                 </div>
-                <h3 className="font-heading font-bold text-lg text-white">
+                <h3 className="font-heading font-bold text-base sm:text-lg lg:text-xl text-white">
                   Currency Devaluation During Visa Processing
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">
@@ -249,7 +367,7 @@ export default function StudyVisaPage() {
                 <div className="w-10 h-10 rounded-xl bg-rose-950/60 text-rose-400 flex items-center justify-center font-bold text-sm mb-4 border border-rose-800/60">
                   04
                 </div>
-                <h3 className="font-heading font-bold text-lg text-white">
+                <h3 className="font-heading font-bold text-base sm:text-lg lg:text-xl text-white">
                   Copy-Pasted Statements of Purpose (SOP)
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">
@@ -261,14 +379,16 @@ export default function StudyVisaPage() {
             </div>
           </section>
 
-          {/* SECTION 4: THE SIJAM 4-STAGE ARCHITECTURE */}
+          {/* ─────────────────────────────────────────────────
+              SECTION 4: THE SIJAM 4-STAGE ARCHITECTURE
+          ───────────────────────────────────────────────── */}
           <section className="mb-20 sm:mb-28 max-w-5xl mx-auto">
             <div className="text-center mb-10">
               <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#4DA5EC] bg-[#257CFF]/10 px-3 py-1 rounded-full border border-[#257CFF]/30 mb-3">
                 <Layers className="w-3.5 h-3.5" />
                 <span>The Sijam Strategic Framework</span>
               </div>
-              <h2 className="font-heading font-black text-2xl sm:text-4xl text-white tracking-tight">
+              <h2 className="font-heading font-black text-[20px] sm:text-[28px] lg:text-[36px] text-white tracking-tight">
                 Our 4-Stage Admissions &amp; Consular Packaging Protocol
               </h2>
               <p className="text-slate-400 text-xs sm:text-sm max-w-2xl mx-auto mt-2 leading-relaxed">
@@ -281,74 +401,75 @@ export default function StudyVisaPage() {
               <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 flex flex-col justify-between">
                 <div>
                   <div className="text-xs font-bold text-[#4DA5EC] uppercase tracking-wider mb-2">Stage 1</div>
-                  <h3 className="font-heading font-bold text-base text-white">Academic Audit &amp; Course Match</h3>
+                  <h3 className="font-heading font-bold text-base sm:text-lg text-white">Academic Audit &amp; Course Match</h3>
                   <p className="text-xs text-slate-300 mt-2 leading-relaxed">
                     We review your WAEC/NECO scratch cards, undergraduate degrees, and career trajectory to select
                     accredited courses with high admission and visa feasibility.
                   </p>
                 </div>
                 <div className="mt-4 pt-3 border-t border-white/10 text-[11px] font-semibold text-emerald-400 flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5" /> Direct University Screening
+                  <CheckCircle2 className="w-3.5 h-3.5" /> Direct university screening
                 </div>
               </div>
 
               <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 flex flex-col justify-between">
                 <div>
                   <div className="text-xs font-bold text-[#4DA5EC] uppercase tracking-wider mb-2">Stage 2</div>
-                  <h3 className="font-heading font-bold text-base text-white">Direct Admission &amp; Grants</h3>
+                  <h3 className="font-heading font-bold text-base sm:text-lg text-white">Direct Admission &amp; Grants</h3>
                   <p className="text-xs text-slate-300 mt-2 leading-relaxed">
                     We secure your official acceptance letter directly from partner institutions, applying guaranteed
                     tuition merit discounts (up to 50%) without third-party brokers.
                   </p>
                 </div>
                 <div className="mt-4 pt-3 border-t border-white/10 text-[11px] font-semibold text-emerald-400 flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5" /> Up to 50% Tuition Discount
+                  <CheckCircle2 className="w-3.5 h-3.5" /> Up to 50% tuition discount
                 </div>
               </div>
 
               <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 flex flex-col justify-between">
                 <div>
                   <div className="text-xs font-bold text-[#4DA5EC] uppercase tracking-wider mb-2">Stage 3</div>
-                  <h3 className="font-heading font-bold text-base text-white">Legalisation &amp; Funds Seasoning</h3>
+                  <h3 className="font-heading font-bold text-base sm:text-lg text-white">Legalisation &amp; Funds Seasoning</h3>
                   <p className="text-xs text-slate-300 mt-2 leading-relaxed">
                     MFA Abuja attestation, police character certification, and 90-day bank statement seasoning with a
                     mandatory 20% exchange-rate volatility buffer.
                   </p>
                 </div>
                 <div className="mt-4 pt-3 border-t border-white/10 text-[11px] font-semibold text-emerald-400 flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5" /> Seasoned Proof of Funds
+                  <CheckCircle2 className="w-3.5 h-3.5" /> Seasoned proof of funds
                 </div>
               </div>
 
               <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 flex flex-col justify-between">
                 <div>
                   <div className="text-xs font-bold text-[#4DA5EC] uppercase tracking-wider mb-2">Stage 4</div>
-                  <h3 className="font-heading font-bold text-base text-white">Consular Dossier &amp; Mock Drill</h3>
+                  <h3 className="font-heading font-bold text-base sm:text-lg text-white">Consular Dossier &amp; Mock Drill</h3>
                   <p className="text-xs text-slate-300 mt-2 leading-relaxed">
                     Custom-written academic statements of purpose, biometric slot scheduling, and rigorous 1-on-1 mock
                     interview drills led by former consular advisors.
                   </p>
                 </div>
                 <div className="mt-4 pt-3 border-t border-white/10 text-[11px] font-semibold text-emerald-400 flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5" /> Embassy Interview Ready
+                  <CheckCircle2 className="w-3.5 h-3.5" /> Embassy interview ready
                 </div>
               </div>
             </div>
           </section>
 
-          {/* SECTION 5: INFORMATION GAIN #1 — DESTINATION BENCHMARK MATRIX */}
+          {/* ─────────────────────────────────────────────────
+              SECTION 5: DESTINATION BENCHMARK MATRIX
+          ───────────────────────────────────────────────── */}
           <section className="mb-20 sm:mb-28 max-w-5xl mx-auto">
             <div className="text-center mb-10">
               <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#4DA5EC] bg-[#257CFF]/10 px-3 py-1 rounded-full border border-[#257CFF]/30 mb-3">
                 <Scale className="w-3.5 h-3.5" />
                 <span>Information Gain Comparison</span>
               </div>
-              <h2 className="font-heading font-black text-2xl sm:text-4xl text-white tracking-tight">
-                Tuition, Cost &amp; Work Rights Comparison by Study Destination
+              <h2 className="font-heading font-black text-[20px] sm:text-[28px] lg:text-[36px] text-white tracking-tight">
+                Tuition, Cost &amp; Work Rights by Study Destination
               </h2>
               <p className="text-slate-400 text-xs sm:text-sm max-w-2xl mx-auto mt-2 leading-relaxed">
-                Examine realistic numbers across our key destination corridors to match your family&apos;s budget and
-                post-graduation career ambitions.
+                Real numbers across key corridors — match your family&apos;s budget and post-graduation career ambitions.
               </p>
             </div>
 
@@ -383,7 +504,7 @@ export default function StudyVisaPage() {
                     <td className="py-4 px-4 text-emerald-400 font-semibold">Medium of Instruction Waiver</td>
                     <td className="py-4 px-4">20 hrs/wk legal work (Schengen)</td>
                     <td className="py-4 px-4">9-Month Job Search Card</td>
-                    <td className="py-4 px-4">€12,100 (approx. ₦21M–₦25M)</td>
+                    <td className="py-4 px-4">€12,100 (approx. ₦21M – ₦25M)</td>
                   </tr>
                   <tr className="hover:bg-white/[0.02] transition-colors">
                     <td className="py-4 px-4 sm:px-6 font-semibold text-white">
@@ -410,7 +531,9 @@ export default function StudyVisaPage() {
             </div>
           </section>
 
-          {/* SECTION 6: INFORMATION GAIN #2 — WAEC ENGLISH WAIVER PROTOCOL */}
+          {/* ─────────────────────────────────────────────────
+              SECTION 6: WAEC ENGLISH WAIVER PROTOCOL
+          ───────────────────────────────────────────────── */}
           <section className="mb-20 sm:mb-28 max-w-5xl mx-auto">
             <div className="p-6 sm:p-9 rounded-3xl bg-[#0B071E] border border-[#257CFF]/30 relative overflow-hidden">
               <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
@@ -419,12 +542,12 @@ export default function StudyVisaPage() {
                     <BookOpen className="w-3.5 h-3.5" />
                     <span>Cost-Saving Intelligence</span>
                   </div>
-                  <h2 className="font-heading font-black text-xl sm:text-3xl text-white tracking-tight">
+                  <h2 className="font-heading font-black text-[20px] sm:text-[26px] lg:text-[32px] text-white tracking-tight">
                     The WAEC C6+ English Waiver Framework: Save ₦280,000 on IELTS
                   </h2>
                 </div>
-                <div className="px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
-                  Zero IELTS Required for 75% of European Corridors
+                <div className="px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold shrink-0">
+                  Zero IELTS for 75% of European Corridors
                 </div>
               </div>
 
@@ -438,9 +561,7 @@ export default function StudyVisaPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
                 <div className="p-4 rounded-xl bg-[#070415] border border-white/10 space-y-2">
-                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                    WAEC / NECO Result
-                  </div>
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">WAEC / NECO Result</div>
                   <div className="text-sm font-bold text-white">Grade A1 to C6 in English</div>
                   <p className="text-slate-400 leading-relaxed">
                     Satisfies institutional English proficiency requirements for direct degree entry at Cyprus West
@@ -449,9 +570,7 @@ export default function StudyVisaPage() {
                 </div>
 
                 <div className="p-4 rounded-xl bg-[#070415] border border-white/10 space-y-2">
-                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                    University Degree Holders
-                  </div>
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">University Degree Holders</div>
                   <div className="text-sm font-bold text-white">Medium of Instruction Letter</div>
                   <p className="text-slate-400 leading-relaxed">
                     Nigerian university graduates applying for European Master&apos;s degrees use an official letter from
@@ -460,9 +579,7 @@ export default function StudyVisaPage() {
                 </div>
 
                 <div className="p-4 rounded-xl bg-[#070415] border border-white/10 space-y-2">
-                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                    When IELTS Is Necessary
-                  </div>
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">When IELTS Is Necessary</div>
                   <div className="text-sm font-bold text-amber-400">Canadian SDS &amp; Certain UK Routes</div>
                   <p className="text-slate-400 leading-relaxed">
                     Only required for Canadian SDS streams and UK universities that do not recognize WAEC. We tell you
@@ -473,14 +590,16 @@ export default function StudyVisaPage() {
             </div>
           </section>
 
-          {/* SECTION 7: INFORMATION GAIN #3 — DECOUPLING ADMISSION FROM VISA APPROVAL */}
+          {/* ─────────────────────────────────────────────────
+              SECTION 7: DECOUPLING ADMISSION FROM VISA APPROVAL
+          ───────────────────────────────────────────────── */}
           <section className="mb-20 sm:mb-28 max-w-5xl mx-auto">
             <div className="p-6 sm:p-9 rounded-3xl bg-[#0B071E] border border-amber-500/20 relative overflow-hidden">
               <div className="flex items-center gap-2 text-amber-400 text-xs font-bold uppercase tracking-wider mb-2">
                 <ShieldCheck className="w-4 h-4" />
                 <span>Consular Law Transparency</span>
               </div>
-              <h2 className="font-heading font-black text-xl sm:text-3xl text-white tracking-tight mb-4">
+              <h2 className="font-heading font-black text-[20px] sm:text-[26px] lg:text-[32px] text-white tracking-tight mb-4">
                 Why We Strictly Decouple University Admission from Visa Approval
               </h2>
 
@@ -519,18 +638,20 @@ export default function StudyVisaPage() {
             </div>
           </section>
 
-          {/* SECTION 8: AUTHENTIC VISA APPROVALS & EVIDENCE */}
+          {/* ─────────────────────────────────────────────────
+              SECTION 8: AUTHENTIC VISA APPROVALS
+          ───────────────────────────────────────────────── */}
           <section className="mb-20 sm:mb-28 max-w-5xl mx-auto">
             <div className="text-center mb-10">
               <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-950/40 px-3 py-1 rounded-full border border-emerald-800/40 mb-3">
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 <span>Verified Client Outcomes</span>
               </div>
-              <h2 className="font-heading font-black text-2xl sm:text-4xl text-white tracking-tight">
+              <h2 className="font-heading font-black text-[20px] sm:text-[28px] lg:text-[36px] text-white tracking-tight">
                 Real Student Visas Delivered for Nigerian Applicants
               </h2>
               <p className="text-slate-400 text-xs sm:text-sm max-w-2xl mx-auto mt-2 leading-relaxed">
-                Evidence over empty promises. Here are official consular entry vignettes and residence authorizations
+                Evidence over empty promises. Official consular entry vignettes and residence authorizations
                 secured by our student advisory team.
               </p>
             </div>
@@ -564,19 +685,21 @@ export default function StudyVisaPage() {
             </div>
           </section>
 
-          {/* SECTION 9: "WE MAY NOT BE RIGHT FOR YOU IF..." (RADICAL HONESTY) */}
+          {/* ─────────────────────────────────────────────────
+              SECTION 9: RADICAL HONESTY DISQUALIFICATION
+          ───────────────────────────────────────────────── */}
           <section className="mb-20 sm:mb-28 max-w-4xl mx-auto">
             <div className="p-6 sm:p-9 rounded-3xl bg-white/[0.02] border border-rose-500/20">
               <div className="flex items-center gap-2 text-rose-400 text-xs font-bold uppercase tracking-wider mb-2">
                 <XCircle className="w-4 h-4" />
                 <span>Radical Transparency</span>
               </div>
-              <h2 className="font-heading font-black text-xl sm:text-3xl text-white tracking-tight mb-4">
+              <h2 className="font-heading font-black text-[20px] sm:text-[26px] lg:text-[32px] text-white tracking-tight mb-4">
                 We May Not Be the Right Study Abroad Consultancy for You If...
               </h2>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6">
-                Sijam Consults Limited maintains direct bilateral university relationships and a clean regulatory
-                record with the Corporate Affairs Commission (RC: 1715416). We hold strict ethical standards:
+                Sijam Consults maintains direct bilateral university relationships and strict ethical standards. We work
+                only with applicants committed to legitimate, verifiable academic pathways.
               </p>
 
               <div className="space-y-3 text-xs sm:text-sm text-slate-300">
@@ -585,7 +708,7 @@ export default function StudyVisaPage() {
                   <span>
                     <strong>You are asking for forged WAEC scratch cards or altered academic transcripts.</strong> We
                     conduct direct verification with the West African Examinations Council and university registries.
-                    Altered credentials will result in immediate termination of engagement.
+                    Altered credentials result in immediate termination of engagement.
                   </span>
                 </div>
 
@@ -610,14 +733,16 @@ export default function StudyVisaPage() {
             </div>
           </section>
 
-          {/* SECTION 10: FREQUENTLY ASKED QUESTIONS */}
+          {/* ─────────────────────────────────────────────────
+              SECTION 10: FREQUENTLY ASKED QUESTIONS
+          ───────────────────────────────────────────────── */}
           <section className="mb-20 sm:mb-28 max-w-4xl mx-auto">
             <div className="text-center mb-10">
               <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#4DA5EC] bg-[#257CFF]/10 px-3 py-1 rounded-full border border-[#257CFF]/30 mb-3">
                 <HelpCircle className="w-3.5 h-3.5" />
                 <span>Frequently Answered Inquiries</span>
               </div>
-              <h2 className="font-heading font-black text-2xl sm:text-4xl text-white tracking-tight">
+              <h2 className="font-heading font-black text-[20px] sm:text-[28px] lg:text-[36px] text-white tracking-tight">
                 Practical Answers for Nigerian Students &amp; Parents
               </h2>
               <p className="text-slate-400 text-xs sm:text-sm max-w-xl mx-auto mt-2 leading-relaxed">
@@ -628,7 +753,9 @@ export default function StudyVisaPage() {
             <Accordion items={STUDY_VISA_FAQS} variant="dark" allowMultiple={false} />
           </section>
 
-          {/* SECTION 11: CONVERSION CTA STRIP */}
+          {/* ─────────────────────────────────────────────────
+              SECTION 11: CONVERSION CTA STRIP
+          ───────────────────────────────────────────────── */}
           <section className="max-w-4xl mx-auto">
             <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-[#0B071E] via-[#110A2E] to-[#1B0F47] border border-[#257CFF]/30 shadow-2xl text-center relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-[#257CFF]/15 rounded-full blur-3xl pointer-events-none" />
@@ -638,7 +765,7 @@ export default function StudyVisaPage() {
                 <span>Take the Next Step With Institutional Backing</span>
               </span>
 
-              <h2 className="font-heading font-black text-2xl sm:text-4xl text-white tracking-tight max-w-xl mx-auto">
+              <h2 className="font-heading font-black text-[20px] sm:text-[28px] lg:text-[36px] text-white tracking-tight max-w-xl mx-auto">
                 Ready to Review Your Study Abroad Options With an Advisor?
               </h2>
 
@@ -650,20 +777,20 @@ export default function StudyVisaPage() {
               <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link
                   href={ROUTES.consultation}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-bold text-xs uppercase tracking-wider shadow-xl hover:brightness-110 transition-all"
+                  className="group w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-black text-sm tracking-wide shadow-[0_8px_32px_-8px_rgba(77,165,236,0.6)] hover:shadow-[0_12px_40px_-8px_rgba(37,124,255,0.8)] hover:brightness-110 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
                 >
-                  <span>Book 1-on-1 Admissions Strategy Session</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <span>Book 1-on-1 admissions session</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
 
                 <a
                   href={`https://wa.me/${COMPANY.whatsapp.number}?text=Hello%20Sijam%20Consults,%20I%20would%20like%20to%20apply%20for%20a%20study%20abroad%20admission%20and%20tuition%20grant.`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] text-white font-semibold text-xs border border-white/15 transition-all"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-gradient-to-r from-[#402493] to-[#2D186B] hover:from-[#3B1F8C] hover:to-[#1A1040] text-white font-bold text-sm tracking-wide border border-purple-500/40 shadow-[0_8px_25px_-5px_rgba(64,36,147,0.5)] backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98]"
                 >
                   <PhoneCall className="w-4 h-4 text-emerald-400" />
-                  <span>Chat With an Admissions Advisor on WhatsApp</span>
+                  <span>Chat with an advisor on WhatsApp</span>
                 </a>
               </div>
 
