@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import {
   Briefcase,
@@ -13,6 +13,10 @@ import {
   Trophy,
   ArrowRight,
   Sparkles,
+  ChevronLeft,
+  ChevronRight,
+  Pause,
+  Play,
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 
@@ -128,111 +132,209 @@ export const CORE_PATHWAYS: ServicePathwayItem[] = [
 ];
 
 export const ServicePathwaysSection: React.FC = () => {
+  const [isPaused, setIsPaused] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // Manual scroll helper
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 380;
+      scrollContainerRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  // Double items for seamless infinite marquee loop
+  const duplicatedPathways = [...CORE_PATHWAYS, ...CORE_PATHWAYS];
+
   return (
-    <section id="services" className="py-20 lg:py-28 bg-[#070415] text-white border-b border-purple-950/60 relative overflow-hidden scroll-mt-20">
+    <section id="services" className="py-20 lg:py-24 bg-[#070415] text-white border-b border-purple-950/60 relative overflow-hidden scroll-mt-20">
       {/* Background ambient glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[#402493]/10 rounded-full blur-[180px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 space-y-14">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 space-y-10">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#402493]/20 border border-[#402493]/40 text-xs">
-            <Sparkles className="w-3.5 h-3.5 text-[#F98864]" />
-            <span className="font-bold uppercase tracking-wider text-[11px] text-purple-200">
-              Core Advisory Corridors
-            </span>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="max-w-3xl space-y-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#402493]/20 border border-[#402493]/40 text-xs">
+              <Sparkles className="w-3.5 h-3.5 text-[#4DA5EC]" />
+              <span className="font-bold uppercase tracking-wider text-[11px] text-purple-200">
+                Core Advisory Corridors
+              </span>
+            </div>
+
+            <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-[1.1]">
+              Specialized Services Built for{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
+                Global Mobility
+              </span>
+            </h2>
+
+            <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+              Every pathway follows a strict verification framework. Hover or interact with any card to pause and inspect requirements.
+            </p>
           </div>
 
-          <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-[1.1]">
-            Specialized Services Built for{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
-              Global Mobility
-            </span>
-          </h2>
-
-          <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
-            Every pathway follows a strict verification framework. Explore our primary consulting divisions, each managed by certified documentation specialists and international liaison officers.
-          </p>
-        </div>
-
-        {/* 8 Pathways Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-          {CORE_PATHWAYS.map((pathway) => {
-            const Icon = pathway.icon;
-            return (
-              <div
-                key={pathway.id}
-                className="group relative p-6 rounded-2xl bg-white/[0.03] hover:bg-white/[0.065] border border-white/10 hover:border-[#DC2F11]/50 transition-all duration-300 flex flex-col justify-between shadow-lg backdrop-blur-md hover:-translate-y-1 overflow-hidden"
+          {/* Controls: Prev/Next & Pause Indicator */}
+          <div className="shrink-0 flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setIsPaused(!isPaused)}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-semibold text-slate-300 transition-colors"
+              aria-label={isPaused ? 'Resume sliding' : 'Pause sliding'}
+            >
+              {isPaused ? (
+                <>
+                  <Play className="w-3.5 h-3.5 text-[#4DA5EC]" />
+                  <span>Resume</span>
+                </>
+              ) : (
+                <>
+                  <Pause className="w-3.5 h-3.5 text-[#4DA5EC]" />
+                  <span>Pause</span>
+                </>
+              )}
+            </button>
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                onClick={() => scroll('left')}
+                className="w-9 h-9 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-colors"
+                aria-label="Previous services"
               >
-                {/* Subtle top edge indicator on hover */}
-                <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#DC2F11] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-
-                <div className="space-y-4">
-                  {/* Top Bar: Icon + Tag */}
-                  <div className="flex items-center justify-between">
-                    <div className="w-11 h-11 rounded-xl bg-[#402493]/60 group-hover:bg-[#DC2F11] text-[#F98864] group-hover:text-white flex items-center justify-center transition-all duration-300 shadow">
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${pathway.tagColor}`}>
-                      {pathway.tag}
-                    </span>
-                  </div>
-
-                  {/* Title & Tagline */}
-                  <div>
-                    <h3 className="font-heading font-bold text-base sm:text-lg text-white group-hover:text-[#F98864] transition-colors leading-snug">
-                      {pathway.title}
-                    </h3>
-                    <p className="text-xs text-purple-300/80 font-medium mt-1">
-                      {pathway.tagline}
-                    </p>
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-xs text-slate-300 leading-relaxed line-clamp-3">
-                    {pathway.description}
-                  </p>
-
-                  {/* Deliverable Scope */}
-                  <div className="pt-3 border-t border-white/8 space-y-1.5">
-                    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                      Key Deliverables:
-                    </div>
-                    {pathway.scope.map((item, idx) => (
-                      <div key={idx} className="flex items-center gap-1.5 text-[11px] text-slate-300">
-                        <span className="w-1 h-1 rounded-full bg-[#DC2F11] shrink-0" />
-                        <span className="truncate">{item}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Bottom Link CTA */}
-                <div className="pt-4 mt-4 border-t border-white/8">
-                  <Link
-                    href={pathway.href}
-                    className="inline-flex items-center justify-between w-full text-xs font-bold text-[#F98864] group-hover:text-white transition-colors"
-                  >
-                    <span>View Requirements &amp; Process</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </div>
-              </div>
-            );
-          })}
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() => scroll('right')}
+                className="w-9 h-9 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-colors"
+                aria-label="Next services"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
         </div>
 
-        {/* Bottom Explorer Action */}
-        <div className="text-center pt-4">
+        {/* ── HORIZONTALLY SLIDING MARQUEE TRACK (PAUSES ON HOVER) ─────── */}
+        <div
+          className="relative group/track -mx-4 sm:-mx-6 px-4 sm:px-6 overflow-hidden"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          {/* Left gradient fade mask */}
+          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-28 z-20 bg-gradient-to-r from-[#070415] to-transparent" />
+          {/* Right gradient fade mask */}
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-28 z-20 bg-gradient-to-l from-[#070415] to-transparent" />
+
+          {/* Sliding Track Container */}
+          <div
+            ref={scrollContainerRef}
+            className="overflow-x-auto scrollbar-none py-2"
+          >
+            <div
+              className="flex items-stretch gap-5 w-max"
+              style={{
+                animation: 'service-marquee 45s linear infinite',
+                animationPlayState: isPaused ? 'paused' : 'running',
+                willChange: 'transform',
+              }}
+            >
+              {duplicatedPathways.map((pathway, index) => {
+                const Icon = pathway.icon;
+                return (
+                  <div
+                    key={`${pathway.id}-${index}`}
+                    className="w-[310px] sm:w-[350px] md:w-[370px] shrink-0 group relative p-6 rounded-2xl bg-white/[0.035] hover:bg-white/[0.07] border border-white/10 hover:border-[#4DA5EC]/60 transition-all duration-300 flex flex-col justify-between shadow-xl backdrop-blur-md hover:-translate-y-1 overflow-hidden"
+                  >
+                    {/* Top edge gradient highlight on hover */}
+                    <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                    <div className="space-y-4">
+                      {/* Top Bar: Icon + Tag */}
+                      <div className="flex items-center justify-between">
+                        <div className="w-11 h-11 rounded-xl bg-[#402493]/60 group-hover:bg-gradient-to-br group-hover:from-[#4DA5EC] group-hover:to-[#257CFF] text-[#4DA5EC] group-hover:text-white flex items-center justify-center transition-all duration-300 shadow">
+                          <Icon className="w-5 h-5" />
+                        </div>
+                        <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${pathway.tagColor}`}>
+                          {pathway.tag}
+                        </span>
+                      </div>
+
+                      {/* Title & Tagline */}
+                      <div>
+                        <h3 className="font-heading font-bold text-base sm:text-lg text-white group-hover:text-[#4DA5EC] transition-colors leading-snug line-clamp-2">
+                          {pathway.title}
+                        </h3>
+                        <p className="text-xs text-purple-300/80 font-medium mt-1 line-clamp-1">
+                          {pathway.tagline}
+                        </p>
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-xs text-slate-300 leading-relaxed line-clamp-3">
+                        {pathway.description}
+                      </p>
+
+                      {/* Deliverables Scope */}
+                      <div className="pt-3 border-t border-white/8 space-y-1.5">
+                        <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                          Key Deliverables:
+                        </div>
+                        {pathway.scope.map((item, idx) => (
+                          <div key={idx} className="flex items-center gap-1.5 text-[11px] text-slate-300">
+                            <span className="w-1 h-1 rounded-full bg-[#4DA5EC] shrink-0" />
+                            <span className="truncate">{item}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Bottom CTA Link */}
+                    <div className="pt-4 mt-4 border-t border-white/8">
+                      <Link
+                        href={pathway.href}
+                        className="inline-flex items-center justify-between w-full text-xs font-bold text-[#4DA5EC] group-hover:text-white transition-colors"
+                      >
+                        <span>View Requirements &amp; Process</span>
+                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                      </Link>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Helper Note & All Services Action */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/8">
+          <p className="text-[11px] font-medium text-slate-400">
+            💡 Hover over any service card to pause sliding.
+          </p>
           <Link
             href={ROUTES.services.root}
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] text-white font-semibold text-xs uppercase tracking-wider border border-white/15 backdrop-blur-md transition-all hover:scale-[1.02]"
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] text-white font-semibold text-xs uppercase tracking-wider border border-white/15 backdrop-blur-md transition-all hover:scale-[1.02]"
           >
-            <span>Compare All Services &amp; Advisory Scopes</span>
-            <ArrowRight className="w-4 h-4 text-[#F98864]" />
+            <span>Compare All 8 Services</span>
+            <ArrowRight className="w-3.5 h-3.5 text-[#4DA5EC]" />
           </Link>
         </div>
       </div>
+
+      {/* Marquee keyframe injection */}
+      <style>{`
+        @keyframes service-marquee {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+      `}</style>
     </section>
   );
 };

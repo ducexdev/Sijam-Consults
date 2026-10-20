@@ -48,12 +48,14 @@ export const FeaturedGuidesSection: React.FC = () => {
           </Link>
         </div>
 
-        {/* 3 Articles Grid */}
+        {/* 3 Articles Grid — Mobile shows only latest, Tablet/Desktop shows 3 */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {featuredPosts.map((post) => (
+          {featuredPosts.map((post, index) => (
             <article
               key={post.id}
-              className="group rounded-3xl bg-white/[0.035] hover:bg-white/[0.07] border border-white/8 hover:border-[#DC2F11]/40 transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-xl"
+              className={`group rounded-3xl bg-white/[0.035] hover:bg-white/[0.07] border border-white/8 hover:border-[#4DA5EC]/40 transition-all duration-300 flex-col justify-between overflow-hidden shadow-xl ${
+                index > 0 ? 'hidden md:flex' : 'flex'
+              }`}
             >
               <div>
                 {/* Featured Image */}
