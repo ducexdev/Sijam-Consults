@@ -26,6 +26,7 @@ import { Accordion, type AccordionItem } from '@/components/ui/Accordion';
 import { StudyVisaCalculator } from '@/components/services/StudyVisaCalculator';
 import { SERVICES_DATA } from '@/lib/data/services';
 import { ROUTES, COMPANY } from '@/lib/routes';
+import { VIDEOS } from '@/lib/constants/videos';
 
 export const metadata: Metadata = {
   title: 'Study Abroad Consultants in Nigeria | Sijam Consults',
@@ -112,10 +113,38 @@ export default function StudyVisaPage() {
       />
 
       <div className="bg-[#070415] text-white min-h-screen relative overflow-hidden">
-        {/* Ambient atmospheric lighting */}
-        <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-[#402493]/20 rounded-full blur-[160px] pointer-events-none" />
-        <div className="absolute top-96 left-[-100px] w-[500px] h-[500px] bg-[#257CFF]/15 rounded-full blur-[150px] pointer-events-none" />
-        <div className="absolute bottom-40 right-10 w-[500px] h-[500px] bg-[#DC2F11]/10 rounded-full blur-[170px] pointer-events-none" />
+        {/* ── CINEMATIC STUDY VISA BACKGROUND VIDEO LAYER ──────────────── */}
+        <div className="absolute top-0 left-0 right-0 h-[780px] lg:h-[860px] overflow-hidden pointer-events-none" aria-hidden="true">
+          {/* Mobile poster */}
+          <div className="sm:hidden absolute inset-0">
+            <Image
+              src="/hero/passport-hero.png"
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover opacity-35 contrast-125"
+            />
+          </div>
+          {/* Ambient Study Visa Video */}
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            poster="/hero/passport-hero.png"
+            className="hidden sm:block w-full h-full object-cover opacity-65 contrast-110 saturate-110"
+            src={VIDEOS.STUDY_VISA}
+            aria-hidden="true"
+          />
+          {/* Transparent brand gradient scrims — transparent enough so video is visible a little */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#070415]/70 via-[#0D0826]/45 to-[#070415]/75" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#070415]/45 via-transparent to-[#070415]" />
+          {/* Purple & Blue ambient blur orbs */}
+          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[#402493]/20 rounded-full blur-[150px]" />
+          <div className="absolute top-1/3 right-10 w-[500px] h-[500px] bg-[#257CFF]/15 rounded-full blur-[150px]" />
+        </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 pt-8 pb-20">
           {/* Breadcrumbs Navigation */}
@@ -154,11 +183,7 @@ export default function StudyVisaPage() {
 
                 {/* H1 — matches homepage font sizing exactly */}
                 <h1 className="font-heading font-black text-[24px] sm:text-[30px] lg:text-[42px] xl:text-[52px] text-white leading-[1.15] tracking-tight">
-                  Gain Direct Admission to Accredited Universities.{' '}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
-                    With Up to 50% Tuition Grants
-                  </span>{' '}
-                  and Consular Precision.
+                  Gain Direct Admission to Accredited Universities With Up to 50% Tuition Grants and Consular Precision.
                 </h1>
 
                 <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal max-w-2xl">
@@ -207,7 +232,7 @@ export default function StudyVisaPage() {
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-white font-semibold text-sm border border-white/10 backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98]"
                   >
-                    <PhoneCall className="w-4 h-4 text-emerald-400" />
+                    <PhoneCall className="w-4 h-4 text-[#4DA5EC]" />
                     <span>Chat on WhatsApp</span>
                   </a>
                 </div>
@@ -236,31 +261,31 @@ export default function StudyVisaPage() {
               <div className="lg:col-span-5 space-y-4">
                 {/* Proof metrics cards */}
                 <div className="grid grid-cols-2 gap-3">
-                  <div className="p-4 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-[#4DA5EC]/40 transition-all flex flex-col">
+                  <div className="p-4 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] backdrop-blur-md border border-white/10 hover:border-[#4DA5EC]/40 transition-all flex flex-col">
                     <div className="text-2xl font-black text-white">50% Off</div>
-                    <div className="text-[11px] text-slate-400 mt-0.5">Guaranteed Merit Grants</div>
-                    <div className="mt-2 text-[10px] font-semibold text-emerald-400 flex items-center gap-1">
+                    <div className="text-[11px] text-slate-300 mt-0.5">Guaranteed Merit Grants</div>
+                    <div className="mt-2 text-[10px] font-semibold text-[#4DA5EC] flex items-center gap-1">
                       <CheckCircle2 className="w-3 h-3" /> Cyprus West University
                     </div>
                   </div>
-                  <div className="p-4 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-[#4DA5EC]/40 transition-all flex flex-col">
+                  <div className="p-4 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] backdrop-blur-md border border-white/10 hover:border-[#4DA5EC]/40 transition-all flex flex-col">
                     <div className="text-2xl font-black text-[#4DA5EC]">€1,800/yr</div>
-                    <div className="text-[11px] text-slate-400 mt-0.5">Starting Tuition Rates</div>
-                    <div className="mt-2 text-[10px] font-semibold text-emerald-400 flex items-center gap-1">
+                    <div className="text-[11px] text-slate-300 mt-0.5">Starting Tuition Rates</div>
+                    <div className="mt-2 text-[10px] font-semibold text-[#4DA5EC] flex items-center gap-1">
                       <CheckCircle2 className="w-3 h-3" /> After institutional grant
                     </div>
                   </div>
-                  <div className="p-4 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-[#4DA5EC]/40 transition-all flex flex-col">
+                  <div className="p-4 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] backdrop-blur-md border border-white/10 hover:border-[#4DA5EC]/40 transition-all flex flex-col">
                     <div className="text-2xl font-black text-white">WAEC C6+</div>
-                    <div className="text-[11px] text-slate-400 mt-0.5">English Waiver — No IELTS</div>
+                    <div className="text-[11px] text-slate-300 mt-0.5">English Waiver — No IELTS</div>
                     <div className="mt-2 text-[10px] font-semibold text-[#4DA5EC] flex items-center gap-1">
                       <Shield className="w-3 h-3" /> Save up to ₦280,000
                     </div>
                   </div>
-                  <div className="p-4 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-[#4DA5EC]/40 transition-all flex flex-col">
-                    <div className="text-2xl font-black text-[#F45A2A]">98.4%</div>
-                    <div className="text-[11px] text-slate-400 mt-0.5">Consular Audit Accuracy</div>
-                    <div className="mt-2 text-[10px] font-semibold text-emerald-400 flex items-center gap-1">
+                  <div className="p-4 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] backdrop-blur-md border border-white/10 hover:border-[#4DA5EC]/40 transition-all flex flex-col">
+                    <div className="text-2xl font-black text-white">98.4%</div>
+                    <div className="text-[11px] text-slate-300 mt-0.5">Consular Audit Accuracy</div>
+                    <div className="mt-2 text-[10px] font-semibold text-[#4DA5EC] flex items-center gap-1">
                       <CheckCircle2 className="w-3 h-3" /> First-pass approvals
                     </div>
                   </div>
@@ -276,7 +301,7 @@ export default function StudyVisaPage() {
                   ].map((stamp, idx) => (
                     <div
                       key={idx}
-                      className="group relative rounded-xl bg-[#0B071E] border border-white/10 overflow-hidden p-1.5 hover:border-[#4DA5EC]/50 transition-all"
+                      className="group relative rounded-xl bg-white/[0.03] backdrop-blur-md border border-white/10 overflow-hidden p-1.5 hover:border-[#4DA5EC]/50 transition-all"
                     >
                       <div className="relative h-20 w-full rounded-lg overflow-hidden bg-black/40">
                         <Image
@@ -789,7 +814,7 @@ export default function StudyVisaPage() {
                   rel="noopener noreferrer"
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-gradient-to-r from-[#402493] to-[#2D186B] hover:from-[#3B1F8C] hover:to-[#1A1040] text-white font-bold text-sm tracking-wide border border-purple-500/40 shadow-[0_8px_25px_-5px_rgba(64,36,147,0.5)] backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98]"
                 >
-                  <PhoneCall className="w-4 h-4 text-emerald-400" />
+                  <PhoneCall className="w-4 h-4 text-[#4DA5EC]" />
                   <span>Chat with an advisor on WhatsApp</span>
                 </a>
               </div>
