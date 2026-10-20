@@ -30,7 +30,7 @@ const services = [
   {
     title: "EU Company Reg & D-Visa",
     category: "Corporate Relocation",
-    desc: "Incorporate European business entities (Poland Sp. z o.o.) to unlock long-term D-Type Schengen residency for entrepreneurs and families.",
+    desc: "Incorporate European business entities (Poland Sp. z o.o.) to open a statutory pathway to long-term D-Type Schengen residency for entrepreneurs and families.",
     href: "/services/business-registration",
     icon: Building2,
     destinations: "European Union • Poland • Schengen",

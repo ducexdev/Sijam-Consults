@@ -68,7 +68,7 @@ export const WhyUsPreview: React.FC = () => {
             </span>
           </h2>
           <p className="text-sm sm:text-base text-slate-300 mt-3 leading-relaxed font-normal">
-            International travel and relocation is a life-defining investment. Choosing <strong className="text-white font-medium">an accredited consultancy</strong> you can trust makes every step seamless—we replace guesswork with forensic document audits, transparent counsel, and authentic institutional pathways.
+            International travel and relocation is a life-defining investment. Choosing <strong className="text-white font-medium">an accredited consultancy</strong> you can trust matters—we replace guesswork with forensic document audits, transparent counsel, and authentic institutional pathways.
           </p>
         </div>
 

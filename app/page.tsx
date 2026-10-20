@@ -14,6 +14,8 @@ import { PartnerMarquee } from '@/components/home/PartnerMarquee';
 import { FeaturedGuidesSection } from '@/components/home/FeaturedGuidesSection';
 import { HomeFAQ } from '@/components/home/HomeFAQ';
 import { ConsultationBanner } from '@/components/home/ConsultationBanner';
+import { HonestFitSection } from '@/components/home/HonestFitSection';
+import { InformationGainSection } from '@/components/home/InformationGainSection';
 
 export const metadata: Metadata = {
   title: 'Sijam Consults | International Recruitment & Immigration Agency',
@@ -77,6 +79,12 @@ export default function HomePage() {
 
       {/* 9. Institutional Integrity, Corporate Governance & Track Record */}
       <WhyUsPreview />
+
+      {/* 9b. Honest Agency Fit & Disqualification (Information Gain — unique competitor gap) */}
+      <HonestFitSection />
+
+      {/* 9c. Consular Audit Checklist & True Cost Breakdown (Information Gain) */}
+      <InformationGainSection />
 
       {/* 10. Verified Client Approvals & Video Testimonials */}
       <VideoTestimonialsSection />
