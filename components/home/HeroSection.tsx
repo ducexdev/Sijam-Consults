@@ -69,13 +69,13 @@ export const HeroSection: React.FC = () => {
           playsInline
           preload="metadata"
           poster="/hero/passport-hero.png"
-          className="hidden sm:block w-full h-full object-cover opacity-50 contrast-110 saturate-110"
+          className="hidden sm:block w-full h-full object-cover opacity-70 contrast-110 saturate-110"
           src="/media/hero-preview.mp4"
           aria-hidden="true"
         />
         {/* Gradient scrims — brand-consistent purple depth */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#070415]/92 via-[#0D0826]/70 to-[#070415]/85" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#070415]/80 via-transparent to-[#070415]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#070415]/80 via-[#0D0826]/55 to-[#070415]/75" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#070415]/65 via-transparent to-[#070415]" />
         {/* Purple orbs */}
         <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[#402493]/18 rounded-full blur-[140px]" />
         <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-[#DC2F11]/10 rounded-full blur-[160px]" />
@@ -104,7 +104,7 @@ export const HeroSection: React.FC = () => {
       </div>
 
       {/* ── MAIN HERO CONTENT (2-COLUMN OPPOSITE LAYOUT) ──────────────── */}
-      <div className="relative z-10 flex-1 flex flex-col justify-center max-w-7xl mx-auto w-full px-4 sm:px-6 pt-24 pb-12 lg:pt-32 lg:pb-16">
+      <div className="relative z-10 flex-1 flex flex-col justify-center max-w-7xl mx-auto w-full px-4 sm:px-6 pt-16 pb-12 lg:pt-20 lg:pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
           {/* LEFT COLUMN: Trust, Headline, Subtext, Social Proof & CTAs */}
@@ -140,7 +140,7 @@ export const HeroSection: React.FC = () => {
             {/* Social proof micro-copy */}
             <div className="flex items-center gap-3 pt-1">
               <div className="flex -space-x-2">
-                {['bg-[#402493]', 'bg-[#DC2F11]', 'bg-[#257CFF]', 'bg-emerald-600'].map((bg, i) => (
+                {['bg-[#402493]', 'bg-[#DC2F11]', 'bg-[#257CFF]', 'bg-[#4DA5EC]'].map((bg, i) => (
                   <div
                     key={i}
                     className={`w-8 h-8 rounded-full ${bg} border-2 border-[#070415] flex items-center justify-center text-[10px] font-black text-white`}
@@ -165,9 +165,9 @@ export const HeroSection: React.FC = () => {
               </Link>
               <Link
                 href={ROUTES.assessment}
-                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 font-bold text-sm tracking-wide border border-emerald-500/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-gradient-to-r from-[#402493] to-[#2D186B] hover:from-[#3B1F8C] hover:to-[#1A1040] text-white font-bold text-sm tracking-wide border border-purple-500/40 shadow-[0_8px_25px_-5px_rgba(64,36,147,0.5)] backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
-                <Sparkles className="w-4 h-4 text-emerald-400" />
+                <Sparkles className="w-4 h-4 text-[#4DA5EC]" />
                 <span>Eligibility Pre-Check</span>
               </Link>
               <Link
@@ -247,13 +247,13 @@ export const HeroSection: React.FC = () => {
             <div className="grid grid-cols-2 gap-3">
               <Link
                 href={ROUTES.reviews}
-                className="p-3.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 hover:border-emerald-500/40 transition-all flex items-center gap-3 group"
+                className="p-3.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 hover:border-[#4DA5EC]/40 transition-all flex items-center gap-3 group"
               >
-                <div className="w-9 h-9 rounded-lg bg-emerald-500/15 text-emerald-400 flex items-center justify-center shrink-0">
+                <div className="w-9 h-9 rounded-lg bg-[#4DA5EC]/15 text-[#4DA5EC] flex items-center justify-center shrink-0">
                   <Shield className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors">Client Reviews</div>
+                  <div className="text-xs font-bold text-white group-hover:text-[#4DA5EC] transition-colors">Client Reviews</div>
                   <div className="text-[10px] text-slate-400">View Real Case Studies</div>
                 </div>
               </Link>

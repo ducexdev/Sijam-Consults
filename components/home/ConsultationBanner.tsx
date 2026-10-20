@@ -46,7 +46,7 @@ export const ConsultationBanner: React.FC = () => {
             href={COMPANY.whatsapp.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl bg-emerald-600/15 hover:bg-emerald-600/25 text-emerald-300 font-bold text-sm border border-emerald-500/30 transition-all"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl bg-gradient-to-r from-[#402493] to-[#2D186B] hover:from-[#3B1F8C] hover:to-[#1A1040] text-white font-bold text-sm border border-purple-500/40 shadow-[0_8px_20px_-5px_rgba(64,36,147,0.5)] transition-all"
           >
             <MessageCircle className="w-4 h-4" />
             <span>Chat on WhatsApp</span>

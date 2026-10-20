@@ -177,7 +177,7 @@ export const HonestFitSection: React.FC = () => {
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link
                   href={ROUTES.assessment}
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-sm tracking-wide shadow-[0_8px_25px_-5px_rgba(16,185,129,0.4)] hover:brightness-110 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-bold text-sm tracking-wide shadow-[0_8px_25px_-5px_rgba(77,165,236,0.5)] hover:brightness-110 transition-all hover:scale-[1.02] active:scale-[0.98]"
                 >
                   <span>Check My Eligibility</span>
                   <ArrowRight className="w-4 h-4" />
