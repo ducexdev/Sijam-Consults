@@ -45,6 +45,17 @@ export default {
                     \`\${globalThis.__NEXT_BASE_PATH__ || ""}/_next/image\${globalThis.__TRAILING_SLASH__ ? "/" : ""}\`) {
                     return await handleImageRequest(url, request.headers, env);
                 }
+                // Fast path: try serving directly from Cloudflare Static Assets
+                // Pre-rendered pages (e.g. /, /about, /services, etc.) take 0ms Worker CPU,
+                // completely preventing Cloudflare Error 1102 (exceeded CPU time limit).
+                if (env.ASSETS && request.method === "GET") {
+                    try {
+                        const assetResponse = await env.ASSETS.fetch(request);
+                        if (assetResponse && assetResponse.status !== 404) {
+                            return assetResponse;
+                        }
+                    } catch (_) {}
+                }
                 const reqOrResp = await middlewareHandler(request, env, ctx);
                 if (reqOrResp instanceof Response) {
                     return reqOrResp;
@@ -94,4 +105,40 @@ if (fs.existsSync(handlerPath)) {
     fs.writeFileSync(handlerPath, handlerContent, 'utf8');
     console.log('✓ Successfully patched handler.mjs to safely resolve preview-props manifest.');
   }
+}
+
+// 3. Copy all pre-rendered HTML and RSC files into .open-next/assets
+// This ensures Cloudflare's Edge Static Assets router serves all pre-rendered pages directly
+// without executing the heavy 6.4MB Node.js runtime, eliminating Error 1102 (CPU time limit exceeded).
+const nextAppDir = path.resolve('.next/server/app');
+const openNextAssetsDir = path.resolve('.open-next/assets');
+
+if (fs.existsSync(nextAppDir) && fs.existsSync(openNextAssetsDir)) {
+  let copiedCount = 0;
+  function copyStaticHtml(dir, relative = '') {
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = path.join(dir, entry.name);
+      const relPath = path.join(relative, entry.name);
+      if (entry.isDirectory()) {
+        copyStaticHtml(fullPath, relPath);
+      } else if (entry.name.endsWith('.html') && !entry.name.startsWith('_')) {
+        const targetPath = path.join(openNextAssetsDir, relPath);
+        fs.mkdirSync(path.dirname(targetPath), { recursive: true });
+        fs.copyFileSync(fullPath, targetPath);
+        copiedCount++;
+
+        // For non-index files, also create folder/index.html for trailing slash compatibility
+        if (entry.name !== 'index.html') {
+          const folderName = entry.name.replace(/\.html$/, '');
+          const folderIndex = path.join(openNextAssetsDir, relative, folderName, 'index.html');
+          fs.mkdirSync(path.dirname(folderIndex), { recursive: true });
+          fs.copyFileSync(fullPath, folderIndex);
+        }
+      }
+    }
+  }
+
+  copyStaticHtml(nextAppDir);
+  console.log(`✓ Successfully copied ${copiedCount} pre-rendered HTML pages into .open-next/assets for zero-CPU edge serving.`);
 }
