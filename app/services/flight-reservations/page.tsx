@@ -1,690 +1,1053 @@
-'use client';
-
-import React, { useState, useRef } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { PublicLayout } from "@/components/layout/PublicLayout";
-import { 
-  Plane, 
+import type { Metadata } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import {
+  Plane,
   Ticket,
-  CheckCircle2, 
-  ArrowRight, 
-  ShieldCheck, 
-  Luggage,
-  RefreshCw,
-  HelpCircle,
-  PhoneCall,
-  Play,
-  Pause,
+  Sparkles,
+  CheckCircle2,
   AlertTriangle,
   XCircle,
+  ArrowRight,
+  ShieldCheck,
+  HelpCircle,
+  PhoneCall,
   Clock,
-  Sparkles,
-  ExternalLink,
-  Handshake,
-  Check,
-  FileText,
+  Luggage,
   Globe2,
-} from "lucide-react";
-import { ROUTES } from "@/lib/routes";
-import { VIDEOS } from "@/lib/constants/videos";
-import { BreadcrumbSchema } from "@/components/seo/BreadcrumbSchema";
-import { FlightBookingWidget } from "@/components/flight/FlightBookingWidget";
-import { EverbrightAllianceSection } from "@/components/flight/EverbrightAllianceSection";
+  Handshake,
+  Scale,
+  FileText,
+  Compass,
+  Shield,
+  Building2,
+  RefreshCw,
+  ExternalLink,
+} from 'lucide-react';
+import { PublicLayout } from '@/components/layout/PublicLayout';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema';
+import { ServiceSchema } from '@/components/seo/ServiceSchema';
+import { Accordion, type AccordionItem } from '@/components/ui/Accordion';
+import { FlightPnrCalculator } from '@/components/services/FlightPnrCalculator';
+import { FlightBookingWidget } from '@/components/flight/FlightBookingWidget';
+import { EverbrightAllianceSection } from '@/components/flight/EverbrightAllianceSection';
+import { SERVICES_DATA } from '@/lib/data/services';
+import { ROUTES, COMPANY } from '@/lib/routes';
+import { VIDEOS } from '@/lib/constants/videos';
+
+export const metadata: Metadata = {
+  title: 'Verifiable Flight Reservation for Visa | Sijam Consults',
+  description:
+    'Order 100% verifiable flight reservations with active GDS PNR codes for embassy visa applications. Fast turnaround and flexible travel date adjustments.',
+  keywords: [
+    'flight reservation for visa application',
+    'flight reservation and ticketing agency nigeria',
+    'verifiable flight itinerary with active pnr',
+    'dummy ticket for visa application nigeria',
+    'airline booking for embassy visa submission',
+    'gds pnr flight reservation nigeria',
+    'Everbright Travels Consultants Limited',
+    'Sijam Consults Limited',
+    'CAC RC: 1715416',
+  ],
+  alternates: {
+    canonical: 'https://sijamconsults.com/services/flight-reservations',
+  },
+  openGraph: {
+    title: 'Verifiable Flight Reservation for Visa | Sijam Consults',
+    description:
+      'Order 100% verifiable flight reservations with active GDS PNR codes for embassy visa applications. Fast turnaround and flexible travel date adjustments.',
+    url: 'https://sijamconsults.com/services/flight-reservations',
+    siteName: 'Sijam Consults Limited',
+    locale: 'en_NG',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Verifiable Flight Reservation for Visa | Sijam Consults',
+    description:
+      'Order 100% verifiable flight reservations with active GDS PNR codes for embassy visa applications. Fast turnaround and flexible travel date adjustments.',
+  },
+};
+
+const FLIGHT_FAQS: AccordionItem[] = [
+  {
+    question: 'Who is Everbright Travels & Consultants Limited and what is their role with Sijam Consults?',
+    answer:
+      'Everbright Travels & Consultants Limited is Sijam Consults Limited\'s official strategic partner for international flight reservation and aviation ticketing. Operating under their motto "...Simplifying Your World", Everbright provides direct Global Distribution System (GDS) terminal access through Amadeus and Sabre. This alliance ensures that every flight reservation issued through Sijam carries live airline inventory with verifiable PNR codes, fast 60 to 120-minute dispatch, and preferential student and worker baggage rates upon visa approval.',
+  },
+  {
+    question: 'What is the difference between a flight reservation and a confirmed flight ticket?',
+    answer:
+      'A flight reservation (also known as a flight itinerary for visa) is an official airline booking that holds a seat on an aircraft with an active 6-character PNR code. It proves your travel intent to embassy visa officers without requiring you to purchase expensive non-refundable airfare before your visa is approved. Once your visa is granted, our joint flight desk converts your reservation into a confirmed electronic ticket (e-ticket) at the prevailing fare.',
+  },
+  {
+    question: 'Can consular officers verify my flight reservation on the airline website?',
+    answer:
+      'Yes. Every reservation generated by Sijam Consults and Everbright Travels includes an authentic 6-character PNR booking code. You, as well as the consular officer at VFS Global or TLScontact, can visit the operating airline\'s official portal (such as Qatar Airways, Turkish Airlines, Emirates, or Ethiopian Airlines), enter your surname and PNR under "Manage Booking", and confirm the live reservation in real time.',
+  },
+  {
+    question: 'Is a "dummy ticket" from a PDF generator the same as what you provide?',
+    answer:
+      'No. This distinction matters enormously. A dummy ticket generated by unauthorized online tools creates a fake document that does not hold an actual seat reservation in any airline system. When a consular officer enters that reference code into Amadeus or the airline portal, it either fails to return a result or returns data that contradicts the PDF. This triggers an immediate refusal notice and can result in 5 to 10-year visa bans for document fraud. Sijam and Everbright provide genuine GDS-backed reservations only.',
+  },
+  {
+    question: 'How quickly can I receive my flight reservation for an upcoming embassy appointment?',
+    answer:
+      'Standard verifiable flight reservation itineraries are generated and dispatched to your email and WhatsApp within 60 to 120 minutes of your confirmed request. Urgent same-day appointments can be expedited by contacting our flight desk directly on WhatsApp.',
+  },
+  {
+    question: 'Do Nigerian nationals transiting through Europe need a transit visa?',
+    answer:
+      'It depends on the country of transit. Nigerian passport holders transiting airside through the United Kingdom require a UK Direct Airside Transit Visa (DATV) unless they hold a valid US, Canadian, Australian, or Schengen visa. Germany, France, and certain other Schengen states enforce Airport Transit Visa (ATV) requirements for Nigerian nationals on specific routes. Our flight advisory desk reviews your complete routing before generating your reservation to flag any mandatory transit visas.',
+  },
+];
 
 export default function FlightReservationsPage() {
-  const [isPlaying, setIsPlaying] = useState(true);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const service = SERVICES_DATA.find((s) => s.slug === 'flight-reservations');
+  if (!service) notFound();
 
-  const toggleVideo = () => {
-    if (!videoRef.current) return;
-    if (isPlaying) {
-      videoRef.current.pause();
-    } else {
-      videoRef.current.play().catch(() => {});
-    }
-    setIsPlaying(!isPlaying);
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: FLIGHT_FAQS.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
   };
 
-  const flightFeatures = [
-    {
-      icon: Ticket,
-      title: "Embassy-Ready Flight Reservation",
-      tagline: "Live 6-Character GDS PNR",
-      desc: "Legitimate airline seat reservations verifiable directly on carrier portals (Qatar, Emirates, Turkish, Ethiopian, Lufthansa) without purchasing expensive airfare upfront.",
-      benefits: ["Official GDS PNR code", "Active hold for visa processing window", "Full passenger name & flight numbers"],
+  const serviceSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Verifiable Flight Reservation and Ticketing',
+    serviceType: 'Flight Reservation & Ticketing',
+    provider: {
+      '@type': 'Organization',
+      name: 'Sijam Consults Limited',
+      url: 'https://sijamconsults.com',
     },
-    {
-      icon: Plane,
-      title: "Commercial Flight Ticketing",
-      tagline: "Upon Visa Issuance",
-      desc: "Instant conversion of your reservation to a fully confirmed electronic ticket across major global airlines at competitive corporate consolidator rates.",
-      benefits: ["Direct airline inventory", "Transparent fare breakdown", "Instant electronic ticket receipt"],
+    partner: {
+      '@type': 'Organization',
+      name: 'Everbright Travels & Consultants Limited',
+      description: 'Official Aviation & Ticketing Strategic Partner (...Simplifying Your World)',
     },
-    {
-      icon: Luggage,
-      title: "Student & Expatriate Baggage Perks",
-      tagline: "Up to 46kg Allowance",
-      desc: "Special bilateral fare categories tailored for overseas students and relocated workers, granting additional baggage allowances and flexible date re-booking.",
-      benefits: ["Extra baggage allowance (up to 46kg)", "Reduced date rebooking fees", "One-way student fares"],
-    },
-    {
-      icon: RefreshCw,
-      title: "Flight Rerouting & Transit Advisory",
-      tagline: "24/7 Ticketing Support",
-      desc: "Multi-city flight itineraries, layover optimization, transit visa guidance (e.g. UK DATV or Schengen airport transit), and emergency schedule changes.",
-      benefits: ["Transit visa requirement audit", "Connection time optimization", "24/7 emergency rescheduling"],
-    },
-  ];
-
-  const comparisonRows = [
-    {
-      feature: "Verifiable on Official Airline Website",
-      sijamEverbright: true,
-      dummyTicket: false,
-      fullTicket: true,
-      note: "Sijam & Everbright hold live GDS inventory accessible via airline 'Manage Booking' portals.",
-    },
-    {
-      feature: "Financial Risk if Visa is Refused",
-      sijamEverbrightText: "Zero Risk (Nominal fee only)",
-      dummyTicketText: "Zero airfare, but high risk of visa refusal",
-      fullTicketText: "Severe Risk (Loss of ₦800k - ₦3M+ in penalties)",
-      sijamEverbright: true,
-      dummyTicket: false,
-      fullTicket: false,
-    },
-    {
-      feature: "Consular & Embassy Compliance",
-      sijamEverbright: true,
-      dummyTicket: false,
-      fullTicket: true,
-      note: "Accepted across Schengen (VFS/TLS), UKVI, US Embassy, and Canadian IRCC.",
-    },
-    {
-      feature: "Protection Against Fraud Allegations",
-      sijamEverbright: true,
-      dummyTicket: false,
-      fullTicket: true,
-      note: "Embassies verify fake dummy tickets and issue 5-to-10 year bans for fraudulent documents.",
-    },
-    {
-      feature: "Instant Turnaround (Within 60–120 Mins)",
-      sijamEverbright: true,
-      dummyTicket: false,
-      fullTicket: false,
-      note: "Fast-track electronic delivery directly to your WhatsApp and email.",
-    },
-    {
-      feature: "Post-Visa Ticket Conversion Guarantee",
-      sijamEverbright: true,
-      dummyTicket: false,
-      fullTicket: true,
-      note: "Seamless upgrade to confirmed commercial ticket with student/expatriate perks.",
-    },
-  ];
-
-  const consularDestinations = [
-    {
-      region: "Schengen Area (EU)",
-      countries: "Poland, France, Germany, Italy, Spain, Slovakia, Portugal, Netherlands",
-      requirement: "Round-trip flight reservation covering all Schengen member entries and exits.",
-    },
-    {
-      region: "United Kingdom (UKVI)",
-      countries: "England, Scotland, Wales, Northern Ireland",
-      requirement: "Travel itinerary demonstrating departure/arrival intent matching sponsorship Certificate (CoS) or CAS.",
-    },
-    {
-      region: "Canada (IRCC)",
-      countries: "Ontario, Alberta, Quebec, British Columbia, Nova Scotia",
-      requirement: "Flight itinerary establishing compliance with temporary resident intent or study permit resumption.",
-    },
-    {
-      region: "United States (US Embassy)",
-      countries: "All 50 States & Territories (B1/B2, F1, J1, H1B)",
-      requirement: "Tentative travel itinerary matching DS-160 declarations without requiring non-refundable purchase.",
-    },
-    {
-      region: "Gulf & Middle East (GCC)",
-      countries: "Saudi Arabia, UAE, Qatar, Oman, Bahrain",
-      requirement: "Direct or transit flight booking matching employment work visa quota or tourist entry.",
-    },
-    {
-      region: "Australia & New Zealand",
-      countries: "Australia (Subclass 500, 482) & New Zealand",
-      requirement: "Valid travel plan aligning with academic course start dates and genuine temporary entrant standards.",
-    },
-  ];
-
-  const faqs = [
-    {
-      q: "Who is Everbright Travels & Consultants Limited and what is their role with Sijam Consults?",
-      a: "Everbright Travels & Consultants Limited is Sijam Consults Limited’s official strategic partner for international flight reservation and aviation ticketing. Operating under their motto '...Simplifying Your World', Everbright provides direct Global Distribution System (GDS) terminal access (Amadeus and Sabre). This alliance ensures that every flight reservation issued through Sijam is backed by live airline inventory with verifiable PNR codes, fast 60–120 minute dispatch, and preferential student and worker baggage rates upon visa approval.",
-    },
-    {
-      q: "What is the difference between a flight reservation and a confirmed flight ticket?",
-      a: "A flight reservation (also known as a flight itinerary or flight reservation for visa) is an official airline booking that holds a seat on an aircraft with an active 6-character PNR code. It proves your travel intent to embassy visa officers without requiring you to purchase expensive non-refundable airfare before your visa is approved. Once your visa is granted, our joint flight desk converts your reservation into a confirmed electronic ticket (e-ticket).",
-    },
-    {
-      q: "Can visa consular officers verify my flight reservation on the airline's website?",
-      a: "Yes! Every flight reservation generated by Sijam Consults and Everbright Travels includes an authentic 6-character PNR booking code. You, as well as the consular officer at VFS, TLScontact, or the embassy, can visit the operating airline's official portal (such as Qatar Airways, Turkish Airlines, Emirates, or Ethiopian Airlines), enter your surname and PNR under 'Manage Booking', and see the live aircraft reservation.",
-    },
-    {
-      q: "How fast can I receive my verifiable flight reservation for an upcoming appointment?",
-      a: "Our joint ticketing desk operates with expedited turnaround. Standard flight reservation itineraries with active PNRs are generated and dispatched to your email and WhatsApp within 60 to 120 minutes of request. Urgent appointments can be expedited by contacting our flight desk directly.",
-    },
-    {
-      q: "How long does the flight reservation stay active in the airline system?",
-      a: "Depending on the operating airline's fare rules and proximity to departure, reservations remain active in the GDS system for anywhere between 7 to 14 days. If your embassy processing requires an extended validity or refreshed itinerary, our desk provides updates upon request.",
-    },
-    {
-      q: "What student and worker benefits are available when converting to a paid ticket?",
-      a: "Through Everbright Travels’ direct consolidator alliances, international students heading to Europe, the UK, or Canada enjoy pre-negotiated excess baggage allowances of up to 40kg–46kg (2 pieces of 23kg), flexible date change terms in case of delayed visa pickup, and special youth/student fares.",
-    },
-  ];
+    areaServed: 'Nigeria, West Africa & Global Destinations',
+    description:
+      'Official embassy-ready flight reservations with verifiable 6-character GDS PNR codes (Amadeus & Sabre) and commercial flight ticketing. In certified alliance with Everbright Travels & Consultants Limited.',
+  };
 
   return (
-    <>
+    <PublicLayout>
+      <ServiceSchema service={service} />
       <BreadcrumbSchema
         items={[
           { label: 'Services', href: '/services' },
           { label: 'Flight Reservation & Ticketing', href: '/services/flight-reservations' },
         ]}
       />
-
-      {/* Embedded Schema.org Service & Partner Structured Data */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'Service',
-            name: 'Verifiable Flight Reservation and Ticketing',
-            serviceType: 'Flight Reservation & Ticketing',
-            provider: {
-              '@type': 'Organization',
-              name: 'Sijam Consults Limited',
-              url: 'https://sijamconsults.com',
-              logo: 'https://sijamconsults.com/brand/logo.png',
-            },
-            partner: {
-              '@type': 'Organization',
-              name: 'Everbright Travels & Consultants Limited',
-              url: 'https://sijamconsults.com/services/flight-reservations',
-              logo: 'https://sijamconsults.com/partners/everbright-travels-logo.png',
-              description: 'Official Aviation & Ticketing Strategic Partner (...Simplifying Your World)',
-            },
-            areaServed: 'Nigeria, West Africa & Global Destinations',
-            description:
-              'Official embassy-ready flight reservations with verifiable 6-character GDS PNR codes (Amadeus & Sabre) and commercial flight ticketing. In certified alliance with Everbright Travels & Consultants Limited.',
-          }),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
       />
 
-      <PublicLayout>
-        {/* 1. Cinematic Video Hero Section */}
-        <section className="relative min-h-[90vh] flex items-center text-white border-b border-purple-950/80 overflow-hidden bg-[#070415]">
-          {/* Video Background */}
-          <div className="absolute inset-0 z-0 pointer-events-none">
-            <video
-              ref={videoRef}
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="auto"
-              poster="/visas/1.png"
-              className="absolute inset-0 w-full h-full object-cover"
-              aria-hidden="true"
-              onCanPlay={(e) => {
-                if (isPlaying) e.currentTarget.play().catch(() => {});
-              }}
-            >
-              <source src={VIDEOS.FLIGHT_RESERVATIONS} type="video/mp4" />
-            </video>
-            {/* Dark Cinematic Overlays */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#070415]/95 via-[#070415]/70 to-[#070415]/30" />
-            <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#070415] to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#070415] to-transparent" />
+      <div className="bg-[#070415] text-white min-h-screen relative overflow-hidden">
+        {/* ── CINEMATIC AMBIENT VIDEO LAYER ─────────────────────────── */}
+        <div
+          className="absolute top-0 left-0 right-0 h-[780px] lg:h-[860px] overflow-hidden pointer-events-none"
+          aria-hidden="true"
+        >
+          <div className="sm:hidden absolute inset-0">
+            <Image
+              src="/visas/1.png"
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover opacity-35 contrast-125"
+            />
+          </div>
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            poster="/visas/1.png"
+            className="hidden sm:block w-full h-full object-cover opacity-65 contrast-110 saturate-110"
+            src={VIDEOS.FLIGHT_RESERVATIONS}
+            aria-hidden="true"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#070415]/75 via-[#0D0826]/45 to-[#070415]/75" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#070415]/45 via-transparent to-[#070415]" />
+          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[#402493]/20 rounded-full blur-[150px]" />
+          <div className="absolute top-1/3 right-10 w-[500px] h-[500px] bg-[#257CFF]/15 rounded-full blur-[150px]" />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 pt-8 pb-20">
+          {/* Breadcrumbs Navigation */}
+          <div className="mb-8">
+            <Breadcrumbs
+              items={[
+                { label: 'Services', href: '/services' },
+                { label: 'Flight Reservation & Ticketing' },
+              ]}
+            />
           </div>
 
-          {/* Video Play/Pause Control */}
-          <div className="absolute bottom-6 right-6 z-20">
-            <button
-              type="button"
-              onClick={toggleVideo}
-              aria-label={isPlaying ? 'Pause background video' : 'Play background video'}
-              className="pointer-events-auto flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 hover:bg-black/85 backdrop-blur-md border border-white/20 text-[11px] font-medium text-slate-200 hover:text-white transition-all cursor-pointer shadow-lg"
-            >
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>{isPlaying ? 'Pause' : 'Play'} Video</span>
-              {isPlaying ? <Pause className="w-3 h-3 ml-0.5" /> : <Play className="w-3 h-3 ml-0.5" />}
-            </button>
-          </div>
-
-          {/* Hero Content Grid */}
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-              {/* Left Column: Headings & Value Props */}
+          {/* ─────────────────────────────────────────────────
+              SECTION 1: 2-COLUMN HERO (mirrors homepage grid)
+          ───────────────────────────────────────────────── */}
+          <section className="mb-20 sm:mb-28">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+              {/* LEFT COLUMN */}
               <div className="lg:col-span-7 space-y-6">
-                {/* Official Co-Branded Trust Badge */}
-                <div className="inline-flex flex-wrap items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.08] backdrop-blur-md border border-white/20 text-xs text-white">
-                  <Handshake className="w-4 h-4 text-[#4DA5EC]" />
-                  <span className="font-bold">Aviation Strategic Alliance:</span>
-                  <span className="text-[#4DA5EC] font-semibold">Everbright Travels &amp; Consultants Limited</span>
+                {/* Trust strip */}
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#402493]/20 border border-[#402493]/40 text-[10px] font-black uppercase tracking-widest text-purple-200">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#4DA5EC] animate-pulse" />
+                    Aviation Alliance · Sijam Consults
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/10 text-[10px] font-bold text-slate-300">
+                    <Shield className="w-3 h-3 text-[#4DA5EC]" />
+                    CAC RC: 1715416
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/10 text-[10px] font-bold text-slate-300">
+                    <Handshake className="w-3 h-3 text-[#4DA5EC]" />
+                    Everbright Travels · Amadeus &amp; Sabre GDS
+                  </span>
                 </div>
 
-                <h1 className="font-heading font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight text-white leading-[1.1] drop-shadow-xl">
-                  Verifiable{' '}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] via-cyan-300 to-[#257CFF]">
-                    Flight Reservation
-                  </span>{' '}
-                  &amp; Ticketing in Nigeria
+                {/* H1 — solid white, homepage font scale */}
+                <h1 className="font-heading font-black text-[24px] sm:text-[30px] lg:text-[42px] xl:text-[52px] text-white leading-[1.15] tracking-tight">
+                  Verifiable Flight Reservation with Live GDS PNR for Embassy Visa Applications in Nigeria.
                 </h1>
 
-                <p className="text-base sm:text-lg text-slate-200 leading-relaxed font-normal drop-shadow-sm max-w-2xl">
-                  Never risk purchasing expensive non-refundable airfare before your visa is approved. In strategic partnership with <strong className="text-white">Everbright Travels &amp; Consultants Limited</strong>, Sijam Consults provides 100% embassy-verifiable flight reservations with live Global Distribution System (GDS) PNR codes, followed by seamless commercial flight ticketing upon visa grant.
+                <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal max-w-2xl">
+                  Embassies worldwide explicitly advise applicants not to purchase non-refundable airline tickets before visa approval. In certified aviation alliance with <strong className="text-white">Everbright Travels &amp; Consultants Limited</strong>, Sijam Consults provides 100% embassy-verifiable flight reservations backed by live Amadeus and Sabre GDS inventory—with active 6-character PNR codes any consular officer can confirm on the airline website in real time.
                 </p>
 
-                {/* 3 Quick Guarantees */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-                  <div className="bg-white/[0.06] p-3 rounded-xl border border-white/10 backdrop-blur-md">
-                    <div className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
-                      <ShieldCheck className="w-4 h-4" />
-                      <span>Live GDS PNR</span>
-                    </div>
-                    <div className="text-[11px] text-slate-300 mt-0.5">Verifiable on airline portals</div>
+                {/* Social proof micro-copy */}
+                <div className="flex items-center gap-3 pt-1">
+                  <div className="flex -space-x-2">
+                    {['bg-[#402493]', 'bg-[#DC2F11]', 'bg-[#257CFF]', 'bg-[#4DA5EC]'].map((bg, i) => (
+                      <div
+                        key={i}
+                        className={`w-8 h-8 rounded-full ${bg} border-2 border-[#070415] flex items-center justify-center text-[10px] font-black text-white`}
+                      >
+                        {String.fromCharCode(65 + i)}
+                      </div>
+                    ))}
                   </div>
-                  <div className="bg-white/[0.06] p-3 rounded-xl border border-white/10 backdrop-blur-md">
-                    <div className="text-xs font-bold text-[#4DA5EC] flex items-center gap-1.5">
-                      <Clock className="w-4 h-4" />
-                      <span>60–120 Mins</span>
-                    </div>
-                    <div className="text-[11px] text-slate-300 mt-0.5">Rapid electronic dispatch</div>
-                  </div>
-                  <div className="bg-white/[0.06] p-3 rounded-xl border border-white/10 backdrop-blur-md">
-                    <div className="text-xs font-bold text-amber-300 flex items-center gap-1.5">
-                      <Luggage className="w-4 h-4" />
-                      <span>46kg Student Baggage</span>
-                    </div>
-                    <div className="text-[11px] text-slate-300 mt-0.5">Special allowance discounts</div>
-                  </div>
+                  <p className="text-xs text-slate-400">
+                    <strong className="text-white">Delivered to 6,800+ Visa Applicants</strong> across Schengen, UK, US, Canada &amp; Gulf corridors
+                  </p>
                 </div>
 
-                {/* CTAs */}
-                <div className="flex flex-wrap items-center gap-4 pt-2">
+                {/* CTA Buttons */}
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
                   <a
                     href="#booking-widget"
-                    className="inline-flex items-center gap-2 bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white font-extrabold text-xs uppercase tracking-wider px-7 py-4 rounded-xl shadow-cta transition-transform hover:scale-[1.02] border border-[#4DA5EC]/30"
+                    className="group inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-black text-sm tracking-wide shadow-[0_8px_32px_-8px_rgba(77,165,236,0.6)] hover:shadow-[0_12px_40px_-8px_rgba(37,124,255,0.8)] hover:brightness-110 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
                   >
                     <span>Request Flight Reservation</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </a>
-
+                  <Link
+                    href={ROUTES.assessment}
+                    className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-gradient-to-r from-[#402493] to-[#2D186B] hover:from-[#3B1F8C] hover:to-[#1A1040] text-white font-bold text-sm tracking-wide border border-purple-500/40 shadow-[0_8px_25px_-5px_rgba(64,36,147,0.5)] backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98]"
+                  >
+                    <Sparkles className="w-4 h-4 text-[#4DA5EC]" />
+                    <span>Check PNR Route Options</span>
+                  </Link>
                   <a
-                    href={`https://wa.me/2347064229556?text=${encodeURIComponent(
-                      "Hello Sijam Consult & Everbright Travels Desk, I need a verifiable Flight Reservation for my visa application."
-                    )}`}
+                    href={`https://wa.me/${COMPANY.whatsapp.number}?text=Hello%20Sijam%20Consults%20and%20Everbright%20Travels%20Desk,%20I%20need%20a%20verifiable%20flight%20reservation%20with%20active%20GDS%20PNR%20for%20my%20visa%20application.`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-semibold text-xs px-6 py-4 rounded-xl border border-white/20 transition-all"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-white font-semibold text-sm border border-white/10 backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98]"
                   >
-                    <PhoneCall className="w-4 h-4 text-emerald-400" />
-                    <span>Chat With Flight Ticketing Desk</span>
+                    <PhoneCall className="w-4 h-4 text-[#4DA5EC]" />
+                    <span>Chat On WhatsApp</span>
                   </a>
                 </div>
+
+                {/* Active Corridors */}
+                <div className="pt-1 flex flex-wrap items-center gap-2 text-[11px] text-slate-400">
+                  <span className="font-semibold text-slate-300">Active Corridors:</span>
+                  {['Schengen (EU)', 'UK (UKVI)', 'USA Embassy', 'Canada (IRCC)', 'Gulf States', 'Australia'].map((c) => (
+                    <span key={c} className="px-2 py-0.5 rounded bg-white/[0.04] border border-white/10 text-slate-300">
+                      {c}
+                    </span>
+                  ))}
+                </div>
               </div>
 
-              {/* Right Column: Hero Partner Card Preview */}
+              {/* RIGHT COLUMN — Interactive PNR Calculator */}
               <div className="lg:col-span-5">
-                <div className="rounded-3xl p-6 sm:p-7 bg-white/[0.05] border border-white/15 backdrop-blur-xl shadow-2xl space-y-5">
-                  <div className="flex items-center justify-between pb-4 border-b border-white/10">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                      Certified Aviation Partner
-                    </span>
-                    <span className="text-[10px] font-mono text-slate-400">AMADEUS / SABRE</span>
-                  </div>
+                <FlightPnrCalculator />
+              </div>
+            </div>
+          </section>
 
-                  {/* Logo Display on Card */}
-                  <div className="p-4 rounded-2xl bg-white flex items-center justify-center border border-white/20 shadow-lg">
-                    <div className="relative h-14 w-56">
-                      <Image
-                        src="/partners/everbright-travels-logo.png"
-                        alt="Everbright Travels & Consultants Limited"
-                        fill
-                        sizes="224px"
-                        className="object-contain"
-                        priority
-                      />
-                    </div>
-                  </div>
+          {/* ─────────────────────────────────────────────────
+              SECTION 2: THE CORE PROBLEM
+          ───────────────────────────────────────────────── */}
+          <section className="mb-24">
+            <div className="max-w-3xl mb-12">
+              <span className="text-xs font-black uppercase tracking-widest text-[#4DA5EC] block mb-2">
+                The Real Problem
+              </span>
+              <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-[1.1]">
+                Why Applicants Lose Visa Appointments Over Flight Bookings.
+              </h2>
+            </div>
 
-                  <div className="space-y-2 text-center sm:text-left">
-                    <h3 className="font-heading font-bold text-lg text-white">
-                      Everbright Travels &amp; Consultants Limited
-                    </h3>
-                    <p className="text-xs text-purple-200/90 italic font-medium">
-                      “...Simplifying Your World”
-                    </p>
-                    <p className="text-xs text-slate-300 leading-relaxed font-normal">
-                      Official aviation consolidator partner providing direct ticketing terminal access, live GDS seat holds, embassy-compliant itineraries, and worldwide flight ticketing.
-                    </p>
-                  </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-7 backdrop-blur-md hover:border-[#4DA5EC]/40 transition-all space-y-4">
+                <div className="w-12 h-12 rounded-xl bg-[#DC2F11]/20 border border-[#DC2F11]/40 flex items-center justify-center text-[#DC2F11]">
+                  <XCircle className="w-6 h-6" />
+                </div>
+                <h3 className="font-heading font-bold text-xl text-white">
+                  Fake PDF Ticket Generators
+                </h3>
+                <p className="text-sm text-slate-300 leading-relaxed">
+                  Dozens of Nigerian WhatsApp vendors sell fabricated flight PDFs for ₦2,000 to ₦5,000. The documents look authentic, but when a consular officer at VFS or TLScontact types the PNR into Amadeus or the airline portal, it either returns nothing—or flags someone else's cancelled booking. This triggers an immediate refusal and a potential 5 to 10-year visa ban for document fraud.
+                </p>
+              </div>
 
-                  <div className="p-3.5 rounded-xl bg-purple-950/50 border border-purple-500/20 space-y-1.5 text-xs">
-                    <div className="font-bold text-white flex items-center gap-1.5">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                      <span>100% Genuine Airline Inventory</span>
-                    </div>
-                    <div className="text-[11px] text-slate-300">
-                      Never photoshopped dummy tickets. Always authentic PNR codes that withstand strict consular audits.
-                    </div>
-                  </div>
+              <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-7 backdrop-blur-md hover:border-[#4DA5EC]/40 transition-all space-y-4">
+                <div className="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
+                  <AlertTriangle className="w-6 h-6" />
+                </div>
+                <h3 className="font-heading font-bold text-xl text-white">
+                  Buying Non-Refundable Tickets Too Early
+                </h3>
+                <p className="text-sm text-slate-300 leading-relaxed">
+                  Buying a fully paid, non-refundable economy ticket from Lagos to London before your visa arrives is a common and costly mistake. UK Standard Visitor Visa processing alone takes 3 to 6 weeks. If your visa is refused, airlines typically retain ₦800,000 to ₦3,000,000 in booking penalties. US Embassy guidelines explicitly advise against buying tickets before interview approval.
+                </p>
+              </div>
+
+              <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-7 backdrop-blur-md hover:border-[#4DA5EC]/40 transition-all space-y-4">
+                <div className="w-12 h-12 rounded-xl bg-[#257CFF]/20 border border-[#257CFF]/40 flex items-center justify-center text-[#4DA5EC]">
+                  <Globe2 className="w-6 h-6" />
+                </div>
+                <h3 className="font-heading font-bold text-xl text-white">
+                  Routing Errors &amp; Transit Visa Traps
+                </h3>
+                <p className="text-sm text-slate-300 leading-relaxed">
+                  Nigerian travelers frequently book the cheapest routing—only to discover upon check-in that their layover requires a UK Direct Airside Transit Visa (DATV) or a Schengen Airport Transit Visa (ATV). Boarding is denied, and the flight cost is forfeited. Our flight advisory desk audits every proposed transit routing before generating your PNR.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* ─────────────────────────────────────────────────
+              SECTION 3: INFORMATION GAIN #1 (GDS PNR vs Fake Dummy Ticket)
+          ───────────────────────────────────────────────── */}
+          <section className="mb-24 rounded-3xl bg-gradient-to-br from-[#402493]/20 via-white/[0.02] to-transparent border border-white/10 p-8 sm:p-12 relative overflow-hidden">
+            <div className="max-w-3xl mb-10">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#4DA5EC]/15 border border-[#4DA5EC]/30 text-xs font-bold text-[#4DA5EC] mb-3">
+                <Scale className="w-4 h-4" />
+                <span>Information Gain · Industry Truth</span>
+              </div>
+              <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-[1.1]">
+                Live GDS PNR vs. Fake Dummy Ticket: The Difference That Decides Your Visa.
+              </h2>
+              <p className="text-slate-300 text-sm sm:text-base leading-relaxed mt-4">
+                A verifiable GDS reservation and a fake dummy PDF appear almost identical to the human eye. To a consular officer running checks through Amadeus, Sabre, or the airline's own inventory portal—the difference is instantly visible and decisive.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Fake Dummy Ticket */}
+              <div className="rounded-2xl bg-rose-950/30 border border-rose-500/30 p-7 space-y-4">
+                <div className="flex items-center gap-2 text-rose-400 font-bold text-sm">
+                  <XCircle className="w-5 h-5" />
+                  <span>Fake PDF Generator / &ldquo;Dummy Ticket&rdquo;</span>
+                </div>
+                <h3 className="font-heading font-bold text-lg text-white">
+                  Why Unauthorized Ticket Sites Destroy Visa Applications
+                </h3>
+                <ul className="space-y-2.5 text-xs text-slate-300">
+                  {[
+                    'PNR code returns no result or someone else\'s expired booking in Amadeus/Sabre.',
+                    'Embassy UV-light check reveals unverifiable airline security watermarks.',
+                    'Consulate flags file for document misrepresentation—a criminal offense under Nigerian law.',
+                    'Automatic refusal issued with no right to appeal for 6 to 24 months.',
+                    '5 to 10-year UK or Schengen ban if found guilty of deliberate document fraud.',
+                  ].map((pt, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <XCircle className="w-3.5 h-3.5 text-rose-400 shrink-0 mt-0.5" />
+                      <span>{pt}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-xs text-rose-200">
+                  <strong>Bottom line:</strong> Saving ₦3,000 on a fake PDF costs you your visa and potentially locks you out of international travel for years.
+                </div>
+              </div>
+
+              {/* Genuine GDS Reservation */}
+              <div className="rounded-2xl bg-[#257CFF]/10 border border-[#4DA5EC]/30 p-7 space-y-4">
+                <div className="flex items-center gap-2 text-[#4DA5EC] font-bold text-sm">
+                  <CheckCircle2 className="w-5 h-5" />
+                  <span>Sijam &amp; Everbright · Genuine GDS Reservation</span>
+                </div>
+                <h3 className="font-heading font-bold text-lg text-white">
+                  How a Live Amadeus/Sabre PNR Protects Your Application
+                </h3>
+                <ul className="space-y-2.5 text-xs text-slate-300">
+                  {[
+                    '6-character PNR entered on the airline\'s official "Manage Booking" portal returns your exact passenger name, flight numbers, and itinerary dates.',
+                    'Consular officer at VFS or TLScontact verifies the reservation in under 30 seconds.',
+                    'GDS hold maintains seat inventory until processing window closes (7 to 14 days depending on carrier).',
+                    'Zero financial risk: you have not purchased the ticket yet—only reserved a seat.',
+                    'Upon visa approval, reservation is converted to a fully confirmed e-ticket at competitive fares.',
+                  ].map((pt, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                      <span>{pt}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="p-3.5 rounded-xl bg-[#4DA5EC]/10 border border-[#4DA5EC]/20 text-xs text-cyan-200">
+                  <strong>Our guarantee:</strong> If your PNR cannot be verified on the airline portal, we regenerate your reservation at no additional charge.
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* 2. Interactive Flight Booking Engine */}
-        <section id="booking-widget" className="py-16 sm:py-20 bg-[#FAF8FF] border-b border-slate-200 relative">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6">
-            <div className="text-center max-w-2xl mx-auto mb-10">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#257CFF] bg-blue-50 px-3.5 py-1 rounded-full border border-blue-200">
-                Interactive Booking Engine
+          {/* ─────────────────────────────────────────────────
+              SECTION 4: COMPARISON TABLE (Reservations vs Dummy vs Full Ticket)
+          ───────────────────────────────────────────────── */}
+          <section className="mb-24">
+            <div className="max-w-3xl mb-12">
+              <span className="text-xs font-black uppercase tracking-widest text-[#4DA5EC] block mb-2">
+                Side-By-Side Comparison
               </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] mt-3">
-                Configure Your Flight Itinerary or Ticketing Quote
+              <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-[1.1]">
+                Sijam &amp; Everbright GDS Reservation vs. The Alternatives.
               </h2>
-              <p className="text-xs sm:text-sm text-slate-600 mt-2">
-                Select your route, travel class, and dates. Our joint Sijam &amp; Everbright ticketing team will generate and dispatch your verified GDS PNR.
-              </p>
             </div>
 
-            <FlightBookingWidget />
-          </div>
-        </section>
-
-        {/* 3. Dedicated Everbright Bilateral Alliance Section */}
-        <EverbrightAllianceSection />
-
-        {/* 4. Comparison Matrix: Sijam & Everbright vs Fake Dummy Tickets vs Buying Full Ticket Early */}
-        <section className="py-20 bg-white border-b border-slate-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-            <div className="text-center max-w-3xl mx-auto space-y-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#257CFF] bg-blue-50 px-3.5 py-1 rounded-full border border-blue-200">
-                Consular Safety &amp; Risk Advisory
-              </span>
-              <h2 className="text-2xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">
-                Why Verifiable GDS Reservations Are Essential
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Visa application centers (VFS Global, TLScontact, BLS) and consular officers cross-check every flight reservation. See how Sijam &amp; Everbright protect you compared to fraudulent dummy tickets or premature ticket purchases.
-              </p>
-            </div>
-
-            {/* Responsive Table / Comparison Grid */}
-            <div className="overflow-x-auto rounded-3xl border border-slate-200 shadow-sm">
-              <table className="w-full text-left border-collapse">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.02] overflow-x-auto">
+              <table className="w-full text-left border-collapse text-xs sm:text-sm">
                 <thead>
-                  <tr className="bg-slate-50 border-b border-slate-200 text-xs font-bold uppercase tracking-wider">
-                    <th className="p-4 sm:p-5 text-slate-700 min-w-[220px]">Verification &amp; Financial Factor</th>
-                    <th className="p-4 sm:p-5 bg-blue-50/60 text-[#257CFF] border-x border-blue-200/80 min-w-[220px]">
-                      <div className="flex items-center gap-1.5">
-                        <Sparkles className="w-4 h-4 text-[#257CFF]" />
-                        <span>Sijam &amp; Everbright GDS Itinerary</span>
-                      </div>
+                  <tr className="border-b border-white/10 bg-white/[0.04]">
+                    <th className="py-4 px-5 font-bold text-[11px] uppercase tracking-wider text-[#4DA5EC]">
+                      Feature
                     </th>
-                    <th className="p-4 sm:p-5 text-red-600 min-w-[180px]">Fake / Dummy Generator Tickets</th>
-                    <th className="p-4 sm:p-5 text-slate-600 min-w-[180px]">Buying Full Ticket Before Visa</th>
+                    <th className="py-4 px-5 font-bold text-[11px] uppercase tracking-wider text-emerald-400">
+                      Sijam &amp; Everbright GDS Reservation
+                    </th>
+                    <th className="py-4 px-5 font-bold text-[11px] uppercase tracking-wider text-rose-400">
+                      Fake Dummy PDF Generator
+                    </th>
+                    <th className="py-4 px-5 font-bold text-[11px] uppercase tracking-wider text-amber-400">
+                      Non-Refundable Paid Ticket
+                    </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 text-xs sm:text-sm">
-                  {comparisonRows.map((row, idx) => (
-                    <tr key={idx} className="hover:bg-slate-50/60 transition-colors">
-                      <td className="p-4 sm:p-5 font-semibold text-slate-900">
-                        {row.feature}
-                        {row.note && (
-                          <div className="text-[11px] font-normal text-slate-500 mt-0.5">{row.note}</div>
-                        )}
+                <tbody className="divide-y divide-white/5 text-slate-300">
+                  {[
+                    {
+                      feature: 'Verifiable on Official Airline Portal',
+                      sijam: { yes: true, text: 'Live PNR on Amadeus/Sabre & airline website' },
+                      dummy: { yes: false, text: 'Returns no result or expired booking' },
+                      full: { yes: true, text: 'Yes — fully paid & confirmed' },
+                    },
+                    {
+                      feature: 'Financial Risk if Visa Refused',
+                      sijam: { yes: true, text: 'Zero — nominal reservation fee only' },
+                      dummy: { yes: false, text: 'Zero airfare, but high refusal risk' },
+                      full: { yes: false, text: '₦800k – ₦3M+ lost in penalties' },
+                    },
+                    {
+                      feature: 'Embassy / Consulate Compliance',
+                      sijam: { yes: true, text: 'Accepted at VFS, TLScontact, IRCC, US Embassy' },
+                      dummy: { yes: false, text: 'Actively detected and penalized' },
+                      full: { yes: true, text: 'Accepted but risky to purchase early' },
+                    },
+                    {
+                      feature: 'Turnaround Delivery Time',
+                      sijam: { yes: true, text: '60 to 120 minutes to WhatsApp & email' },
+                      dummy: { yes: false, text: 'Instant but fraudulent' },
+                      full: { yes: false, text: '1 to 6 hours online booking' },
+                    },
+                    {
+                      feature: 'Post-Visa Ticket Conversion',
+                      sijam: { yes: true, text: 'Instant upgrade to e-ticket at live fares' },
+                      dummy: { yes: false, text: 'Cannot convert — not a real booking' },
+                      full: { yes: true, text: 'Already paid — may require rebooking if dates shift' },
+                    },
+                    {
+                      feature: 'Student Baggage Perks (Up to 46kg)',
+                      sijam: { yes: true, text: 'Available via Everbright consolidator alliance' },
+                      dummy: { yes: false, text: 'Not applicable' },
+                      full: { yes: false, text: 'Standard 23kg — extra fees apply' },
+                    },
+                  ].map((row, i) => (
+                    <tr key={i} className="hover:bg-white/[0.02] transition-colors">
+                      <td className="py-4 px-5 font-semibold text-white">{row.feature}</td>
+                      <td className="py-4 px-5">
+                        <span className="flex items-start gap-1.5">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                          <span className="text-slate-200">{row.sijam.text}</span>
+                        </span>
                       </td>
-
-                      {/* Sijam & Everbright Column */}
-                      <td className="p-4 sm:p-5 bg-blue-50/30 border-x border-blue-200/50 font-bold text-slate-900">
-                        {row.sijamEverbrightText ? (
-                          <span className="text-emerald-700 flex items-center gap-1.5">
-                            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                            <span>{row.sijamEverbrightText}</span>
-                          </span>
-                        ) : row.sijamEverbright ? (
-                          <span className="inline-flex items-center gap-1.5 text-emerald-700 font-bold">
-                            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                            <span>Guaranteed</span>
-                          </span>
-                        ) : (
-                          <XCircle className="w-4 h-4 text-slate-400" />
-                        )}
+                      <td className="py-4 px-5">
+                        <span className="flex items-start gap-1.5">
+                          <XCircle className="w-3.5 h-3.5 text-rose-400 shrink-0 mt-0.5" />
+                          <span className="text-slate-400">{row.dummy.text}</span>
+                        </span>
                       </td>
-
-                      {/* Dummy Generator Column */}
-                      <td className="p-4 sm:p-5 text-slate-600">
-                        {row.dummyTicketText ? (
-                          <span className="text-red-700 flex items-center gap-1.5">
-                            <AlertTriangle className="w-4 h-4 text-red-600 shrink-0" />
-                            <span>{row.dummyTicketText}</span>
-                          </span>
-                        ) : row.dummyTicket ? (
-                          <Check className="w-4 h-4 text-emerald-600" />
-                        ) : (
-                          <span className="inline-flex items-center gap-1.5 text-red-700 font-medium">
-                            <XCircle className="w-4 h-4 text-red-500 shrink-0" />
-                            <span>Unverifiable (High Ban Risk)</span>
-                          </span>
-                        )}
-                      </td>
-
-                      {/* Buying Full Ticket Too Early */}
-                      <td className="p-4 sm:p-5 text-slate-600">
-                        {row.fullTicketText ? (
-                          <span className="text-amber-800 flex items-center gap-1.5">
-                            <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
-                            <span>{row.fullTicketText}</span>
-                          </span>
-                        ) : row.fullTicket ? (
-                          <span className="inline-flex items-center gap-1.5 text-slate-800">
-                            <Check className="w-4 h-4 text-slate-600" />
-                            <span>Yes, but unnecessary</span>
-                          </span>
-                        ) : (
-                          <XCircle className="w-4 h-4 text-slate-400" />
-                        )}
+                      <td className="py-4 px-5">
+                        <span className="flex items-start gap-1.5">
+                          {row.full.yes ? (
+                            <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                          ) : (
+                            <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                          )}
+                          <span className="text-slate-400">{row.full.text}</span>
+                        </span>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* 5. Core Aviation & Ticketing Capabilities (4 Pillars) */}
-        <section className="py-20 bg-[#FAF8FF] border-b border-slate-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-            <div className="text-center max-w-2xl mx-auto space-y-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#257CFF] bg-blue-50 px-3.5 py-1 rounded-full border border-blue-200">
-                Aviation &amp; Travel Suite
+          {/* ─────────────────────────────────────────────────
+              SECTION 5: INFORMATION GAIN #2 (Transit Visa Trap Matrix)
+          ───────────────────────────────────────────────── */}
+          <section className="mb-24">
+            <div className="max-w-3xl mb-12">
+              <span className="text-xs font-black uppercase tracking-widest text-[#4DA5EC] block mb-2">
+                Information Gain · Routing Safety
               </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A]">
-                Full-Spectrum Flight Reservation &amp; Ticketing
+              <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-[1.1]">
+                Transit Visa Traps for Nigerian Travelers: Routing Check Matrix.
               </h2>
-              <p className="text-xs sm:text-sm text-slate-600">
-                From embassy visa itineraries to intercontinental flight departures, we manage every detail with certified precision.
+              <p className="text-slate-300 text-sm sm:text-base leading-relaxed mt-4">
+                Your transit airport matters as much as your destination. Nigerian passport holders face mandatory transit visa requirements that are not obvious at the time of booking—and airlines enforce them at check-in.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {flightFeatures.map((feat, i) => {
-                const Icon = feat.icon;
-                return (
-                  <div
-                    key={i}
-                    className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between"
-                  >
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#257CFF] flex items-center justify-center">
-                          <Icon className="w-6 h-6" />
-                        </div>
-                        <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">
-                          {feat.tagline}
-                        </span>
-                      </div>
-
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[
+                {
+                  hub: 'London Heathrow / Gatwick (LHR / LGW)',
+                  country: 'United Kingdom',
+                  flag: '🇬🇧',
+                  requirement: 'Direct Airside Transit Visa (DATV)',
+                  detail: 'Required for Nigerian nationals transiting even airside without clearing UK immigration. Exemption if holding valid US, Canadian, Australian, or valid Schengen visa.',
+                  status: 'high-risk',
+                },
+                {
+                  hub: 'Frankfurt, Paris CDG, Amsterdam (EU Schengen Hubs)',
+                  country: 'Schengen Zone',
+                  flag: '🇩🇪',
+                  requirement: 'Schengen Airport Transit Visa (ATV)',
+                  detail: 'Germany, France, and Netherlands require Nigerian nationals to hold a Schengen ATV even when not leaving the international transit zone. Belgium, Spain, and Italy do not require ATV for most Nigerian routes.',
+                  status: 'medium-risk',
+                },
+                {
+                  hub: 'Dubai (DXB) / Doha (DOH) / Abu Dhabi (AUH)',
+                  country: 'Gulf State Hubs',
+                  flag: '🇦🇪',
+                  requirement: 'No Transit Visa Required (Airside Only)',
+                  detail: 'UAE, Qatar, and Oman do not require transit visas for Nigerian nationals transiting through their international terminals without entering the country. Highly recommended routing for avoiding UK/Schengen transit complications.',
+                  status: 'safe',
+                },
+                {
+                  hub: 'Istanbul Atatürk / Sabiha Gökçen (IST / SAW)',
+                  country: 'Turkey',
+                  flag: '🇹🇷',
+                  requirement: 'No Transit Visa Required',
+                  detail: 'Turkish airports do not require Nigerian passport holders to hold a transit visa when connecting onward to European or American destinations. Turkish Airlines connections via Istanbul are frequently the most cost-effective routing from Nigeria.',
+                  status: 'safe',
+                },
+                {
+                  hub: 'Cairo (CAI) / Addis Ababa (ADD)',
+                  country: 'Egypt / Ethiopia',
+                  flag: '🌍',
+                  requirement: 'No Transit Visa Required',
+                  detail: 'Egyptian and Ethiopian transit airports do not mandate transit visas for Nigerian travelers. EgyptAir and Ethiopian Airlines connections are frequently routed through these hubs for Europe, North America, and Asia.',
+                  status: 'safe',
+                },
+                {
+                  hub: 'Kuala Lumpur (KUL) / Singapore (SIN)',
+                  country: 'Malaysia / Singapore',
+                  flag: '🇸🇬',
+                  requirement: 'Malaysia: 120-hr MLTV available. Singapore: Transit Visa Required.',
+                  detail: 'Singapore requires a transit visa for Nigerian passport holders even for brief layovers. Malaysia offers a 120-hour Malaysians Transit Visa (MLTV) for eligible passports on specific routes to third countries.',
+                  status: 'medium-risk',
+                },
+              ].map((hub, i) => (
+                <div
+                  key={i}
+                  className={`rounded-2xl border p-6 space-y-3 ${
+                    hub.status === 'safe'
+                      ? 'bg-emerald-950/20 border-emerald-500/25'
+                      : hub.status === 'high-risk'
+                      ? 'bg-rose-950/20 border-rose-500/25'
+                      : 'bg-amber-950/20 border-amber-500/25'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">{hub.flag}</span>
                       <div>
-                        <h3 className="font-heading font-bold text-lg text-slate-900">
-                          {feat.title}
-                        </h3>
-                        <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
-                          {feat.desc}
-                        </p>
-                      </div>
-
-                      <div className="pt-3 border-t border-slate-100 space-y-1.5">
-                        {feat.benefits.map((b, bIdx) => (
-                          <div key={bIdx} className="flex items-center gap-2 text-xs text-slate-700">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                            <span>{b}</span>
-                          </div>
-                        ))}
+                        <h3 className="font-heading font-bold text-sm text-white">{hub.hub}</h3>
+                        <p className="text-[10px] text-slate-400">{hub.country}</p>
                       </div>
                     </div>
+                    <span
+                      className={`text-[9px] uppercase font-black px-2 py-0.5 rounded ${
+                        hub.status === 'safe'
+                          ? 'bg-emerald-500/20 text-emerald-300'
+                          : hub.status === 'high-risk'
+                          ? 'bg-rose-500/20 text-rose-300'
+                          : 'bg-amber-500/20 text-amber-300'
+                      }`}
+                    >
+                      {hub.status === 'safe' ? 'Safe Transit' : hub.status === 'high-risk' ? 'Visa Required' : 'Check Rules'}
+                    </span>
+                  </div>
+                  <p className="text-xs font-bold text-white">{hub.requirement}</p>
+                  <p className="text-xs text-slate-300 leading-relaxed">{hub.detail}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* ─────────────────────────────────────────────────
+              SECTION 6: SERVICE DELIVERABLES
+          ───────────────────────────────────────────────── */}
+          <section className="mb-24">
+            <div className="max-w-3xl mb-12">
+              <span className="text-xs font-black uppercase tracking-widest text-[#4DA5EC] block mb-2">
+                What We Deliver
+              </span>
+              <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-[1.1]">
+                Full-Service Flight Reservation &amp; Ticketing From Nigeria.
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                {
+                  icon: Ticket,
+                  title: 'Embassy-Ready GDS Reservation',
+                  sub: 'Live 6-Character PNR Code',
+                  desc: 'Genuine airline seat reservations verifiable directly on carrier portals (Qatar, Emirates, Turkish, Ethiopian, Lufthansa) without purchasing airfare upfront.',
+                  benefits: ['Official GDS PNR code', 'Active hold for visa processing', 'Full passenger name & flight numbers'],
+                },
+                {
+                  icon: Plane,
+                  title: 'Commercial Flight Ticketing',
+                  sub: 'Upon Visa Issuance',
+                  desc: 'Instant conversion of your reservation to a confirmed e-ticket across major global airlines at competitive corporate consolidator rates.',
+                  benefits: ['Direct airline inventory', 'Transparent fare breakdown', 'Instant e-ticket receipt'],
+                },
+                {
+                  icon: Luggage,
+                  title: 'Student & Expatriate Perks',
+                  sub: 'Up to 46kg Allowance',
+                  desc: 'Special bilateral fare categories for overseas students and relocated workers with additional baggage allowances and flexible date re-booking.',
+                  benefits: ['Extra baggage (up to 46kg)', 'Reduced date rebooking fees', 'One-way student fares'],
+                },
+                {
+                  icon: RefreshCw,
+                  title: 'Transit Advisory & Rerouting',
+                  sub: '24/7 Ticketing Support',
+                  desc: 'Multi-city itineraries, layover optimization, transit visa requirement audits, and emergency schedule changes handled directly.',
+                  benefits: ['Transit visa requirement audit', 'Connection time optimization', 'Emergency rescheduling'],
+                },
+              ].map((card, i) => {
+                const Icon = card.icon;
+                return (
+                  <div key={i} className="rounded-2xl bg-white/[0.03] border border-white/10 p-7 backdrop-blur-md hover:border-[#4DA5EC]/40 transition-all flex flex-col space-y-4">
+                    <div>
+                      <div className="w-12 h-12 rounded-xl bg-[#402493]/20 border border-purple-500/40 flex items-center justify-center text-[#4DA5EC] mb-4">
+                        <Icon className="w-6 h-6" />
+                      </div>
+                      <span className="text-xs font-black text-[#4DA5EC] uppercase tracking-wider">{card.sub}</span>
+                      <h3 className="font-heading font-bold text-lg text-white mt-1 mb-3">{card.title}</h3>
+                      <p className="text-xs text-slate-300 leading-relaxed">{card.desc}</p>
+                    </div>
+                    <ul className="space-y-1.5 pt-3 border-t border-white/5">
+                      {card.benefits.map((b, j) => (
+                        <li key={j} className="flex items-center gap-2 text-xs text-slate-200">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                          <span>{b}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 );
               })}
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* 6. Consular Standards Across World Corridors */}
-        <section className="py-20 bg-white border-b border-slate-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-            <div className="text-center max-w-3xl mx-auto space-y-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#257CFF] bg-blue-50 px-3.5 py-1 rounded-full border border-blue-200">
-                Diplomatic Acceptance Standards
+          {/* ─────────────────────────────────────────────────
+              SECTION 7: EMBASSY CORRIDOR MATRIX
+          ───────────────────────────────────────────────── */}
+          <section className="mb-24 rounded-3xl bg-white/[0.02] border border-white/10 p-8 sm:p-12">
+            <div className="max-w-3xl mb-10">
+              <span className="text-xs font-black uppercase tracking-widest text-[#4DA5EC] block mb-2">
+                Consular Coverage
               </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A]">
-                Flight Reservation Requirements by Embassy &amp; Jurisdiction
+              <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-[1.1]">
+                Embassy Corridors &amp; Itinerary Requirements by Destination.
               </h2>
-              <p className="text-xs sm:text-sm text-slate-600">
-                Every destination country enforces unique criteria for itinerary submissions. Our joint ticketing desk configures routes precisely to embassy requirements.
-              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {consularDestinations.map((dest, idx) => (
-                <div
-                  key={idx}
-                  className="p-6 rounded-2xl bg-slate-50/70 border border-slate-200 space-y-3 flex flex-col justify-between"
-                >
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold uppercase tracking-wider text-[#257CFF]">
-                        {dest.region}
-                      </span>
-                      <Globe2 className="w-4 h-4 text-slate-400" />
-                    </div>
-                    <h3 className="font-heading font-bold text-base text-slate-900">
-                      {dest.countries}
-                    </h3>
-                    <p className="text-xs text-slate-600 leading-relaxed">
-                      {dest.requirement}
-                    </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {[
+                {
+                  region: 'Schengen Area (EU)',
+                  flag: '🇪🇺',
+                  countries: 'Poland, France, Germany, Italy, Spain, Slovakia, Portugal, Netherlands',
+                  requirement: 'Round-trip reservation covering all Schengen entry and exit dates.',
+                  note: 'Must include first point-of-entry Schengen state on outbound flight.',
+                },
+                {
+                  region: 'United Kingdom (UKVI)',
+                  flag: '🇬🇧',
+                  countries: 'England, Scotland, Wales, Northern Ireland',
+                  requirement: 'Travel itinerary demonstrating departure/arrival intent matching sponsorship CoS or CAS.',
+                  note: 'UK DATV rules apply at airside layovers for Nigerian nationals.',
+                },
+                {
+                  region: 'Canada (IRCC)',
+                  flag: '🇨🇦',
+                  countries: 'Ontario, Alberta, Quebec, British Columbia, Nova Scotia',
+                  requirement: 'Tentative itinerary establishing temporary resident intent or study permit resumption.',
+                  note: 'WES credential evaluation may require direct institutional registrar submission.',
+                },
+                {
+                  region: 'United States (US Embassy)',
+                  flag: '🇺🇸',
+                  countries: 'All 50 States (B1/B2, F1, J1, H1B categories)',
+                  requirement: 'Tentative travel itinerary matching DS-160 declarations — not a non-refundable ticket.',
+                  note: 'US Embassy guidelines explicitly advise against purchasing tickets before interview.',
+                },
+                {
+                  region: 'Gulf & Middle East (GCC)',
+                  flag: '🇦🇪',
+                  countries: 'Saudi Arabia, UAE, Qatar, Oman, Bahrain',
+                  requirement: 'Direct or transit flight booking matching employment work visa quota or tourist entry.',
+                  note: 'UAE MOFA QR-code verification system validates digital documents at entry.',
+                },
+                {
+                  region: 'Australia & New Zealand',
+                  flag: '🇦🇺',
+                  countries: 'Australia (Subclass 500, 482) & New Zealand',
+                  requirement: 'Valid travel plan aligning with academic course start dates and genuine temporary entrant.',
+                  note: 'HAP ID required before student visa application — submit flight itinerary post-confirmation.',
+                },
+              ].map((dest, i) => (
+                <div key={i} className="rounded-2xl bg-white/[0.03] border border-white/10 p-6 space-y-3 hover:border-[#4DA5EC]/30 transition-all">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl">{dest.flag}</span>
+                    <h3 className="font-heading font-bold text-sm text-white">{dest.region}</h3>
+                  </div>
+                  <p className="text-[11px] text-slate-400">{dest.countries}</p>
+                  <p className="text-xs text-slate-200 leading-relaxed">{dest.requirement}</p>
+                  <div className="p-2 rounded-lg bg-[#402493]/15 border border-purple-500/20 text-[10px] text-purple-200">
+                    {dest.note}
                   </div>
                 </div>
               ))}
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* 7. Comprehensive FAQs */}
-        <section className="py-20 bg-[#FAF8FF] border-b border-slate-200">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-            <div className="text-center space-y-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#257CFF] bg-blue-50 px-3.5 py-1 rounded-full border border-blue-200">
-                Frequently Asked Questions
+          {/* ─────────────────────────────────────────────────
+              SECTION 8: 4-STAGE PROCESS
+          ───────────────────────────────────────────────── */}
+          <section className="mb-24">
+            <div className="max-w-3xl mb-12">
+              <span className="text-xs font-black uppercase tracking-widest text-[#4DA5EC] block mb-2">
+                How It Works
               </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A]">
-                Flight Reservation &amp; Ticketing FAQs
+              <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-[1.1]">
+                From Request to Embassy-Ready PNR in Under 2 Hours.
               </h2>
-              <p className="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto">
-                Clear answers regarding our partnership with Everbright Travels &amp; Consultants Limited, PNR verifiability, and student discounts.
-              </p>
             </div>
 
-            <div className="space-y-4">
-              {faqs.map((faq, idx) => (
-                <div key={idx} className="p-6 rounded-2xl bg-white border border-slate-200 space-y-2.5">
-                  <h3 className="font-heading font-bold text-sm sm:text-base text-slate-900 flex items-start gap-2.5">
-                    <HelpCircle className="w-5 h-5 text-[#257CFF] shrink-0 mt-0.5" />
-                    <span>{faq.q}</span>
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 pl-7 leading-relaxed font-normal">
-                    {faq.a}
-                  </p>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              {[
+                {
+                  step: 'Step 1',
+                  title: 'Submit Your Flight Details',
+                  desc: 'Provide your full passport name, intended departure date, departure airport (Abuja ABV, Lagos LOS, Kano KAN), destination city, and preferred airline.',
+                  time: 'Instant',
+                },
+                {
+                  step: 'Step 2',
+                  title: 'GDS Seat Reservation',
+                  desc: 'Our certified Everbright Travels ticketing agents access the Amadeus or Sabre GDS terminal and hold a live seat on the requested flight routing.',
+                  time: '30–60 Minutes',
+                },
+                {
+                  step: 'Step 3',
+                  title: 'PDF Delivery & PNR Verification',
+                  desc: 'Your flight itinerary PDF with the active 6-character PNR code is dispatched to your WhatsApp and email. You can verify it live on the airline website.',
+                  time: '60–120 Minutes',
+                },
+                {
+                  step: 'Step 4',
+                  title: 'Post-Visa E-Ticket Conversion',
+                  desc: 'Once your visa is approved, we upgrade your reservation to a confirmed commercial e-ticket with student or worker fare perks and baggage allowances.',
+                  time: 'Same Day',
+                },
+              ].map((flow, i) => (
+                <div key={i} className="rounded-2xl bg-white/[0.03] border border-white/10 p-6 flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-xs font-black uppercase tracking-widest text-[#4DA5EC]">{flow.step}</span>
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-white/10 text-slate-300">{flow.time}</span>
+                    </div>
+                    <h3 className="font-heading font-bold text-base text-white mb-2">{flow.title}</h3>
+                    <p className="text-xs text-slate-300 leading-relaxed">{flow.desc}</p>
+                  </div>
+                  <div className="mt-4 pt-3 border-t border-white/5 flex items-center gap-1.5 text-[11px] text-emerald-400 font-semibold">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>Embassy Compliance Verified</span>
+                  </div>
                 </div>
               ))}
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* 8. Bottom CTA Section with Co-Branded Alliance Notice */}
-        <section className="py-20 bg-[#09051C] text-white text-center relative overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#257CFF]/15 rounded-full blur-[140px] pointer-events-none" />
+          {/* ─────────────────────────────────────────────────
+              SECTION 9: INTERACTIVE BOOKING WIDGET (anchor id)
+          ───────────────────────────────────────────────── */}
+          <section id="booking-widget" className="mb-24 scroll-mt-24">
+            <div className="max-w-3xl mb-12">
+              <span className="text-xs font-black uppercase tracking-widest text-[#4DA5EC] block mb-2">
+                Instant Flight Request
+              </span>
+              <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-[1.1]">
+                Request Your Verifiable Flight Reservation Now.
+              </h2>
+              <p className="text-slate-300 text-sm sm:text-base leading-relaxed mt-4">
+                Complete the form below and our Everbright Travels joint desk generates your GDS-backed itinerary within 60 to 120 minutes.
+              </p>
+            </div>
+            <FlightBookingWidget />
+          </section>
 
-          <div className="max-w-3xl mx-auto px-4 relative z-10 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.06] border border-white/15 text-xs text-purple-200">
-              <Handshake className="w-4 h-4 text-[#4DA5EC]" />
-              <span>Sijam Consults &amp; Everbright Travels Joint Aviation Desk</span>
+          {/* ─────────────────────────────────────────────────
+              SECTION 10: EVERBRIGHT ALLIANCE SECTION
+          ───────────────────────────────────────────────── */}
+          <section className="mb-24">
+            <EverbrightAllianceSection />
+          </section>
+
+          {/* ─────────────────────────────────────────────────
+              SECTION 11: CASE STUDIES
+          ───────────────────────────────────────────────── */}
+          <section className="mb-24">
+            <div className="max-w-3xl mb-12">
+              <span className="text-xs font-black uppercase tracking-widest text-[#4DA5EC] block mb-2">
+                Proven Results
+              </span>
+              <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-[1.1]">
+                Real PNRs That Cleared Real Embassy Desks.
+              </h2>
             </div>
 
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
-              Need a Verifiable Flight Reservation for Your Upcoming Embassy Date?
-            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-7 space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-1 rounded bg-[#4DA5EC]/15 text-[#4DA5EC] text-[10px] font-black uppercase tracking-wider">
+                    Schengen Visa
+                  </span>
+                  <span className="text-xs font-bold text-emerald-400">90 Minutes</span>
+                </div>
+                <h3 className="font-heading font-bold text-lg text-white">
+                  IT Consultant — Polish National Visa D
+                </h3>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  <strong>Challenge:</strong> Mr. A. had a Polish consulate appointment in 48 hours and needed a verified round-trip itinerary from Abuja (ABV) to Warsaw (WAW) with an active PNR.
+                </p>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  <strong>Resolution:</strong> Our Everbright desk generated a Qatar Airways GDS reservation (ABV–DOH–WAW) within 90 minutes. He entered the PNR on the Qatar Airways website before his appointment and confirmed the live booking status to the consular officer. Polish National Visa D approved on first submission.
+                </p>
+              </div>
 
-            <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto leading-relaxed">
-              Our joint Kaduna ticketing desk generates and delivers authenticated airline PNR itineraries across Nigeria within 60 to 120 minutes.
-            </p>
+              <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-7 space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-1 rounded bg-purple-500/15 text-purple-300 text-[10px] font-black uppercase tracking-wider">
+                    UK Visitor Visa
+                  </span>
+                  <span className="text-xs font-bold text-emerald-400">75 Minutes</span>
+                </div>
+                <h3 className="font-heading font-bold text-lg text-white">
+                  Nurse Relocating to NHS — UK Standard Visit + DATV
+                </h3>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  <strong>Challenge:</strong> Nurse T. had previously purchased a non-refundable British Airways ticket and lost ₦1.2M when her first UK application was refused. She needed a verifiable GDS reservation for her re-application—without repeating that financial exposure.
+                </p>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  <strong>Resolution:</strong> We issued a fully verifiable Virgin Atlantic reservation (LOS–LHR) with an active PNR. We also flagged her required UK DATV for a planned Amsterdam layover and corrected the routing before submission. UK Skilled Worker Visa approved.
+                </p>
+              </div>
 
-            <div className="flex flex-wrap justify-center gap-4 pt-2">
-              <a
-                href="#booking-widget"
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white font-extrabold text-xs uppercase tracking-wider px-8 py-4 rounded-xl shadow-cta border border-[#4DA5EC]/30 transition-transform hover:scale-[1.02]"
-              >
-                <span>Request Flight Reservation Online</span>
-                <ArrowRight className="w-4 h-4" />
-              </a>
+              <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-7 space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-1 rounded bg-amber-500/15 text-amber-300 text-[10px] font-black uppercase tracking-wider">
+                    Canada TRV
+                  </span>
+                  <span className="text-xs font-bold text-emerald-400">110 Minutes</span>
+                </div>
+                <h3 className="font-heading font-bold text-lg text-white">
+                  Graduate Student — University of Toronto Admission
+                </h3>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  <strong>Challenge:</strong> Miss O. required a flight reservation with student fare pricing (46kg baggage) connecting from Lagos to Toronto for her Canadian study permit submission to IRCC.
+                </p>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  <strong>Resolution:</strong> Everbright's consolidator desk issued an Air Canada GDS reservation with student baggage tier pricing via Amsterdam. IRCC study permit approved. She then converted the reservation to a confirmed e-ticket at student rates upon receiving her permit letter.
+                </p>
+              </div>
+            </div>
+          </section>
 
-              <a
-                href={`https://wa.me/2347064229556?text=${encodeURIComponent(
-                  "Hello Sijam Consult & Everbright Travels Desk, I need urgent flight reservation and ticketing assistance."
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold text-xs px-7 py-4 rounded-xl border border-white/20 transition-colors"
-              >
-                <PhoneCall className="w-4 h-4 text-emerald-400" />
-                <span>Contact Flight Desk on WhatsApp</span>
-              </a>
+          {/* ─────────────────────────────────────────────────
+              SECTION 12: DISQUALIFICATION
+          ───────────────────────────────────────────────── */}
+          <section className="mb-24 rounded-3xl bg-red-950/20 border border-red-500/30 p-8 sm:p-12 relative overflow-hidden">
+            <div className="max-w-3xl mb-8">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/30 text-xs font-bold text-red-400 mb-3">
+                <AlertTriangle className="w-4 h-4" />
+                <span>Compliance Notice</span>
+              </div>
+              <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-[1.1]">
+                We May Not Be Right For You If...
+              </h2>
+              <p className="text-slate-300 text-sm sm:text-base leading-relaxed mt-4">
+                Our reservation desk operates under strict ethical and legal guidelines. We will decline your request under the following conditions:
+              </p>
             </div>
 
-            <div className="pt-6 border-t border-white/10 text-[11px] text-slate-400">
-              Official Bilateral Partner: <strong>Everbright Travels &amp; Consultants Limited</strong> (...Simplifying Your World) • Sijam Consults Limited (CAC RC: 1715416)
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="p-6 rounded-2xl bg-black/40 border border-red-500/20 space-y-2">
+                <h3 className="font-heading font-bold text-sm text-red-300 flex items-center gap-2">
+                  <XCircle className="w-4 h-4 text-red-400" />
+                  <span>Fraud-Assisted Applications</span>
+                </h3>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  We do not generate flight reservations intended to support forged bank statements, fabricated employment letters, or false travel intentions. Every reservation reflects a genuine, legally verifiable GDS seat hold.
+                </p>
+              </div>
+
+              <div className="p-6 rounded-2xl bg-black/40 border border-red-500/20 space-y-2">
+                <h3 className="font-heading font-bold text-sm text-red-300 flex items-center gap-2">
+                  <XCircle className="w-4 h-4 text-red-400" />
+                  <span>Requests for Backdated Itineraries</span>
+                </h3>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  We cannot generate reservations with departure dates that have already passed or itineraries structured to misrepresent the actual intended travel window to consular officers.
+                </p>
+              </div>
+
+              <div className="p-6 rounded-2xl bg-black/40 border border-red-500/20 space-y-2">
+                <h3 className="font-heading font-bold text-sm text-red-300 flex items-center gap-2">
+                  <XCircle className="w-4 h-4 text-red-400" />
+                  <span>Irregular Name Formatting</span>
+                </h3>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  GDS reservations must be issued in the exact name as written in your international passport. We do not issue reservations in nicknames, abbreviations, or name formats that differ from your passport biodata.
+                </p>
+              </div>
             </div>
-          </div>
-        </section>
-      </PublicLayout>
-    </>
+          </section>
+
+          {/* ─────────────────────────────────────────────────
+              SECTION 13: FAQs
+          ───────────────────────────────────────────────── */}
+          <section className="mb-24">
+            <div className="max-w-3xl mb-12">
+              <span className="text-xs font-black uppercase tracking-widest text-[#4DA5EC] block mb-2">
+                Frequently Asked Questions
+              </span>
+              <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-[1.1]">
+                Everything Visa Applicants Ask About Flight Reservations.
+              </h2>
+            </div>
+            <div className="max-w-4xl">
+              <Accordion items={FLIGHT_FAQS} />
+            </div>
+          </section>
+
+          {/* ─────────────────────────────────────────────────
+              SECTION 14: SOFT CTA
+          ───────────────────────────────────────────────── */}
+          <section className="rounded-3xl bg-gradient-to-r from-[#402493]/40 via-[#0D0826] to-[#257CFF]/20 border border-white/10 p-8 sm:p-14 text-center relative overflow-hidden">
+            <div className="max-w-3xl mx-auto space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#4DA5EC]/15 border border-[#4DA5EC]/30 text-xs font-bold text-[#4DA5EC]">
+                <ShieldCheck className="w-4 h-4" />
+                <span>GDS-Backed · Amadeus &amp; Sabre · CAC RC: 1715416</span>
+              </div>
+
+              <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-[1.1]">
+                Get Your Verifiable GDS Flight Reservation Delivered in Under 2 Hours.
+              </h2>
+
+              <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
+                Do not risk your visa appointment with a fake PDF or an expensive non-refundable ticket purchased too early. Speak with our Everbright Travels &amp; Consultants joint aviation desk today.
+              </p>
+
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
+                <a
+                  href="#booking-widget"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-black text-sm tracking-wide shadow-[0_8px_32px_-8px_rgba(77,165,236,0.6)] hover:brightness-110 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  <span>Request Flight Reservation</span>
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+                <a
+                  href={`https://wa.me/${COMPANY.whatsapp.number}?text=Hello%20Sijam%20Consults%20and%20Everbright%20Travels%20Desk,%20I%20need%20a%20verifiable%20flight%20reservation%20with%20active%20GDS%20PNR%20for%20my%20visa%20application.`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-gradient-to-r from-[#402493] to-[#2D186B] hover:from-[#3B1F8C] hover:to-[#1A1040] text-white font-bold text-sm tracking-wide border border-purple-500/40 backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  <PhoneCall className="w-4 h-4 text-[#4DA5EC]" />
+                  <span>Chat With Aviation Desk</span>
+                </a>
+              </div>
+
+              <div className="pt-6 border-t border-white/5 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400">
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                  Delivered within 60 – 120 minutes
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                  Verified on airline &ldquo;Manage Booking&rdquo; portal
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                  Post-visa e-ticket conversion with student perks
+                </span>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </PublicLayout>
   );
 }

@@ -319,16 +319,16 @@ export const FlightBookingWidget: React.FC = () => {
             href={`https://wa.me/2347064229556?text=${generateWhatsAppMessage()}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:flex-1 py-4 px-6 rounded-2xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white font-black text-xs uppercase tracking-wider text-center shadow-cta flex items-center justify-center gap-2 transition-transform hover:scale-[1.01]"
+            className="w-full sm:flex-1 py-4 px-6 rounded-2xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white font-black text-sm tracking-wide text-center shadow-[0_8px_32px_-8px_rgba(77,165,236,0.6)] flex items-center justify-center gap-2 transition-transform hover:scale-[1.01]"
           >
-            <PhoneCall className="w-4 h-4 text-emerald-300" />
-            <span>Generate Itinerary via Sijam &amp; Everbright WhatsApp Desk</span>
+            <PhoneCall className="w-4 h-4 text-white" />
+            <span>Generate Itinerary via WhatsApp Desk</span>
             <ArrowRight className="w-4 h-4" />
           </a>
 
           <a
             href="tel:+2347064229556"
-            className="w-full sm:w-auto py-4 px-6 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs uppercase tracking-wider text-center border border-slate-200 transition-colors"
+            className="w-full sm:w-auto py-4 px-6 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-sm tracking-wide text-center border border-slate-200 transition-colors"
           >
             Call Flight Desk
           </a>

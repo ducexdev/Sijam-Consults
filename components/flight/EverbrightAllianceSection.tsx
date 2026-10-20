@@ -71,7 +71,7 @@ export const EverbrightAllianceSection: React.FC = () => {
     {
       icon: FileCheck2,
       title: '100% Embassy-Ready Dossiers',
-      desc: 'Accepted seamlessly across Schengen consulates (France, Poland, Germany, Italy, Spain), UK Visas & Immigration (UKVI), US Embassies, and Canadian IRCC visa centers.',
+      desc: 'Accepted reliably across Schengen consulates (France, Poland, Germany, Italy, Spain), UK Visas & Immigration (UKVI), US Embassies, and Canadian IRCC visa centers.',
     },
     {
       icon: Luggage,
@@ -109,7 +109,7 @@ export const EverbrightAllianceSection: React.FC = () => {
           </h2>
 
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
-            To provide our clients with the gold standard in verifiable airline reservations and seamless international flight ticketing, Sijam Consults Limited operates in certified bilateral alliance with <strong>Everbright Travels &amp; Consultants Limited</strong> — <em>“...Simplifying Your World”</em>.
+            To provide our clients with the gold standard in verifiable airline reservations and reliable international flight ticketing, Sijam Consults Limited operates in certified bilateral alliance with <strong>Everbright Travels &amp; Consultants Limited</strong> — <em>“...Simplifying Your World”</em>.
           </p>
         </div>
 
