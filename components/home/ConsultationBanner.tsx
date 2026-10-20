@@ -13,8 +13,8 @@ export const ConsultationBanner: React.FC = () => {
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10 text-center">
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#DC2F11]/10 border border-[#DC2F11]/30 text-xs text-[#F98864] mb-8">
-          <ShieldCheck className="w-4 h-4 text-[#DC2F11]" />
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#402493]/20 border border-[#402493]/40 text-xs text-purple-200 mb-8">
+          <ShieldCheck className="w-4 h-4 text-[#4DA5EC]" />
           <span className="font-bold uppercase tracking-wider">Confidential · 1-on-1 Advisory · Kaduna Office or Virtual</span>
         </div>
 
@@ -55,7 +55,7 @@ export const ConsultationBanner: React.FC = () => {
             href={`tel:${COMPANY.phones.primary}`}
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl bg-gradient-to-r from-[#402493] to-[#2D186B] hover:from-[#3B1F8C] hover:to-[#1A1040] text-white font-semibold text-sm border border-purple-500/40 shadow-[0_8px_20px_-5px_rgba(64,36,147,0.5)] transition-all"
           >
-            <PhoneCall className="w-4 h-4 text-[#F98864]" />
+            <PhoneCall className="w-4 h-4 text-[#4DA5EC]" />
             <span>{COMPANY.phones.primary}</span>
           </a>
         </div>

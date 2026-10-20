@@ -101,7 +101,7 @@ export const WorkPermitsTransparencySection: React.FC = () => {
             </div>
 
             <div className="p-4 rounded-xl bg-white/[0.03] border border-white/8 space-y-2">
-              <div className="flex items-center gap-2 text-xs font-bold text-[#F98864]">
+              <div className="flex items-center gap-2 text-xs font-bold text-[#4DA5EC]">
                 <FileCheck2 className="w-4 h-4 shrink-0" />
                 <span>Zero Document Falsification</span>
               </div>
@@ -130,7 +130,7 @@ export const WorkPermitsTransparencySection: React.FC = () => {
             </h3>
             <Link
               href={ROUTES.services.workVisa}
-              className="text-xs font-bold text-[#F98864] hover:text-white transition-colors flex items-center gap-1"
+              className="text-xs font-bold text-[#4DA5EC] hover:text-white transition-colors flex items-center gap-1"
             >
               <span>View Full Work Visa Details</span>
               <ArrowRight className="w-3.5 h-3.5" />

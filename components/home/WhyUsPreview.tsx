@@ -57,8 +57,8 @@ export const WhyUsPreview: React.FC = () => {
     <section className="py-20 bg-[#0B071E] text-white border-b border-purple-950/60 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-xs font-bold uppercase tracking-wider text-[#F98864] mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-[#F45A2A]" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-xs font-bold uppercase tracking-wider text-[#4DA5EC] mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-[#4DA5EC]" />
             <span>Why Discerning Clients Choose SIJAM</span>
           </div>
           <h2 className="font-heading font-black text-2xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-[1.1]">
@@ -68,7 +68,7 @@ export const WhyUsPreview: React.FC = () => {
             </span>
           </h2>
           <p className="text-sm sm:text-base text-slate-300 mt-3 leading-relaxed font-normal">
-            International travel and relocation is a life-defining investment. Choosing <strong className="text-white font-medium">a travel agency</strong> you can trust makes every step seamless—we replace guesswork with forensic document audits, transparent counsel, and authentic institutional pathways.
+            International travel and relocation is a life-defining investment. Choosing <strong className="text-white font-medium">an accredited consultancy</strong> you can trust makes every step seamless—we replace guesswork with forensic document audits, transparent counsel, and authentic institutional pathways.
           </p>
         </div>
 
@@ -78,16 +78,16 @@ export const WhyUsPreview: React.FC = () => {
             return (
               <div
                 key={i}
-                className="p-8 rounded-3xl bg-white/[0.04] hover:bg-white/[0.07] border border-white/10 hover:border-[#F45A2A]/40 transition-all duration-300 backdrop-blur-xl flex flex-col justify-between shadow-xl group hover:-translate-y-1"
+                className="p-8 rounded-3xl bg-white/[0.04] hover:bg-white/[0.07] border border-white/10 hover:border-[#4DA5EC]/50 transition-all duration-300 backdrop-blur-xl flex flex-col justify-between shadow-xl group hover:-translate-y-1.5"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#402493] to-[#2D186B] group-hover:from-[#F45A2A] group-hover:to-[#DD4819] text-white flex items-center justify-center font-heading font-black text-base transition-colors shadow">
+                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#402493] to-[#2D186B] group-hover:from-[#4DA5EC] group-hover:to-[#257CFF] text-white flex items-center justify-center font-heading font-black text-base transition-all duration-300 shadow">
                       {pillar.num}
                     </div>
-                    <Icon className="w-5 h-5 text-purple-300 group-hover:text-[#F98864] transition-colors" />
+                    <Icon className="w-5 h-5 text-purple-300 group-hover:text-[#4DA5EC] transition-colors" />
                   </div>
-                  <h3 className="font-heading font-bold text-base sm:text-lg text-white group-hover:text-[#F98864] transition-colors">
+                  <h3 className="font-heading font-bold text-base sm:text-lg text-white group-hover:text-[#4DA5EC] transition-colors">
                     {pillar.title}
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed font-normal">

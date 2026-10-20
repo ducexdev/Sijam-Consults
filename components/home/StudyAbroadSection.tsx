@@ -124,7 +124,7 @@ export const StudyAbroadSection: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {studentSteps.map((st, i) => (
               <div key={i} className="p-4 rounded-xl bg-white/[0.03] border border-white/8 space-y-2">
-                <span className="font-heading font-black text-xl text-[#F98864]">{st.num}</span>
+                <span className="font-heading font-black text-xl text-[#4DA5EC]">{st.num}</span>
                 <div className="font-heading font-bold text-xs text-white">{st.title}</div>
                 <p className="text-xs text-slate-400 leading-relaxed">{st.desc}</p>
               </div>

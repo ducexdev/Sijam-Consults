@@ -23,19 +23,19 @@ export const Footer: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-xl bg-[#402493] text-white flex items-center justify-center shrink-0 border border-purple-600/30">
-                <Shield className="w-6 h-6 text-[#F98864]" />
+                <Shield className="w-6 h-6 text-[#4DA5EC]" />
               </div>
               <div>
                 <h3 className="font-heading font-bold text-sm text-white">CAC Registered Agency</h3>
                 <p className="text-xs text-purple-200 mt-0.5">
-                  Corporate Affairs Commission <span className="font-semibold text-[#F45A2A]">{COMPANY.cacNumber}</span>
+                  Corporate Affairs Commission <span className="font-semibold text-[#4DA5EC]">{COMPANY.cacNumber}</span>
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-xl bg-[#402493] text-white flex items-center justify-center shrink-0 border border-purple-600/30">
-                <FileText className="w-6 h-6 text-[#F98864]" />
+                <FileText className="w-6 h-6 text-[#4DA5EC]" />
               </div>
               <div>
                 <h3 className="font-heading font-bold text-sm text-white">Zero-Omission Standards</h3>
@@ -47,7 +47,7 @@ export const Footer: React.FC = () => {
 
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-xl bg-[#402493] text-white flex items-center justify-center shrink-0 border border-purple-600/30">
-                <Lock className="w-6 h-6 text-[#F98864]" />
+                <Lock className="w-6 h-6 text-[#4DA5EC]" />
               </div>
               <div>
                 <h3 className="font-heading font-bold text-sm text-white">Ethical Consultation</h3>
@@ -84,7 +84,7 @@ export const Footer: React.FC = () => {
                 href="/docs/Sijam-Company-Profile.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-xs font-semibold text-[#F98864] hover:text-white bg-purple-900/60 px-3.5 py-2 rounded-lg border border-purple-700/50 transition-colors"
+                className="inline-flex items-center gap-2 text-xs font-semibold text-[#4DA5EC] hover:text-white bg-purple-900/60 px-3.5 py-2 rounded-lg border border-purple-700/50 transition-colors"
               >
                 <FileText className="w-4 h-4" />
                 <span>Download Official Corporate Profile (PDF)</span>
@@ -188,23 +188,23 @@ export const Footer: React.FC = () => {
             </h3>
             <ul className="space-y-3 text-xs sm:text-sm text-purple-200">
               <li className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-[#F45A2A] shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-[#4DA5EC] shrink-0 mt-0.5" />
                 <span>{COMPANY.address.full}</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-[#F45A2A] shrink-0" />
+                <Phone className="w-4 h-4 text-[#4DA5EC] shrink-0" />
                 <a href={`tel:${COMPANY.phones.primary}`} className="hover:text-white transition-colors">
                   {COMPANY.phones.primary}
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-[#F45A2A] shrink-0" />
+                <Mail className="w-4 h-4 text-[#4DA5EC] shrink-0" />
                 <a href={`mailto:${COMPANY.emails.primary}`} className="hover:text-white transition-colors">
                   {COMPANY.emails.primary}
                 </a>
               </li>
               <li className="flex items-start gap-2.5">
-                <Clock className="w-4 h-4 text-[#F45A2A] shrink-0 mt-0.5" />
+                <Clock className="w-4 h-4 text-[#4DA5EC] shrink-0 mt-0.5" />
                 <span>{COMPANY.hours}</span>
               </li>
             </ul>

@@ -46,12 +46,12 @@ const MarqueeTrack: React.FC<TrackProps> = ({
           key={`${partner.id}-${idx}`}
           className="group relative flex-shrink-0 w-44 h-20 flex items-center justify-center
                      rounded-2xl border border-white/8 bg-white/[0.035] backdrop-blur-sm
-                     hover:bg-white/[0.075] hover:border-[#DC2F11]/40
+                     hover:bg-white/[0.075] hover:border-[#4DA5EC]/50
                      transition-all duration-400 overflow-hidden cursor-default"
         >
           {/* Hover glow */}
           <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500
-                          bg-[radial-gradient(circle_at_50%_100%,rgba(220,47,17,0.12),transparent_70%)] rounded-2xl" />
+                          bg-[radial-gradient(circle_at_50%_100%,rgba(37,124,255,0.15),transparent_70%)] rounded-2xl" />
           <div className="relative w-32 h-10" style={{ position: 'relative' }}>
             <Image
               src={partner.logoUrl}
@@ -81,7 +81,7 @@ export const PartnerMarquee: React.FC = () => {
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r
                       from-transparent via-[#402493]/50 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r
-                      from-transparent via-[#DC2F11]/40 to-transparent" />
+                      from-transparent via-[#4DA5EC]/40 to-transparent" />
 
       {/* ── HEADER ───────────────────────────────────────────────── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-10">
@@ -102,7 +102,7 @@ export const PartnerMarquee: React.FC = () => {
           <Link
             href={ROUTES.partners}
             className="shrink-0 inline-flex items-center gap-1.5 text-xs font-bold
-                       text-[#F98864] hover:text-white transition-colors group"
+                       text-[#4DA5EC] hover:text-white transition-colors group"
           >
             <span>View All Partners</span>
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />

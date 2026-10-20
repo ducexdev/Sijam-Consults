@@ -362,7 +362,7 @@ export function Navbar() {
             </Link>
             <Link
               href={ROUTES.jobs.root}
-              className="flex items-center gap-1.5 bg-gradient-to-r from-[#DC2F11] to-[#F45A2A] hover:brightness-110 text-white text-xs uppercase tracking-wider font-bold px-4 py-2.5 rounded-lg shadow-[0_4px_20px_rgba(220,47,17,0.4)] transition-all hover:scale-[1.02] active:scale-[0.98] border border-[#DC2F11]/40 whitespace-nowrap"
+              className="flex items-center gap-1.5 bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white text-xs uppercase tracking-wider font-bold px-4 py-2.5 rounded-lg shadow-[0_4px_20px_rgba(37,124,255,0.4)] transition-all hover:scale-[1.02] active:scale-[0.98] border border-[#4DA5EC]/40 whitespace-nowrap"
             >
               <span>Explore Opportunities</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -373,7 +373,7 @@ export function Navbar() {
           <div className="flex lg:hidden items-center gap-3">
             <Link
               href={ROUTES.assessment}
-              className="bg-gradient-to-r from-[#DC2F11] to-[#F45A2A] text-white text-[11px] font-bold px-3 py-1.5 rounded-md shadow-sm"
+              className="bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white text-[11px] font-bold px-3 py-1.5 rounded-md shadow-sm border border-[#4DA5EC]/30"
             >
               Eligibility
             </Link>
@@ -512,7 +512,7 @@ export function Navbar() {
             <Link
               href={ROUTES.assessment}
               onClick={closeMobile}
-              className="block w-full text-center bg-gradient-to-r from-[#DC2F11] to-[#F45A2A] hover:brightness-110 text-white font-bold py-3.5 rounded-xl shadow-[0_8px_25px_-5px_rgba(220,47,17,0.5)] text-sm border border-[#DC2F11]/40 transition-all"
+              className="block w-full text-center bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white font-bold py-3.5 rounded-xl shadow-[0_8px_25px_-5px_rgba(37,124,255,0.5)] text-sm border border-[#4DA5EC]/40 transition-all"
             >
               Check Visa Eligibility Free
             </Link>

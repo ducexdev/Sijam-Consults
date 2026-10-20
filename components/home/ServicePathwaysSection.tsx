@@ -43,7 +43,7 @@ export const CORE_PATHWAYS: ServicePathwayItem[] = [
     href: ROUTES.services.recruitmentSupply,
     icon: Briefcase,
     tag: 'Flagship Service',
-    tagColor: 'bg-[#DC2F11]/15 text-[#F98864] border-[#DC2F11]/30',
+    tagColor: 'bg-[#257CFF]/15 text-[#4DA5EC] border-[#257CFF]/30',
   },
   {
     id: 'work-permits',

@@ -87,19 +87,19 @@ export const ProcessSteps: React.FC = () => {
             return (
               <div
                 key={i}
-                className="group relative p-6 rounded-2xl bg-white/[0.035] hover:bg-white/[0.07] border border-white/8 hover:border-[#DC2F11]/40 transition-all duration-300 flex flex-col justify-between shadow-lg backdrop-blur-md hover:-translate-y-1"
+                className="group relative p-6 rounded-2xl bg-white/[0.035] hover:bg-white/[0.07] border border-white/8 hover:border-[#4DA5EC]/50 transition-all duration-300 flex flex-col justify-between shadow-lg backdrop-blur-md hover:-translate-y-1.5"
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="font-heading font-black text-2xl text-[#F98864]">
+                    <span className="font-heading font-black text-2xl text-[#4DA5EC]">
                       {st.step}
                     </span>
-                    <div className="w-10 h-10 rounded-xl bg-[#402493]/60 text-purple-200 flex items-center justify-center border border-purple-500/30 group-hover:bg-[#DC2F11] group-hover:text-white transition-colors duration-300">
+                    <div className="w-10 h-10 rounded-xl bg-[#402493]/60 text-purple-200 flex items-center justify-center border border-purple-500/30 group-hover:bg-gradient-to-br group-hover:from-[#4DA5EC] group-hover:to-[#257CFF] group-hover:text-white transition-all duration-300 shadow">
                       <Icon className="w-5 h-5" />
                     </div>
                   </div>
                   <div>
-                    <h3 className="font-heading font-bold text-sm sm:text-base text-white group-hover:text-[#F98864] transition-colors leading-snug">
+                    <h3 className="font-heading font-bold text-sm sm:text-base text-white group-hover:text-[#4DA5EC] transition-colors leading-snug">
                       {st.title}
                     </h3>
                     <p className="text-xs text-slate-300 mt-2 leading-relaxed font-normal">
