@@ -113,24 +113,24 @@ export const HeroSection: React.FC = () => {
             <div className="flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#402493]/20 border border-[#402493]/40 text-[10px] font-black uppercase tracking-widest text-purple-200">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#4DA5EC] animate-pulse" />
-                CAC Registered Consultancy · RC: 1715416
+                Trusted Immigration
               </span>
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/10 text-[10px] font-bold text-slate-300">
-                <MapPin className="w-3 h-3 text-[#4DA5EC]" />
-                Kaduna HQ &amp; Abuja Advisory Desks
+                <Shield className="w-3 h-3 text-[#4DA5EC]" />
+                &amp; Travel Agency
               </span>
             </div>
 
             {/* Headline */}
             <h1 className="font-heading font-black text-3xl sm:text-5xl lg:text-[3.15rem] xl:text-[3.55rem] text-white leading-[1.08] tracking-tight">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
-                International Recruitment, Work Permit,
+                International Recruitment,
               </span>{' '}
               Study Abroad &amp;{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
-                Immigration Consultancy
+                Immigration Agency
               </span>{' '}
-              Agency in Nigeria
+              in Nigeria
             </h1>
 
             <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal max-w-2xl">
