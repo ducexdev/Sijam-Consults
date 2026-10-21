@@ -7,7 +7,6 @@ import {
   Stethoscope,
   Building2,
   Truck,
-  Wheat,
   Sparkles,
   CheckCircle2,
   Clock,
@@ -17,21 +16,135 @@ import {
   PhoneCall,
   Scale,
   Users,
+  Globe,
+  Zap,
 } from 'lucide-react';
 import { ROUTES, COMPANY } from '@/lib/routes';
+import { CountrySelect } from '@/components/ui/CountrySelect';
+import { getCountryByName } from '@/lib/data/countries';
 
 interface RequisitionState {
   industry: 'trades' | 'healthcare' | 'construction' | 'logistics';
   headcount: '5_15' | '16_50' | '51_plus';
-  destination: 'eu' | 'uk' | 'gulf';
+  destination: string;
   timelineTier: 'accelerated' | 'standard';
+}
+
+function getDestinationMobilizationData(destinationCountry: string, timelineTier: 'accelerated' | 'standard') {
+  const isAccelerated = timelineTier === 'accelerated';
+  const country = getCountryByName(destinationCountry) || {
+    name: destinationCountry || 'Poland',
+    code: 'PL',
+    flag: '🇵🇱',
+    region: 'Europe' as const,
+  };
+
+  const name = country.name;
+
+  if (name === 'Poland') {
+    return {
+      countryName: 'Poland',
+      flag: '🇵🇱',
+      region: 'European Union (Schengen Zone)',
+      workPermitType: 'Statutory Voivodeship Type A Labor Authorization (Zezwolenie na Pracę)',
+      mobilizationTime: isAccelerated ? '45 to 60 calendar days' : '65 to 80 calendar days',
+      consularProtocol: 'Voivodeship labor office quota lodgement, sworn Polish translations, NPF biometric criminal clearance & Embassy Type D visa stamping.',
+    };
+  }
+
+  if (name === 'United Kingdom') {
+    return {
+      countryName: 'United Kingdom',
+      flag: '🇬🇧',
+      region: 'United Kingdom (UKVI)',
+      workPermitType: 'Home Office Defined Certificate of Sponsorship (CoS) Allocation',
+      mobilizationTime: isAccelerated ? '35 to 50 calendar days' : '55 to 70 calendar days',
+      consularProtocol: 'VFS Global priority biometrics in Lagos/Abuja, IOM TB clearance certificate, UKVI CoS linkage & vignette issuance.',
+    };
+  }
+
+  if (['Saudi Arabia', 'United Arab Emirates', 'Qatar', 'Kuwait', 'Bahrain', 'Oman'].includes(name)) {
+    return {
+      countryName: name,
+      flag: country.flag,
+      region: 'Gulf Cooperation Council (GCC)',
+      workPermitType: `Bilateral Ministry of Human Resources ${name} Work Visa Quota`,
+      mobilizationTime: isAccelerated ? '30 to 45 calendar days' : '45 to 60 calendar days',
+      consularProtocol: 'Federal Ministry of Labor vetting, MFA Abuja authentication, GAMCA accredited medicals & destination embassy visa stamping.',
+    };
+  }
+
+  if (name === 'Canada') {
+    return {
+      countryName: 'Canada',
+      flag: '🇨🇦',
+      region: 'North America (IRCC)',
+      workPermitType: 'IRCC LMIA (Labor Market Impact Assessment) / Provincial Nominee Employer Work Permit',
+      mobilizationTime: isAccelerated ? '60 to 80 calendar days' : '80 to 105 calendar days',
+      consularProtocol: 'IRCC employer compliance filing, VFS biometrics, panel physician medicals, and Letter of Introduction (LOI) work authorization.',
+    };
+  }
+
+  if (name === 'United States') {
+    return {
+      countryName: 'United States',
+      flag: '🇺🇸',
+      region: 'North America (USCIS / DOL)',
+      workPermitType: 'USCIS Form I-129 / H-2B Non-Agricultural / EB-3 Corporate Labor Quota',
+      mobilizationTime: isAccelerated ? '65 to 85 calendar days' : '85 to 110 calendar days',
+      consularProtocol: 'US Department of Labor prevailing wage audit, USCIS I-797 approval, and US Consulate Lagos/Abuja DS-160 biometric interview.',
+    };
+  }
+
+  if (name === 'Germany') {
+    return {
+      countryName: 'Germany',
+      flag: '🇩🇪',
+      region: 'European Union (FEA / ZAV)',
+      workPermitType: 'Federal Employment Agency (ZAV) Pre-Approval & Skilled Immigration Permit',
+      mobilizationTime: isAccelerated ? '50 to 65 calendar days' : '65 to 85 calendar days',
+      consularProtocol: 'ZAV labor office registration, certified German translations, police criminal certificate, and German Embassy Abuja biometrics.',
+    };
+  }
+
+  if (name === 'Slovakia' || name === 'Czech Republic') {
+    return {
+      countryName: name,
+      flag: country.flag,
+      region: 'European Union (Central Europe)',
+      workPermitType: 'Statutory Single Work & Residence Permit (Jednotné Povolenie)',
+      mobilizationTime: isAccelerated ? '45 to 60 calendar days' : '60 to 75 calendar days',
+      consularProtocol: 'Host government labor office quota verification, police certificate Apostille/legalisation, and embassy D-Visa biometrics.',
+    };
+  }
+
+  if (name === 'Australia' || name === 'New Zealand') {
+    return {
+      countryName: name,
+      flag: country.flag,
+      region: 'Oceania (DHA / INZ)',
+      workPermitType: 'Accredited Employer Work Sponsorship (Subclass 482 / AEWV)',
+      mobilizationTime: isAccelerated ? '55 to 75 calendar days' : '75 to 95 calendar days',
+      consularProtocol: 'VETASSESS / TRA skills recognition audit, chest X-ray & medical clearance, and immigration portal electronic grant notice.',
+    };
+  }
+
+  // Worldwide sovereign corridor fallback
+  return {
+    countryName: name,
+    flag: country.flag,
+    region: `${country.region} Sovereign Corridor`,
+    workPermitType: `Statutory ${name} Ministry of Labor Foreign Work Authorization & Quota`,
+    mobilizationTime: isAccelerated ? '40 to 60 calendar days' : '60 to 85 calendar days',
+    consularProtocol: `Nigerian Ministry of Foreign Affairs (MFA) document legalisation, Interpol police certificate authentication, and bilateral ${name} Embassy consular stamping.`,
+  };
 }
 
 export const ManpowerRequisitionCalculator: React.FC = () => {
   const [state, setState] = useState<RequisitionState>({
     industry: 'trades',
     headcount: '16_50',
-    destination: 'eu',
+    destination: 'Poland',
     timelineTier: 'accelerated',
   });
 
@@ -63,26 +176,7 @@ export const ManpowerRequisitionCalculator: React.FC = () => {
       },
     }[state.industry];
 
-    const destinationData = {
-      eu: {
-        region: 'European Union (Poland, Slovakia, Germany)',
-        workPermitType: 'Statutory Type D National Employment Visa & Voivodeship Labor Quota',
-        mobilizationTime: state.timelineTier === 'accelerated' ? '45 to 60 calendar days' : '65 to 80 calendar days',
-        consularProtocol: 'In-person Embassy biometrics in Abuja, sworn Polish/German translation, police clearance',
-      },
-      uk: {
-        region: 'United Kingdom (UKVI Skilled Worker)',
-        workPermitType: 'Home Office Defined Certificate of Sponsorship (CoS) Allocation',
-        mobilizationTime: state.timelineTier === 'accelerated' ? '40 to 55 calendar days' : '60 to 75 calendar days',
-        consularProtocol: 'VFS Global biometrics in Lagos/Abuja, TB clearance certificate, UKVI CoS linkage',
-      },
-      gulf: {
-        region: 'Gulf States (UAE, Saudi Arabia, Qatar)',
-        workPermitType: 'Bilateral Ministry of Human Resources Employment Visa Quota',
-        mobilizationTime: state.timelineTier === 'accelerated' ? '30 to 45 calendar days' : '45 to 60 calendar days',
-        consularProtocol: 'MFA Abuja authentication, destination embassy consular legalization, GAMCA medicals',
-      },
-    }[state.destination];
+    const destinationData = getDestinationMobilizationData(state.destination, state.timelineTier);
 
     const headcountMultiplier = {
       '5_15': 'Cohort Batch 1 (5–15 Specialists)',
@@ -98,15 +192,17 @@ export const ManpowerRequisitionCalculator: React.FC = () => {
   }, [state]);
 
   const generateWhatsAppInquiry = () => {
-    const text = `Hello Sijam Consults Corporate Bilateral Desk,\n\nWe represent an international contractor seeking manpower sourcing from Nigeria.\n\nRequisition Profile:\n• Industry: ${calculation.industryData.title}\n• Headcount: ${calculation.headcountMultiplier}\n• Destination: ${calculation.destinationData.region}\n• Expected Timeline: ${calculation.destinationData.mobilizationTime}\n\nPlease share your B2B Manpower Supply Agreement and Trade-Testing SLA.`;
+    const text = `Hello Sijam Consults Corporate Bilateral Desk,\n\nWe represent an international contractor seeking manpower sourcing from Nigeria.\n\nRequisition Profile:\n• Industry: ${calculation.industryData.title}\n• Headcount: ${calculation.headcountMultiplier}\n• Destination Worksite: ${calculation.destinationData.countryName} (${calculation.destinationData.region})\n• Work Permit: ${calculation.destinationData.workPermitType}\n• Mobilization SLA: ${calculation.destinationData.mobilizationTime}\n• Deployment Tier: ${state.timelineTier === 'accelerated' ? 'Accelerated Priority' : 'Standard Schedule'}\n\nPlease share your B2B Manpower Supply Agreement, Trade-Testing Protocol, and Commercial Terms.`;
     return encodeURIComponent(text);
   };
 
   return (
-    <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-6 sm:p-7 backdrop-blur-md shadow-2xl relative overflow-hidden">
-      {/* Background ambient light */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-[#257CFF]/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#402493]/15 rounded-full blur-3xl pointer-events-none" />
+    <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-5 sm:p-7 backdrop-blur-md shadow-2xl relative">
+      {/* Background ambient light (contained so dropdown never gets clipped) */}
+      <div className="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-[#257CFF]/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#402493]/15 rounded-full blur-3xl" />
+      </div>
 
       {/* Header */}
       <div className="relative z-10 flex items-start justify-between gap-4 pb-5 border-b border-white/10">
@@ -119,7 +215,7 @@ export const ManpowerRequisitionCalculator: React.FC = () => {
             Manpower Quota &amp; SLA Estimator
           </h2>
           <p className="text-xs text-slate-400 mt-0.5">
-            Calculate candidate trade-testing timelines, consular steps, and mobilization quotas.
+            Calculate candidate trade-testing timelines, consular steps, and mobilization quotas worldwide.
           </p>
         </div>
 
@@ -129,7 +225,7 @@ export const ManpowerRequisitionCalculator: React.FC = () => {
             setState({
               industry: 'trades',
               headcount: '16_50',
-              destination: 'eu',
+              destination: 'Poland',
               timelineTier: 'accelerated',
             })
           }
@@ -143,7 +239,7 @@ export const ManpowerRequisitionCalculator: React.FC = () => {
 
       {/* Controls */}
       <div className="relative z-10 space-y-4 pt-5">
-        {/* Industry Sector */}
+        {/* 1. Industry Sector */}
         <div>
           <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
             1. Target Labor Sector
@@ -185,7 +281,7 @@ export const ManpowerRequisitionCalculator: React.FC = () => {
           </div>
         </div>
 
-        {/* Headcount */}
+        {/* 2. Headcount */}
         <div>
           <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
             2. Requisition Headcount Cohort
@@ -221,54 +317,118 @@ export const ManpowerRequisitionCalculator: React.FC = () => {
           </div>
         </div>
 
-        {/* Destination Corridors */}
+        {/* 3. Destination Corridors (Supports All 195+ Countries Worldwide) */}
         <div>
-          <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
-            3. Project Worksite Destination
-          </label>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="flex items-center justify-between mb-2">
+            <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">
+              3. Project Worksite Destination
+            </label>
+            <span className="text-[11px] font-semibold text-[#4DA5EC] flex items-center gap-1">
+              <Globe className="w-3 h-3" />
+              <span>Worldwide Corridors</span>
+            </span>
+          </div>
+
+          {/* Quick Primary Hub Pills for Frequent Corridors */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-2.5">
             {[
-              { id: 'eu', label: 'European Union', flag: '🇪🇺' },
-              { id: 'uk', label: 'United Kingdom', flag: '🇬🇧' },
-              { id: 'gulf', label: 'Gulf States', flag: '🇦🇪' },
+              { id: 'Poland', label: 'Poland (EU)', flag: '🇵🇱' },
+              { id: 'United Kingdom', label: 'United Kingdom', flag: '🇬🇧' },
+              { id: 'Saudi Arabia', label: 'Saudi Arabia', flag: '🇸🇦' },
+              { id: 'Canada', label: 'Canada', flag: '🇨🇦' },
             ].map((item) => {
               const isSelected = state.destination === item.id;
               return (
                 <button
                   key={item.id}
                   type="button"
-                  onClick={() =>
-                    setState((s) => ({
-                      ...s,
-                      destination: item.id as RequisitionState['destination'],
-                    }))
-                  }
+                  onClick={() => setState((s) => ({ ...s, destination: item.id }))}
                   className={`p-2 rounded-xl border text-left transition-all flex items-center justify-between cursor-pointer ${
                     isSelected
-                      ? 'bg-[#257CFF]/20 border-[#4DA5EC] text-white'
-                      : 'bg-white/[0.02] border-white/10 text-slate-300 hover:bg-white/[0.05]'
+                      ? 'bg-[#257CFF]/25 border-[#4DA5EC] text-white shadow-[0_0_15px_rgba(77,165,236,0.25)] ring-1 ring-[#257CFF]'
+                      : 'bg-white/[0.02] border-white/10 text-slate-300 hover:bg-white/[0.06] hover:text-white'
                   }`}
                 >
                   <span className="text-xs font-semibold truncate">{item.label}</span>
-                  <span className="text-xs">{item.flag}</span>
+                  <span className="text-sm shrink-0">{item.flag}</span>
                 </button>
               );
             })}
+          </div>
+
+          {/* Full Professional Searchable Combobox for All 195+ Global Countries */}
+          <div>
+            <CountrySelect
+              value={state.destination}
+              onChange={(country) => setState((s) => ({ ...s, destination: country }))}
+              label="Or Select Any Country Worldwide (195+ Sovereign States):"
+              className="mt-1"
+            />
+          </div>
+        </div>
+
+        {/* 4. Deployment Schedule Tier Toggle */}
+        <div className="pt-1">
+          <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+            4. Mobilization Priority Tier
+          </label>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => setState((s) => ({ ...s, timelineTier: 'accelerated' }))}
+              className={`p-2.5 rounded-xl border text-left transition-all flex items-center gap-2 cursor-pointer ${
+                state.timelineTier === 'accelerated'
+                  ? 'bg-gradient-to-r from-[#257CFF]/25 to-purple-600/25 border-[#4DA5EC] text-white shadow-[0_0_15px_rgba(77,165,236,0.25)]'
+                  : 'bg-white/[0.02] border-white/10 text-slate-300 hover:bg-white/[0.05]'
+              }`}
+            >
+              <Zap className="w-4 h-4 text-[#F45A2A] shrink-0" />
+              <div>
+                <span className="text-xs font-bold block leading-tight">Accelerated Priority</span>
+                <span className="text-[10px] text-slate-400">Fast-track biometrics &amp; flight batching</span>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setState((s) => ({ ...s, timelineTier: 'standard' }))}
+              className={`p-2.5 rounded-xl border text-left transition-all flex items-center gap-2 cursor-pointer ${
+                state.timelineTier === 'standard'
+                  ? 'bg-[#257CFF]/20 border-[#4DA5EC] text-white shadow-[0_0_15px_rgba(77,165,236,0.25)]'
+                  : 'bg-white/[0.02] border-white/10 text-slate-300 hover:bg-white/[0.05]'
+              }`}
+            >
+              <Clock className="w-4 h-4 text-[#4DA5EC] shrink-0" />
+              <div>
+                <span className="text-xs font-bold block leading-tight">Standard Schedule</span>
+                <span className="text-[10px] text-slate-400">Standard statutory cohort mobilization</span>
+              </div>
+            </button>
           </div>
         </div>
       </div>
 
       {/* Dynamic Results Card */}
       <div className="relative z-10 mt-5 p-4 rounded-xl bg-black/40 border border-white/10 space-y-3.5">
-        {/* Timeline Indicator */}
-        <div className="flex items-center justify-between border-b border-white/10 pb-3">
+        {/* Destination & Timeline Strip */}
+        <div className="flex items-center justify-between border-b border-white/10 pb-3 flex-wrap gap-2">
           <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4 text-[#4DA5EC]" />
-            <span className="text-xs text-slate-300">Turnkey Mobilization Window:</span>
+            <span className="text-base">{calculation.destinationData.flag}</span>
+            <div>
+              <span className="text-xs font-bold text-white block">
+                {calculation.destinationData.countryName} Worksite
+              </span>
+              <span className="text-[10px] text-slate-400">
+                {calculation.destinationData.region}
+              </span>
+            </div>
           </div>
-          <span className="text-xs font-black text-emerald-400">
-            {calculation.destinationData.mobilizationTime}
-          </span>
+          <div className="text-right">
+            <span className="text-[10px] uppercase font-bold text-slate-400 block">Mobilization Window</span>
+            <span className="text-xs font-black text-emerald-400">
+              {calculation.destinationData.mobilizationTime}
+            </span>
+          </div>
         </div>
 
         {/* Trade Testing Facility */}
@@ -290,11 +450,11 @@ export const ManpowerRequisitionCalculator: React.FC = () => {
           <p>{calculation.destinationData.consularProtocol}</p>
         </div>
 
-        {/* 90-Day Replacement Guarantee */}
+        {/* 90-Day Replacement Guarantee & Zero Fee Policy */}
         <div className="flex items-center gap-2 text-[11px] text-slate-400 pt-1 border-t border-white/5">
           <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
           <span>
-            90-Day Free Candidate Replacement SLA against attrition or performance mismatch.
+            90-Day Free Candidate Replacement SLA &amp; ILO Convention 181 Zero-Fee Worker Protection.
           </span>
         </div>
       </div>
