@@ -151,8 +151,8 @@ export const JobsClientWrapper: React.FC = () => {
             </div>
           </div>
 
-          {/* ── Browse by sector: immediately after trust stats ── */}
-          <div className="border-t border-white/10 pt-5 max-w-4xl mx-auto text-center space-y-2.5">
+          {/* ── Browse by sector: hidden completely on mobile ── */}
+          <div className="hidden sm:block border-t border-white/10 pt-5 max-w-4xl mx-auto text-center space-y-2.5">
             <div className="text-[11px] font-bold uppercase tracking-widest text-slate-300">
               Browse by sector:
             </div>

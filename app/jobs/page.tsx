@@ -149,8 +149,8 @@ export default function JobsPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-7 hover:border-[#4DA5EC]/40 transition-all space-y-4">
+            <div className="flex overflow-x-auto pb-4 gap-4 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden -mx-4 px-4 sm:mx-0 sm:px-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible">
+              <div className="w-[85vw] sm:w-[70vw] md:w-auto shrink-0 snap-center rounded-2xl bg-white/[0.03] border border-white/10 p-7 hover:border-[#4DA5EC]/40 transition-all space-y-4">
                 <div className="w-12 h-12 rounded-xl bg-[#DC2F11]/20 border border-[#DC2F11]/40 flex items-center justify-center text-[#DC2F11]">
                   <XCircle className="w-6 h-6" />
                 </div>
@@ -162,7 +162,7 @@ export default function JobsPage() {
                 </p>
               </div>
 
-              <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-7 hover:border-[#4DA5EC]/40 transition-all space-y-4">
+              <div className="w-[85vw] sm:w-[70vw] md:w-auto shrink-0 snap-center rounded-2xl bg-white/[0.03] border border-white/10 p-7 hover:border-[#4DA5EC]/40 transition-all space-y-4">
                 <div className="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
                   <AlertTriangle className="w-6 h-6" />
                 </div>
@@ -174,7 +174,7 @@ export default function JobsPage() {
                 </p>
               </div>
 
-              <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-7 hover:border-[#4DA5EC]/40 transition-all space-y-4">
+              <div className="w-[85vw] sm:w-[70vw] md:w-auto shrink-0 snap-center rounded-2xl bg-white/[0.03] border border-white/10 p-7 hover:border-[#4DA5EC]/40 transition-all space-y-4">
                 <div className="w-12 h-12 rounded-xl bg-[#257CFF]/20 border border-[#257CFF]/40 flex items-center justify-center text-[#4DA5EC]">
                   <FileText className="w-6 h-6" />
                 </div>
@@ -273,7 +273,7 @@ export default function JobsPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="flex overflow-x-auto pb-4 gap-4 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden -mx-4 px-4 sm:mx-0 sm:px-0 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-6 md:overflow-visible">
               {[
                 {
                   icon: Stethoscope,
@@ -318,7 +318,7 @@ export default function JobsPage() {
               ].map((card, i) => {
                 const Icon = card.icon;
                 return (
-                  <div key={i} className="rounded-2xl bg-white/[0.03] border border-white/10 p-6 flex flex-col justify-between hover:border-[#4DA5EC]/40 transition-all space-y-4">
+                  <div key={i} className="w-[85vw] sm:w-[70vw] md:w-auto shrink-0 snap-center rounded-2xl bg-white/[0.03] border border-white/10 p-6 flex flex-col justify-between hover:border-[#4DA5EC]/40 transition-all space-y-4">
                     <div>
                       <div className="flex items-center justify-between mb-4">
                         <div className="w-10 h-10 rounded-xl bg-[#402493]/20 border border-purple-500/40 flex items-center justify-center text-[#4DA5EC]">
@@ -501,7 +501,7 @@ export default function JobsPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="flex overflow-x-auto pb-4 gap-4 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden -mx-4 px-4 sm:mx-0 sm:px-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible">
               {[
                 {
                   category: 'Identity & Travel Documents',
@@ -539,7 +539,7 @@ export default function JobsPage() {
               ].map((col, i) => {
                 const Icon = col.icon;
                 return (
-                  <div key={i} className="rounded-2xl bg-white/[0.03] border border-white/10 p-7 space-y-4">
+                  <div key={i} className="w-[85vw] sm:w-[70vw] md:w-auto shrink-0 snap-center rounded-2xl bg-white/[0.03] border border-white/10 p-7 space-y-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-[#402493]/20 border border-purple-500/40 flex items-center justify-center text-[#4DA5EC]">
                         <Icon className="w-5 h-5" />
@@ -575,7 +575,7 @@ export default function JobsPage() {
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="flex overflow-x-auto pb-4 gap-4 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden -mx-4 px-4 sm:mx-0 sm:px-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible">
               {[
                 {
                   badge: 'UK Healthcare',
@@ -602,7 +602,7 @@ export default function JobsPage() {
                   outcome: 'Sijam confirmed a verified Bratislava automotive plant with active quota for Nigerian production operatives. Her employment contract, Slovak work permit, and pre-departure orientation briefing were handled end-to-end. She relocated on a direct Lagos–Vienna connection with employer accommodation provided.',
                 },
               ].map((cs, i) => (
-                <div key={i} className="rounded-2xl bg-white/[0.03] border border-white/10 p-7 space-y-4">
+                <div key={i} className="w-[85vw] sm:w-[70vw] md:w-auto shrink-0 snap-center rounded-2xl bg-white/[0.03] border border-white/10 p-7 space-y-4">
                   <div className="flex items-center justify-between">
                     <span className={`px-2.5 py-1 rounded text-[10px] font-black uppercase tracking-wider ${cs.badgeColor}`}>
                       {cs.badge}
@@ -643,7 +643,7 @@ export default function JobsPage() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+              <div className="flex overflow-x-auto pb-4 gap-4 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden -mx-4 px-4 sm:mx-0 sm:px-0 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-5 md:overflow-visible">
                 {[
                   {
                     title: 'You Cannot Produce Original Credentials',
@@ -662,7 +662,7 @@ export default function JobsPage() {
                     desc: 'We work strictly within lawful immigration frameworks. We do not facilitate unauthorized border crossings, visa overstays, or fraudulent documentation for any reason.',
                   },
                 ].map((item, i) => (
-                  <div key={i} className="p-5 rounded-2xl bg-black/40 border border-red-500/20 space-y-2">
+                  <div key={i} className="w-[85vw] sm:w-[70vw] md:w-auto shrink-0 snap-center p-5 rounded-2xl bg-black/40 border border-red-500/20 space-y-2">
                     <h3 className="font-heading font-bold text-xs text-red-300 flex items-start gap-2">
                       <XCircle className="w-3.5 h-3.5 text-red-400 shrink-0 mt-0.5" />
                       <span>{item.title}</span>

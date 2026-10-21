@@ -583,12 +583,12 @@ export const JobsDirectory: React.FC<JobsDirectoryProps> = ({
                   </div>
 
                   {/* Right Actions Column */}
-                  <div className="flex flex-row lg:flex-col items-stretch lg:items-end justify-between lg:justify-center gap-2.5 shrink-0 pt-4 lg:pt-0 border-t lg:border-t-0 border-white/10 min-w-[210px]">
+                  <div className="flex flex-col sm:flex-row lg:flex-col items-stretch lg:items-end justify-between lg:justify-center gap-2.5 shrink-0 pt-4 lg:pt-0 border-t lg:border-t-0 border-white/10 w-full sm:w-auto min-w-0 sm:min-w-[210px]">
                     {/* Apply for Quota */}
                     <Link
                       href={`/jobs/${job.slug}/apply`}
                       onClick={(e) => e.stopPropagation()}
-                      className="flex-1 lg:w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white text-xs font-black uppercase tracking-wider shadow-cta hover:shadow-cta-hover hover:scale-[1.02] transition-all text-center border border-[#4DA5EC]/40"
+                      className="w-full sm:flex-1 lg:w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white text-xs font-black uppercase tracking-wider shadow-cta hover:shadow-cta-hover hover:scale-[1.02] transition-all text-center border border-[#4DA5EC]/40"
                     >
                       <span>Apply for Quota</span>
                       <ArrowRight className="w-4 h-4" />
@@ -601,7 +601,7 @@ export const JobsDirectory: React.FC<JobsDirectoryProps> = ({
                         e.stopPropagation();
                         setActiveJobForSpecs(job);
                       }}
-                      className="flex-1 lg:w-full inline-flex items-center justify-center gap-1.5 px-5 py-3 rounded-2xl bg-white/[0.06] hover:bg-white/[0.12] text-white text-xs font-bold border border-white/15 transition-all text-center cursor-pointer"
+                      className="w-full sm:flex-1 lg:w-full inline-flex items-center justify-center gap-1.5 px-5 py-3 rounded-2xl bg-white/[0.06] hover:bg-white/[0.12] text-white text-xs font-bold border border-white/15 transition-all text-center cursor-pointer"
                     >
                       <Eye className="w-4 h-4 text-[#4DA5EC]" />
                       <span>View Specifications</span>

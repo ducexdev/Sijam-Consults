@@ -77,14 +77,14 @@ export const RelocationProcess: React.FC = () => {
           </p>
         </div>
 
-        {/* 4 Step Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        {/* 4 Step Cards Grid / Horizontal Slider on Mobile */}
+        <div className="flex overflow-x-auto pb-4 gap-4 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden -mx-4 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-5 sm:overflow-visible">
           {steps.map((st) => {
             const Icon = st.icon;
             return (
               <div
                 key={st.step}
-                className="p-6 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-purple-500/40 transition-all duration-300 group flex flex-col justify-between space-y-4 backdrop-blur-sm shadow-lg"
+                className="w-[85vw] sm:w-auto shrink-0 snap-center p-6 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-purple-500/40 transition-all duration-300 group flex flex-col justify-between space-y-4 backdrop-blur-sm shadow-lg"
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
