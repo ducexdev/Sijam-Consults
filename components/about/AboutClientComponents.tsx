@@ -263,9 +263,9 @@ export function InteractiveCorridors() {
 
             <Link
               href={ROUTES.assessment}
-              className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-bold text-xs uppercase tracking-wider shadow-cta hover:shadow-cta-hover transition-all"
+              className="w-full group inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-black text-sm tracking-wide shadow-[0_8px_32px_-8px_rgba(77,165,236,0.6)] hover:shadow-[0_12px_40px_-8px_rgba(37,124,255,0.8)] hover:brightness-110 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
             >
-              <span>Assess Eligibility for {active.name}</span>
+              <span>Assess eligibility for {active.name}</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
