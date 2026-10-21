@@ -20,10 +20,9 @@ import {
   Scale,
   Calendar,
   Lock,
-  ChevronDown,
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
-import { POPULAR_DESTINATION_COUNTRIES, ALL_WORLD_COUNTRIES } from '@/lib/data/countries';
+import { CountrySelect } from '@/components/ui/CountrySelect';
 
 export interface AssessmentFormState {
   primaryGoal: 'Study Abroad' | 'Employer Work Permit' | 'Permanent Residency' | 'European Business / Sp. z o.o.';
@@ -340,44 +339,10 @@ export const AssessmentCalculator: React.FC = () => {
                 </div>
 
                 <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <label htmlFor="destination-select" className="block text-sm font-bold text-white">
-                      Preferred Destination Corridor
-                    </label>
-                    <span className="text-[11px] font-semibold text-slate-400">
-                      195+ Global Corridors
-                    </span>
-                  </div>
-                  <div className="relative">
-                    <select
-                      id="destination-select"
-                      value={formData.destinationPreference}
-                      onChange={(e) => setFormData({ ...formData, destinationPreference: e.target.value })}
-                      className="w-full py-3.5 pl-4 pr-10 rounded-xl bg-[#070415] border border-white/20 text-sm text-white focus:outline-none focus:border-[#257CFF] focus:ring-1 focus:ring-[#257CFF] appearance-none transition-all cursor-pointer shadow-inner"
-                    >
-                      <option value="" disabled>Select target destination country...</option>
-                      <optgroup label="Popular Consular Corridors" className="bg-[#0E0926] text-[#4DA5EC] font-bold">
-                        {POPULAR_DESTINATION_COUNTRIES.map((country) => (
-                          <option key={`pop-${country}`} value={country} className="bg-[#070415] text-white">
-                            {country}
-                          </option>
-                        ))}
-                      </optgroup>
-                      <optgroup label="All Countries (A – Z)" className="bg-[#0E0926] text-slate-400 font-bold">
-                        {ALL_WORLD_COUNTRIES.map((country) => (
-                          <option key={`all-${country}`} value={country} className="bg-[#070415] text-white">
-                            {country}
-                          </option>
-                        ))}
-                      </optgroup>
-                    </select>
-                    <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-                      <ChevronDown className="w-4 h-4" />
-                    </div>
-                  </div>
-                  <p className="text-xs text-slate-400 mt-2">
-                    Select your primary target country. Our case officers cross-reference statutory embassy requirements and visa quota availability for your chosen destination.
-                  </p>
+                  <CountrySelect
+                    value={formData.destinationPreference}
+                    onChange={(country) => setFormData({ ...formData, destinationPreference: country })}
+                  />
                 </div>
 
                 <div className="pt-4 flex justify-end">
