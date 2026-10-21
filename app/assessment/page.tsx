@@ -24,7 +24,6 @@ import {
 import { PublicLayout } from '@/components/layout/PublicLayout';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema';
-import { TrustBanner } from '@/components/ui/TrustBanner';
 import { AssessmentCalculator } from '@/components/assessment/AssessmentCalculator';
 import { Accordion, type AccordionItem } from '@/components/ui/Accordion';
 import { ROUTES, COMPANY } from '@/lib/routes';
@@ -115,16 +114,11 @@ export default function AssessmentPage() {
             <Breadcrumbs items={[{ label: 'Relocation Eligibility Assessment' }]} />
           </div>
 
-          {/* Top Trust Banner */}
-          <div className="mb-8 max-w-3xl mx-auto">
-            <TrustBanner showFullDisclaimer={false} />
-          </div>
-
           {/* HERO SECTION */}
           <header className="text-center max-w-4xl mx-auto mb-12 sm:mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.05] border border-white/10 text-xs font-semibold text-slate-300 mb-4">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>CAC-Registered RC: 1715416 · Statutory Pre-Screening Protocol</span>
+              <span>Statutory Consular Pre-Screening Protocol</span>
             </div>
 
             <h1 className="font-heading font-black text-3xl sm:text-5xl lg:text-6xl text-white tracking-tight leading-[1.1]">
