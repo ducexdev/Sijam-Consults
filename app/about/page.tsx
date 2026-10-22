@@ -749,10 +749,10 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* Team Grid: Blessing Attabor & Salami Zainab */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Team Grid: Leadership & Counsel */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               
-              {/* Blessing Attabor */}
+              {/* David Attai Attaboh */}
               <div className="p-8 rounded-3xl bg-gradient-to-br from-white/[0.05] via-white/[0.02] to-transparent border border-white/15 backdrop-blur-2xl shadow-xl flex flex-col justify-between space-y-6 group hover:border-[#257CFF]/40 transition-all">
                 <div className="space-y-5">
                   <div className="flex items-center gap-4">
@@ -761,8 +761,8 @@ export default function AboutPage() {
                       style={{ position: 'relative' }}
                     >
                       <Image
-                        src="/team/Blessing-Attabor.png"
-                        alt="Blessing Attabor — Head of Operations & Senior Consultant"
+                        src="/team/David-Attai-Attaboh.jpeg"
+                        alt="David Attai Attaboh — Head of Operations & Consular Documentation"
                         fill
                         sizes="80px"
                         className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
@@ -773,16 +773,16 @@ export default function AboutPage() {
                         Operations &amp; Consular Compliance
                       </div>
                       <h3 className="font-heading font-black text-xl text-white">
-                        Blessing Attabor
+                        David Attai Attaboh
                       </h3>
                       <p className="text-xs text-slate-300">
-                        Head of Operations &amp; Senior Consultant
+                        Head of Operations &amp; Consular Documentation
                       </p>
                     </div>
                   </div>
 
                   <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
-                    Blessing oversees daily consular operations, document attestation workflows, and file quality audits. Her rigorous eye for detail ensures every client dossier submitted to foreign embassies or the Ministry of Foreign Affairs in Abuja adheres precisely to statutory checklists.
+                    David coordinates daily consular operations, document attestation workflows, and file quality audits. His rigorous standard ensures every client dossier submitted to foreign embassies or the Ministry of Foreign Affairs in Abuja adheres precisely to statutory checklists.
                   </p>
                 </div>
 
@@ -797,26 +797,26 @@ export default function AboutPage() {
                     </li>
                     <li className="flex items-center gap-2">
                       <Check className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
-                      <span>MFA Abuja &amp; High Court Legalization Lead</span>
+                      <span>MFA Abuja &amp; High Court Legalization Protocols</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Check className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
-                      <span>European University Admissions Strategist</span>
+                      <span>Sovereign Dossier Packaging Specialist</span>
                     </li>
                   </ul>
                   <div className="pt-2">
                     <a
-                      href="mailto:blessing@sijamconsults.com"
+                      href="mailto:david@sijamconsults.com"
                       className="inline-flex items-center gap-2 text-xs font-mono text-[#4DA5EC] hover:text-white transition-colors"
                     >
                       <Mail className="w-3.5 h-3.5" />
-                      <span>blessing@sijamconsults.com</span>
+                      <span>david@sijamconsults.com</span>
                     </a>
                   </div>
                 </div>
               </div>
 
-              {/* Salami Zainab Kehinde */}
+              {/* James Egene Friday */}
               <div className="p-8 rounded-3xl bg-gradient-to-br from-white/[0.05] via-white/[0.02] to-transparent border border-white/15 backdrop-blur-2xl shadow-xl flex flex-col justify-between space-y-6 group hover:border-[#257CFF]/40 transition-all">
                 <div className="space-y-5">
                   <div className="flex items-center gap-4">
@@ -825,8 +825,8 @@ export default function AboutPage() {
                       style={{ position: 'relative' }}
                     >
                       <Image
-                        src="/team/Salami-Zainab-Keyinde.png"
-                        alt="Salami Zainab Kehinde — Client Relations & Intake Lead"
+                        src="/team/James-Egene-Friday.jpeg"
+                        alt="James Egene Friday — Recruitment Expert & International Talent Lead"
                         fill
                         sizes="80px"
                         className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
@@ -834,19 +834,19 @@ export default function AboutPage() {
                     </div>
                     <div>
                       <div className="text-[10px] font-mono font-bold text-[#4DA5EC] uppercase tracking-wider">
-                        Client Advisory &amp; Student Support
+                        Recruitment &amp; Manpower Solutions
                       </div>
                       <h3 className="font-heading font-black text-xl text-white">
-                        Salami Zainab Kehinde
+                        James Egene Friday
                       </h3>
                       <p className="text-xs text-slate-300">
-                        Client Relations &amp; Intake Lead
+                        Recruitment Expert &amp; Talent Lead
                       </p>
                     </div>
                   </div>
 
                   <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
-                    Zainab guides prospective students, families, and professionals through their initial eligibility assessments. She coordinates university application dossiers, ensures rapid response times, and supports clients throughout their journey until arrival at their international destination.
+                    James directs international workforce recruitment, bilateral employer matching, and foreign labor quota compliance across European and Gulf corridors. He specializes in vetting technical skills and structuring verified employment pathways.
                   </p>
                 </div>
 
@@ -857,24 +857,88 @@ export default function AboutPage() {
                   <ul className="space-y-1.5 text-xs text-slate-200">
                     <li className="flex items-center gap-2">
                       <Check className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
-                      <span>Lead Admissions Counselor &amp; Candidate Profiler</span>
+                      <span>Certified International Recruitment Specialist</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Check className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
-                      <span>Scholarship Coordination Lead (Cyprus &amp; Poland)</span>
+                      <span>Voivodeship &amp; European Labor Quota Auditor</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Check className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
-                      <span>Pre-Departure Orientation &amp; Settlement Facilitator</span>
+                      <span>Bilateral Employer Placement Coordinator</span>
                     </li>
                   </ul>
                   <div className="pt-2">
                     <a
-                      href="mailto:zainab@sijamconsults.com"
+                      href="mailto:friday@sijamconsults.com"
                       className="inline-flex items-center gap-2 text-xs font-mono text-[#4DA5EC] hover:text-white transition-colors"
                     >
                       <Mail className="w-3.5 h-3.5" />
-                      <span>zainab@sijamconsults.com</span>
+                      <span>friday@sijamconsults.com</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Keziah Simon */}
+              <div className="p-8 rounded-3xl bg-gradient-to-br from-white/[0.05] via-white/[0.02] to-transparent border border-white/15 backdrop-blur-2xl shadow-xl flex flex-col justify-between space-y-6 group hover:border-[#257CFF]/40 transition-all">
+                <div className="space-y-5">
+                  <div className="flex items-center gap-4">
+                    <div
+                      className="relative w-20 h-20 rounded-2xl overflow-hidden border-2 border-white/20 bg-black/40 shadow-lg flex-shrink-0"
+                      style={{ position: 'relative' }}
+                    >
+                      <Image
+                        src="/team/Keziah-Simon.jpeg"
+                        alt="Keziah Simon — Corporate Relations Manager & Client Success Lead"
+                        fill
+                        sizes="80px"
+                        className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                    <div>
+                      <div className="text-[10px] font-mono font-bold text-[#4DA5EC] uppercase tracking-wider">
+                        Corporate Relations &amp; Advisory
+                      </div>
+                      <h3 className="font-heading font-black text-xl text-white">
+                        Keziah Simon
+                      </h3>
+                      <p className="text-xs text-slate-300">
+                        Corporate Relations Manager
+                      </p>
+                    </div>
+                  </div>
+
+                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+                    Keziah spearheads corporate partnerships, institutional liaison, and client success management. She ensures smooth onboarding, proactive communication, and tailored mobility solutions for corporate bodies, families, and individual applicants.
+                  </p>
+                </div>
+
+                <div className="space-y-3 pt-4 border-t border-white/10">
+                  <div className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">
+                    Operational Competencies
+                  </div>
+                  <ul className="space-y-1.5 text-xs text-slate-200">
+                    <li className="flex items-center gap-2">
+                      <Check className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
+                      <span>Corporate Account Management Lead</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
+                      <span>Client Success &amp; Intake Coordinator</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
+                      <span>Institutional Partner Liaison Facilitator</span>
+                    </li>
+                  </ul>
+                  <div className="pt-2">
+                    <a
+                      href="mailto:keziah@sijamconsults.com"
+                      className="inline-flex items-center gap-2 text-xs font-mono text-[#4DA5EC] hover:text-white transition-colors"
+                    >
+                      <Mail className="w-3.5 h-3.5" />
+                      <span>keziah@sijamconsults.com</span>
                     </a>
                   </div>
                 </div>

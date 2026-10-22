@@ -394,7 +394,7 @@ export default function ConsultationPage() {
                     {/* Team preview */}
                     <div className="mt-5 pt-5 border-t border-white/10 flex items-center gap-3">
                       <div className="flex -space-x-2">
-                        {['/team/James-Samson.png', '/team/Blessing-Attabor.png', '/team/Salami-Zainab-Keyinde.png'].map((src, i) => (
+                        {['/team/James-Samson.png', '/team/David-Attai-Attaboh.jpeg', '/team/James-Egene-Friday.jpeg', '/team/Keziah-Simon.jpeg'].map((src, i) => (
                           <div key={i} className="w-9 h-9 rounded-full border-2 border-[#070415] overflow-hidden bg-[#402493]">
                             <Image src={src} alt="Advisor" width={36} height={36} className="object-cover" />
                           </div>
