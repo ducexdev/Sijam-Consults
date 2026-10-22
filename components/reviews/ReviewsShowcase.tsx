@@ -56,10 +56,10 @@ export const ReviewsShowcase: React.FC = () => {
         <button
           type="button"
           onClick={() => setIsReviewModalOpen(true)}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-cta shrink-0 cursor-pointer border border-[#4DA5EC]/30"
+          className="group inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white font-black text-xs sm:text-sm tracking-wide shadow-[0_8px_32px_-8px_rgba(77,165,236,0.6)] hover:shadow-[0_12px_40px_-8px_rgba(37,124,255,0.8)] hover:brightness-110 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shrink-0 cursor-pointer"
         >
           <MessageSquarePlus className="w-4 h-4" />
-          <span>Leave a Review</span>
+          <span>Leave a review</span>
         </button>
       </div>
 
