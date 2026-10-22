@@ -2,6 +2,7 @@ import { ReviewItem } from '../types';
 import { VIDEOS } from '../constants/videos';
 
 export const VISA_PROOFS = [
+  // ── Original catalogue (20 stamps) ──
   { id: 'v1', image: '/visas/1.png', label: 'Poland National D-Type Work Visa', country: 'Poland', category: 'Work Permit' },
   { id: 'v2', image: '/visas/1-1.png', label: 'Poland Voivodeship Multi-Entry Visa', country: 'Poland', category: 'Work Permit' },
   { id: 'v3', image: '/visas/1-2.png', label: 'Schengen Business Stay Visa', country: 'Schengen Area', category: 'Schengen Business' },
@@ -22,6 +23,43 @@ export const VISA_PROOFS = [
   { id: 'v18', image: '/visas/13-1.png', label: 'UK Student Direct Entry Visa', country: 'United Kingdom', category: 'Study Visa' },
   { id: 'v19', image: '/visas/14.png', label: 'Schengen Tourist Approval Stamp', country: 'Schengen Area', category: 'Tourist Visa' },
   { id: 'v20', image: '/visas/15-1.png', label: 'European Corporate Long-Stay Visa', country: 'Poland', category: 'Schengen Business' },
+
+  // ── New catalogue additions (35 stamps) ──
+  { id: 'n1',  image: '/visas/370445e9-2f2d-4652-a307-e632b442ac31.jpeg', label: 'Schengen National Visa Entry Approval', country: 'Schengen Area', category: 'Work Permit' },
+  { id: 'n2',  image: '/visas/ae774094-3676-4439-956e-c77d62b1fc15.jpeg', label: 'European Short-Stay Authorisation', country: 'Schengen Area', category: 'Tourist Visa' },
+  { id: 'n3',  image: '/visas/c9e0be33-9986-4a46-b606-7a9fcc1b2f6a.jpeg', label: 'Poland Work Permit Stamp', country: 'Poland', category: 'Work Permit' },
+  { id: 'n4',  image: '/visas/01d18c65-f34a-48bb-99cc-7662c5c693a2.jpeg', label: 'European Student Admission Visa', country: 'Schengen Area', category: 'Study Visa' },
+  { id: 'n5',  image: '/visas/493ee892-b2ac-4d8d-8627-baca3d7b00ec.jpeg', label: 'Schengen D-Type National Visa', country: 'Schengen Area', category: 'Work Permit' },
+  { id: 'n6',  image: '/visas/572a857a-8fd4-4ff3-b331-e57422915d7e.jpeg', label: 'European Visitor Visa Approval', country: 'Schengen Area', category: 'Tourist Visa' },
+  { id: 'n7',  image: '/visas/7d24e086-3eba-43d9-967c-f366ac8173d6.jpeg', label: 'Poland Skilled Worker Authorization', country: 'Poland', category: 'Work Permit' },
+  { id: 'n8',  image: '/visas/2112c668-7a61-4515-9850-ab6290583544.jpeg', label: 'Schengen Visitor Visa Approval', country: 'Schengen Area', category: 'Tourist Visa' },
+  { id: 'n9',  image: '/visas/d0d68890-bd16-4820-8a46-396208497be9.jpeg', label: 'European Employment National Visa', country: 'Schengen Area', category: 'Work Permit' },
+  { id: 'n10', image: '/visas/22706101-3be8-40b7-ae72-6cad838e1588.jpeg', label: 'Poland Student Visa Authorization', country: 'Poland', category: 'Study Visa' },
+  { id: 'n11', image: '/visas/e8e2db87-30f5-4f2d-9dd3-73c91238ac85.jpeg', label: 'Schengen Work Permit Entry', country: 'Schengen Area', category: 'Work Permit' },
+  { id: 'n12', image: '/visas/0721ce27-654b-45f6-84a4-41dcdc7bd6a3.jpeg', label: 'Poland Voivodeship Labor Authorization', country: 'Poland', category: 'Work Permit' },
+  { id: 'n13', image: '/visas/95ccd047-a579-44ec-9fd9-233b581f9d7f.jpeg', label: 'European National Visa (Long Stay)', country: 'Schengen Area', category: 'Schengen Business' },
+  { id: 'n14', image: '/visas/a62a6064-4f58-48b7-a345-c0a5f1a994ae.jpeg', label: 'Poland Employment Visa Grant', country: 'Poland', category: 'Work Permit' },
+  { id: 'n15', image: '/visas/83c8ba60-9929-4808-b8d3-8503563fae9f.jpeg', label: 'Schengen Multi-Entry Permit', country: 'Schengen Area', category: 'Tourist Visa' },
+  { id: 'n16', image: '/visas/a905cd9e-79a2-4648-bafc-c01350e1450b.jpeg', label: 'Poland Corporate Business Visa', country: 'Poland', category: 'Schengen Business' },
+  { id: 'n17', image: '/visas/17d284bc-7d80-4108-8624-7ee06fdd1e9e.jpeg', label: 'European Study Permit Approval', country: 'Schengen Area', category: 'Study Visa' },
+  { id: 'n18', image: '/visas/124e4e0f-829c-4c0d-b1e5-3a1ef20ec3eb.jpeg', label: 'Schengen Skilled Labor Entry Visa', country: 'Schengen Area', category: 'Work Permit' },
+  { id: 'n19', image: '/visas/3d584b9d-9624-42a3-80d6-3150ae4dc646.jpeg', label: 'Poland Work Permit Authorization', country: 'Poland', category: 'Work Permit' },
+  { id: 'n20', image: '/visas/8dbb859b-2cc3-41fb-80f2-f573d60804dc.jpeg', label: 'European Tourist Entry Approval', country: 'Schengen Area', category: 'Tourist Visa' },
+  { id: 'n21', image: '/visas/3e519c13-cc66-4b05-b2b8-f1fe1a4bd5f0.jpeg', label: 'Schengen National D-Type Work Visa', country: 'Schengen Area', category: 'Work Permit' },
+  { id: 'n22', image: '/visas/9aa05b48-7fbb-4b1b-b84c-8934191d0be3.jpeg', label: 'Poland Multi-Category Visa Stamp', country: 'Poland', category: 'Work Permit' },
+  { id: 'n23', image: '/visas/7773299e-25c4-45d3-9b05-676476495014.jpeg', label: 'European Employment Permit Grant', country: 'Schengen Area', category: 'Work Permit' },
+  { id: 'n24', image: '/visas/19ac3efe-82d9-46ab-88d7-d497ea0fa6bc.jpeg', label: 'Schengen Student Admission Visa', country: 'Schengen Area', category: 'Study Visa' },
+  { id: 'n25', image: '/visas/e208904f-39bb-4524-a196-97537b48b74c.jpeg', label: 'Poland Visa Authorization Stamp', country: 'Poland', category: 'Work Permit' },
+  { id: 'n26', image: '/visas/e1c287e9-a563-49fa-88ca-f144bbf24c76.jpeg', label: 'European Short-Stay Entry Approval', country: 'Schengen Area', category: 'Tourist Visa' },
+  { id: 'n27', image: '/visas/64b8f53d-a6a7-4552-ad17-0b9fd442e235.jpeg', label: 'Schengen National Work Authorization', country: 'Schengen Area', category: 'Work Permit' },
+  { id: 'n28', image: '/visas/3d34fff5-9909-4294-93b4-95b865065259.jpeg', label: 'Poland Student Visa Entry Approval', country: 'Poland', category: 'Study Visa' },
+  { id: 'n29', image: '/visas/aae0740d-9019-4924-aeff-be75b6cf88c2.jpeg', label: 'European Long-Stay Visa Grant', country: 'Schengen Area', category: 'Schengen Business' },
+  { id: 'n30', image: '/visas/768b6ef2-352d-4c7d-bf4b-4219a475aee0.jpeg', label: 'Schengen Business Visa Authorization', country: 'Schengen Area', category: 'Schengen Business' },
+  { id: 'n31', image: '/visas/0a582770-c15d-46c1-9b72-1210d445d382.jpeg', label: 'Poland Employment Entry National Visa', country: 'Poland', category: 'Work Permit' },
+  { id: 'n32', image: '/visas/01aa4480-b912-47f6-9698-8342f66d3012.jpeg', label: 'European Work Permit Stamp', country: 'Schengen Area', category: 'Work Permit' },
+  { id: 'n33', image: '/visas/003e9d5b-ff05-445a-b662-f6c69909bef6.jpeg', label: 'Schengen Short-Stay Authorization', country: 'Schengen Area', category: 'Tourist Visa' },
+  { id: 'n34', image: '/visas/b6902151-8558-4f81-b141-d17d234ef27f.jpeg', label: 'European National Visa Long-Stay', country: 'Schengen Area', category: 'Work Permit' },
+  { id: 'n35', image: '/visas/53d9c137-8a8b-41b9-9f35-c4999b9d1a00.jpeg', label: 'Poland Voivodeship Work Authorization', country: 'Poland', category: 'Work Permit' },
 ];
 
 export const CLIENT_REVIEWS: ReviewItem[] = [

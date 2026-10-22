@@ -224,7 +224,7 @@ export default function ReviewsPage() {
                     <span>Verified Evidence</span>
                   </div>
                   <span className="text-xs text-slate-300 font-mono">
-                    RC: {COMPANY.cacNumber} • 33+ Catalogued Visa Stamps
+                    RC: {COMPANY.cacNumber} • 55+ Catalogued Visa Stamps
                   </span>
                 </div>
 
@@ -268,7 +268,7 @@ export default function ReviewsPage() {
                 {/* Trust Verification Ledger */}
                 <div className="pt-4 grid grid-cols-2 sm:grid-cols-4 gap-3 border-t border-white/10">
                   <div className="p-3 rounded-xl bg-white/[0.03] border border-white/10">
-                    <div className="text-xl sm:text-2xl font-heading font-black text-white">33+</div>
+                    <div className="text-xl sm:text-2xl font-heading font-black text-white">55+</div>
                     <div className="text-[10px] font-mono text-[#4DA5EC] uppercase">Visa Stamps</div>
                   </div>
                   <div className="p-3 rounded-xl bg-white/[0.03] border border-white/10">
@@ -403,7 +403,7 @@ export default function ReviewsPage() {
                 </p>
                 <div className="pt-2 text-xs font-semibold text-emerald-400 flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
-                  <span>Sijam catalogues 33+ real, high-resolution redacted stamps</span>
+                  <span>Sijam catalogues 55+ real, high-resolution redacted stamps</span>
                 </div>
               </div>
 

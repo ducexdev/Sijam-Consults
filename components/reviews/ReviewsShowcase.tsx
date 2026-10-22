@@ -30,7 +30,7 @@ export const ReviewsShowcase: React.FC = () => {
 
   const tabs: { id: ReviewTab; label: string }[] = [
     { id: 'all', label: 'All Verified Proofs' },
-    { id: 'stamps', label: 'Visa Approval Stamps (33+)' },
+    { id: 'stamps', label: 'Visa Approval Stamps (55+)' },
     { id: 'videos', label: 'Client Video Recordings' },
     { id: 'corporate', label: 'Corporate Endorsements' },
   ];
