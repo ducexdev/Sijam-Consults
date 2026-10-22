@@ -8,7 +8,6 @@ import {
   Building2,
   Plane,
   Sparkles,
-  Plus,
   Briefcase,
   TrendingUp,
 } from 'lucide-react';
@@ -91,26 +90,6 @@ export const JobsClientWrapper: React.FC = () => {
 
         {/* ── Content ── */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full space-y-6 sm:space-y-7">
-          {/* TOP RIGHT CORNER: Sijam Management "+ Post A Job" Action Bar */}
-          <div className="flex items-center justify-between gap-3 w-full pb-1">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/50 border border-white/15 text-slate-300 text-xs backdrop-blur-md">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="font-medium text-white/95">Official Foreign Quota Board</span>
-              <span className="text-white/30 hidden sm:inline">•</span>
-              <span className="text-slate-400 hidden sm:inline">Verified Employer Sponsorships</span>
-            </div>
-
-            {/* THE CANONICAL "+ POST A JOB" BUTTON IN TOP RIGHT CORNER (BRAND CONSISTENT) */}
-            <button
-              type="button"
-              onClick={() => setIsPostModalOpen(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white font-extrabold text-xs uppercase tracking-wider shadow-[0_4px_24px_rgba(37,124,255,0.45)] hover:shadow-[0_8px_32px_rgba(37,124,255,0.65)] border border-[#4DA5EC]/40 transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0"
-            >
-              <Plus className="w-4 h-4 stroke-[3]" />
-              <span>Post A Job</span>
-            </button>
-          </div>
-
           {/* Main Headline & Write-up (Centered) */}
           <div className="space-y-3.5 max-w-5xl mx-auto text-center">
             <h1 className="font-heading font-black text-2xl sm:text-3xl md:text-4xl lg:text-[42px] xl:text-[46px] text-white tracking-tight leading-tight drop-shadow-xl sm:whitespace-nowrap">
