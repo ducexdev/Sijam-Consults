@@ -24,6 +24,9 @@ export const ReviewsShowcase: React.FC = () => {
   const [selectedProof, setSelectedProof] = useState<typeof VISA_PROOFS[0] | null>(null);
   const [activeTab, setActiveTab] = useState<ReviewTab>('all');
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [isVisaPaused, setIsVisaPaused] = useState(false);
+
+  const duplicatedProofs = [...VISA_PROOFS, ...VISA_PROOFS];
 
   const tabs: { id: ReviewTab; label: string }[] = [
     { id: 'all', label: 'All Verified Proofs' },
@@ -124,57 +127,100 @@ export const ReviewsShowcase: React.FC = () => {
       {/* Official Visa Stamps Gallery */}
       {(activeTab === 'all' || activeTab === 'stamps') && (
         <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-sm font-bold text-white">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-2 text-sm font-bold text-white flex-wrap">
+              <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
               <span>Catalogued Visa Approval Stamps (Redacted for NDPR Compliance)</span>
+              <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[10px] font-bold text-emerald-300">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                Live Carousel ({VISA_PROOFS.length}+ Stamps)
+              </span>
             </div>
-            <span className="text-xs text-slate-400">Click any stamp to inspect in high resolution</span>
+            <div className="flex items-center gap-2 text-xs text-slate-400">
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#4DA5EC]" />
+              <span>Hover to pause • Click any stamp to inspect in high resolution</span>
+            </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-            {VISA_PROOFS.map((proof) => (
+          {/* ── HORIZONTALLY SLIDING CAROUSEL TRACK (PAUSES ON HOVER) ── */}
+          <div
+            className="relative -mx-4 sm:-mx-6 px-4 sm:px-6 overflow-hidden py-3"
+            onMouseEnter={() => setIsVisaPaused(true)}
+            onMouseLeave={() => setIsVisaPaused(false)}
+            onTouchStart={() => setIsVisaPaused(true)}
+            onTouchEnd={() => setIsVisaPaused(false)}
+          >
+            {/* Left gradient fade mask */}
+            <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-12 sm:w-24 z-20 bg-gradient-to-r from-[#070415] to-transparent" />
+            {/* Right gradient fade mask */}
+            <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-12 sm:w-24 z-20 bg-gradient-to-l from-[#070415] to-transparent" />
+
+            {/* Sliding Track Container */}
+            <div className="overflow-x-auto scrollbar-none py-2">
               <div
-                key={proof.id}
-                onClick={() => setSelectedProof(proof)}
-                className="group cursor-pointer rounded-2xl bg-white p-2.5 sm:p-3 border border-white/15 hover:border-[#F45A2A] transition-all duration-300 hover:scale-[1.03] shadow-xl flex flex-col justify-between"
+                className="flex items-stretch gap-4 sm:gap-5 w-max"
+                style={{
+                  animation: 'visa-marquee 50s linear infinite',
+                  animationPlayState: isVisaPaused || Boolean(selectedProof) ? 'paused' : 'running',
+                  willChange: 'transform',
+                }}
               >
-                <div
-                  className="relative aspect-[4/3] rounded-xl overflow-hidden bg-slate-100 mb-3"
-                  style={{ position: 'relative' }}
-                >
-                  <Image
-                    src={proof.image}
-                    alt={proof.label}
-                    fill
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 280px"
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <span className="w-10 h-10 rounded-full bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white flex items-center justify-center shadow-lg border border-[#4DA5EC]/40">
-                      <ZoomIn className="w-5 h-5" />
-                    </span>
-                  </div>
-                  <div className="absolute top-2 left-2">
-                    <span className="bg-emerald-600 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider flex items-center gap-1 shadow">
-                      <CheckCircle2 className="w-2.5 h-2.5" />
-                      Verified
-                    </span>
-                  </div>
-                </div>
+                {duplicatedProofs.map((proof, idx) => (
+                  <div
+                    key={`${proof.id}-${idx}`}
+                    onClick={() => setSelectedProof(proof)}
+                    className="w-[260px] sm:w-[280px] shrink-0 group cursor-pointer rounded-2xl bg-white p-2.5 sm:p-3 border border-white/15 hover:border-[#4DA5EC] transition-all duration-300 hover:scale-[1.03] shadow-xl flex flex-col justify-between"
+                  >
+                    <div
+                      className="relative aspect-[4/3] rounded-xl overflow-hidden bg-slate-100 mb-3"
+                      style={{ position: 'relative' }}
+                    >
+                      <Image
+                        src={proof.image}
+                        alt={proof.label}
+                        fill
+                        sizes="280px"
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span className="w-10 h-10 rounded-full bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white flex items-center justify-center shadow-lg border border-[#4DA5EC]/40">
+                          <ZoomIn className="w-5 h-5" />
+                        </span>
+                      </div>
+                      <div className="absolute top-2 left-2">
+                        <span className="bg-emerald-600 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider flex items-center gap-1 shadow">
+                          <CheckCircle2 className="w-2.5 h-2.5" />
+                          Verified
+                        </span>
+                      </div>
+                    </div>
 
-                <div>
-                  <div className="text-[11px] font-bold text-slate-800 line-clamp-1">
-                    {proof.label}
+                    <div>
+                      <div className="text-[11px] font-bold text-slate-800 line-clamp-1">
+                        {proof.label}
+                      </div>
+                      <div className="text-[10px] text-slate-500 flex items-center justify-between mt-1">
+                        <span>{proof.country}</span>
+                        <span className="text-[#402493] font-semibold">{proof.category}</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-[10px] text-slate-500 flex items-center justify-between mt-1">
-                    <span>{proof.country}</span>
-                    <span className="text-[#402493] font-semibold">{proof.category}</span>
-                  </div>
-                </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
+
+          {/* Marquee keyframe injection */}
+          <style>{`
+            @keyframes visa-marquee {
+              0% {
+                transform: translateX(0);
+              }
+              100% {
+                transform: translateX(-50%);
+              }
+            }
+          `}</style>
         </div>
       )}
 
