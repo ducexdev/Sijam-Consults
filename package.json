@@ -10,6 +10,7 @@
     "deploy": "node scripts/patch-opennext.mjs && opennextjs-cloudflare build && node scripts/patch-worker.mjs && opennextjs-cloudflare deploy",
     "start": "next start",
     "lint": "eslint",
+    "sync:secrets": "node scripts/sync-secrets.mjs",
     "test": "node --test tests/*.test.mjs",
     "test:security": "node --test tests/security-phase1.test.mjs",
     "verify:release": "node scripts/release-gate-verify.mjs"
