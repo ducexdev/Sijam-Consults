@@ -201,7 +201,7 @@ export function AdminDashboardClient({
 
   // Once authenticated, render the full SaaS platform
   return (
-    <div className="min-h-screen bg-[#070B14] flex flex-col text-slate-100">
+    <div className="min-h-screen bg-[#050814] flex flex-col text-slate-100">
       {/* Top Header */}
       <AdminHeader
         currentStaff={currentStaff}
@@ -229,7 +229,7 @@ export function AdminDashboardClient({
         />
 
         {/* Content View Container */}
-        <main className="flex-1 p-6 lg:p-8 overflow-y-auto max-w-7xl w-full">
+        <main className="flex-1 p-6 lg:p-8 overflow-y-auto max-w-[1600px] w-full">
           {currentTab === 'overview' && (
             <OverviewView
               metrics={initialMetrics}
