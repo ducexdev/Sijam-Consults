@@ -20,16 +20,18 @@ const __dirname = path.dirname(__filename);
 const webDir = path.resolve(__dirname, '..');
 
 test('SEC-01: Zero plaintext administrator credentials in git-tracked code', () => {
+  const target1 = ['Sijam', 'Admin'].join('');
   try {
-    const gitGrepAdmin = execSync('git grep "SijamAdmin"', { cwd: webDir, encoding: 'utf8' });
-    assert.fail(`Found hardcoded SijamAdmin in repository:\n${gitGrepAdmin}`);
+    const gitGrepAdmin = execSync(`git grep "${target1}" -- ":!tests/*"`, { cwd: webDir, encoding: 'utf8' });
+    assert.fail(`Found hardcoded ${target1} in repository:\n${gitGrepAdmin}`);
   } catch (err) {
     // Exit code 1 means no matches were found — this is the expected secure state
     assert.equal(err.status, 1, 'Expected git grep to find 0 matches');
   }
 
+  const target2 = ['sijam', '2026'].join('');
   try {
-    const gitGrepPasscode = execSync('git grep "sijam2026"', { cwd: webDir, encoding: 'utf8' });
+    const gitGrepPasscode = execSync(`git grep "${target2}" -- ":!tests/*"`, { cwd: webDir, encoding: 'utf8' });
     assert.fail(`Found hardcoded passcode in repository:\n${gitGrepPasscode}`);
   } catch (err) {
     assert.equal(err.status, 1, 'Expected git grep to find 0 matches');
@@ -37,7 +39,8 @@ test('SEC-01: Zero plaintext administrator credentials in git-tracked code', () 
 });
 
 test('SEC-02: Zero dummy admin UUID fallbacks in server actions and API handlers', () => {
-  const output = execSync('git grep "00000000-0000-0000-0000-000000000001"', { cwd: webDir, encoding: 'utf8' });
+  const targetUuid = ['00000000', '0000', '0000', '0000', '000000000001'].join('-');
+  const output = execSync(`git grep "${targetUuid}" -- ":!tests/*"`, { cwd: webDir, encoding: 'utf8' });
   const lines = output.trim().split('\n');
   // Only lib/db/repository.ts seed configuration is allowed to reference the initial profile UUID
   for (const line of lines) {

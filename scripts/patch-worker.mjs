@@ -48,7 +48,8 @@ export default {
                 // Fast path: try serving directly from Cloudflare Static Assets
                 // Pre-rendered pages (e.g. /, /about, /services, etc.) take 0ms Worker CPU,
                 // completely preventing Cloudflare Error 1102 (exceeded CPU time limit).
-                if (env.ASSETS && request.method === "GET") {
+                // IMPORTANT: Only for GET requests, and NEVER for /admin or /api routes.
+                if (env.ASSETS && request.method === "GET" && !url.pathname.startsWith("/admin") && !url.pathname.startsWith("/api")) {
                     try {
                         const assetResponse = await env.ASSETS.fetch(request);
                         if (assetResponse && assetResponse.status !== 404) {
@@ -124,8 +125,15 @@ if (fs.existsSync(nextAppDir) && fs.existsSync(openNextAssetsDir)) {
       const fullPath = path.join(dir, entry.name);
       const relPath = path.join(relative, entry.name);
       if (entry.isDirectory()) {
+        // Exclude internal admin routes and route groups from static assets so Server Actions are never blocked
+        if (entry.name === 'admin' || entry.name.startsWith('admin') || entry.name === '(auth)' || entry.name === '(protected)') {
+          continue;
+        }
         copyStaticHtml(fullPath, relPath);
       } else if (entry.name.endsWith('.html') && !entry.name.startsWith('_')) {
+        if (relPath.startsWith('admin') || relPath.startsWith('/admin')) {
+          continue;
+        }
         const targetPath = path.join(openNextAssetsDir, relPath);
         fs.mkdirSync(path.dirname(targetPath), { recursive: true });
         fs.copyFileSync(fullPath, targetPath);
