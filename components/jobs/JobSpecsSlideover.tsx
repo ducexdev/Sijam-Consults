@@ -101,12 +101,31 @@ export const JobSpecsSlideover: React.FC<JobSpecsSlideoverProps> = ({
           {/* Main Title Block */}
           <div className="space-y-3">
             <div className="flex items-center gap-2 flex-wrap text-xs">
-              <span className="px-3 py-1 rounded-full font-bold bg-[#402493]/70 text-purple-200 border border-purple-500/30">
-                {job.country}
+              <span className="px-3 py-1 rounded-full font-bold bg-[#402493]/70 text-purple-200 border border-purple-500/30 flex items-center gap-1.5">
+                <span>{job.flag || '🌍'}</span>
+                <span>{job.country}</span>
               </span>
               <span className="px-3 py-1 rounded-full font-medium bg-white/[0.06] text-slate-300 border border-white/10">
                 {job.employmentType}
               </span>
+              {job.ageRequirement && (
+                <span className="px-3 py-1 rounded-full font-bold bg-amber-950/60 text-amber-300 border border-amber-800/40 text-[11px] flex items-center gap-1">
+                  <span>🎂 Age:</span>
+                  <span>{job.ageRequirement}</span>
+                </span>
+              )}
+              {job.processingTime && (
+                <span className="px-3 py-1 rounded-full font-bold bg-emerald-950/60 text-emerald-300 border border-emerald-800/40 text-[11px] flex items-center gap-1">
+                  <span>⏳ Processing:</span>
+                  <span>{job.processingTime}</span>
+                </span>
+              )}
+              {job.eligibleCountries && job.eligibleCountries.length > 0 && (
+                <span className="px-3 py-1 rounded-full font-bold bg-blue-950/60 text-blue-300 border border-blue-800/40 text-[11px] flex items-center gap-1">
+                  <span>🌍 Passports:</span>
+                  <span>{job.eligibleCountries.join(', ')}</span>
+                </span>
+              )}
               {job.isEmployerVerified && (
                 <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full font-bold text-emerald-300 bg-emerald-950/60 border border-emerald-800/40 text-[11px]">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
@@ -164,6 +183,29 @@ export const JobSpecsSlideover: React.FC<JobSpecsSlideoverProps> = ({
               <span>Full consular visa dossier packaging and appointment advisory managed by Sijam Consults.</span>
             </div>
           </div>
+
+          {/* General Worker Trade Breakdown */}
+          {job.generalWorkerSectors && job.generalWorkerSectors.length > 0 && (
+            <div className="p-5 rounded-2xl bg-amber-950/30 border border-amber-500/30 space-y-3">
+              <div className="flex items-center gap-2 text-amber-300 font-bold text-sm">
+                <span className="text-base">🧰</span>
+                <span>General Worker Trade Specializations</span>
+              </div>
+              <p className="text-xs text-slate-300">
+                This quota requires multi-trade basic adaptability across the following operational domains:
+              </p>
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                {job.generalWorkerSectors.map((sector, idx) => (
+                  <span
+                    key={idx}
+                    className="px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs font-semibold"
+                  >
+                    ✓ {sector}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Relocation Perks */}
           {job.perks && job.perks.length > 0 && (

@@ -20,6 +20,10 @@ export interface CreateJobInput {
   deadline: string;
   status: JobStatus;
   acceptsApplications: boolean;
+  ageRequirement?: string | null;
+  eligibleCountries?: string[] | null;
+  processingTime?: string | null;
+  generalWorkerSectors?: string[] | null;
 }
 
 export async function apiCreateJob(jobData: CreateJobInput, adminId?: string): Promise<JobRecord> {

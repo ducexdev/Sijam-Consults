@@ -28,13 +28,18 @@ import {
   UserCheck,
   Mail,
   ExternalLink,
+  Clock,
+  Users,
 } from 'lucide-react';
 import { JobListing, JobCategory, EmploymentType } from '@/lib/types';
 import {
   JOB_DESTINATIONS,
+  ALL_JOB_DESTINATIONS,
   DESTINATION_REGIONS,
+  WORLD_DESTINATION_REGIONS,
   COMPREHENSIVE_SECTORS,
   SECTOR_GROUPS,
+  GENERAL_WORKER_SUB_SECTORS,
 } from '@/lib/data/jobs';
 import {
   apiLoginStaff as loginStaff,
@@ -58,7 +63,7 @@ interface StaffUser {
 }
 
 const CATEGORIES: JobCategory[] = COMPREHENSIVE_SECTORS.map((s) => s.name as JobCategory);
-const DESTINATIONS = JOB_DESTINATIONS;
+const DESTINATIONS = ALL_JOB_DESTINATIONS;
 
 const PERK_OPTIONS = [
   'Voivodeship Permit Sponsored',
@@ -107,6 +112,26 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
   const [vacanciesCount, setVacanciesCount] = useState<number>(10);
   const [experienceLevel, setExperienceLevel] = useState('Mid-Level (2+ Years)');
   const [deadline, setDeadline] = useState('2026-12-31');
+
+  // Candidate Age Restriction Bracket (UX Psychology)
+  const [hasAgeRestriction, setHasAgeRestriction] = useState<boolean>(true);
+  const [ageMin, setAgeMin] = useState<number>(21);
+  const [ageMax, setAgeMax] = useState<number>(45);
+
+  // Eligible Nationalities / Countries Restriction
+  const [isAllNationalities, setIsAllNationalities] = useState<boolean>(true);
+  const [eligibleCountriesText, setEligibleCountriesText] = useState<string>('All Countries / Worldwide');
+
+  // Document Processing Time
+  const [processingTime, setProcessingTime] = useState<string>('1 – 2 Months');
+
+  // General Worker ("Others") Sub-Sector Selection
+  const [generalWorkerSubSector, setGeneralWorkerSubSector] = useState<string>(
+    GENERAL_WORKER_SUB_SECTORS[0].name
+  );
+  const [exactGeneralWorkerSectors, setExactGeneralWorkerSectors] = useState<string>(
+    'Electrician (Basic), Plumbing, Construction, Agriculture'
+  );
 
   // Step 2: Remuneration & Relocation Perks
   const [currency, setCurrency] = useState('EUR');
@@ -187,7 +212,9 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
   }, [selectedCountry]);
 
   // Quick preset loader for management convenience
-  const loadPreset = (preset: 'poland_nurse' | 'uk_care' | 'slovakia_welder' | 'hgv_driver') => {
+  const loadPreset = (
+    preset: 'poland_nurse' | 'uk_care' | 'slovakia_welder' | 'hgv_driver' | 'general_worker'
+  ) => {
     if (preset === 'poland_nurse') {
       setTitle('Registered General Nurse (Hospital Placement)');
       setSelectedCountry('Poland');
@@ -196,6 +223,12 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
       setSalaryMin('2400');
       setSalaryMax('3400');
       setVacanciesCount(15);
+      setHasAgeRestriction(true);
+      setAgeMin(22);
+      setAgeMax(48);
+      setIsAllNationalities(true);
+      setEligibleCountriesText('All Countries / Worldwide');
+      setProcessingTime('1 – 2 Months');
       setSelectedPerks([
         'Voivodeship Permit Sponsored',
         'Subsidized Accommodation',
@@ -211,6 +244,12 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
       setSalaryMax('29500');
       setSalaryPeriod('/ year');
       setVacanciesCount(20);
+      setHasAgeRestriction(true);
+      setAgeMin(21);
+      setAgeMax(50);
+      setIsAllNationalities(false);
+      setEligibleCountriesText('Nigeria, Ghana, Sierra Leone, Kenya');
+      setProcessingTime('4 – 6 Weeks');
       setSelectedPerks([
         'Certificate of Sponsorship (CoS)',
         'Overtime Shifts Available (1.5x)',
@@ -224,6 +263,12 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
       setSalaryMin('1900');
       setSalaryMax('2700');
       setVacanciesCount(12);
+      setHasAgeRestriction(true);
+      setAgeMin(21);
+      setAgeMax(45);
+      setIsAllNationalities(true);
+      setEligibleCountriesText('All Countries / Worldwide');
+      setProcessingTime('2 – 3 Months');
       setSelectedPerks([
         'Furnished Company Housing Included',
         'Safety Gear & Tooling Provided',
@@ -237,10 +282,39 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
       setSalaryMin('2500');
       setSalaryMax('3600');
       setVacanciesCount(25);
+      setHasAgeRestriction(true);
+      setAgeMin(23);
+      setAgeMax(50);
+      setIsAllNationalities(true);
+      setEligibleCountriesText('All Countries / Worldwide');
+      setProcessingTime('1 – 2 Months');
       setSelectedPerks([
         'Voivodeship Permit Sponsored',
         'EU Schengen Travel Mobility',
         'Overtime Shifts Available (1.5x)',
+      ]);
+    } else if (preset === 'general_worker') {
+      setTitle('Multi-Skilled General Worker (Construction, Plumbing & Electrical Support)');
+      setSelectedCountry('Poland');
+      setLocation('Poznań & Wrocław, Poland');
+      setCategory('Others (General Worker)');
+      setGeneralWorkerSubSector(GENERAL_WORKER_SUB_SECTORS[0].name);
+      setExactGeneralWorkerSectors('Electrician (Basic), Plumbing, Construction, Agriculture, Handyman');
+      setHasAgeRestriction(true);
+      setAgeMin(21);
+      setAgeMax(45);
+      setIsAllNationalities(false);
+      setEligibleCountriesText('Nigeria, Ghana, Sierra Leone');
+      setProcessingTime('1 – 2 Months');
+      setSalaryMin('1850');
+      setSalaryMax('2600');
+      setVacanciesCount(20);
+      setSelectedPerks([
+        'Voivodeship Permit Sponsored',
+        'Furnished Company Housing Included',
+        'Safety Gear & Tooling Provided',
+        'Paid Language Immersion Course',
+        'EU Schengen Travel Mobility',
       ]);
     }
     setValidationError(null);
@@ -340,6 +414,28 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
         setValidationError('Please specify at least 1 open quota spot.');
         return false;
       }
+      if (!processingTime.trim()) {
+        setValidationError('Please specify the Document Processing Time (e.g. 1 – 2 Months).');
+        return false;
+      }
+      if (hasAgeRestriction) {
+        if (ageMin < 18) {
+          setValidationError('Minimum age cannot be below 18 years for legal foreign employment.');
+          return false;
+        }
+        if (ageMax < ageMin) {
+          setValidationError('Maximum age cannot be less than the minimum age.');
+          return false;
+        }
+      }
+      if (!isAllNationalities && !eligibleCountriesText.trim()) {
+        setValidationError('Please specify the eligible countries/nationalities or choose All Nationalities.');
+        return false;
+      }
+      if ((category === 'Others (General Worker)' || category === 'Others') && !exactGeneralWorkerSectors.trim()) {
+        setValidationError('Please specify the exact sectors or categories for the General Worker position (e.g. Electrician, Plumbing, Agriculture).');
+        return false;
+      }
     } else if (step === 2) {
       const min = Number(salaryMin);
       const max = Number(salaryMax);
@@ -409,6 +505,36 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
 
       const categorySlug = category.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
+      const ageRequirement = hasAgeRestriction ? `${ageMin} – ${ageMax} years` : '18+ (No upper age restriction)';
+      const isGeneralWorker = category === 'Others (General Worker)' || category === 'Others';
+      const generalWorkerTrades = isGeneralWorker
+        ? exactGeneralWorkerSectors.split(',').map((s) => s.trim()).filter(Boolean)
+        : undefined;
+      const eligibleCountriesList = isAllNationalities
+        ? ['All Nationalities']
+        : eligibleCountriesText.split(',').map((s) => s.trim()).filter(Boolean);
+
+      // Prepend screening criteria to eligibility requirements if not already present
+      const finalEligibility = [...eligibilityRequirements.filter((r) => r.trim() !== '')];
+      if (hasAgeRestriction) {
+        const ageMsg = `Candidate Age Bracket: Verified between ${ageMin} and ${ageMax} years old at time of application.`;
+        if (!finalEligibility.some((r) => r.toLowerCase().includes('age'))) {
+          finalEligibility.unshift(ageMsg);
+        }
+      }
+      if (!isAllNationalities && eligibleCountriesList.length > 0) {
+        const countryMsg = `Eligible Passports & Nationalities: Restricted to ${eligibleCountriesList.join(', ')}.`;
+        if (!finalEligibility.some((r) => r.toLowerCase().includes('eligible') || r.toLowerCase().includes('passport'))) {
+          finalEligibility.unshift(countryMsg);
+        }
+      }
+      if (isGeneralWorker && generalWorkerTrades && generalWorkerTrades.length > 0) {
+        const workerMsg = `General Worker Trade Capabilities: Practical basic proficiency in ${generalWorkerTrades.join(', ')}.`;
+        if (!finalEligibility.some((r) => r.toLowerCase().includes('general worker'))) {
+          finalEligibility.unshift(workerMsg);
+        }
+      }
+
       // Persist to Centralized Database Repository with Audit Logging
       await adminCreateJob(
         {
@@ -422,7 +548,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
           salaryRange: formattedSalary,
           description: description.trim(),
           responsibilities: responsibilities.filter((r) => r.trim() !== ''),
-          eligibilityRequirements: eligibilityRequirements.filter((r) => r.trim() !== ''),
+          eligibilityRequirements: finalEligibility,
           visaSupportDetails: visaSupportDetails.trim(),
           applicationInstructions:
             'Submit your CV, educational diplomas, and international passport bio-data page. Sijam Consults will schedule an initial file verification.',
@@ -430,6 +556,10 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
           status: 'open',
           acceptsApplications: true,
           slug: generatedSlug,
+          ageRequirement,
+          eligibleCountries: eligibleCountriesList,
+          processingTime: processingTime.trim(),
+          generalWorkerSectors: generalWorkerTrades || null,
         },
         staffUser.id
       );
@@ -452,7 +582,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
         status: 'Open',
         description: description.trim(),
         responsibilities: responsibilities.filter((r) => r.trim() !== ''),
-        eligibilityRequirements: eligibilityRequirements.filter((r) => r.trim() !== ''),
+        eligibilityRequirements: finalEligibility,
         visaSupportDetails: visaSupportDetails.trim(),
         applicationInstructions:
           'Submit your CV, educational diplomas, and international passport bio-data page. Sijam Consults will schedule an initial file verification.',
@@ -462,6 +592,10 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
         experienceLevel: experienceLevel,
         vacanciesCount: Number(vacanciesCount) || 10,
         featured: true,
+        ageRequirement,
+        eligibleCountries: eligibleCountriesList,
+        processingTime: processingTime.trim(),
+        generalWorkerSectors: generalWorkerTrades,
       };
 
       // Store in localStorage for persistence across reloads
@@ -630,6 +764,13 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                 className="text-[10px] font-semibold px-2 py-0.5 rounded bg-white/5 hover:bg-white/15 text-purple-200 border border-white/10 cursor-pointer"
               >
                 🚛 Driver
+              </button>
+              <button
+                type="button"
+                onClick={() => loadPreset('general_worker')}
+                className="text-[10px] font-semibold px-2 py-0.5 rounded bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 cursor-pointer"
+              >
+                🧰 General Worker
               </button>
             </div>
           </div>
@@ -852,7 +993,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                           <span>Destination Country Corridor *</span>
                         </label>
                         <span className="text-[10px] text-purple-300 font-semibold px-2 py-0.5 rounded-md bg-purple-900/40 border border-purple-500/20">
-                          {DESTINATIONS.length} Corridors
+                          {DESTINATIONS.length} World Countries
                         </span>
                       </div>
                       <select
@@ -863,23 +1004,76 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                           const dest = DESTINATIONS.find((d) => d.name === newCountry);
                           if (dest) {
                             setLocation(dest.sampleLocation);
+                            setCurrency(dest.currency as any);
+                            setVisaSupportDetails(
+                              `Employer provides official ${dest.defaultVisa} with consular dossier packaging managed by Sijam Consults.`
+                            );
                           }
                         }}
                         className="w-full px-4 py-2.5 rounded-xl bg-[#140D36] border border-white/15 text-white text-sm focus:outline-none focus:border-[#4DA5EC] cursor-pointer"
                       >
-                        {DESTINATION_REGIONS.map((region) => {
-                          const regionDestinations = DESTINATIONS.filter((d) => d.region === region);
-                          if (regionDestinations.length === 0) return null;
-                          return (
-                            <optgroup key={region} label={region} className="bg-[#0C0824] text-purple-300 font-bold">
-                              {regionDestinations.map((d) => (
-                                <option key={d.name} value={d.name} className="bg-[#140D36] text-white font-normal">
-                                  {d.flag} {d.name} ({d.currency}) {d.isPopular ? '• Popular' : ''}
-                                </option>
-                              ))}
-                            </optgroup>
-                          );
-                        })}
+                        {/* 1. Featured / Popular Sijam Corridors */}
+                        <optgroup label="⭐ Featured Corridors (Popular Sijam Hubs)" className="bg-[#0C0824] text-amber-300 font-bold">
+                          {DESTINATIONS.filter((d) => d.isPopular).map((d) => (
+                            <option key={`pop-${d.name}`} value={d.name} className="bg-[#140D36] text-white font-normal">
+                              {d.flag} {d.name} ({d.currency}) • Popular
+                            </option>
+                          ))}
+                        </optgroup>
+
+                        {/* 2. Europe */}
+                        <optgroup label="Europe (All Countries)" className="bg-[#0C0824] text-purple-300 font-bold">
+                          {DESTINATIONS.filter((d) => d.region === 'Europe').map((d) => (
+                            <option key={`eu-${d.name}`} value={d.name} className="bg-[#140D36] text-white font-normal">
+                              {d.flag} {d.name} ({d.currency})
+                            </option>
+                          ))}
+                        </optgroup>
+
+                        {/* 3. North America & Caribbean */}
+                        <optgroup label="North America & Americas" className="bg-[#0C0824] text-purple-300 font-bold">
+                          {DESTINATIONS.filter((d) => d.region === 'North America' || d.region === 'Americas').map((d) => (
+                            <option key={`am-${d.name}`} value={d.name} className="bg-[#140D36] text-white font-normal">
+                              {d.flag} {d.name} ({d.currency})
+                            </option>
+                          ))}
+                        </optgroup>
+
+                        {/* 4. Middle East & Gulf */}
+                        <optgroup label="Middle East & Gulf" className="bg-[#0C0824] text-purple-300 font-bold">
+                          {DESTINATIONS.filter((d) => d.region === 'Middle East').map((d) => (
+                            <option key={`me-${d.name}`} value={d.name} className="bg-[#140D36] text-white font-normal">
+                              {d.flag} {d.name} ({d.currency})
+                            </option>
+                          ))}
+                        </optgroup>
+
+                        {/* 5. Asia */}
+                        <optgroup label="Asia" className="bg-[#0C0824] text-purple-300 font-bold">
+                          {DESTINATIONS.filter((d) => d.region === 'Asia').map((d) => (
+                            <option key={`as-${d.name}`} value={d.name} className="bg-[#140D36] text-white font-normal">
+                              {d.flag} {d.name} ({d.currency})
+                            </option>
+                          ))}
+                        </optgroup>
+
+                        {/* 6. Africa */}
+                        <optgroup label="Africa" className="bg-[#0C0824] text-purple-300 font-bold">
+                          {DESTINATIONS.filter((d) => d.region === 'Africa').map((d) => (
+                            <option key={`af-${d.name}`} value={d.name} className="bg-[#140D36] text-white font-normal">
+                              {d.flag} {d.name} ({d.currency})
+                            </option>
+                          ))}
+                        </optgroup>
+
+                        {/* 7. Oceania & Pacific */}
+                        <optgroup label="Oceania & Pacific" className="bg-[#0C0824] text-purple-300 font-bold">
+                          {DESTINATIONS.filter((d) => d.region === 'Oceania').map((d) => (
+                            <option key={`oc-${d.name}`} value={d.name} className="bg-[#140D36] text-white font-normal">
+                              {d.flag} {d.name} ({d.currency})
+                            </option>
+                          ))}
+                        </optgroup>
                       </select>
 
                       {/* UX Psychology: Instant Contextual Corridor Anchor */}
@@ -978,6 +1172,105 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                       })()}
                     </div>
 
+                    {/* GENERAL WORKER ("OTHERS") DYNAMIC SUB-DROPDOWN & EXACT SECTOR SPECIFICATION */}
+                    {(category === 'Others (General Worker)' || category === 'Others') && (
+                      <div className="sm:col-span-2 p-4 rounded-2xl bg-gradient-to-br from-amber-950/40 via-[#181039] to-[#120B30] border-2 border-amber-500/40 space-y-3.5 animate-fade-in shadow-xl">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2.5">
+                            <span className="text-2xl">🧰</span>
+                            <div>
+                              <h4 className="text-xs font-black uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
+                                <span>General Worker Specification Desk</span>
+                                <span className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-amber-500/20 border border-amber-500/40 text-amber-200">
+                                  Multi-Skilled
+                                </span>
+                              </h4>
+                              <p className="text-[11px] text-slate-300">
+                                General workers possess basic practical experience across multiple trades (electrical, plumbing, masonry, construction, farming).
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* General Worker Sub-Dropdown */}
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-bold text-slate-200 flex items-center justify-between">
+                            <span>General Worker Primary Sub-Sector *</span>
+                            <span className="text-[10px] text-purple-300 font-semibold">Select primary focus profile</span>
+                          </label>
+                          <select
+                            value={generalWorkerSubSector}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setGeneralWorkerSubSector(val);
+                              const found = GENERAL_WORKER_SUB_SECTORS.find((s) => s.name === val);
+                              if (found) {
+                                setExactGeneralWorkerSectors(found.defaultTrades.join(', '));
+                              }
+                            }}
+                            className="w-full px-4 py-2.5 rounded-xl bg-[#140D36] border border-amber-500/40 text-white text-xs sm:text-sm font-semibold focus:outline-none focus:border-amber-400 cursor-pointer shadow-inner"
+                          >
+                            {GENERAL_WORKER_SUB_SECTORS.map((sub) => (
+                              <option key={sub.id} value={sub.name} className="bg-[#0C0824] text-white py-1">
+                                {sub.name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        {/* Exact Categories / Sectors Input Field */}
+                        <div className="space-y-1.5">
+                          <div className="flex items-center justify-between">
+                            <label className="text-xs font-bold text-slate-200">
+                              Exact Categories or Sectors Person Will Be Working *
+                            </label>
+                            <span className="text-[10px] text-slate-400">Comma separated or tap chips below</span>
+                          </div>
+                          <input
+                            type="text"
+                            required
+                            value={exactGeneralWorkerSectors}
+                            onChange={(e) => setExactGeneralWorkerSectors(e.target.value)}
+                            placeholder="e.g. Electrician, Plumbing, Construction, Agriculture, Handyman"
+                            className="w-full px-4 py-2.5 rounded-xl bg-white/[0.06] border border-amber-500/40 text-white placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:border-amber-400 font-medium"
+                          />
+
+                          {/* Quick-add Trade Chips */}
+                          <div className="flex items-center gap-1.5 flex-wrap pt-1">
+                            <span className="text-[10px] text-amber-300/90 font-bold mr-1">Quick Add Trades:</span>
+                            {[
+                              'Electrician',
+                              'Plumbing',
+                              'Construction',
+                              'Agriculture',
+                              'Carpentry',
+                              'Warehouse',
+                              'Handyman',
+                              'Painting',
+                              'Masonry',
+                              'Sanitation',
+                              'Welding Helper',
+                            ].map((trade) => (
+                              <button
+                                key={trade}
+                                type="button"
+                                onClick={() => {
+                                  if (!exactGeneralWorkerSectors.includes(trade)) {
+                                    setExactGeneralWorkerSectors((prev) =>
+                                      prev.trim() ? `${prev.trim()}, ${trade}` : trade
+                                    );
+                                  }
+                                }}
+                                className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-white/5 hover:bg-amber-500/20 text-slate-300 hover:text-amber-200 border border-white/10 hover:border-amber-500/40 transition-all cursor-pointer"
+                              >
+                                + {trade}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
                     {/* Employment Type */}
                     <div className="space-y-1.5">
                       <label className="text-xs font-bold text-slate-200">Contract Structure</label>
@@ -1006,6 +1299,37 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                       />
                     </div>
 
+                    {/* Document Processing Time */}
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+                          <Clock className="w-3.5 h-3.5 text-[#4DA5EC]" />
+                          <span>Document Processing Time *</span>
+                        </label>
+                        <span className="text-[10px] text-slate-400">Monthly / Weeks</span>
+                      </div>
+                      <input
+                        type="text"
+                        required
+                        value={processingTime}
+                        onChange={(e) => setProcessingTime(e.target.value)}
+                        placeholder="e.g. 1 – 2 Months, 2 – 3 Months, 4 – 6 Weeks"
+                        className="w-full px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/15 text-white text-sm focus:outline-none focus:border-[#4DA5EC]"
+                      />
+                      <div className="flex items-center gap-1.5 flex-wrap pt-0.5">
+                        {['1 – 2 Months', '2 – 3 Months', '3 – 4 Months', '4 – 6 Weeks', '6 – 8 Weeks'].map((preset) => (
+                          <button
+                            key={preset}
+                            type="button"
+                            onClick={() => setProcessingTime(preset)}
+                            className="text-[10px] font-semibold px-2 py-0.5 rounded bg-white/5 hover:bg-white/15 text-slate-300 hover:text-white border border-white/10 transition-all cursor-pointer"
+                          >
+                            {preset}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
                     {/* Application Deadline */}
                     <div className="space-y-1.5">
                       <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
@@ -1029,10 +1353,237 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                         className="w-full px-4 py-2.5 rounded-xl bg-[#140D36] border border-white/15 text-white text-sm focus:outline-none focus:border-[#4DA5EC] cursor-pointer"
                       >
                         <option value="Entry-Level (0-1 Year)">Entry-Level (0-1 Year)</option>
+                        <option value="Basic Trade Experience (1-2 Years)">Basic Trade Experience (1-2 Years)</option>
                         <option value="Mid-Level (2+ Years)">Mid-Level (2+ Years)</option>
                         <option value="Senior Specialist (5+ Years)">Senior Specialist (5+ Years)</option>
                         <option value="Lead / Supervisory (7+ Years)">Lead / Supervisory (7+ Years)</option>
                       </select>
+                    </div>
+
+                    {/* CANDIDATE AGE RESTRICTION / BRACKET */}
+                    <div className="space-y-2 sm:col-span-2 p-4 rounded-2xl bg-white/[0.03] border border-white/10">
+                      <div className="flex items-center justify-between flex-wrap gap-2">
+                        <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+                          <Users className="w-3.5 h-3.5 text-[#4DA5EC]" />
+                          <span>Candidate Age Restriction / Bracket *</span>
+                        </label>
+                        <div className="flex items-center gap-1 bg-black/40 p-1 rounded-xl border border-white/10">
+                          <button
+                            type="button"
+                            onClick={() => setHasAgeRestriction(true)}
+                            className={`px-3 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer ${
+                              hasAgeRestriction
+                                ? 'bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white shadow-sm'
+                                : 'text-slate-400 hover:text-white'
+                            }`}
+                          >
+                            Specific Age Bracket
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setHasAgeRestriction(false)}
+                            className={`px-3 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer ${
+                              !hasAgeRestriction
+                                ? 'bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white shadow-sm'
+                                : 'text-slate-400 hover:text-white'
+                            }`}
+                          >
+                            No Age Restriction (18+)
+                          </button>
+                        </div>
+                      </div>
+
+                      {hasAgeRestriction ? (
+                        <div className="space-y-3 pt-1 animate-fade-in">
+                          <div className="grid grid-cols-2 gap-3">
+                            <div className="space-y-1">
+                              <label className="text-[11px] font-semibold text-slate-300">Minimum Age</label>
+                              <div className="relative">
+                                <input
+                                  type="number"
+                                  min="18"
+                                  max="65"
+                                  value={ageMin}
+                                  onChange={(e) => setAgeMin(Math.max(18, Number(e.target.value)))}
+                                  className="w-full px-3 py-2 rounded-xl bg-white/[0.05] border border-white/15 text-white text-sm focus:outline-none focus:border-[#4DA5EC]"
+                                />
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 pointer-events-none">
+                                  years
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="space-y-1">
+                              <label className="text-[11px] font-semibold text-slate-300">Maximum Age</label>
+                              <div className="relative">
+                                <input
+                                  type="number"
+                                  min={ageMin}
+                                  max="70"
+                                  value={ageMax}
+                                  onChange={(e) => setAgeMax(Math.max(ageMin, Number(e.target.value)))}
+                                  className="w-full px-3 py-2 rounded-xl bg-white/[0.05] border border-white/15 text-white text-sm focus:outline-none focus:border-[#4DA5EC]"
+                                />
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 pointer-events-none">
+                                  years
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Quick Age Presets */}
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <span className="text-[10px] text-slate-400 font-semibold mr-1">Common Brackets:</span>
+                            {[
+                              { label: '21 – 45 yrs (Standard)', min: 21, max: 45 },
+                              { label: '18 – 35 yrs (Youth)', min: 18, max: 35 },
+                              { label: '25 – 50 yrs (Skilled)', min: 25, max: 50 },
+                              { label: '22 – 55 yrs (General)', min: 22, max: 55 },
+                            ].map((preset) => (
+                              <button
+                                key={preset.label}
+                                type="button"
+                                onClick={() => {
+                                  setAgeMin(preset.min);
+                                  setAgeMax(preset.max);
+                                }}
+                                className="text-[10px] font-semibold px-2.5 py-0.5 rounded-md bg-white/5 hover:bg-white/15 text-purple-200 border border-white/10 transition-all cursor-pointer"
+                              >
+                                {preset.label}
+                              </button>
+                            ))}
+                          </div>
+
+                          <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs flex items-center justify-between">
+                            <span className="flex items-center gap-1.5 font-bold">
+                              <span>🎂 Specified Age Requirement:</span>
+                              <span className="text-white font-extrabold text-sm">{ageMin} to {ageMax} years old</span>
+                            </span>
+                            <span className="text-[10px] text-amber-300/80 uppercase font-mono tracking-wider">
+                              Enforced for Candidate Screening
+                            </span>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="p-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-200 text-xs flex items-center gap-2">
+                          <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0" />
+                          <span>Open to all adult candidates meeting statutory host country working age (18+). No upper age limit enforced.</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* ELIGIBLE NATIONALITIES / ELIGIBLE COUNTRIES */}
+                    <div className="space-y-2 sm:col-span-2 p-4 rounded-2xl bg-white/[0.03] border border-white/10">
+                      <div className="flex items-center justify-between flex-wrap gap-2">
+                        <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+                          <Globe2 className="w-3.5 h-3.5 text-emerald-400" />
+                          <span>Eligible Nationalities / Eligible Passports *</span>
+                        </label>
+                        <div className="flex items-center gap-1 bg-black/40 p-1 rounded-xl border border-white/10">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setIsAllNationalities(true);
+                              setEligibleCountriesText('All Countries / Worldwide');
+                            }}
+                            className={`px-3 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer ${
+                              isAllNationalities
+                                ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-black shadow-sm font-extrabold'
+                                : 'text-slate-400 hover:text-white'
+                            }`}
+                          >
+                            All Nationalities (Open to All)
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setIsAllNationalities(false);
+                              if (eligibleCountriesText.includes('All')) {
+                                setEligibleCountriesText('Nigeria, Ghana, Sierra Leone');
+                              }
+                            }}
+                            className={`px-3 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer ${
+                              !isAllNationalities
+                                ? 'bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white shadow-sm'
+                                : 'text-slate-400 hover:text-white'
+                            }`}
+                          >
+                            Specific Eligible Countries Only
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="space-y-2 pt-1">
+                        <div className="relative">
+                          <input
+                            type="text"
+                            required
+                            value={eligibleCountriesText}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setEligibleCountriesText(val);
+                              if (val.toLowerCase().includes('all')) {
+                                setIsAllNationalities(true);
+                              } else {
+                                setIsAllNationalities(false);
+                              }
+                            }}
+                            placeholder="e.g. Nigeria, Ghana, Sierra Leone or All Countries"
+                            className="w-full px-4 py-2.5 rounded-xl bg-white/[0.05] border border-white/15 text-white placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:border-[#4DA5EC]"
+                          />
+                        </div>
+
+                        {/* Quick-add Country Chips */}
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <span className="text-[10px] text-slate-400 font-semibold mr-1">Quick Select:</span>
+                          {[
+                            'Nigeria',
+                            'Ghana',
+                            'Sierra Leone',
+                            'Kenya',
+                            'South Africa',
+                            'Cameroon',
+                            'Rwanda',
+                            'Uganda',
+                            'All Countries / Worldwide',
+                          ].map((c) => (
+                            <button
+                              key={c}
+                              type="button"
+                              onClick={() => {
+                                if (c.includes('All')) {
+                                  setIsAllNationalities(true);
+                                  setEligibleCountriesText('All Countries / Worldwide');
+                                } else {
+                                  setIsAllNationalities(false);
+                                  if (eligibleCountriesText.includes('All')) {
+                                    setEligibleCountriesText(c);
+                                  } else if (!eligibleCountriesText.includes(c)) {
+                                    setEligibleCountriesText((prev) =>
+                                      prev.trim() ? `${prev.trim()}, ${c}` : c
+                                    );
+                                  }
+                                }
+                              }}
+                              className="text-[10px] font-semibold px-2.5 py-0.5 rounded-md bg-white/5 hover:bg-emerald-500/20 text-slate-300 hover:text-emerald-200 border border-white/10 hover:border-emerald-500/30 transition-all cursor-pointer"
+                            >
+                              + {c}
+                            </button>
+                          ))}
+                        </div>
+
+                        <p className="text-[11px] text-slate-400 leading-relaxed">
+                          {isAllNationalities ? (
+                            <span className="text-emerald-300 font-semibold">
+                              ✓ Open to candidates of any citizenship worldwide. No nationality restrictions applied.
+                            </span>
+                          ) : (
+                            <span className="text-amber-300 font-semibold">
+                              ⚠️ Restrictive Quota: Only passport holders of the above countries are eligible for screening.
+                            </span>
+                          )}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1328,7 +1879,39 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                         <span className="text-slate-400 block text-[10px]">Deadline</span>
                         <span className="font-bold text-white">{deadline}</span>
                       </div>
+                      <div>
+                        <span className="text-slate-400 block text-[10px]">Age Bracket</span>
+                        <span className="font-bold text-amber-300">
+                          {hasAgeRestriction ? `${ageMin} – ${ageMax} yrs` : '18+ (No Limit)'}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="text-slate-400 block text-[10px]">Processing Time</span>
+                        <span className="font-bold text-emerald-300">{processingTime}</span>
+                      </div>
+                      <div className="sm:col-span-2">
+                        <span className="text-slate-400 block text-[10px]">Eligible Passports</span>
+                        <span className="font-bold text-blue-300 truncate block">
+                          {isAllNationalities ? 'All Nationalities (Worldwide)' : eligibleCountriesText}
+                        </span>
+                      </div>
                     </div>
+
+                    {/* General Worker Trade Breakdown in Preview */}
+                    {(category === 'Others (General Worker)' || category === 'Others') && exactGeneralWorkerSectors && (
+                      <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs text-amber-200 space-y-1">
+                        <span className="font-bold text-[10px] uppercase tracking-wider text-amber-300 block">
+                          🧰 General Worker Sectors Required:
+                        </span>
+                        <div className="flex flex-wrap gap-1">
+                          {exactGeneralWorkerSectors.split(',').map((t, i) => (
+                            <span key={i} className="px-2 py-0.5 rounded bg-amber-950/60 text-amber-200 border border-amber-500/40 text-[10px] font-medium">
+                              ✓ {t.trim()}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
                     {/* Selected Perks Badges */}
                     {selectedPerks.length > 0 && (

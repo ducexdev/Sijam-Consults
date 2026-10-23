@@ -1,4 +1,5 @@
 import { JobListing } from '../types';
+import { COUNTRIES_DATA } from './countries';
 
 export const JOBS_DATA: JobListing[] = [
   {
@@ -19,6 +20,7 @@ export const JOBS_DATA: JobListing[] = [
     experienceLevel: 'Professional Licensure (RN/BNSc)',
     vacanciesCount: 15,
     featured: true,
+    ageRequirement: '21 – 45 years',
     perks: ['Voivodeship Permit Sponsored', 'Paid Polish Language Immersion', 'Subsidized Hospital Housing', 'EU Residency Pathway'],
     description: 'EuroMed Care, an accredited regional healthcare network in southern Poland, is recruiting certified international Registered General Nurses for acute inpatient wards. Successful candidates undergo paid Polish language onboarding and supervised clinical orientation.',
     responsibilities: [
@@ -36,6 +38,58 @@ export const JOBS_DATA: JobListing[] = [
     visaSupportDetails: 'The employer issues a formal Voivodeship labor permit authorization and provides subsidized initial accommodation. Sijam Consults provides independent document attestation, file audit, and Polish consular visa advisory.',
     applicationInstructions: 'Submit your CV, NMCN license copy, and degree certificate. Shortlisted applicants will be invited for an initial English interview with hospital human resources.',
     disclaimer: 'Notice of Statutory Independence: Sijam Consults Limited facilitates candidate file preparation and consular filing protocols. We are not an employer and do not guarantee hiring or visa issuance. Hiring decisions are made strictly by EuroMed Care.',
+  },
+  {
+    id: 'job-general-worker-poland',
+    slug: 'multi-skilled-general-worker-poland-construction-agriculture',
+    title: 'Multi-Skilled General Worker (Construction, Agriculture, Plumbing & Electrical Support)',
+    companyName: 'PolBuild Agrotechnika Sp. z o.o.',
+    isEmployerVerified: true,
+    location: 'Poznań & Wrocław, Poland',
+    country: 'Poland',
+    flag: '🇵🇱',
+    category: 'Others (General Worker)',
+    employmentType: 'Full-time',
+    salaryRange: '€1,850 – €2,600 / month (gross)',
+    postedDate: '2026-10-18',
+    deadline: '2026-12-31',
+    status: 'Open',
+    experienceLevel: 'Basic Trade Experience (1-2 Years)',
+    vacanciesCount: 25,
+    featured: true,
+    ageRequirement: '21 – 45 years',
+    generalWorkerSectors: [
+      'Basic Electrical Wiring Support',
+      'Basic Plumbing & Pipe Fitting',
+      'Construction Site Labor & Masonry',
+      'Agriculture & Greenhouse Maintenance',
+      'Warehouse Stacking & Material Loading',
+    ],
+    perks: [
+      'Voivodeship Permit Sponsored',
+      'Furnished Company Housing Included',
+      'Safety Gear & Tooling Provided',
+      'Paid Language Immersion Course',
+      'EU Schengen Travel Mobility',
+    ],
+    description: 'PolBuild Agrotechnika is recruiting versatile, multi-skilled general workers for industrial facilities, agricultural greenhouses, and residential construction sites across western Poland. Candidates must be adaptable and possess basic practical experience in hands-on trade duties including electrical wiring assistance, plumbing fittings, construction labor, and farm operations.',
+    responsibilities: [
+      'Perform general construction support including material movement, concrete assistance, and site preparation.',
+      'Assist certified technicians with basic electrical cable pulling, socket fittings, and conduit laying.',
+      'Support piping and plumbing installations, solvent welding, and sanitary fixtures setup.',
+      'Engage in seasonal agricultural greenhouse maintenance, harvesting, and packaging.',
+      'Operate manual pallet jacks and maintain strict workshop safety and cleanliness.',
+    ],
+    eligibilityRequirements: [
+      'Candidate Age Bracket: Verified between 21 and 45 years old at time of application.',
+      'Basic practical aptitude and demonstrable experience in one or more general worker sectors (electrical, plumbing, masonry, or agriculture).',
+      'Physically fit and able to undertake active manual and technical support duties.',
+      'Valid International Passport with at least 18 months remaining validity.',
+      'Clean police character record and verifiable trade references.',
+    ],
+    visaSupportDetails: 'Host employer issues official Voivodeship Type A labor permit authorization with subsidized dormitory accommodation and round-trip airport reception. Sijam Consults handles complete NDPR-compliant document verification and consular advisory.',
+    applicationInstructions: 'Submit your CV highlighting your practical trade skills (electrician, plumbing, masonry, farm work) and international passport bio-data page.',
+    disclaimer: 'Notice of Statutory Independence: Sijam Consults Limited facilitates candidate verification and statutory consular dossier advisory. Sovereign visa decisions remain strictly at the statutory discretion of the consular authority.',
   },
   {
     id: 'job-uk-care',
@@ -324,7 +378,7 @@ export interface DestinationCorridor {
   name: string;
   flag: string;
   region: string;
-  currency: 'EUR' | 'GBP' | 'CAD' | 'USD' | 'SAR' | 'AED';
+  currency: 'EUR' | 'GBP' | 'CAD' | 'USD' | 'SAR' | 'AED' | string;
   defaultVisa: string;
   sampleLocation: string;
   isPopular?: boolean;
@@ -578,6 +632,53 @@ export const JOB_DESTINATIONS: DestinationCorridor[] = [
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
+// ALL WORLD DESTINATION CORRIDORS (ALL 197+ COUNTRIES IN THE WORLD)
+// ─────────────────────────────────────────────────────────────────────────────
+
+const existingDestByName = new Map<string, DestinationCorridor>(
+  JOB_DESTINATIONS.map((d) => [d.name.toLowerCase(), d])
+);
+
+export const ALL_JOB_DESTINATIONS: DestinationCorridor[] = COUNTRIES_DATA.map((c) => {
+  const existing = existingDestByName.get(c.name.toLowerCase());
+  if (existing) {
+    return existing;
+  }
+
+  // Derive regional currency and default visa terms
+  let currency: 'EUR' | 'GBP' | 'CAD' | 'USD' | 'SAR' | 'AED' | string = 'USD';
+  if (c.region === 'Europe') currency = 'EUR';
+  else if (c.name === 'United Kingdom') currency = 'GBP';
+  else if (c.name === 'Canada') currency = 'CAD';
+  else if (c.name === 'Saudi Arabia') currency = 'SAR';
+  else if (c.name === 'United Arab Emirates') currency = 'AED';
+  else if (c.name === 'Qatar') currency = 'QAR';
+  else if (c.name === 'Kuwait') currency = 'KWD';
+  else if (c.name === 'Australia') currency = 'AUD';
+  else if (c.name === 'New Zealand') currency = 'NZD';
+
+  return {
+    name: c.name,
+    flag: c.flag,
+    region: c.region,
+    currency,
+    defaultVisa: `${c.name} Statutory Employment Authorization / Work Visa`,
+    sampleLocation: `${c.name}`,
+    isPopular: !!c.isPopular,
+  };
+});
+
+export const WORLD_DESTINATION_REGIONS = [
+  'Europe',
+  'North America',
+  'Middle East',
+  'Asia',
+  'Africa',
+  'Americas',
+  'Oceania',
+] as const;
+
+// ─────────────────────────────────────────────────────────────────────────────
 // COMPREHENSIVE SECTOR CATEGORIES & DOMAIN CHUNKING (UX PSYCHOLOGY)
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -592,12 +693,99 @@ export const SECTOR_GROUPS = [
   'Healthcare & Medical',
   'Technology & Digital',
   'Engineering & Heavy Industry',
+  'General Labor & Multi-Skilled',
   'Logistics & Supply Chain',
   'Agriculture & Food Production',
   'Hospitality & Tourism',
   'Commerce & Financial Services',
   'Specialized Mobility & Education',
 ] as const;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// GENERAL WORKER SUB-SECTOR TAXONOMY
+// ─────────────────────────────────────────────────────────────────────────────
+
+export interface GeneralWorkerSubSector {
+  id: string;
+  name: string;
+  defaultTrades: string[];
+  description: string;
+}
+
+export const GENERAL_WORKER_SUB_SECTORS: GeneralWorkerSubSector[] = [
+  {
+    id: 'multi_trade_core',
+    name: 'Multi-Trade General Worker (Basic Electrician, Plumbing, Construction & Agriculture)',
+    defaultTrades: ['Electrician (Basic)', 'Plumbing (Pipe Fitting)', 'Construction Labor', 'Agriculture'],
+    description: 'Versatile multi-skilled worker capable of handling basic electrical installations, plumbing repairs, construction support, and farm duties.',
+  },
+  {
+    id: 'construction_masonry',
+    name: 'Construction Site Labor & Masonry Support',
+    defaultTrades: ['Construction Site Labor', 'Masonry Support', 'Material Mixing & Hauling', 'Scaffolding Helper'],
+    description: 'Active site preparation, concrete mixing assistance, block carrying, and scaffolding support.',
+  },
+  {
+    id: 'electrical_support',
+    name: 'Basic Electrical & Wiring Support',
+    defaultTrades: ['Electrician (Basic Wiring)', 'Conduit Laying', 'Fixture Installation', 'Cable Pulling'],
+    description: 'Assisting certified electricians with cable pulling, socket installation, and light fixture assembly.',
+  },
+  {
+    id: 'plumbing_piping',
+    name: 'Basic Plumbing & Piping Assistance',
+    defaultTrades: ['Plumbing (Pipe Fitting)', 'Drainage Clearing', 'Sanitary Ware Installation', 'Trenching'],
+    description: 'Assisting plumbers with pipe cutting, solvent welding, fixture installation, and trenching.',
+  },
+  {
+    id: 'agriculture_farm',
+    name: 'Agriculture, Greenhouse & Farm Hand',
+    defaultTrades: ['Agriculture (Crop Harvesting)', 'Greenhouse Maintenance', 'Livestock Handling', 'Irrigation Support'],
+    description: 'Field cultivation, seasonal harvesting, drip irrigation monitoring, and animal feeding.',
+  },
+  {
+    id: 'carpentry_woodwork',
+    name: 'Carpentry, Formwork & Woodwork Support',
+    defaultTrades: ['Carpentry & Formwork', 'Timber Cutting', 'Roof Framing Support', 'Pallet Repairs'],
+    description: 'Formwork erecting, timber preparation, rough framing, and pallet repairs.',
+  },
+  {
+    id: 'warehouse_logistics',
+    name: 'Warehouse Stacking, Packaging & Loading',
+    defaultTrades: ['Warehouse Packing', 'Stock Stacking', 'Loading / Offloading', 'Pallet Jack Operation'],
+    description: 'Order picking, shrink wrapping, container de-stuffing, and inventory stacking.',
+  },
+  {
+    id: 'facility_handyman',
+    name: 'General Facility Maintenance & Handyman',
+    defaultTrades: ['General Handyman', 'Basic Repairs', 'Groundskeeping', 'Painting Touch-ups'],
+    description: 'Day-to-day property upkeep, minor door/window repairs, painting touch-ups, and filter replacements.',
+  },
+  {
+    id: 'painting_surface',
+    name: 'Painting, Plastering & Surface Preparation',
+    defaultTrades: ['Wall Painting & Priming', 'Sanding & Surface Prep', 'Plastering Assistance', 'Masking'],
+    description: 'Wall preparation, rolling, masking, sanding, and coating applications.',
+  },
+  {
+    id: 'cleaning_sanitation',
+    name: 'Industrial Sanitation & Facility Cleaning',
+    defaultTrades: ['Industrial Cleaning', 'Waste Disposal', 'Disinfection & Sanitizing', 'Floor Scrubbing'],
+    description: 'Industrial plant floor scrubbing, post-construction cleanup, and waste sorting.',
+  },
+  {
+    id: 'welding_helper',
+    name: 'Welding & Metal Fabrication Assistant',
+    defaultTrades: ['Metal Grinding', 'Slag Chipping', 'Workshop Labor', 'Material Clamping'],
+    description: 'Assisting structural welders with metal preparation, grinding, clamping, and workpiece movement.',
+  },
+  {
+    id: 'custom_general',
+    name: 'Custom Trade Combination (Specify exact sectors below)',
+    defaultTrades: ['Electrician', 'Plumbing', 'Construction', 'Agriculture'],
+    description: 'Tailored blend of trades customized for employer operational requirements.',
+  },
+];
 
 export const COMPREHENSIVE_SECTORS: SectorDefinition[] = [
   // ── Healthcare & Medical ──
@@ -710,5 +898,13 @@ export const COMPREHENSIVE_SECTORS: SectorDefinition[] = [
     icon: '🎓',
     group: 'Specialized Mobility & Education',
     description: 'Vocational Technical Tutors, STEM Secondary Educators & Early Childhood Specialists',
+  },
+
+  // ── General Labor & Multi-Skilled (Others) ──
+  {
+    name: 'Others (General Worker)',
+    icon: '🧰',
+    group: 'General Labor & Multi-Skilled',
+    description: 'Versatile multi-skilled workforce covering basic electrical, plumbing, construction site labor, agriculture & facility upkeep',
   },
 ];

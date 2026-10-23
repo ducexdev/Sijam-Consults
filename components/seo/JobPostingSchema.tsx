@@ -22,18 +22,44 @@ export function JobPostingSchema({ job }: JobPostingSchemaProps) {
   // Do not emit markup for expired or filled listings
   if (job.status === 'Filled' || deadline < now) return null;
 
+  // Format employmentType according to Google for Jobs guidelines
+  let googleEmploymentType: string = 'FULL_TIME';
+  if (job.employmentType === 'Contract') googleEmploymentType = 'CONTRACTOR';
+  else if (job.employmentType === 'Seasonal') googleEmploymentType = 'TEMPORARY';
+  else if (job.employmentType === 'Apprenticeship') googleEmploymentType = 'INTERN';
+
+  // Build rich SEO description for Google indexing
+  let enrichedDescription = job.description;
+  if (job.processingTime) {
+    enrichedDescription += `\n\nDocument Processing Time: ${job.processingTime}.`;
+  }
+  if (job.ageRequirement) {
+    enrichedDescription += `\n\nCandidate Age Restriction: Between ${job.ageRequirement}.`;
+  }
+  if (job.eligibleCountries && job.eligibleCountries.length > 0) {
+    enrichedDescription += `\n\nEligible Nationalities / Passports: ${job.eligibleCountries.join(', ')}.`;
+  }
+  if (job.generalWorkerSectors && job.generalWorkerSectors.length > 0) {
+    enrichedDescription += `\n\nGeneral Worker Trades: ${job.generalWorkerSectors.join(', ')}.`;
+  }
+  enrichedDescription += `\n\nVisa Authorization & Sponsorship:\n${job.visaSupportDetails}`;
+  enrichedDescription += `\n\nStatutory Notice:\n${job.disclaimer}`;
+
   const schema: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'JobPosting',
     title: job.title,
-    description: `${job.description}\n\n${job.disclaimer}`,
+    description: enrichedDescription,
     datePosted: job.postedDate,
     validThrough: job.deadline,
-    employmentType: job.employmentType.toUpperCase().replace(/-/g, '_'),
+    employmentType: googleEmploymentType,
+    industry: job.category,
+    directApply: true,
     hiringOrganization: {
       '@type': 'Organization',
-      name: job.isEmployerVerified ? job.companyName : 'Employer details available upon enquiry',
-      ...(job.isEmployerVerified ? {} : {}),
+      name: job.isEmployerVerified ? job.companyName : 'Sijam Verified Partner Network',
+      sameAs: 'https://sijamconsults.com',
+      logo: 'https://sijamconsults.com/icons/sijam-logo.png',
     },
     jobLocation: {
       '@type': 'Place',
@@ -49,13 +75,28 @@ export function JobPostingSchema({ job }: JobPostingSchemaProps) {
       contactType: 'Application enquiries',
       url: `${BASE_URL}/jobs/${job.slug}/apply`,
     },
+    responsibilities: job.responsibilities.join('; '),
+    qualifications: job.eligibilityRequirements.join('; '),
   };
+
+  // Google for Jobs: Applicant Location / Nationality Restriction
+  if (job.eligibleCountries && job.eligibleCountries.length > 0) {
+    const isWorldwide = job.eligibleCountries.some((c) =>
+      c.toLowerCase().includes('all') || c.toLowerCase().includes('worldwide')
+    );
+    if (!isWorldwide) {
+      schema['applicantLocationRequirements'] = job.eligibleCountries.map((c) => ({
+        '@type': 'Country',
+        name: c.trim(),
+      }));
+    }
+  }
 
   // Only include salary if explicitly verified
   if (job.salaryRange) {
     schema['estimatedSalary'] = {
       '@type': 'MonetaryAmountDistribution',
-      name: 'Advertised salary range',
+      name: 'Advertised verified salary package',
       currency: 'EUR',
       duration: 'P1M',
       description: job.salaryRange,

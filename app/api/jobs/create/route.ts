@@ -24,6 +24,10 @@ export async function POST(request: NextRequest) {
       deadline,
       status,
       acceptsApplications,
+      ageRequirement,
+      eligibleCountries,
+      processingTime,
+      generalWorkerSectors,
       adminId = '00000000-0000-0000-0000-000000000001',
     } = body as {
       title: string;
@@ -43,6 +47,10 @@ export async function POST(request: NextRequest) {
       deadline: string;
       status: JobStatus;
       acceptsApplications: boolean;
+      ageRequirement?: string | null;
+      eligibleCountries?: string[] | null;
+      processingTime?: string | null;
+      generalWorkerSectors?: string[] | null;
       adminId?: string;
     };
 
@@ -71,6 +79,10 @@ export async function POST(request: NextRequest) {
       location,
       employment_type: employmentType,
       salary_range: salaryRange || null,
+      age_requirement: ageRequirement || null,
+      eligible_countries: eligibleCountries || null,
+      processing_time: processingTime || null,
+      general_worker_sectors: generalWorkerSectors || null,
       description,
       responsibilities,
       eligibility_requirements: eligibilityRequirements,

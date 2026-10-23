@@ -37,6 +37,7 @@ import {
 import {
   JOBS_DATA,
   JOB_DESTINATIONS,
+  ALL_JOB_DESTINATIONS,
   DESTINATION_REGIONS,
   COMPREHENSIVE_SECTORS,
 } from '@/lib/data/jobs';
@@ -125,7 +126,7 @@ export const JobsDirectory: React.FC<JobsDirectoryProps> = ({
   const countries = useMemo(
     () => [
       { name: 'All', flag: '🌍', region: 'All' },
-      ...JOB_DESTINATIONS,
+      ...ALL_JOB_DESTINATIONS,
     ],
     []
   );
@@ -180,7 +181,11 @@ export const JobsDirectory: React.FC<JobsDirectoryProps> = ({
         job.companyName.toLowerCase().includes(q) ||
         job.category.toLowerCase().includes(q) ||
         job.description.toLowerCase().includes(q) ||
-        (job.perks && job.perks.some((p) => p.toLowerCase().includes(q)));
+        (job.perks && job.perks.some((p) => p.toLowerCase().includes(q))) ||
+        (job.eligibleCountries && job.eligibleCountries.some((c) => c.toLowerCase().includes(q))) ||
+        (job.generalWorkerSectors && job.generalWorkerSectors.some((s) => s.toLowerCase().includes(q))) ||
+        (job.processingTime && job.processingTime.toLowerCase().includes(q)) ||
+        (job.ageRequirement && job.ageRequirement.toLowerCase().includes(q));
 
       const matchesCat = selectedCategory === 'All' || job.category === selectedCategory;
       const matchesCountry = selectedCountry === 'All' || job.country === selectedCountry;
@@ -507,6 +512,27 @@ export const JobsDirectory: React.FC<JobsDirectoryProps> = ({
                         {job.category}
                       </span>
 
+                      {job.ageRequirement && (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-bold text-amber-200 bg-amber-950/60 border border-amber-800/40 text-[11px]">
+                          <span>🎂</span>
+                          <span>{job.ageRequirement}</span>
+                        </span>
+                      )}
+
+                      {job.processingTime && (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-bold text-emerald-200 bg-emerald-950/60 border border-emerald-800/40 text-[11px]">
+                          <Clock className="w-3 h-3 text-emerald-400" />
+                          <span>{job.processingTime}</span>
+                        </span>
+                      )}
+
+                      {job.eligibleCountries && job.eligibleCountries.length > 0 && (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-bold text-blue-200 bg-blue-950/60 border border-blue-800/40 text-[11px]">
+                          <span>🌍</span>
+                          <span className="max-w-[150px] truncate">{job.eligibleCountries.join(', ')}</span>
+                        </span>
+                      )}
+
                       {job.isEmployerVerified && (
                         <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full font-bold text-emerald-300 bg-emerald-950/60 border border-emerald-800/40 text-[11px]">
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
@@ -565,6 +591,25 @@ export const JobsDirectory: React.FC<JobsDirectoryProps> = ({
                     <p className="text-xs sm:text-sm text-slate-300 line-clamp-2 leading-relaxed font-normal">
                       {job.description}
                     </p>
+
+                    {/* General Worker Trades Chips */}
+                    {job.generalWorkerSectors && job.generalWorkerSectors.length > 0 && (
+                      <div className="flex items-center gap-1.5 flex-wrap pt-1">
+                        <span className="text-[10px] text-amber-300 font-bold uppercase tracking-wider flex items-center gap-1">
+                          <span>🧰</span>
+                          <span>Trades:</span>
+                        </span>
+                        {job.generalWorkerSectors.map((sector, idx) => (
+                          <span
+                            key={idx}
+                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold bg-amber-500/10 text-amber-200 border border-amber-500/30"
+                          >
+                            <span>✓</span>
+                            <span>{sector}</span>
+                          </span>
+                        ))}
+                      </div>
+                    )}
 
                     {/* Relocation Perks Chips */}
                     {job.perks && job.perks.length > 0 && (

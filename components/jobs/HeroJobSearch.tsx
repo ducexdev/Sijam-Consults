@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Search, MapPin, Sparkles } from 'lucide-react';
 
-import { JOB_DESTINATIONS, DESTINATION_REGIONS } from '@/lib/data/jobs';
+import { ALL_JOB_DESTINATIONS, WORLD_DESTINATION_REGIONS } from '@/lib/data/jobs';
 
 interface HeroJobSearchProps {
   onSearchChange?: (term: string) => void;
@@ -60,12 +60,19 @@ export const HeroJobSearch: React.FC<HeroJobSearchProps> = ({
             }}
             className="w-full bg-transparent text-white text-sm font-medium focus:outline-none cursor-pointer [&>option]:bg-[#0D0826] [&>option]:text-white [&>optgroup]:bg-[#0D0826] [&>optgroup]:text-purple-300"
           >
-            <option value="All">🌍 All Destination Corridors (Europe, UK & Global)</option>
-            {DESTINATION_REGIONS.map((region) => {
-              const regionDests = JOB_DESTINATIONS.filter((d) => d.region === region);
+            <option value="All">🌍 All Destination Corridors (All 197+ World Countries)</option>
+            <optgroup label="⭐ Featured Corridors (Popular Sijam Hubs)">
+              {ALL_JOB_DESTINATIONS.filter((d) => d.isPopular).map((d) => (
+                <option key={`pop-${d.name}`} value={d.name}>
+                  {d.flag} {d.name} ({d.currency}) • Popular
+                </option>
+              ))}
+            </optgroup>
+            {WORLD_DESTINATION_REGIONS.map((region) => {
+              const regionDests = ALL_JOB_DESTINATIONS.filter((d) => d.region === region);
               if (regionDests.length === 0) return null;
               return (
-                <optgroup key={region} label={region}>
+                <optgroup key={region} label={`${region} Corridors`}>
                   {regionDests.map((d) => (
                     <option key={d.name} value={d.name}>
                       {d.flag} {d.name} ({d.currency})

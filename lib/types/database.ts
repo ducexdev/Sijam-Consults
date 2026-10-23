@@ -133,6 +133,10 @@ export interface JobRecord {
   location: string;
   employment_type: 'Full-time' | 'Contract' | 'Seasonal' | 'Apprenticeship';
   salary_range?: string | null;
+  age_requirement?: string | null;
+  eligible_countries?: string[] | null;
+  processing_time?: string | null;
+  general_worker_sectors?: string[] | null;
   description: string;
   responsibilities: string[];
   eligibility_requirements: string[];

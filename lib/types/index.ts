@@ -70,7 +70,9 @@ export type JobCategory =
   | 'Sales, Retail & Customer Support'
   | 'Education & Vocational Training'
   | 'Automotive & Heavy Equipment'
-  | 'Mining, Extraction & Metallurgy';
+  | 'Mining, Extraction & Metallurgy'
+  | 'Others (General Worker)'
+  | 'Others';
 
 export type EmploymentType = 'Full-time' | 'Contract' | 'Seasonal' | 'Apprenticeship';
 
@@ -99,6 +101,10 @@ export interface JobListing {
   experienceLevel?: string;
   vacanciesCount?: number;
   featured?: boolean;
+  ageRequirement?: string;
+  generalWorkerSectors?: string[];
+  eligibleCountries?: string[];
+  processingTime?: string;
 }
 
 export interface GuideArticle {
