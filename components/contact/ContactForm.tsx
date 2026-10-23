@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Send, CheckCircle2, AlertCircle, Sparkles, ShieldCheck } from 'lucide-react';
 import { validateContactForm } from '@/lib/validation';
-import { submitGeneralEnquiry } from '@/app/actions/contact';
+// ContactForm Client Component
 
 export const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -40,15 +40,23 @@ export const ContactForm: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      const res = await submitGeneralEnquiry({
-        fullName: formData.fullName,
-        email: formData.email,
-        phone: formData.phone,
-        serviceCategory: formData.serviceCategory,
-        message: formData.message,
-        ndprConsent: formData.ndprConsent,
-        honeypot: formData.honeypot,
+      const resp = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          serviceCategory: formData.serviceCategory,
+          message: formData.message,
+          ndprConsent: formData.ndprConsent,
+          honeypot: formData.honeypot,
+        }),
       });
+
+      const res = await resp.json();
 
       if (res.success && res.inquiryReference) {
         setInquiryRef(res.inquiryReference);

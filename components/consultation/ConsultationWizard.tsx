@@ -98,21 +98,25 @@ export const ConsultationWizard: React.FC = () => {
 
     setIsSubmitting(true);
     try {
-      const { submitPublicConsultation } = await import('@/app/actions/consultations');
-      const res = await submitPublicConsultation({
-        serviceSlug: formData.serviceSlug,
-        targetDestination: formData.targetDestination,
-        applicantObjective: formData.applicantObjective,
-        fullName: formData.fullName,
-        email: formData.email,
-        phone: formData.phone,
-        preferredMethod: formData.preferredMethod,
-        preferredDate: formData.preferredDate,
-        preferredTimeSlot: formData.preferredTimeSlot,
-        conditionalData: conditionalFields,
-        notes: formData.notes,
-        ndprConsent: formData.ndprConsent,
+      const resp = await fetch('/api/consultation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          serviceSlug: formData.serviceSlug,
+          targetDestination: formData.targetDestination,
+          applicantObjective: formData.applicantObjective,
+          fullName: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          preferredMethod: formData.preferredMethod,
+          preferredDate: formData.preferredDate,
+          preferredTimeSlot: formData.preferredTimeSlot,
+          conditionalData: conditionalFields,
+          notes: formData.notes,
+          ndprConsent: formData.ndprConsent,
+        }),
       });
+      const res = await resp.json();
 
       if (res.success && res.referenceCode) {
         setReferenceCode(res.referenceCode);

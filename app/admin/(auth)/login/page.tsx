@@ -15,7 +15,7 @@ import {
   ArrowRight,
   ExternalLink,
 } from 'lucide-react';
-import { loginStaff, requestPasswordResetCode } from '@/app/actions/auth';
+import { requestPasswordResetCode } from '@/app/actions/auth';
 import { COMPANY, ROUTES } from '@/lib/routes';
 
 export default function AdminLoginPage() {
@@ -41,15 +41,22 @@ export default function AdminLoginPage() {
     setErrorMessage(null);
 
     try {
-      const res = await loginStaff({
-        email,
-        password,
-        rememberMe,
+      const resp = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          rememberMe,
+        }),
       });
 
+      const res = await resp.json();
+
       if (res.success) {
-        router.push('/admin');
-        router.refresh();
+        window.location.href = '/admin';
       } else {
         setErrorMessage(res.message || 'Authentication failed. Please verify your credentials.');
       }

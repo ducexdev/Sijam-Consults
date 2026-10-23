@@ -23,7 +23,7 @@ import {
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { CountrySelect } from '@/components/ui/CountrySelect';
-import { submitPublicConsultation } from '@/app/actions/consultations';
+// Client-side assessment calculator
 
 export interface AssessmentFormState {
   primaryGoal: 'Study Abroad' | 'Employer Work Permit' | 'Permanent Residency' | 'European Business / Sp. z o.o.';
@@ -224,20 +224,24 @@ export const AssessmentCalculator: React.FC = () => {
         'European Business / Sp. z o.o.': 'business-registration',
       };
 
-      await submitPublicConsultation({
-        serviceSlug: serviceSlugMap[formData.primaryGoal] || 'study-visa',
-        targetDestination: formData.destinationPreference,
-        applicantObjective: `[Case Readiness Score: ${readinessAudit.score}/100 — ${readinessAudit.tier}] Primary Goal: ${formData.primaryGoal}. Education: ${formData.highestEducation}. Experience: ${formData.yearsExperience}. Funds Seasoning: ${formData.fundsSeasoningTenure}. Budget: ${formData.budgetBracket}. Prior Refusals: ${formData.priorRefusal}.`,
-        fullName: formData.fullName,
-        email: formData.email,
-        phone: formData.phone,
-        preferredMethod: 'whatsapp_video',
-        conditionalData: {
-          assessmentScore: readinessAudit.score,
-          assessmentTier: readinessAudit.tier,
-          ...formData,
-        },
-        ndprConsent: true,
+      await fetch('/api/consultation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          serviceSlug: serviceSlugMap[formData.primaryGoal] || 'study-visa',
+          targetDestination: formData.destinationPreference,
+          applicantObjective: `[Case Readiness Score: ${readinessAudit.score}/100 — ${readinessAudit.tier}] Primary Goal: ${formData.primaryGoal}. Education: ${formData.highestEducation}. Experience: ${formData.yearsExperience}. Funds Seasoning: ${formData.fundsSeasoningTenure}. Budget: ${formData.budgetBracket}. Prior Refusals: ${formData.priorRefusal}.`,
+          fullName: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          preferredMethod: 'whatsapp_video',
+          conditionalData: {
+            assessmentScore: readinessAudit.score,
+            assessmentTier: readinessAudit.tier,
+            ...formData,
+          },
+          ndprConsent: true,
+        }),
       });
     } catch (err) {
       console.error('[Assessment Lead Capture Note]:', err);
