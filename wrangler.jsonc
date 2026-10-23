@@ -15,9 +15,24 @@
   "observability": {
     "enabled": true
   },
+  // SECURITY NOTICE — Read before deploying:
+  // NEXT_PUBLIC_* vars are baked into the JS bundle at build time.
+  // They must NOT contain production secret values in a git-tracked file.
+  //
+  // ACTION REQUIRED:
+  //  1. Rotate the Supabase anon key at:
+  //     Supabase Dashboard → Project Settings → API → Regenerate anon key
+  //  2. Update NEXT_PUBLIC_SUPABASE_ANON_KEY via Cloudflare Dashboard →
+  //     Workers & Pages → sijam-consults → Settings → Variables (not secrets).
+  //  3. Store privileged secrets with wrangler (these are NOT in this file):
+  //       wrangler secret put SESSION_SECRET
+  //       wrangler secret put SUPABASE_SERVICE_ROLE_KEY
+  //
+  // The value below is a placeholder. The real key must be injected at
+  // build time via CI/CD environment variables or Cloudflare dashboard.
   "vars": {
     "NEXT_PUBLIC_SUPABASE_URL": "https://tpoxyelvhitwbjjvijwc.supabase.co",
-    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRwb3h5ZWx2aGl0d2JqanZpandjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE3OTUzNTUsImV4cCI6MjEwNzM3MTM1NX0.A1iVLpjG_-2QJecLlqotL_yct4epQPk0oY-F2idSMKc",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "REPLACE_WITH_ROTATED_KEY_FROM_SUPABASE_DASHBOARD",
     "NEXT_PUBLIC_USE_SUPABASE_VIDEOS": "true",
     "NEXT_PUBLIC_APP_URL": "https://sijamconsults.com",
     "NEXT_PUBLIC_APP_ENV": "production",

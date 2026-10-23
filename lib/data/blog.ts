@@ -1,4 +1,5 @@
 import type { BlogPost, BlogCategory, BlogTag, BlogAuthor } from '../types';
+import type { BlogPostRecord } from '../types/database';
 
 // ─── Authors ──────────────────────────────────────────────────────────────────
 
@@ -59,6 +60,71 @@ export const BLOG_TAGS: BlogTag[] = [
 // ─── Blog Posts ───────────────────────────────────────────────────────────────
 
 export const BLOG_POSTS: BlogPost[] = [
+  // ─── POST 006: What To Do After a Visa Refusal ───────────────────────────────
+  {
+    id: 'post-006',
+    slug: 'what-to-do-after-visa-refusal-nigeria',
+    title: 'What to Do After a Visa Refusal: A Step-by-Step Response Guide for Nigerians',
+    excerpt:
+      'A visa refusal is not a permanent ban. This guide deconstructs the most common refusal reasons for Nigerians applying to the UK, Schengen, Canada, and the US — and maps the correct statutory response to each.',
+    status: 'published',
+    publishedAt: '2026-10-15',
+    updatedAt: '2026-10-15',
+    contentReviewDue: '2027-04-15',
+    readTimeMinutes: 9,
+    isImmigrationPolicy: true,
+    policyLastVerified: '2026-10-15',
+    featuredImage: '/blogs/visa-refusal-response-guide.png',
+    featuredImageAlt: 'A stamped visa refusal letter on a desk — representing the reality many Nigerian applicants face and the correct recovery steps',
+    author: BLOG_AUTHORS[0],
+    category: BLOG_CATEGORIES[4], // Immigration Policy
+    tags: [BLOG_TAGS[9], BLOG_TAGS[3], BLOG_TAGS[6], BLOG_TAGS[8]], // Visa Refusal, Schengen, Business Registration, Nigeria
+    keyTakeaways: [
+      'A refusal letter contains the statutory reason code — this code, not the informal wording, governs what your correct response is.',
+      'Reapplying immediately after a refusal without correcting the root cause almost always results in a second refusal.',
+      'UK and Schengen refusals differ: UK applicants may request an Administrative Review; most Schengen applicants must appeal to the issuing consulate within the published deadline.',
+      'A forensic dossier audit before any reapplication is not optional — it is the only evidence-based path to identifying exactly which document or declaration triggered the refusal.',
+    ],
+    sections: [
+      {
+        heading: 'Read the Refusal Letter With Statutory Precision',
+        content:
+          'Every immigration authority issues refusals against a specific legal provision. UK visas are refused under UKVI Immigration Rules Appendix V (visitor visas), Appendix W (work routes), or the Points-Based System. Schengen authorities cite the Schengen Visa Code (Regulation (EC) No 810/2009), specifically Article 32(1)(a) or 32(1)(b). US B1/B2 refusals are issued under Section 214(b) of the Immigration and Nationality Act (INA). Canadian visas are refused under Section 11 of the Immigration and Refugee Protection Act (IRPA). The specific provision cited dictates what evidence must be produced and whether an appeal, administrative review, or fresh application is the correct next step. Generic reapplications without reading the statutory ground are the single most common reason for serial refusals.',
+      },
+      {
+        heading: 'UK Visa Refusals: Administrative Review vs. Fresh Application',
+        content:
+          'If your UK visa is refused and you believe a processing error was made — not a judgment on your eligibility, but an error in how the rules were applied — you may request an Administrative Review (AR). The AR is available for most visa routes except visitor visas (Standard Visitor). The fee for an Administrative Review from outside the UK is £108 as of 2026 under the Immigration and Asylum Act 1999. You must apply within 28 days of receiving the refusal decision. An AR will not succeed if the issue is that you did not provide sufficient documentation — that requires a fresh application with corrected evidence. Sijam Consults reviews refusal letters to determine which pathway applies, because choosing the wrong route wastes both the fee and the reapplication window.',
+      },
+      {
+        heading: 'Schengen Refusals: The Formal Appeal Procedure',
+        content:
+          'Under Article 32(3) of the Schengen Visa Code, every applicant who receives a refusal has the right to appeal. The correct authority and the appeal deadline vary by issuing country: France requires the appeal to be submitted to the Administrative Court (Tribunal Administratif) within two months; Germany uses the Verwaltungsgericht; Poland uses the administrative court system (Wojewódzki Sąd Administracyjny). Filing an appeal does not automatically extend a stay or grant entry. The more practical route for Nigerian applicants whose refusal arose from documentation gaps — rather than a genuine ineligibility — is a fresh application with corrected evidence, accompanied by a professional cover letter that directly addresses the specific Article 32(1)(a) reason cited. This distinguishes an honest administrative error from an attempt to circumvent the law.',
+      },
+      {
+        heading: 'The Five Most Common Refusal Reasons for Nigerian Applicants',
+        content:
+          'Across the four major destination blocs, five grounds account for the majority of Nigerian refusals:\n\n1. **Insufficient proof of funds or irregular bank statement patterns** — Embassies scrutinise transactions for the 3–6 months prior to application. Lump-sum deposits made immediately before application are a known red flag. Source-of-wealth documentation must accompany the statement.\n\n2. **Failure to demonstrate strong ties to Nigeria** — Under Section 214(b) INA and Article 32(1)(a)(vi) of the Schengen Visa Code, every applicant is presumed to intend to overstay unless evidence of home ties is provided. Insufficient employment tenure, lack of registered assets, or no immediate family dependants are common gaps.\n\n3. **Inconsistencies between documents** — Name spelling differences between the passport and supporting documents, date-of-birth discrepancies in birth certificates versus educational records, or employer letter contradictions with the tax clearance create credibility problems even when the documents are genuine.\n\n4. **Purpose of travel not substantiated** — A general statement of intent to visit is insufficient. Visitor visa applications require verifiable hotel bookings, documented itineraries, confirmed invitations (for those visiting hosts), or verified conference registrations.\n\n5. **Inadequate travel history** — For first-time applicants with no international travel history, the consular bar is higher. A well-structured dossier that compensates with financial strength, strong employment records, and a credible purpose of visit narrative can address this gap.',
+      },
+      {
+        heading: 'The Correct Sequence Before Reapplying',
+        content:
+          'The correct sequence is: read the refusal → identify the exact statutory ground → audit every document in the original application against the stated reason → correct or supplement only what was deficient → obtain a professional cover letter that directly references and responds to the refusal reason → reapply with the complete, corrected file. Sijam Consults performs forensic dossier audits on existing refusal cases as a standalone service before any reapplication is submitted. This is not cosmetic document arrangement — it is a structured review of each document against the specific consular assessment criteria used by the issuing authority.',
+      },
+      {
+        heading: 'What Not to Do After a Refusal',
+        content:
+          'Three responses reliably compound a refusal:\n\n**Do not reapply immediately without change.** Consular systems record prior refusals. A second application presenting the same documentary profile sends a signal that the applicant does not understand the reason for refusal.\n\n**Do not use a different category to avoid the refusal record.** Applying for a business visa immediately after a tourism refusal, without addressing the underlying credibility concern, often results in the business application also being refused — and now you have two refusals on record.\n\n**Do not pay a third party who claims they can "connect" you to an embassy officer.** Nigerian law under the Immigration Act 2015 prohibits any person from impersonating an immigration officer or trafficking in immigration documents. Foreign embassies do not operate through intermediaries for visa decisions. Any agent who claims otherwise is committing fraud.',
+      },
+    ],
+    relatedPostSlugs: ['tourist-visa-refusal-common-mistakes', 'uk-skilled-worker-visa-guide-2026'],
+    seo: {
+      title: 'What to Do After a Visa Refusal in Nigeria | Step-by-Step Recovery Guide | Sijam Consults',
+      description:
+        'Visa refused? Learn the exact statutory steps to respond to UK, Schengen, Canadian, and US visa refusals. Forensic dossier audit, Administrative Review eligibility, and reapplication strategy explained by Sijam Consults Limited.',
+    },
+  },
+
   {
     id: 'post-001',
     slug: 'why-study-nursing-canada-2026',
@@ -491,3 +557,5 @@ export function getPostsByTag(tagSlug: string): BlogPost[] {
 export function getRelatedPosts(slugs: string[]): BlogPost[] {
   return getPublishedPosts().filter((p) => slugs.includes(p.slug));
 }
+
+export { blogRecordToBlogPost, blogPostToBlogRecord } from './adapters';

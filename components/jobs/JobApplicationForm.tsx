@@ -84,10 +84,8 @@ export const JobApplicationForm: React.FC<{ job: JobListing }> = ({ job }) => {
         setErrors({ general: res.message || 'Application submission failed.' });
       }
     } catch (err) {
-      console.warn('Job application fallback:', err);
-      const refCode = `APP-${Math.floor(100000 + Math.random() * 900000)}`;
-      setAppReference(refCode);
-      setIsSubmitted(true);
+      console.error('Job application submission error:', err);
+      setErrors({ general: 'A network error occurred while filing your application dossier. Please check your connection and retry.' });
     } finally {
       setIsSubmitting(false);
     }

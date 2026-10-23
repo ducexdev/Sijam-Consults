@@ -123,10 +123,8 @@ export const ConsultationWizard: React.FC = () => {
         setErrors({ form: res.message || 'Submission failed.' });
       }
     } catch (err) {
-      console.warn('Consultation submission fallback:', err);
-      const code = `SJM-${Math.floor(100000 + Math.random() * 900000)}`;
-      setReferenceCode(code);
-      setIsSuccess(true);
+      console.error('Consultation booking transmission error:', err);
+      setErrors({ form: 'A network error occurred while transmitting your consultation request. Please check your connection and retry.' });
     } finally {
       setIsSubmitting(false);
     }

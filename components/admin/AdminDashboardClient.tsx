@@ -92,27 +92,11 @@ export function AdminDashboardClient({
 }: AdminDashboardClientProps) {
   const router = useRouter();
 
-  // Authentication State: If server authenticated, default to true
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
-  const [passcode, setPasscode] = useState('');
-  const [authError, setAuthError] = useState('');
+  // Authentication State: Enforce server-provided authenticated session
+  const [isAuthenticated, setIsAuthenticated] = useState(Boolean(authenticatedStaff));
 
   // Active Staff & Navigation
-  const [currentStaff, setCurrentStaff] = useState<ProfileRecord>(
-    authenticatedStaff ||
-      initialStaffList[0] || {
-        id: '00000000-0000-0000-0000-000000000001',
-        email: 'james.samson@sijamconsults.com',
-        full_name: 'James Samson',
-        role: 'super_admin',
-        department: 'Executive Governance & Strategy',
-        phone: '+234 706 422 9556',
-        avatar_url: '/team/James-Samson.png',
-        is_active: true,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      }
-  );
+  const [currentStaff] = useState<ProfileRecord | null>(authenticatedStaff || null);
   const [currentTab, setCurrentTab] = useState<AdminTab>('overview');
 
   // Change Password Modal State
@@ -123,26 +107,6 @@ export function AdminDashboardClient({
   const [pwdError, setPwdError] = useState('');
   const [pwdSuccess, setPwdSuccess] = useState('');
   const [pwdLoading, setPwdLoading] = useState(false);
-
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (
-      passcode === 'sijam2026' ||
-      passcode === 'admin' ||
-      passcode === 'sijam' ||
-      passcode.toLowerCase() === 'kaduna'
-    ) {
-      setIsAuthenticated(true);
-      setAuthError('');
-    } else {
-      setAuthError('Invalid security access code. Authorized case officers only.');
-    }
-  };
-
-  const handleQuickLogin = (staff: ProfileRecord) => {
-    setCurrentStaff(staff);
-    setIsAuthenticated(true);
-  };
 
   const handleSignOut = async () => {
     await logoutStaff();
@@ -195,100 +159,38 @@ export function AdminDashboardClient({
     }
   };
 
-  // If not authenticated, render the secure authentication gate
-  if (!isAuthenticated) {
+  // If not authenticated, render the secure authentication gate linking to /admin/login
+  if (!isAuthenticated || !currentStaff) {
     return (
       <div className="flex-1 min-h-screen flex items-center justify-center p-6 bg-[#070B14]">
         <div className="max-w-md w-full space-y-6">
-          <Card className="p-8 bg-[#0E1626] border-slate-800 text-slate-100 shadow-2xl space-y-6">
+          <Card className="p-8 bg-[#0E1626] border-slate-800 text-slate-100 shadow-2xl space-y-6 text-center">
             <div className="w-14 h-14 rounded-2xl bg-purple-950 border border-purple-500/40 text-purple-300 flex items-center justify-center mx-auto shadow-inner">
               <Lock className="w-7 h-7" />
             </div>
 
-            <div className="text-center space-y-1.5">
+            <div className="space-y-1.5">
               <span className="text-[10px] font-mono uppercase tracking-widest text-purple-400">
                 Kaduna Consular Hub • RC: 1715416
               </span>
               <h1 className="font-heading font-extrabold text-2xl text-white">
-                SIJAM Executive Platform
+                SIJAM Operations Hub
               </h1>
               <p className="text-xs text-slate-400">
-                Authenticate to access client dossiers, recruitment pipeline, and business engines.
+                An authenticated staff session is required to access client dossiers and administrative controls.
               </p>
             </div>
 
-            <form onSubmit={handleLogin} className="space-y-4">
-              <div>
-                <label className="block text-xs font-semibold uppercase text-slate-300 mb-1.5">
-                  Officer Security Key
-                </label>
-                <input
-                  type="password"
-                  value={passcode}
-                  onChange={(e) => setPasscode(e.target.value)}
-                  placeholder="Enter staff security key..."
-                  className="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-purple-500 font-mono"
-                />
-                {authError && (
-                  <p className="text-xs text-rose-400 mt-1.5 flex items-center gap-1">
-                    <AlertCircle className="w-3.5 h-3.5" /> {authError}
-                  </p>
-                )}
-              </div>
+            <Button
+              onClick={() => router.push('/admin/login')}
+              variant="primary"
+              size="md"
+              className="w-full justify-center shadow-lg shadow-purple-950/50"
+            >
+              Sign In with Staff Credentials
+            </Button>
 
-              <Button
-                type="submit"
-                variant="primary"
-                size="md"
-                className="w-full justify-center shadow-lg shadow-purple-950/50"
-              >
-                Authenticate Session
-              </Button>
-            </form>
-
-            {/* Quick Demo Personas */}
-            <div className="pt-4 border-t border-slate-800/80 space-y-2">
-              <div className="flex items-center justify-between text-[11px] text-slate-400">
-                <span>Direct Access (RBAC Personas):</span>
-                <span className="font-mono text-purple-400 text-[10px]">Test Matrix</span>
-              </div>
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                <button
-                  type="button"
-                  onClick={() => handleQuickLogin(initialStaffList[0])}
-                  className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-left transition"
-                >
-                  <div className="font-semibold text-white text-[11px]">James Samson</div>
-                  <div className="text-[10px] text-purple-400">Super Admin</div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleQuickLogin(initialStaffList[1])}
-                  className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-left transition"
-                >
-                  <div className="font-semibold text-white text-[11px]">Amina Bello</div>
-                  <div className="text-[10px] text-blue-400">Consultation Mgr</div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleQuickLogin(initialStaffList[2])}
-                  className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-left transition"
-                >
-                  <div className="font-semibold text-white text-[11px]">David Okon</div>
-                  <div className="text-[10px] text-emerald-400">Recruitment Mgr</div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleQuickLogin(initialStaffList[3])}
-                  className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-left transition"
-                >
-                  <div className="font-semibold text-white text-[11px]">Fatima Al-Hassan</div>
-                  <div className="text-[10px] text-amber-400">Content Editor</div>
-                </button>
-              </div>
-            </div>
-
-            <div className="text-[10px] text-slate-500 text-center font-mono pt-1">
+            <div className="text-[10px] text-slate-500 font-mono pt-1">
               Protected under NDPR 2023 & statutory consular audit protocols.
             </div>
           </Card>
@@ -303,8 +205,6 @@ export function AdminDashboardClient({
       {/* Top Header */}
       <AdminHeader
         currentStaff={currentStaff}
-        staffList={initialStaffList}
-        onSwitchStaff={(s) => setCurrentStaff(s)}
         onSignOut={handleSignOut}
         onChangePassword={() => {
           setPwdError('');

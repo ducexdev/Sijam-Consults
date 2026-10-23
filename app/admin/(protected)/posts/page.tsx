@@ -1,5 +1,3 @@
-'use client';
-
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -8,13 +6,12 @@ import {
   Eye,
   Edit3,
   Clock,
-  CheckCircle,
-  Archive,
   Calendar,
   AlertCircle,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
-import { BLOG_POSTS } from '@/lib/data/blog';
+import { dbRepository } from '@/lib/db/repository';
+import { blogRecordToBlogPost } from '@/lib/data/blog';
 import type { BlogPostStatus } from '@/lib/types';
 
 function StatusBadge({ status }: { status: BlogPostStatus }) {
@@ -25,14 +22,15 @@ function StatusBadge({ status }: { status: BlogPostStatus }) {
     draft: { label: 'Draft', variant: 'slate' },
     archived: { label: 'Archived', variant: 'slate' },
   };
-  const { label, variant } = map[status];
+  const { label, variant } = map[status] || { label: status, variant: 'slate' };
   return <Badge variant={variant}>{label}</Badge>;
 }
 
-export default function AdminPostsPage() {
-  const posts = [...BLOG_POSTS].sort(
-    (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-  );
+export default async function AdminPostsPage() {
+  const dbRecords = await dbRepository.getBlogPosts();
+  const posts = dbRecords
+    .map((rec) => blogRecordToBlogPost(rec))
+    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 
   const published = posts.filter((p) => p.status === 'published').length;
   const drafts = posts.filter((p) => p.status === 'draft').length;
@@ -168,7 +166,7 @@ export default function AdminPostsPage() {
 
         {/* Footer */}
         <div className="mt-6 flex items-center justify-between text-xs text-slate-500">
-          <p>Content is stored in <code className="bg-slate-100 px-1 rounded">lib/data/blog.ts</code>. Database-backed CMS coming with Supabase integration.</p>
+          <p>Posts are served via centralized database repository with dual-mode Supabase and static fallback.</p>
           <Link href="/admin/seo" className="text-[#402493] hover:underline font-semibold">
             → SEO Dashboard
           </Link>

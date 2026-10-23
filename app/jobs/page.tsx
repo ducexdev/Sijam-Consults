@@ -5,6 +5,8 @@ import { JobsClientWrapper } from '@/components/jobs/JobsClientWrapper';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema';
 import { ROUTES, COMPANY } from '@/lib/routes';
+import { dbRepository } from '@/lib/db/repository';
+import { jobRecordToJobListing } from '@/lib/data/jobs';
 import {
   Sparkles,
   ArrowRight,
@@ -111,7 +113,10 @@ const faqSchema = {
   ],
 };
 
-export default function JobsPage() {
+export default async function JobsPage() {
+  const dbJobs = await dbRepository.getJobs({ status: 'open' });
+  const initialJobs = dbJobs.map(jobRecordToJobListing);
+
   return (
     <PublicLayout>
       <BreadcrumbSchema
@@ -129,7 +134,7 @@ export default function JobsPage() {
             Employers, Job Directory, Process, Testimonials
             (rendered by the client-side wrapper)
         ───────────────────────────────────────────────── */}
-        <JobsClientWrapper />
+        <JobsClientWrapper initialJobs={initialJobs} />
 
         {/* ─────────────────────────────────────────────────
             SECTION 7: INFORMATION GAIN #1

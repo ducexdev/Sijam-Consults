@@ -1,7 +1,10 @@
 import Link from 'next/link';
 import { ArrowLeft, Info, Eye } from 'lucide-react';
-import { BLOG_POSTS } from '@/lib/data/blog';
+import { BLOG_POSTS, blogRecordToBlogPost } from '@/lib/data/blog';
+import { dbRepository } from '@/lib/db/repository';
 import { notFound } from 'next/navigation';
+
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return BLOG_POSTS.map((post) => ({
@@ -15,7 +18,13 @@ interface PageProps {
 
 export default async function EditPostPage({ params }: PageProps) {
   const { id } = await params;
-  const post = BLOG_POSTS.find((p) => p.id === id);
+  let post = BLOG_POSTS.find((p) => p.id === id || p.slug === id);
+  if (!post) {
+    const dbPost = await dbRepository.getBlogPostBySlug(id);
+    if (dbPost) {
+      post = blogRecordToBlogPost(dbPost);
+    }
+  }
   if (!post) return notFound();
 
   return (
@@ -98,7 +107,7 @@ export default async function EditPostPage({ params }: PageProps) {
           <div className="space-y-1">
             <p className="font-semibold">Dynamic Content Management</p>
             <p className="text-amber-800">
-              In this release, blog posts are statically compiled from verified source definitions in <code>lib/data/blog.ts</code> to maintain consular accuracy and SEO authority. Direct inline editing will sync to Supabase in the next update.
+              This article is integrated with Sijam Consults dual-layer database repository. Any updates published via the Operations Hub sync across edge workers and database replicas.
             </p>
             <div className="pt-2 flex gap-3">
               <a

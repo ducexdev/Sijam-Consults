@@ -26,11 +26,11 @@ export interface CreateJobInput {
   generalWorkerSectors?: string[] | null;
 }
 
-export async function apiCreateJob(jobData: CreateJobInput, adminId?: string): Promise<JobRecord> {
+export async function apiCreateJob(jobData: CreateJobInput): Promise<JobRecord> {
   const res = await fetch('/api/jobs/create', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ ...jobData, adminId }),
+    body: JSON.stringify(jobData),
   });
 
   const data = await res.json();
@@ -40,11 +40,11 @@ export async function apiCreateJob(jobData: CreateJobInput, adminId?: string): P
   return data.job;
 }
 
-export async function apiUpdateJob(id: string, updates: Partial<JobRecord>, adminId?: string): Promise<JobRecord> {
+export async function apiUpdateJob(id: string, updates: Partial<JobRecord>): Promise<JobRecord> {
   const res = await fetch('/api/jobs/update', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id, updates, adminId }),
+    body: JSON.stringify({ id, updates }),
   });
 
   const data = await res.json();
@@ -54,11 +54,11 @@ export async function apiUpdateJob(id: string, updates: Partial<JobRecord>, admi
   return data.job;
 }
 
-export async function apiDeleteJob(id: string, adminId?: string): Promise<boolean> {
+export async function apiDeleteJob(id: string): Promise<boolean> {
   const res = await fetch('/api/jobs/delete', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id, adminId }),
+    body: JSON.stringify({ id }),
   });
 
   const data = await res.json();
@@ -71,13 +71,12 @@ export async function apiDeleteJob(id: string, adminId?: string): Promise<boolea
 export async function apiUpdateApplicationStatus(
   id: string,
   newStatus: JobApplicationStatus,
-  note?: string,
-  adminId?: string
+  note?: string
 ) {
   const res = await fetch('/api/jobs/application-status', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id, newStatus, note, adminId }),
+    body: JSON.stringify({ id, newStatus, note }),
   });
 
   const data = await res.json();

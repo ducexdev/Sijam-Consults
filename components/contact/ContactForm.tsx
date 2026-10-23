@@ -59,9 +59,8 @@ export const ContactForm: React.FC = () => {
         setErrors({ form: res.message || 'Failed to file enquiry.' });
       }
     } catch (err) {
-      console.warn('Submission fallback:', err);
-      setInquiryRef(`INQ-${Math.floor(100000 + Math.random() * 900000)}`);
-      setIsSuccess(true);
+      console.error('Contact enquiry transmission error:', err);
+      setErrors({ form: 'A network error occurred while submitting your message. Please check your connection and retry.' });
     } finally {
       setIsSubmitting(false);
     }
@@ -135,63 +134,83 @@ export const ContactForm: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+            <label htmlFor="contact-full-name" className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
               Full Legal Name *
             </label>
             <input
+              id="contact-full-name"
+              name="fullName"
               type="text"
+              autoComplete="name"
+              aria-required="true"
+              aria-invalid={!!errors.fullName}
+              aria-describedby={errors.fullName ? "contact-name-error" : undefined}
               value={formData.fullName}
               onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
               placeholder="e.g. Aminu Bello"
-              className={`w-full px-4 py-3 rounded-xl bg-[#070415] border text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#4DA5EC] transition-colors ${
+              className={`w-full px-4 py-3 rounded-xl bg-[#070415] border text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#4DA5EC] focus-visible:ring-2 focus-visible:ring-[#4DA5EC] transition-colors ${
                 errors.fullName ? 'border-red-500' : 'border-white/15'
               }`}
             />
-            {errors.fullName && <p className="text-xs text-red-400 mt-1">{errors.fullName}</p>}
+            {errors.fullName && <p id="contact-name-error" className="text-xs text-red-400 mt-1">{errors.fullName}</p>}
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+              <label htmlFor="contact-email" className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
                 Official Email Address *
               </label>
               <input
+                id="contact-email"
+                name="email"
                 type="email"
+                autoComplete="email"
+                aria-required="true"
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? "contact-email-error" : undefined}
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="name@example.com"
-                className={`w-full px-4 py-3 rounded-xl bg-[#070415] border text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#4DA5EC] transition-colors ${
+                className={`w-full px-4 py-3 rounded-xl bg-[#070415] border text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#4DA5EC] focus-visible:ring-2 focus-visible:ring-[#4DA5EC] transition-colors ${
                   errors.email ? 'border-red-500' : 'border-white/15'
                 }`}
               />
-              {errors.email && <p className="text-xs text-red-400 mt-1">{errors.email}</p>}
+              {errors.email && <p id="contact-email-error" className="text-xs text-red-400 mt-1">{errors.email}</p>}
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+              <label htmlFor="contact-phone" className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
                 Phone / WhatsApp Number *
               </label>
               <input
+                id="contact-phone"
+                name="phone"
                 type="tel"
+                autoComplete="tel"
+                aria-required="true"
+                aria-invalid={!!errors.phone}
+                aria-describedby={errors.phone ? "contact-phone-error" : undefined}
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 placeholder="+234 803 123 4567"
-                className={`w-full px-4 py-3 rounded-xl bg-[#070415] border text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#4DA5EC] transition-colors ${
+                className={`w-full px-4 py-3 rounded-xl bg-[#070415] border text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#4DA5EC] focus-visible:ring-2 focus-visible:ring-[#4DA5EC] transition-colors ${
                   errors.phone ? 'border-red-500' : 'border-white/15'
                 }`}
               />
-              {errors.phone && <p className="text-xs text-red-400 mt-1">{errors.phone}</p>}
+              {errors.phone && <p id="contact-phone-error" className="text-xs text-red-400 mt-1">{errors.phone}</p>}
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+            <label htmlFor="contact-category" className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
               Service Area of Interest
             </label>
             <select
+              id="contact-category"
+              name="serviceCategory"
               value={formData.serviceCategory}
               onChange={(e) => setFormData({ ...formData, serviceCategory: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl bg-[#070415] border border-white/15 text-white text-xs focus:outline-none focus:border-[#4DA5EC] transition-colors"
+              className="w-full px-4 py-3 rounded-xl bg-[#070415] border border-white/15 text-white text-xs focus:outline-none focus:border-[#4DA5EC] focus-visible:ring-2 focus-visible:ring-[#4DA5EC] transition-colors"
             >
               <option>Study Abroad & Admissions</option>
               <option>Work Permits & Placement Advisory</option>
@@ -205,26 +224,36 @@ export const ContactForm: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+            <label htmlFor="contact-message" className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
               Case Summary / Relocation Objective *
             </label>
             <textarea
+              id="contact-message"
+              name="message"
               rows={4}
+              aria-required="true"
+              aria-invalid={!!errors.message}
+              aria-describedby={errors.message ? "contact-message-error" : undefined}
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               placeholder="Detail your target destination, timeline, qualifications, or specific questions..."
-              className={`w-full px-4 py-3 rounded-xl bg-[#070415] border text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#4DA5EC] transition-colors ${
+              className={`w-full px-4 py-3 rounded-xl bg-[#070415] border text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#4DA5EC] focus-visible:ring-2 focus-visible:ring-[#4DA5EC] transition-colors ${
                 errors.message ? 'border-red-500' : 'border-white/15'
               }`}
             />
-            {errors.message && <p className="text-xs text-red-400 mt-1">{errors.message}</p>}
+            {errors.message && <p id="contact-message-error" className="text-xs text-red-400 mt-1">{errors.message}</p>}
           </div>
 
           {/* NDPR Consent */}
           <div className="pt-1">
-            <label className="flex items-start gap-2.5 cursor-pointer">
+            <label htmlFor="contact-ndpr-consent" className="flex items-start gap-2.5 cursor-pointer">
               <input
+                id="contact-ndpr-consent"
+                name="ndprConsent"
                 type="checkbox"
+                aria-required="true"
+                aria-invalid={!!errors.ndprConsent}
+                aria-describedby={errors.ndprConsent ? "contact-ndpr-error" : undefined}
                 checked={formData.ndprConsent}
                 onChange={(e) => setFormData({ ...formData, ndprConsent: e.target.checked })}
                 className="mt-1 w-4 h-4 text-[#257CFF] rounded border-white/20 bg-black/40 focus:ring-[#4DA5EC]"
@@ -233,7 +262,7 @@ export const ContactForm: React.FC = () => {
                 I agree that Sijam Consults Limited may process my details to respond to this inquiry under the Nigeria Data Protection Act (NDPR 2023). Zero spam guaranteed.
               </span>
             </label>
-            {errors.ndprConsent && <p className="text-xs text-red-400 mt-1">{errors.ndprConsent}</p>}
+            {errors.ndprConsent && <p id="contact-ndpr-error" className="text-xs text-red-400 mt-1">{errors.ndprConsent}</p>}
           </div>
 
           {errors.form && (

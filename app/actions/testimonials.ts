@@ -3,6 +3,7 @@
 import { dbRepository } from '@/lib/db/repository';
 import { emailService } from '@/lib/email/smtp';
 import { TestimonialRecord, TestimonialStatus } from '@/lib/types/database';
+import { getStaffSession } from '@/app/actions/auth';
 
 export interface TestimonialActionResponse {
   success: boolean;
@@ -54,7 +55,10 @@ export async function submitPublicReview(
   }
 
   // 3. Sensitive Data Protection Check (Prevent leaking passport numbers)
-  const sensitivePattern = /\b([A-Z]\d{8}|[A-Z0-9]{9})\b/i;
+  // Standard Nigerian/ECOWAS passport numbers: 1 letter + 8 digits (e.g. A12345678)
+  // or alphanumeric document numbers containing at least 4 digits.
+  // Must require digits to avoid false-flagging regular 9-letter words like "admission" or "questions".
+  const sensitivePattern = /\b([A-Z]\d{8}|(?=[A-Z0-9]*\d{4})[A-Z0-9]{8,9})\b/i;
   if (sensitivePattern.test(formData.quote) || (formData.fullStory && sensitivePattern.test(formData.fullStory))) {
     errors.quote = 'Please do not include passport numbers or sensitive document IDs in your public review.';
   }
@@ -112,9 +116,14 @@ export async function submitPublicReview(
 export async function adminModerateReview(
   id: string,
   status: TestimonialStatus,
-  reason?: string,
-  moderatorId = '00000000-0000-0000-0000-000000000001'
+  reason?: string
 ) {
+  const { session } = await getStaffSession();
+  if (!session) {
+    throw new Error('Authentication required. Please sign in to the Operations Hub.');
+  }
+  const moderatorId = session.staffId;
+
   const updated = await dbRepository.moderateTestimonial(id, status, reason, moderatorId);
   if (updated) {
     await dbRepository.recordAuditLog({

@@ -10,7 +10,6 @@ import {
   verifyPassword,
   signSessionToken,
   verifySessionToken,
-  DEFAULT_ADMIN_CREDENTIALS,
   SEED_SALT,
   SEED_PASSWORD_HASH,
 } from '@/lib/auth/session';
@@ -129,13 +128,26 @@ export async function loginStaff(
     };
   }
 
-  // 4. Password Verification
+  // 4. Password Verification — require a stored hash; no plaintext fallback allowed
   let passwordMatches = false;
   if (staff.password_hash && staff.salt) {
     passwordMatches = verifyPassword(password, staff.salt, staff.password_hash);
   } else {
-    // Fallback verification against seed password
-    passwordMatches = password === DEFAULT_ADMIN_CREDENTIALS.defaultPassword;
+    // Account has no stored password hash — this should not happen in a correctly
+    // seeded database. Reject the login to force a DB-level fix; never compare
+    // plaintext passwords in production.
+    await dbRepository.recordAuditLog({
+      user_id: staff.id,
+      action: 'auth.login_failed',
+      entity_type: 'staff_profile',
+      entity_id: staff.id,
+      details: { email, reason: 'no_password_hash_on_record', clientIp },
+      ip_address: clientIp,
+    });
+    return {
+      success: false,
+      message: 'Account configuration error. No password hash on record. Contact your Super Administrator.',
+    };
   }
 
   if (!passwordMatches) {
@@ -273,12 +285,12 @@ export async function changeOwnPassword(input: {
     return { success: false, message: 'Authentication required. Please sign in.' };
   }
 
-  // 1. Verify Current Password
+  // 1. Verify Current Password — require a stored hash
   let currentValid = false;
   if (profile.password_hash && profile.salt) {
     currentValid = verifyPassword(input.currentPassword, profile.salt, profile.password_hash);
   } else {
-    currentValid = input.currentPassword === DEFAULT_ADMIN_CREDENTIALS.defaultPassword;
+    return { success: false, message: 'Account configuration error. No password hash on record. Contact your Super Administrator.' };
   }
 
   if (!currentValid) {

@@ -9,13 +9,11 @@ import {
   Mail,
   Eye,
   EyeOff,
-  ShieldCheck,
   AlertCircle,
   CheckCircle2,
   KeyRound,
   ArrowRight,
   ExternalLink,
-  HelpCircle,
 } from 'lucide-react';
 import { loginStaff, requestPasswordResetCode } from '@/app/actions/auth';
 import { COMPANY, ROUTES } from '@/lib/routes';
@@ -23,7 +21,7 @@ import { COMPANY, ROUTES } from '@/lib/routes';
 export default function AdminLoginPage() {
   const router = useRouter();
 
-  const [email, setEmail] = useState('admin@sijamconsults.com');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
@@ -222,18 +220,14 @@ export default function AdminLoginPage() {
               </button>
             </form>
 
-            {/* Default Client Credentials Pill */}
+            {/* Support Notice */}
             <div className="mt-6 pt-5 border-t border-slate-800/80 bg-slate-950/40 rounded-2xl p-3.5 text-[11px] text-slate-400 space-y-1.5 border border-slate-800">
               <div className="flex items-center gap-1.5 font-bold text-purple-300 uppercase tracking-wider text-[10px]">
-                <ShieldCheck className="w-3.5 h-3.5 text-purple-400" />
-                Default Master Credentials for Client:
-              </div>
-              <div className="flex justify-between items-center font-mono text-[10px] text-slate-300">
-                <span>Login: <strong>admin@sijamconsults.com</strong></span>
-                <span>Pass: <code className="bg-slate-900 px-1.5 py-0.5 rounded text-amber-300">SijamAdmin@2026!</code></span>
+                <KeyRound className="w-3.5 h-3.5 text-purple-400" />
+                Staff Access
               </div>
               <p className="text-[10px] text-slate-500 leading-normal">
-                Can be changed anytime inside the Admin Hub. Additional staff accounts can be created with granular roles.
+                Use your assigned staff email and password. If you have forgotten your password, use the &ldquo;Forgot password?&rdquo; link above to receive a reset token. Contact your Super Administrator if you do not have access.
               </p>
             </div>
           </div>

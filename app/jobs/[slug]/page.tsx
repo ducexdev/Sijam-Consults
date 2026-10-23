@@ -20,7 +20,8 @@ import { JobPostingSchema } from '@/components/seo/JobPostingSchema';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
-import { JOBS_DATA } from '@/lib/data/jobs';
+import { JOBS_DATA, jobRecordToJobListing } from '@/lib/data/jobs';
+import { dbRepository } from '@/lib/db/repository';
 import { formatDate } from '@/lib/utils';
 import { ROUTES } from '@/lib/routes';
 import { generatePageMetadata } from '@/lib/seo/metadata';
@@ -37,7 +38,9 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const job = JOBS_DATA.find((j) => j.slug === slug);
+  const staticJob = JOBS_DATA.find((j) => j.slug === slug);
+  const dbJob = !staticJob ? await dbRepository.getJobBySlug(slug) : null;
+  const job = staticJob || (dbJob ? jobRecordToJobListing(dbJob) : null);
   if (!job) return { title: 'Foreign Opportunity Details | Sijam Consults' };
   return generatePageMetadata({
     title: `${job.title} in ${job.location}`,
@@ -52,7 +55,9 @@ export default async function JobDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const job = JOBS_DATA.find((j) => j.slug === slug);
+  const staticJob = JOBS_DATA.find((j) => j.slug === slug);
+  const dbJob = !staticJob ? await dbRepository.getJobBySlug(slug) : null;
+  const job = staticJob || (dbJob ? jobRecordToJobListing(dbJob) : null);
 
   if (!job) {
     return (

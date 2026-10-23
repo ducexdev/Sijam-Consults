@@ -4,15 +4,16 @@ import { PublicLayout } from '@/components/layout/PublicLayout';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArticleCard } from '@/components/blog/ArticleCard';
 import { Badge } from '@/components/ui/Badge';
-import { getPublishedPosts, BLOG_CATEGORIES } from '@/lib/data/blog';
+import { getPublishedPosts, BLOG_CATEGORIES, blogRecordToBlogPost } from '@/lib/data/blog';
+import { dbRepository } from '@/lib/db/repository';
 import { generatePageMetadata } from '@/lib/seo/metadata';
 
 import { BookOpen, Rss } from 'lucide-react';
 
 export const metadata: Metadata = generatePageMetadata({
-  title: 'Blog & Immigration Updates',
+  title: 'Immigration Blog & Visa Updates for Nigerians | Sijam Consults',
   description:
-    'Latest immigration updates, visa guidelines, European business setup news, and international student admissions advice from Sijam Consults Limited.',
+    'Fact-checked immigration news, visa application guides, work permit updates, and study abroad advice authored by senior consultants at Sijam Consults Limited (RC: 1715416). Subscribe via RSS.',
   path: '/blog',
   image: '/og/sijam-og-default.png',
 });
@@ -23,7 +24,14 @@ interface BlogPageProps {
 
 export default async function BlogPage({ searchParams }: BlogPageProps) {
   const query = (await searchParams)?.q?.trim().toLowerCase();
-  const allPosts = getPublishedPosts();
+  const dbRecords = await dbRepository.getBlogPosts({ status: 'published' });
+  const dbPosts = dbRecords.map((rec) => blogRecordToBlogPost(rec));
+  const staticPosts = getPublishedPosts();
+  const dbSlugs = new Set(dbPosts.map((p) => p.slug));
+  const allPosts = [
+    ...dbPosts,
+    ...staticPosts.filter((p) => !dbSlugs.has(p.slug)),
+  ].sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
   
   const posts = query
     ? allPosts.filter(

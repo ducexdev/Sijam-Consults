@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { CountrySelect } from '@/components/ui/CountrySelect';
+import { submitPublicConsultation } from '@/app/actions/consultations';
 
 export interface AssessmentFormState {
   primaryGoal: 'Study Abroad' | 'Employer Work Permit' | 'Permanent Residency' | 'European Business / Sp. z o.o.';
@@ -207,18 +208,43 @@ export const AssessmentCalculator: React.FC = () => {
     setStep((prev) => Math.max(prev - 1, 1));
   };
 
-  const handleSubmitAssessment = (e: React.FormEvent) => {
+  const handleSubmitAssessment = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.fullName || !formData.email || !formData.phone) {
       alert('Please enter your full name, email address, and active WhatsApp number.');
       return;
     }
     setIsSubmitting(true);
-    // Simulate real calculation transition
-    setTimeout(() => {
+
+    try {
+      const serviceSlugMap: Record<string, string> = {
+        'Study Abroad': 'study-visa',
+        'Employer Work Permit': 'work-visa',
+        'Permanent Residency': 'permanent-residency',
+        'European Business / Sp. z o.o.': 'business-registration',
+      };
+
+      await submitPublicConsultation({
+        serviceSlug: serviceSlugMap[formData.primaryGoal] || 'study-visa',
+        targetDestination: formData.destinationPreference,
+        applicantObjective: `[Case Readiness Score: ${readinessAudit.score}/100 — ${readinessAudit.tier}] Primary Goal: ${formData.primaryGoal}. Education: ${formData.highestEducation}. Experience: ${formData.yearsExperience}. Funds Seasoning: ${formData.fundsSeasoningTenure}. Budget: ${formData.budgetBracket}. Prior Refusals: ${formData.priorRefusal}.`,
+        fullName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        preferredMethod: 'whatsapp_video',
+        conditionalData: {
+          assessmentScore: readinessAudit.score,
+          assessmentTier: readinessAudit.tier,
+          ...formData,
+        },
+        ndprConsent: true,
+      });
+    } catch (err) {
+      console.error('[Assessment Lead Capture Note]:', err);
+    } finally {
       setIsSubmitting(false);
       setIsCalculated(true);
-    }, 700);
+    }
   };
 
   return (

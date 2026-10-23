@@ -1,5 +1,6 @@
 'use server';
 
+import crypto from 'node:crypto';
 import { dbRepository } from '@/lib/db/repository';
 import { getStaffSession } from './auth';
 import { generateSalt, hashPassword } from '@/lib/auth/session';
@@ -38,8 +39,11 @@ export async function adminCreateStaff(input: {
     return { success: false, message: `A staff account with email ${email} already exists.` };
   }
 
-  // Password handling
-  const rawPassword = input.password && input.password.length >= 8 ? input.password : 'SijamStaff@2026!';
+  // Password handling: Use provided password or generate secure random temporary password
+  const rawPassword =
+    input.password && input.password.length >= 8
+      ? input.password
+      : crypto.randomBytes(8).toString('hex') + '!Aa1';
   const salt = generateSalt();
   const passwordHash = hashPassword(rawPassword, salt);
 

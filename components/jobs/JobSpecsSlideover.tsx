@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   X,
@@ -40,6 +40,17 @@ export const JobSpecsSlideover: React.FC<JobSpecsSlideoverProps> = ({
   const [copied, setCopied] = useState(false);
   const [checkedReqs, setCheckedReqs] = useState<number[]>([]);
 
+  useEffect(() => {
+    if (!job) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [job, onClose]);
+
   if (!job) return null;
 
   const handleToggleReq = (idx: number) => {
@@ -58,16 +69,21 @@ export const JobSpecsSlideover: React.FC<JobSpecsSlideoverProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden backdrop-blur-md bg-black/75 flex justify-end animate-fade-in">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="job-specs-title"
+      className="fixed inset-0 z-50 overflow-hidden backdrop-blur-md bg-black/75 flex justify-end animate-fade-in"
+    >
       {/* Background click to dismiss */}
-      <div className="absolute inset-0" onClick={onClose} />
+      <div className="absolute inset-0" onClick={onClose} aria-hidden="true" />
 
       {/* Slideout Panel */}
       <div className="relative w-full max-w-2xl bg-[#0C0824] border-l border-purple-500/30 text-white h-full shadow-[0_0_80px_rgba(0,0,0,0.9)] flex flex-col z-10 animate-slide-in-right">
         {/* Header HUD */}
         <div className="p-5 sm:p-6 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-[#170E3B] to-[#0E0927] shrink-0">
           <div className="flex items-center gap-2">
-            <span className="text-2xl">{job.flag || '🌍'}</span>
+            <span className="text-2xl" aria-hidden="true">{job.flag || '🌍'}</span>
             <div>
               <span className="text-[10px] font-black uppercase tracking-wider text-[#4DA5EC]">
                 Quota Specification
@@ -80,18 +96,20 @@ export const JobSpecsSlideover: React.FC<JobSpecsSlideoverProps> = ({
             <button
               type="button"
               onClick={handleShare}
-              className="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition-all border border-white/10"
+              className="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition-all border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#4DA5EC]"
               title="Share job link"
+              aria-label="Share job link"
             >
-              <Share2 className="w-3.5 h-3.5" />
+              <Share2 className="w-3.5 h-3.5" aria-hidden="true" />
               <span>{copied ? 'Copied Link!' : 'Share'}</span>
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="w-9 h-9 rounded-xl bg-white/5 hover:bg-white/15 text-slate-400 hover:text-white flex items-center justify-center transition-all"
+              aria-label="Close job specifications"
+              className="w-9 h-9 rounded-xl bg-white/5 hover:bg-white/15 text-slate-400 hover:text-white flex items-center justify-center transition-all focus:outline-none focus:ring-2 focus:ring-white"
             >
-              <X className="w-5 h-5" />
+              <X className="w-5 h-5" aria-hidden="true" />
             </button>
           </div>
         </div>
@@ -102,7 +120,7 @@ export const JobSpecsSlideover: React.FC<JobSpecsSlideoverProps> = ({
           <div className="space-y-3">
             <div className="flex items-center gap-2 flex-wrap text-xs">
               <span className="px-3 py-1 rounded-full font-bold bg-[#402493]/70 text-purple-200 border border-purple-500/30 flex items-center gap-1.5">
-                <span>{job.flag || '🌍'}</span>
+                <span aria-hidden="true">{job.flag || '🌍'}</span>
                 <span>{job.country}</span>
               </span>
               <span className="px-3 py-1 rounded-full font-medium bg-white/[0.06] text-slate-300 border border-white/10">
@@ -128,13 +146,13 @@ export const JobSpecsSlideover: React.FC<JobSpecsSlideoverProps> = ({
               )}
               {job.isEmployerVerified && (
                 <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full font-bold text-emerald-300 bg-emerald-950/60 border border-emerald-800/40 text-[11px]">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" />
                   Verified Employer Sponsor
                 </span>
               )}
             </div>
 
-            <h2 className="font-heading font-black text-2xl sm:text-3xl text-white leading-tight">
+            <h2 id="job-specs-title" className="font-heading font-black text-2xl sm:text-3xl text-white leading-tight">
               {job.title}
             </h2>
 

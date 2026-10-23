@@ -8,6 +8,9 @@ import { COMPANY } from '@/lib/routes';
 export const metadata: Metadata = {
   title: 'Terms & Conditions of Engagement | Sijam Consults Limited',
   description: 'Official terms and conditions governing travel consulting, university admission facilitation, and document legalization services with Sijam Consults Limited (RC: 1715416).',
+  alternates: {
+    canonical: 'https://sijamconsults.com/terms',
+  },
 };
 
 export default function TermsPage() {

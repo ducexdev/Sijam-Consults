@@ -64,18 +64,21 @@ export default {
             });
         } catch (error) {
             console.error("[CRITICAL WORKER EXCEPTION]", error);
-            const errStack = error?.stack || String(error);
-            const errCause = error?.cause ? \`\\nCause: \${JSON.stringify(error.cause, Object.getOwnPropertyNames(error.cause))}\` : "";
-            return new Response(
-                \`[Cloudflare Worker Exception Caught]\\n\\n\${errStack}\${errCause}\`,
-                {
-                    status: 500,
-                    headers: {
-                        "content-type": "text/plain; charset=utf-8",
-                        "x-worker-error": "true"
-                    }
+            const isDev = env?.ENVIRONMENT === "development" || env?.NODE_ENV === "development";
+            const errorRef = crypto.randomUUID ? crypto.randomUUID().slice(0, 8) : "ERR-500";
+            console.error(\`[Error Reference ID: \${errorRef}]\`, error?.stack || error);
+
+            const body = isDev
+                ? \`[Worker Exception Caught: \${errorRef}]\\n\\n\${error?.stack || String(error)}\`
+                : \`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Service Unavailable | Sijam Consults</title><style>body{font-family:system-ui,-apple-system,sans-serif;background:#0D0826;color:#FAF8FF;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:24px;text-align:center}h1{font-size:24px;color:#FAF8FF;margin-bottom:8px}p{color:#A89EC9;font-size:14px;max-width:480px;line-height:1.6}a{color:#F45A2A;text-decoration:none;font-weight:600}.ref{font-family:monospace;font-size:12px;color:#7A6E9B;margin-top:16px}</style></head><body><div><h1>Service Temporarily Unavailable</h1><p>Our operations desk has been notified. Please try refreshing or contact <a href="mailto:support@sijamconsults.com">support@sijamconsults.com</a>.</p><p class="ref">Error Reference: \${errorRef}</p></div></body></html>\`;
+
+            return new Response(body, {
+                status: 500,
+                headers: {
+                    "content-type": isDev ? "text/plain; charset=utf-8" : "text/html; charset=utf-8",
+                    "x-worker-error": "true"
                 }
-            );
+            });
         }
     },
 };

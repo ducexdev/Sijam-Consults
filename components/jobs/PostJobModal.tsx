@@ -560,8 +560,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
           eligibleCountries: eligibleCountriesList,
           processingTime: processingTime.trim(),
           generalWorkerSectors: generalWorkerTrades || null,
-        },
-        staffUser.id
+        }
       );
 
       // Create Local Job Object for Instant Real-Time UI Updates

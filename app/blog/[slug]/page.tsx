@@ -18,7 +18,9 @@ import {
   getPublishedPosts,
   getRelatedPosts,
   BLOG_CATEGORIES,
+  blogRecordToBlogPost,
 } from '@/lib/data/blog';
+import { dbRepository } from '@/lib/db/repository';
 import {
   Calendar,
   Clock,
@@ -33,13 +35,21 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+export const dynamicParams = true;
+
 export async function generateStaticParams() {
   return getPublishedPosts().map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPublishedPostBySlug(slug);
+  let post = getPublishedPostBySlug(slug);
+  if (!post) {
+    const dbPost = await dbRepository.getBlogPostBySlug(slug);
+    if (dbPost && dbPost.status === 'published') {
+      post = blogRecordToBlogPost(dbPost);
+    }
+  }
   if (!post) return { title: 'Article Not Found' };
 
   return generatePageMetadata({
@@ -66,7 +76,13 @@ function slugifyHeading(text: string): string {
 
 export default async function BlogArticlePage({ params }: PageProps) {
   const { slug } = await params;
-  const post = getPublishedPostBySlug(slug);
+  let post = getPublishedPostBySlug(slug);
+  if (!post) {
+    const dbPost = await dbRepository.getBlogPostBySlug(slug);
+    if (dbPost && dbPost.status === 'published') {
+      post = blogRecordToBlogPost(dbPost);
+    }
+  }
 
   if (!post) notFound();
 

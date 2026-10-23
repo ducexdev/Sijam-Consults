@@ -4,6 +4,7 @@ import { dbRepository } from '@/lib/db/repository';
 import { emailService } from '@/lib/email/smtp';
 import { validateConsultationForm } from '@/lib/validation';
 import { ConsultationMethod, ConsultationStatus } from '@/lib/types/database';
+import { getStaffSession } from '@/app/actions/auth';
 
 export interface ConsultationActionResponse {
   success: boolean;
@@ -142,13 +143,18 @@ export async function submitPublicConsultation(
 export async function adminUpdateConsultationStatus(
   id: string,
   newStatus: ConsultationStatus,
-  note?: string,
-  adminId = '00000000-0000-0000-0000-000000000001'
+  note?: string
 ) {
-  const updated = await dbRepository.updateConsultationStatus(id, newStatus, note, adminId);
+  const { session } = await getStaffSession();
+  if (!session) {
+    throw new Error('Authentication required. Please sign in to the Operations Hub.');
+  }
+  const actorId = session.staffId;
+
+  const updated = await dbRepository.updateConsultationStatus(id, newStatus, note, actorId);
   if (updated) {
     await dbRepository.recordAuditLog({
-      user_id: adminId,
+      user_id: actorId,
       action: 'consultation.status_change',
       entity_type: 'consultation_request',
       entity_id: id,
@@ -163,13 +169,18 @@ export async function adminUpdateConsultationStatus(
  */
 export async function adminAssignConsultation(
   id: string,
-  staffId: string,
-  adminId = '00000000-0000-0000-0000-000000000001'
+  staffId: string
 ) {
-  const assigned = await dbRepository.assignConsultation(id, staffId, adminId);
+  const { session } = await getStaffSession();
+  if (!session) {
+    throw new Error('Authentication required. Please sign in to the Operations Hub.');
+  }
+  const actorId = session.staffId;
+
+  const assigned = await dbRepository.assignConsultation(id, staffId, actorId);
   if (assigned) {
     await dbRepository.recordAuditLog({
-      user_id: adminId,
+      user_id: actorId,
       action: 'consultation.assign',
       entity_type: 'consultation_request',
       entity_id: id,
@@ -191,9 +202,14 @@ export async function adminScheduleAppointment(
     meetingLinkOrRoom?: string;
     officerId?: string;
     notes?: string;
-  },
-  adminId = '00000000-0000-0000-0000-000000000001'
+  }
 ) {
+  const { session } = await getStaffSession();
+  if (!session) {
+    throw new Error('Authentication required. Please sign in to the Operations Hub.');
+  }
+  const actorId = session.staffId;
+
   const appt = await dbRepository.scheduleConsultationAppointment({
     consultation_request_id: data.consultationRequestId,
     scheduled_at: data.scheduledAt,
@@ -211,7 +227,7 @@ export async function adminScheduleAppointment(
   }
 
   await dbRepository.recordAuditLog({
-    user_id: adminId,
+    user_id: actorId,
     action: 'consultation.appointment_scheduled',
     entity_type: 'consultation_appointment',
     entity_id: appt.id,
@@ -227,10 +243,15 @@ export async function adminScheduleAppointment(
 export async function adminRescheduleAppointment(
   appointmentId: string,
   newScheduledAt: string,
-  reason?: string,
-  adminId = '00000000-0000-0000-0000-000000000001'
+  reason?: string
 ) {
-  const appt = await dbRepository.rescheduleConsultationAppointment(appointmentId, newScheduledAt, reason, adminId);
+  const { session } = await getStaffSession();
+  if (!session) {
+    throw new Error('Authentication required. Please sign in to the Operations Hub.');
+  }
+  const actorId = session.staffId;
+
+  const appt = await dbRepository.rescheduleConsultationAppointment(appointmentId, newScheduledAt, reason, actorId);
   if (!appt) return null;
 
   const req = await dbRepository.getConsultationById(appt.consultation_request_id);
@@ -239,7 +260,7 @@ export async function adminRescheduleAppointment(
   }
 
   await dbRepository.recordAuditLog({
-    user_id: adminId,
+    user_id: actorId,
     action: 'consultation.appointment_rescheduled',
     entity_type: 'consultation_appointment',
     entity_id: appt.id,
@@ -254,10 +275,15 @@ export async function adminRescheduleAppointment(
  */
 export async function adminCancelAppointment(
   appointmentId: string,
-  reason?: string,
-  adminId = '00000000-0000-0000-0000-000000000001'
+  reason?: string
 ) {
-  const appt = await dbRepository.cancelConsultationAppointment(appointmentId, reason, adminId);
+  const { session } = await getStaffSession();
+  if (!session) {
+    throw new Error('Authentication required. Please sign in to the Operations Hub.');
+  }
+  const actorId = session.staffId;
+
+  const appt = await dbRepository.cancelConsultationAppointment(appointmentId, reason, actorId);
   if (!appt) return null;
 
   const req = await dbRepository.getConsultationById(appt.consultation_request_id);
@@ -266,7 +292,7 @@ export async function adminCancelAppointment(
   }
 
   await dbRepository.recordAuditLog({
-    user_id: adminId,
+    user_id: actorId,
     action: 'consultation.appointment_cancelled',
     entity_type: 'consultation_appointment',
     entity_id: appt.id,
@@ -280,6 +306,10 @@ export async function adminCancelAppointment(
  * Admin Server Action: Fetch Email Outbox Queue
  */
 export async function adminGetEmailOutbox(filter?: { status?: string }) {
+  const { session } = await getStaffSession();
+  if (!session) {
+    throw new Error('Authentication required. Please sign in to the Operations Hub.');
+  }
   return dbRepository.getEmailOutbox(filter);
 }
 
@@ -287,13 +317,18 @@ export async function adminGetEmailOutbox(filter?: { status?: string }) {
  * Admin Server Action: Retry Outbox Email Dispatch
  */
 export async function adminRetryOutboxEmail(
-  id: string,
-  adminId = '00000000-0000-0000-0000-000000000001'
+  id: string
 ) {
+  const { session } = await getStaffSession();
+  if (!session) {
+    throw new Error('Authentication required. Please sign in to the Operations Hub.');
+  }
+  const actorId = session.staffId;
+
   const retried = await dbRepository.retryEmailOutbox(id);
   if (retried) {
     await dbRepository.recordAuditLog({
-      user_id: adminId,
+      user_id: actorId,
       action: 'outbox.retry_dispatch',
       entity_type: 'email_outbox',
       entity_id: id,

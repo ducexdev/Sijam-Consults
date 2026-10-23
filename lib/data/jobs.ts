@@ -1,4 +1,5 @@
-import { JobListing } from '../types';
+import type { JobListing } from '../types';
+import type { JobRecord, JobStatus } from '../types/database';
 import { COUNTRIES_DATA } from './countries';
 
 export const JOBS_DATA: JobListing[] = [
@@ -908,3 +909,5 @@ export const COMPREHENSIVE_SECTORS: SectorDefinition[] = [
     description: 'Versatile multi-skilled workforce covering basic electrical, plumbing, construction site labor, agriculture & facility upkeep',
   },
 ];
+
+export { jobRecordToJobListing, jobListingToJobRecord } from './adapters';

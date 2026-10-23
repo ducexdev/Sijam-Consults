@@ -5,7 +5,6 @@ import {
   StaffSession,
   verifyPassword,
   signSessionToken,
-  DEFAULT_ADMIN_CREDENTIALS,
 } from '@/lib/auth/session';
 
 
@@ -113,7 +112,19 @@ export async function POST(request: NextRequest) {
     if (staff.password_hash && staff.salt) {
       passwordMatches = verifyPassword(password, staff.salt, staff.password_hash);
     } else {
-      passwordMatches = password === DEFAULT_ADMIN_CREDENTIALS.defaultPassword;
+      // Account has no stored password hash — fail closed; never use plaintext fallback in production.
+      await dbRepository.recordAuditLog({
+        user_id: staff.id,
+        action: 'auth.login_failed',
+        entity_type: 'staff_profile',
+        entity_id: staff.id,
+        details: { email, reason: 'no_password_hash_on_record', clientIp },
+        ip_address: clientIp,
+      });
+      return NextResponse.json(
+        { success: false, message: 'Account configuration error. Contact your Super Administrator.' },
+        { status: 401 }
+      );
     }
 
     if (!passwordMatches) {

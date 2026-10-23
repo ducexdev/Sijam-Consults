@@ -2,6 +2,7 @@
 
 import { dbRepository } from '@/lib/db/repository';
 import { BlogPostRecord, BlogPostStatus } from '@/lib/types/database';
+import { getStaffSession } from '@/app/actions/auth';
 
 export async function adminCreateBlogPost(
   data: {
@@ -23,9 +24,14 @@ export async function adminCreateBlogPost(
     metaTitle?: string;
     metaDescription?: string;
     canonicalUrl?: string;
-  },
-  adminId = '00000000-0000-0000-0000-000000000001'
+  }
 ) {
+  const { session } = await getStaffSession();
+  if (!session) {
+    throw new Error('Authentication required. Please sign in to the Operations Hub.');
+  }
+  const actorId = session.staffId;
+
   const post = await dbRepository.createBlogPost({
     slug: data.slug || data.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
     post_type: data.postType,
@@ -37,7 +43,7 @@ export async function adminCreateBlogPost(
     sections: data.sections,
     featured_image: data.featuredImage || '/blogs/Ducex-Blog.png',
     read_time_minutes: data.readTimeMinutes || 5,
-    author_id: adminId,
+    author_id: actorId,
     author_name: data.authorName,
     author_role: data.authorRole,
     author_avatar: data.authorAvatar || null,
@@ -50,7 +56,7 @@ export async function adminCreateBlogPost(
   });
 
   await dbRepository.recordAuditLog({
-    user_id: adminId,
+    user_id: actorId,
     action: 'blog.create',
     entity_type: 'blog_post',
     entity_id: post.id,
@@ -62,13 +68,18 @@ export async function adminCreateBlogPost(
 
 export async function adminUpdateBlogPost(
   id: string,
-  updates: Partial<BlogPostRecord>,
-  adminId = '00000000-0000-0000-0000-000000000001'
+  updates: Partial<BlogPostRecord>
 ) {
+  const { session } = await getStaffSession();
+  if (!session) {
+    throw new Error('Authentication required. Please sign in to the Operations Hub.');
+  }
+  const actorId = session.staffId;
+
   const updated = await dbRepository.updateBlogPost(id, updates);
   if (updated) {
     await dbRepository.recordAuditLog({
-      user_id: adminId,
+      user_id: actorId,
       action: 'blog.update',
       entity_type: 'blog_post',
       entity_id: id,
@@ -82,13 +93,18 @@ export async function adminUpdateBlogPost(
  * Admin Server Action: Delete Blog Post
  */
 export async function adminDeleteBlogPost(
-  id: string,
-  adminId = '00000000-0000-0000-0000-000000000001'
+  id: string
 ) {
+  const { session } = await getStaffSession();
+  if (!session) {
+    throw new Error('Authentication required. Please sign in to the Operations Hub.');
+  }
+  const actorId = session.staffId;
+
   const deleted = await dbRepository.deleteBlogPost(id);
   if (deleted) {
     await dbRepository.recordAuditLog({
-      user_id: adminId,
+      user_id: actorId,
       action: 'blog.delete',
       entity_type: 'blog_post',
       entity_id: id,
@@ -103,15 +119,13 @@ export async function adminDeleteBlogPost(
  */
 export async function adminToggleBlogPostStatus(
   id: string,
-  newStatus: BlogPostStatus,
-  adminId = '00000000-0000-0000-0000-000000000001'
+  newStatus: BlogPostStatus
 ) {
   return adminUpdateBlogPost(
     id,
     {
       status: newStatus,
       published_at: newStatus === 'published' ? new Date().toISOString() : null,
-    },
-    adminId
+    }
   );
 }

@@ -115,6 +115,19 @@ export function Navbar() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
+  // WCAG 2.1 AA (SC 2.1.2 No Keyboard Trap): Close mobile drawer and dropdowns on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        if (mobileMenuOpen) setMobileMenuOpen(false);
+        if (servicesOpen) setServicesOpen(false);
+        if (moreOpen) setMoreOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [mobileMenuOpen, servicesOpen, moreOpen]);
+
   const closeMobile = () => setMobileMenuOpen(false);
 
   return (

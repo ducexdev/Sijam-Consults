@@ -92,7 +92,7 @@ export default function ReviewsPage() {
     '@type': 'LocalBusiness',
     name: 'Sijam Consults Limited',
     image: 'https://sijamconsults.com/brand/logo.png',
-    telephone: '+2348032777148',
+    telephone: '+2347064229556',
     address: {
       '@type': 'PostalAddress',
       streetAddress: 'Suite A10, 2nd Floor, 2/4 Kachia Road',

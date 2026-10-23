@@ -8,6 +8,9 @@ import { COMPANY } from '@/lib/routes';
 export const metadata: Metadata = {
   title: 'Privacy Policy & NDPR Compliance | Sijam Consults Limited',
   description: 'Read the official data protection and privacy policy of Sijam Consults Limited (RC: 1715416). Compliant with Nigeria Data Protection Act (NDPA) and NDPR standards.',
+  alternates: {
+    canonical: 'https://sijamconsults.com/privacy',
+  },
 };
 
 export default function PrivacyPage() {

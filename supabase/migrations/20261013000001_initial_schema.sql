@@ -171,6 +171,10 @@ create table if not exists public.jobs (
   location text not null,
   employment_type text not null check (employment_type in ('Full-time', 'Contract', 'Seasonal', 'Apprenticeship')),
   salary_range text,
+  age_requirement text,
+  eligible_countries text[],
+  processing_time text,
+  general_worker_sectors text[],
   description text not null,
   responsibilities jsonb not null default '[]'::jsonb,
   eligibility_requirements jsonb not null default '[]'::jsonb,
@@ -500,35 +504,35 @@ begin
 end;
 $$ language plpgsql;
 
-drop trigger if exists trg_profiles_updated_at on public.profiles;
-create trigger trg_profiles_updated_at before update on public.profiles for each row execute function public.handle_updated_at();
+drop trigger if exists trg_profiles_updated_at on public.profiles cascade;
+create or replace trigger trg_profiles_updated_at before update on public.profiles for each row execute function public.handle_updated_at();
 
-drop trigger if exists trg_services_updated_at on public.services;
-create trigger trg_services_updated_at before update on public.services for each row execute function public.handle_updated_at();
+drop trigger if exists trg_services_updated_at on public.services cascade;
+create or replace trigger trg_services_updated_at before update on public.services for each row execute function public.handle_updated_at();
 
-drop trigger if exists trg_consultations_updated_at on public.consultation_requests;
-create trigger trg_consultations_updated_at before update on public.consultation_requests for each row execute function public.handle_updated_at();
+drop trigger if exists trg_consultations_updated_at on public.consultation_requests cascade;
+create or replace trigger trg_consultations_updated_at before update on public.consultation_requests for each row execute function public.handle_updated_at();
 
-drop trigger if exists trg_appointments_updated_at on public.consultation_appointments;
-create trigger trg_appointments_updated_at before update on public.consultation_appointments for each row execute function public.handle_updated_at();
+drop trigger if exists trg_appointments_updated_at on public.consultation_appointments cascade;
+create or replace trigger trg_appointments_updated_at before update on public.consultation_appointments for each row execute function public.handle_updated_at();
 
-drop trigger if exists trg_employers_updated_at on public.employers;
-create trigger trg_employers_updated_at before update on public.employers for each row execute function public.handle_updated_at();
+drop trigger if exists trg_employers_updated_at on public.employers cascade;
+create or replace trigger trg_employers_updated_at before update on public.employers for each row execute function public.handle_updated_at();
 
-drop trigger if exists trg_jobs_updated_at on public.jobs;
-create trigger trg_jobs_updated_at before update on public.jobs for each row execute function public.handle_updated_at();
+drop trigger if exists trg_jobs_updated_at on public.jobs cascade;
+create or replace trigger trg_jobs_updated_at before update on public.jobs for each row execute function public.handle_updated_at();
 
-drop trigger if exists trg_job_applications_updated_at on public.job_applications;
-create trigger trg_job_applications_updated_at before update on public.job_applications for each row execute function public.handle_updated_at();
+drop trigger if exists trg_job_applications_updated_at on public.job_applications cascade;
+create or replace trigger trg_job_applications_updated_at before update on public.job_applications for each row execute function public.handle_updated_at();
 
-drop trigger if exists trg_testimonials_updated_at on public.testimonials;
-create trigger trg_testimonials_updated_at before update on public.testimonials for each row execute function public.handle_updated_at();
+drop trigger if exists trg_testimonials_updated_at on public.testimonials cascade;
+create or replace trigger trg_testimonials_updated_at before update on public.testimonials for each row execute function public.handle_updated_at();
 
-drop trigger if exists trg_blog_posts_updated_at on public.blog_posts;
-create trigger trg_blog_posts_updated_at before update on public.blog_posts for each row execute function public.handle_updated_at();
+drop trigger if exists trg_blog_posts_updated_at on public.blog_posts cascade;
+create or replace trigger trg_blog_posts_updated_at before update on public.blog_posts for each row execute function public.handle_updated_at();
 
-drop trigger if exists trg_partners_updated_at on public.partners;
-create trigger trg_partners_updated_at before update on public.partners for each row execute function public.handle_updated_at();
+drop trigger if exists trg_partners_updated_at on public.partners cascade;
+create or replace trigger trg_partners_updated_at before update on public.partners for each row execute function public.handle_updated_at();
 
-drop trigger if exists trg_contact_messages_updated_at on public.contact_messages;
-create trigger trg_contact_messages_updated_at before update on public.contact_messages for each row execute function public.handle_updated_at();
+drop trigger if exists trg_contact_messages_updated_at on public.contact_messages cascade;
+create or replace trigger trg_contact_messages_updated_at before update on public.contact_messages for each row execute function public.handle_updated_at();

@@ -6,6 +6,15 @@ import { ReviewsShowcase } from '@/components/reviews/ReviewsShowcase';
 export const metadata: Metadata = {
   title: 'Client Testimonials & Verified Visa Approvals | Sijam Consults Limited',
   description: 'Read authentic client reviews and inspect verified consular visa approval stamps from Sijam Consults Limited across Poland, Cyprus, Canada, UK, and Schengen countries.',
+  // Canonical points to /reviews — the canonical destination for all social-proof content.
+  // /testimonials is preserved as an alias for legacy inbound links and sharing.
+  alternates: {
+    canonical: 'https://sijamconsults.com/reviews',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function TestimonialsPage() {

@@ -20,6 +20,7 @@ import { RelocationProcess } from './RelocationProcess';
 import { JobTestimonials } from './JobTestimonials';
 import { PostJobModal } from './PostJobModal';
 import { ROUTES } from '@/lib/routes';
+import { JobListing } from '@/lib/types';
 
 const QUICK_SECTORS = [
   'Healthcare & Nursing',
@@ -34,7 +35,11 @@ const QUICK_SECTORS = [
   'Residential Care',
 ];
 
-export const JobsClientWrapper: React.FC = () => {
+interface JobsClientWrapperProps {
+  initialJobs?: JobListing[];
+}
+
+export const JobsClientWrapper: React.FC<JobsClientWrapperProps> = ({ initialJobs = [] }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [countryFilter, setCountryFilter] = useState('All');
   const [isPostModalOpen, setIsPostModalOpen] = useState(false);
@@ -187,6 +192,7 @@ export const JobsClientWrapper: React.FC = () => {
           <JobsDirectory
             initialSearchTerm={searchTerm}
             initialCountry={countryFilter}
+            initialJobs={initialJobs}
           />
         </div>
       </section>

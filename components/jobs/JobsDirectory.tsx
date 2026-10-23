@@ -50,11 +50,13 @@ import { JobSpecsSlideover } from './JobSpecsSlideover';
 interface JobsDirectoryProps {
   initialSearchTerm?: string;
   initialCountry?: string;
+  initialJobs?: JobListing[];
 }
 
 export const JobsDirectory: React.FC<JobsDirectoryProps> = ({
   initialSearchTerm = '',
   initialCountry = 'All',
+  initialJobs = [],
 }) => {
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
@@ -113,13 +115,26 @@ export const JobsDirectory: React.FC<JobsDirectoryProps> = ({
     if (initialCountry) setSelectedCountry(initialCountry);
   }, [initialCountry]);
 
-  // Combine static JOBS_DATA and frontend posted userJobs
+  // Combine server-fetched database jobs, static JOBS_DATA, and local userJobs
   const allAvailableJobs = useMemo(() => {
-    // Avoid duplicate IDs if any
-    const userJobIds = new Set(userJobs.map((j) => j.id));
-    const dedupedStatic = JOBS_DATA.filter((j) => !userJobIds.has(j.id));
-    return [...userJobs, ...dedupedStatic];
-  }, [userJobs]);
+    const list: JobListing[] = [];
+    const seenIds = new Set<string>();
+    const seenSlugs = new Set<string>();
+
+    const addJob = (job: JobListing) => {
+      if (!seenIds.has(job.id) && !seenSlugs.has(job.slug)) {
+        seenIds.add(job.id);
+        seenSlugs.add(job.slug);
+        list.push(job);
+      }
+    };
+
+    userJobs.forEach(addJob);
+    initialJobs.forEach(addJob);
+    JOBS_DATA.forEach(addJob);
+
+    return list;
+  }, [userJobs, initialJobs]);
 
   const categories = useMemo(() => ['All', ...COMPREHENSIVE_SECTORS.map((s) => s.name)], []);
 

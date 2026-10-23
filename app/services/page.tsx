@@ -24,6 +24,9 @@ import { VIDEOS } from "@/lib/constants/videos";
 export const metadata = {
   title: 'All Services | Sijam Consults Limited — Visa, Citizenship, Recruitment & Immigration Advisory Nigeria',
   description: 'Complete range of immigration and travel services from Sijam Consults Limited. Study visa, work permit, tourist visa, citizenship assistance, permanent residency, recruitment & labour supply, and football talent intermediary. Expert advisory from Kaduna, Nigeria. RC: 1715416.',
+  alternates: {
+    canonical: 'https://sijamconsults.com/services',
+  },
 };
 
 const iconMap: Record<string, React.ElementType> = {

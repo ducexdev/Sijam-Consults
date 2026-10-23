@@ -4,6 +4,7 @@ import { dbRepository } from '@/lib/db/repository';
 import { emailService } from '@/lib/email/smtp';
 import { validateJobApplication } from '@/lib/validation';
 import { JobApplicationStatus, JobRecord, JobStatus } from '@/lib/types/database';
+import { getStaffSession } from '@/app/actions/auth';
 
 export interface JobActionResponse {
   success: boolean;
@@ -156,9 +157,14 @@ export async function adminCreateJob(
     deadline: string;
     status: JobStatus;
     acceptsApplications: boolean;
-  },
-  adminId = '00000000-0000-0000-0000-000000000001'
+  }
 ) {
+  const { session } = await getStaffSession();
+  if (!session) {
+    throw new Error('Authentication required. Please sign in to the Operations Hub.');
+  }
+  const actorId = session.staffId;
+
   const newJob = await dbRepository.createJob({
     slug: jobData.slug || jobData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
     title: jobData.title,
@@ -180,11 +186,11 @@ export async function adminCreateJob(
     accepts_applications: jobData.acceptsApplications,
     published_at: jobData.status === 'open' ? new Date().toISOString() : null,
     disclaimer: 'Notice of Statutory Independence: Sijam Consults Limited facilitates candidate file preparation and consular filing protocols. We do not guarantee employment outcomes.',
-    created_by: adminId,
+    created_by: actorId,
   });
 
   await dbRepository.recordAuditLog({
-    user_id: adminId,
+    user_id: actorId,
     action: 'jobs.create',
     entity_type: 'job',
     entity_id: newJob.id,
@@ -199,13 +205,18 @@ export async function adminCreateJob(
  */
 export async function adminUpdateJob(
   id: string,
-  updates: Partial<JobRecord>,
-  adminId = '00000000-0000-0000-0000-000000000001'
+  updates: Partial<JobRecord>
 ) {
+  const { session } = await getStaffSession();
+  if (!session) {
+    throw new Error('Authentication required. Please sign in to the Operations Hub.');
+  }
+  const actorId = session.staffId;
+
   const updated = await dbRepository.updateJob(id, updates);
   if (updated) {
     await dbRepository.recordAuditLog({
-      user_id: adminId,
+      user_id: actorId,
       action: 'jobs.update',
       entity_type: 'job',
       entity_id: id,
@@ -219,13 +230,18 @@ export async function adminUpdateJob(
  * Admin Server Action: Delete Job Listing
  */
 export async function adminDeleteJob(
-  id: string,
-  adminId = '00000000-0000-0000-0000-000000000001'
+  id: string
 ) {
+  const { session } = await getStaffSession();
+  if (!session) {
+    throw new Error('Authentication required. Please sign in to the Operations Hub.');
+  }
+  const actorId = session.staffId;
+
   const deleted = await dbRepository.deleteJob(id);
   if (deleted) {
     await dbRepository.recordAuditLog({
-      user_id: adminId,
+      user_id: actorId,
       action: 'jobs.delete',
       entity_type: 'job',
       entity_id: id,
@@ -240,10 +256,9 @@ export async function adminDeleteJob(
  */
 export async function adminToggleJobStatus(
   id: string,
-  newStatus: JobStatus,
-  adminId = '00000000-0000-0000-0000-000000000001'
+  newStatus: JobStatus
 ) {
-  return adminUpdateJob(id, { status: newStatus }, adminId);
+  return adminUpdateJob(id, { status: newStatus });
 }
 
 /**
@@ -252,13 +267,18 @@ export async function adminToggleJobStatus(
 export async function adminUpdateApplicationStatus(
   id: string,
   newStatus: JobApplicationStatus,
-  note?: string,
-  adminId = '00000000-0000-0000-0000-000000000001'
+  note?: string
 ) {
-  const updated = await dbRepository.updateApplicationStatus(id, newStatus, note, adminId);
+  const { session } = await getStaffSession();
+  if (!session) {
+    throw new Error('Authentication required. Please sign in to the Operations Hub.');
+  }
+  const actorId = session.staffId;
+
+  const updated = await dbRepository.updateApplicationStatus(id, newStatus, note, actorId);
   if (updated) {
     await dbRepository.recordAuditLog({
-      user_id: adminId,
+      user_id: actorId,
       action: 'applications.status_change',
       entity_type: 'job_application',
       entity_id: id,

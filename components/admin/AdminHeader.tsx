@@ -17,16 +17,12 @@ import { COMPANY } from '@/lib/routes';
 
 interface AdminHeaderProps {
   currentStaff: ProfileRecord;
-  staffList: ProfileRecord[];
-  onSwitchStaff: (staff: ProfileRecord) => void;
   onSignOut: () => void;
   onChangePassword?: () => void;
 }
 
 export function AdminHeader({
   currentStaff,
-  staffList,
-  onSwitchStaff,
   onSignOut,
   onChangePassword,
 }: AdminHeaderProps) {
@@ -70,28 +66,6 @@ export function AdminHeader({
             className={`px-2 py-0.5 rounded-full text-[10px] font-medium border ${roleBadge.bg} ${roleBadge.text} ${roleBadge.border}`}
           >
             {formatRoleLabel(currentStaff.role)}
-          </div>
-
-          {/* Quick Persona Selector for live RBAC demonstration */}
-          <div className="relative group">
-            <label htmlFor="persona-select" className="sr-only">Switch Staff Persona</label>
-            <select
-              id="persona-select"
-              aria-label="Switch Staff Persona"
-              value={currentStaff.id}
-              onChange={(e) => {
-                const selected = staffList.find((s) => s.id === e.target.value);
-                if (selected) onSwitchStaff(selected);
-              }}
-              className="bg-transparent text-xs text-purple-300 font-mono focus:outline-none cursor-pointer py-0.5 pl-1 pr-4 appearance-none"
-            >
-              {staffList.map((s) => (
-                <option key={s.id} value={s.id} className="bg-slate-900 text-white">
-                  Switch to: {s.full_name} ({formatRoleLabel(s.role)})
-                </option>
-              ))}
-            </select>
-            <ChevronDown className="w-3 h-3 text-slate-400 absolute right-0 top-1.5 pointer-events-none" />
           </div>
         </div>
 

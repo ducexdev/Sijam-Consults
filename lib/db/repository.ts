@@ -33,13 +33,15 @@ import {
 import { supabase, supabaseAdmin, isSupabaseConfigured } from '@/lib/supabase';
 import { SERVICES_DATA } from '@/lib/data/services';
 import { PARTNERS_DATA } from '@/lib/data/partners';
+import { JOBS_DATA, jobListingToJobRecord } from '@/lib/data/jobs';
+import { BLOG_POSTS, blogPostToBlogRecord } from '@/lib/data/blog';
 import { emailOutboxStore } from '@/lib/email/cpanel-smtp';
 import { SEED_SALT, SEED_PASSWORD_HASH } from '@/lib/auth/session';
 import { VIDEOS } from '@/lib/constants/videos';
 
 // ------------------------------------------------------------------------------
 // Seed Staff Profiles for Administrative Access
-// Default Super Admin Password: SijamAdmin@2026!
+// Credentials stored as salted SHA-256 HMAC hashes only
 // ------------------------------------------------------------------------------
 const DEFAULT_STAFF: ProfileRecord[] = [
   {
@@ -958,6 +960,13 @@ export const dbRepository = {
       }
     }
     let list = [...globalStore.jobs];
+    // Merge static JOBS_DATA for any job not already in store
+    const storeSlugs = new Set(list.map((j) => j.slug));
+    for (const sj of JOBS_DATA) {
+      if (!storeSlugs.has(sj.slug)) {
+        list.push(jobListingToJobRecord(sj));
+      }
+    }
     if (filter?.status && filter.status !== 'all') {
       list = list.filter((j) => j.status === filter.status);
     }
@@ -982,7 +991,13 @@ export const dbRepository = {
         console.error('Supabase getJobBySlug error:', err);
       }
     }
-    return globalStore.jobs.find((j) => j.slug === slug || j.id === slug) || null;
+    const storeJob = globalStore.jobs.find((j) => j.slug === slug || j.id === slug);
+    if (storeJob) return storeJob;
+
+    const staticJob = JOBS_DATA.find((j) => j.slug === slug || j.id === slug);
+    if (staticJob) return jobListingToJobRecord(staticJob);
+
+    return null;
   },
 
   async createJob(jobData: Omit<JobRecord, 'id' | 'view_count' | 'application_count' | 'created_at' | 'updated_at'>) {
@@ -1272,6 +1287,13 @@ export const dbRepository = {
       }
     }
     let list = [...globalStore.blogPosts];
+    // Merge static BLOG_POSTS for any post not already in store
+    const storeSlugs = new Set(list.map((p) => p.slug));
+    for (const sp of BLOG_POSTS) {
+      if (!storeSlugs.has(sp.slug)) {
+        list.push(blogPostToBlogRecord(sp));
+      }
+    }
     if (filter?.status && filter.status !== 'all') {
       list = list.filter((p) => p.status === filter.status);
     }
@@ -1292,7 +1314,13 @@ export const dbRepository = {
         console.error('Supabase getBlogPostBySlug error:', err);
       }
     }
-    return globalStore.blogPosts.find((p) => p.slug === slug || p.id === slug) || null;
+    const storePost = globalStore.blogPosts.find((p) => p.slug === slug || p.id === slug);
+    if (storePost) return storePost;
+
+    const staticPost = BLOG_POSTS.find((p) => p.slug === slug || p.id === slug);
+    if (staticPost) return blogPostToBlogRecord(staticPost);
+
+    return null;
   },
 
   async createBlogPost(post: Omit<BlogPostRecord, 'id' | 'view_count' | 'current_version' | 'created_at' | 'updated_at'>) {

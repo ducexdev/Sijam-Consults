@@ -75,8 +75,8 @@ CREATE POLICY "Service role full access to email_outbox"
   WITH CHECK (true);
 
 -- 4. Automated updated_at trigger for email_outbox
-DROP TRIGGER IF EXISTS update_email_outbox_updated_at ON email_outbox;
-CREATE TRIGGER update_email_outbox_updated_at
+DROP TRIGGER IF EXISTS update_email_outbox_updated_at ON email_outbox CASCADE;
+CREATE OR REPLACE TRIGGER update_email_outbox_updated_at
   BEFORE UPDATE ON email_outbox
   FOR EACH ROW
   EXECUTE FUNCTION public.handle_updated_at();

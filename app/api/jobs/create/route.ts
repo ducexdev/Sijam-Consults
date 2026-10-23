@@ -1,9 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { dbRepository } from '@/lib/db/repository';
 import { JobStatus } from '@/lib/types/database';
+import { requireAdminSession } from '@/lib/auth/require-admin';
 
 
 export async function POST(request: NextRequest) {
+  // ── Authentication Guard ────────────────────────────────────────────────
+  const auth = await requireAdminSession(request);
+  if (auth.error) return auth.error;
+  const actorId = auth.staffId;
+
   try {
     const body = await request.json();
     const {
@@ -28,7 +34,6 @@ export async function POST(request: NextRequest) {
       eligibleCountries,
       processingTime,
       generalWorkerSectors,
-      adminId = '00000000-0000-0000-0000-000000000001',
     } = body as {
       title: string;
       slug?: string;
@@ -94,11 +99,11 @@ export async function POST(request: NextRequest) {
       published_at: status === 'open' ? new Date().toISOString() : null,
       disclaimer:
         'Notice of Statutory Independence: Sijam Consults Limited facilitates candidate file preparation and consular filing protocols. We do not guarantee employment outcomes.',
-      created_by: adminId,
+      created_by: actorId,
     });
 
     await dbRepository.recordAuditLog({
-      user_id: adminId,
+      user_id: actorId,
       action: 'jobs.create',
       entity_type: 'job',
       entity_id: newJob.id,
