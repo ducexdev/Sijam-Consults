@@ -799,9 +799,6 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                   <Lock className="w-3 h-3" />
                   <span>Restricted Access • Sijam Managing Team</span>
                 </div>
-                <h3 className="font-heading font-black text-2xl text-white">
-                  Management Authentication
-                </h3>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-sm mx-auto">
                   Sign in with your corporate Sijam Consults credentials to publish and manage foreign job quotas.
                 </p>
@@ -885,7 +882,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                   ) : (
                     <>
                       <UserCheck className="w-4 h-4" />
-                      <span>Authorize & Unlock Job Publisher</span>
+                      <span>Login & Continue</span>
                     </>
                   )}
                 </button>

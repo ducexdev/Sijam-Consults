@@ -127,11 +127,8 @@ export default function AdminLoginPage() {
               <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#1E1442] to-[#0A0E1A] border border-purple-500/40 text-purple-300 flex items-center justify-center mx-auto shadow-inner">
                 <Lock className="w-6 h-6 text-[#257CFF]" />
               </div>
-              <span className="text-[10px] font-mono uppercase tracking-widest text-purple-400 font-bold block">
-                Kaduna Consular Hub • RC: 1715416
-              </span>
               <h1 className="font-heading font-black text-2xl text-white">
-                Operations Hub Sign-In
+                Welcome Back!
               </h1>
               <p className="text-xs text-slate-400 max-w-xs mx-auto">
                 Confidential access for authorized case officers, immigration consultants, and platform administrators.
@@ -220,7 +217,7 @@ export default function AdminLoginPage() {
                   <span>Authenticating Credentials...</span>
                 ) : (
                   <>
-                    <span>Authenticate & Access Hub</span>
+                    <span>Login</span>
                     <ArrowRight className="w-4 h-4" />
                   </>
                 )}
