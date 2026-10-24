@@ -24,6 +24,8 @@ export interface CreateJobInput {
   eligibleCountries?: string[] | null;
   processingTime?: string | null;
   generalWorkerSectors?: string[] | null;
+  isEmployerVerified?: boolean;
+  disclaimer?: string;
 }
 
 export async function apiCreateJob(jobData: CreateJobInput): Promise<JobRecord> {
