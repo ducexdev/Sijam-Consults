@@ -32,6 +32,7 @@ import {
   Users,
 } from 'lucide-react';
 import { JobListing, JobCategory, EmploymentType } from '@/lib/types';
+import { JobRecord } from '@/lib/types/database';
 import {
   JOB_DESTINATIONS,
   ALL_JOB_DESTINATIONS,
@@ -46,12 +47,15 @@ import {
   apiLogoutStaff as logoutStaff,
   apiGetStaffSession as getStaffSession,
   apiCreateJob as adminCreateJob,
+  apiUpdateJob as adminUpdateJob,
 } from '@/lib/api/jobs-client';
 
-interface PostJobModalProps {
+export interface PostJobModalProps {
   isOpen: boolean;
   onClose: () => void;
   onJobCreated?: (newJob: JobListing) => void;
+  editingJob?: JobRecord | null;
+  onJobUpdated?: (updatedJob: JobRecord) => void;
 }
 
 interface StaffUser {
@@ -84,6 +88,8 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
   isOpen,
   onClose,
   onJobCreated,
+  editingJob,
+  onJobUpdated,
 }) => {
   // Authentication State
   const [staffUser, setStaffUser] = useState<StaffUser | null>(null);
@@ -199,6 +205,80 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
       isMounted = false;
     };
   }, [isOpen]);
+
+  // Synchronize state when editing existing job
+  useEffect(() => {
+    if (!isOpen) return;
+
+    if (editingJob) {
+      setTitle(editingJob.title || '');
+      setCompanyName(editingJob.employer_name || 'Sijam Verified Partner Network');
+      setIsEmployerVerified(editingJob.is_employer_verified ?? true);
+      setSelectedCountry(editingJob.country || DESTINATIONS[0].name);
+      setLocation(editingJob.location || '');
+
+      const matchedCategory = CATEGORIES.find(
+        (c) =>
+          c.toLowerCase() === (editingJob.category_id || '').toLowerCase() ||
+          c.toLowerCase().replace(/[^a-z0-9]+/g, '-') === (editingJob.category_id || '').toLowerCase()
+      );
+      if (matchedCategory) {
+        setCategory(matchedCategory);
+      }
+
+      setEmploymentType((editingJob.employment_type as EmploymentType) || 'Full-time');
+      setDeadline(editingJob.deadline || '2026-12-31');
+
+      if (editingJob.age_requirement) {
+        setHasAgeRestriction(true);
+        const match = editingJob.age_requirement.match(/(\d+)\s*[-–]\s*(\d+)/);
+        if (match) {
+          setAgeMin(parseInt(match[1], 10));
+          setAgeMax(parseInt(match[2], 10));
+        }
+      } else {
+        setHasAgeRestriction(false);
+      }
+
+      if (editingJob.eligible_countries && editingJob.eligible_countries.length > 0) {
+        setIsAllNationalities(false);
+        setEligibleCountriesText(editingJob.eligible_countries.join(', '));
+      } else {
+        setIsAllNationalities(true);
+        setEligibleCountriesText('All Countries / Worldwide');
+      }
+
+      setProcessingTime(editingJob.processing_time || '1 – 2 Months');
+
+      if (editingJob.general_worker_sectors && editingJob.general_worker_sectors.length > 0) {
+        setExactGeneralWorkerSectors(editingJob.general_worker_sectors.join(', '));
+      }
+
+      if (editingJob.salary_range) {
+        const salMatch = editingJob.salary_range.match(/([€£$złCA$A$]+)?\s*([\d,]+)\s*[-–]\s*([€£$złCA$A$]+)?\s*([\d,]+)\s*(.*)/);
+        if (salMatch) {
+          setSalaryMin(salMatch[2].replace(/,/g, ''));
+          setSalaryMax(salMatch[4].replace(/,/g, ''));
+          if (salMatch[5]) {
+            setSalaryPeriod(salMatch[5].trim());
+          }
+        }
+      }
+
+      setDescription(editingJob.description || '');
+      if (editingJob.responsibilities && editingJob.responsibilities.length > 0) {
+        setResponsibilities(editingJob.responsibilities);
+      }
+      if (editingJob.eligibility_requirements && editingJob.eligibility_requirements.length > 0) {
+        setEligibilityRequirements(editingJob.eligibility_requirements);
+      }
+      if (editingJob.visa_support_details) {
+        setVisaSupportDetails(editingJob.visa_support_details);
+      }
+      setCurrentStep(1);
+      setIsSuccess(false);
+    }
+  }, [isOpen, editingJob]);
 
   // Sync destination currency and default visa terms
   useEffect(() => {
@@ -535,82 +615,111 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
         }
       }
 
-      // Persist to Centralized Database Repository with Audit Logging
-      await adminCreateJob(
-        {
+      if (editingJob) {
+        const updated = await adminUpdateJob(editingJob.id, {
           title: title.trim(),
-          employerId: 'e1000000-0000-0000-0000-000000000001',
-          employerName: companyName.trim() || 'Sijam Verified Partner Network',
-          categoryId: categorySlug,
+          employer_name: companyName.trim() || 'Sijam Verified Partner Network',
+          is_employer_verified: isEmployerVerified,
+          category_id: categorySlug,
           country: selectedCountry,
           location: location.trim(),
+          employment_type: employmentType,
+          salary_range: formattedSalary,
+          description: description.trim(),
+          responsibilities: responsibilities.filter((r) => r.trim() !== ''),
+          eligibility_requirements: finalEligibility,
+          visa_support_details: visaSupportDetails.trim(),
+          application_instructions:
+            'Submit your CV, educational diplomas, and international passport bio-data page. Sijam Consults will schedule an initial file verification.',
+          deadline: deadline || '2026-12-31',
+          age_requirement: ageRequirement,
+          eligible_countries: eligibleCountriesList,
+          processing_time: processingTime.trim(),
+          general_worker_sectors: generalWorkerTrades || null,
+        });
+
+        if (onJobUpdated) {
+          onJobUpdated(updated);
+        }
+        setIsSuccess(true);
+      } else {
+        // Persist to Centralized Database Repository with Audit Logging
+        await adminCreateJob(
+          {
+            title: title.trim(),
+            employerId: 'e1000000-0000-0000-0000-000000000001',
+            employerName: companyName.trim() || 'Sijam Verified Partner Network',
+            categoryId: categorySlug,
+            country: selectedCountry,
+            location: location.trim(),
+            employmentType: employmentType,
+            salaryRange: formattedSalary,
+            description: description.trim(),
+            responsibilities: responsibilities.filter((r) => r.trim() !== ''),
+            eligibilityRequirements: finalEligibility,
+            visaSupportDetails: visaSupportDetails.trim(),
+            applicationInstructions:
+              'Submit your CV, educational diplomas, and international passport bio-data page. Sijam Consults will schedule an initial file verification.',
+            deadline: deadline || '2026-12-31',
+            status: 'open',
+            acceptsApplications: true,
+            slug: generatedSlug,
+            ageRequirement,
+            eligibleCountries: eligibleCountriesList,
+            processingTime: processingTime.trim(),
+            generalWorkerSectors: generalWorkerTrades || null,
+          }
+        );
+
+        // Create Local Job Object for Instant Real-Time UI Updates
+        const newJob: JobListing = {
+          id: `job-frontend-${Date.now()}`,
+          slug: generatedSlug,
+          title: title.trim(),
+          companyName: companyName.trim() || 'Verified European Partner Employer',
+          isEmployerVerified: isEmployerVerified,
+          location: location.trim(),
+          country: selectedCountry,
+          flag: dest?.flag || '🌍',
+          category: category,
           employmentType: employmentType,
           salaryRange: formattedSalary,
+          postedDate: new Date().toISOString().split('T')[0],
+          deadline: deadline || '2026-12-31',
+          status: 'Open',
           description: description.trim(),
           responsibilities: responsibilities.filter((r) => r.trim() !== ''),
           eligibilityRequirements: finalEligibility,
           visaSupportDetails: visaSupportDetails.trim(),
           applicationInstructions:
             'Submit your CV, educational diplomas, and international passport bio-data page. Sijam Consults will schedule an initial file verification.',
-          deadline: deadline || '2026-12-31',
-          status: 'open',
-          acceptsApplications: true,
-          slug: generatedSlug,
+          disclaimer:
+            'Notice of Statutory Independence: Sijam Consults Limited facilitates statutory documentation and immigration filing advisory. Hiring prerogatives and visa issuances remain strictly sovereign prerogatives.',
+          perks: selectedPerks,
+          experienceLevel: experienceLevel,
+          vacanciesCount: Number(vacanciesCount) || 10,
+          featured: true,
           ageRequirement,
           eligibleCountries: eligibleCountriesList,
           processingTime: processingTime.trim(),
-          generalWorkerSectors: generalWorkerTrades || null,
+          generalWorkerSectors: generalWorkerTrades,
+        };
+
+        // Store in localStorage for persistence across reloads
+        const existing = localStorage.getItem('sijam_posted_jobs');
+        const list: JobListing[] = existing ? JSON.parse(existing) : [];
+        list.unshift(newJob);
+        localStorage.setItem('sijam_posted_jobs', JSON.stringify(list));
+
+        // Broadcast live event to directory components
+        window.dispatchEvent(new CustomEvent('sijam:job_created', { detail: newJob }));
+
+        if (onJobCreated) {
+          onJobCreated(newJob);
         }
-      );
 
-      // Create Local Job Object for Instant Real-Time UI Updates
-      const newJob: JobListing = {
-        id: `job-frontend-${Date.now()}`,
-        slug: generatedSlug,
-        title: title.trim(),
-        companyName: companyName.trim() || 'Verified European Partner Employer',
-        isEmployerVerified: isEmployerVerified,
-        location: location.trim(),
-        country: selectedCountry,
-        flag: dest?.flag || '🌍',
-        category: category,
-        employmentType: employmentType,
-        salaryRange: formattedSalary,
-        postedDate: new Date().toISOString().split('T')[0],
-        deadline: deadline || '2026-12-31',
-        status: 'Open',
-        description: description.trim(),
-        responsibilities: responsibilities.filter((r) => r.trim() !== ''),
-        eligibilityRequirements: finalEligibility,
-        visaSupportDetails: visaSupportDetails.trim(),
-        applicationInstructions:
-          'Submit your CV, educational diplomas, and international passport bio-data page. Sijam Consults will schedule an initial file verification.',
-        disclaimer:
-          'Notice of Statutory Independence: Sijam Consults Limited facilitates statutory documentation and immigration filing advisory. Hiring prerogatives and visa issuances remain strictly sovereign prerogatives.',
-        perks: selectedPerks,
-        experienceLevel: experienceLevel,
-        vacanciesCount: Number(vacanciesCount) || 10,
-        featured: true,
-        ageRequirement,
-        eligibleCountries: eligibleCountriesList,
-        processingTime: processingTime.trim(),
-        generalWorkerSectors: generalWorkerTrades,
-      };
-
-      // Store in localStorage for persistence across reloads
-      const existing = localStorage.getItem('sijam_posted_jobs');
-      const list: JobListing[] = existing ? JSON.parse(existing) : [];
-      list.unshift(newJob);
-      localStorage.setItem('sijam_posted_jobs', JSON.stringify(list));
-
-      // Broadcast live event to directory components
-      window.dispatchEvent(new CustomEvent('sijam:job_created', { detail: newJob }));
-
-      if (onJobCreated) {
-        onJobCreated(newJob);
+        setIsSuccess(true);
       }
-
-      setIsSuccess(true);
     } catch (err: any) {
       console.error('Error publishing job:', err);
       alert(err?.message || 'Failed to publish job. Please ensure database connection is intact.');
@@ -641,7 +750,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="font-heading font-black text-lg sm:text-xl text-white">
-                  Post A Job
+                  {editingJob ? 'Edit Verified Vacancy' : 'Post A Job'}
                 </h2>
                 <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
                   <ShieldCheck className="w-3 h-3 text-emerald-400" />
@@ -649,7 +758,9 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                 </span>
               </div>
               <p className="text-xs text-slate-300">
-                Official foreign quota allocation • Verified employer sponsorships
+                {editingJob
+                  ? 'Official foreign quota allocation • Verified employer updates'
+                  : 'Official foreign quota allocation • Verified employer sponsorships'}
               </p>
             </div>
           </div>
@@ -905,7 +1016,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                   Status: Published & Verified
                 </span>
                 <h3 className="font-heading font-black text-2xl sm:text-3xl text-white">
-                  Job Quota Successfully Published!
+                  {editingJob ? 'Job Listing Successfully Updated!' : 'Job Quota Successfully Published!'}
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
                   Your foreign vacancy <strong className="text-white">&ldquo;{title}&rdquo;</strong> is now live on the Sijam Consults recruitment directory and open to candidates.
@@ -1984,7 +2095,7 @@ export const PostJobModal: React.FC<PostJobModalProps> = ({
                       ) : (
                         <>
                           <Sparkles className="w-4 h-4" />
-                          <span>Publish Quota to Live Board</span>
+                          <span>{editingJob ? 'Update Verified Vacancy' : 'Publish Quota to Live Board'}</span>
                         </>
                       )}
                     </button>
