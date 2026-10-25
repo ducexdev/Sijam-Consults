@@ -215,7 +215,7 @@ export default function PartnersPage() {
                 </h1>
 
                 <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal max-w-2xl">
-                  Scaling international infrastructure, heavy manufacturing, or healthcare operations requires a reliable, verified talent supply chain. Sijam Consults Limited delivers turnkey cross-border workforce mobilization from Nigeria for European and Gulf contractors—managing technical skills trade testing in Kaduna, background credential audits, and statutory consular legalization under strict service-level agreements.
+                  Scaling international infrastructure, heavy manufacturing, or healthcare operations requires a reliable, verified talent supply chain. Sijam Consults Limited delivers turnkey cross-border workforce mobilization from Africa, Asia, and international corridors for European, Australian, Canadian, and Gulf contractors—managing technical skills trade testing, background credential audits, and statutory consular legalization under strict service-level agreements.
                 </p>
 
                 {/* Social proof micro-copy */}
@@ -982,7 +982,7 @@ export default function PartnersPage() {
                   <span>Unlicensed Intermediaries</span>
                 </h3>
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  We partner directly with registered corporate employers or officially licensed recruitment agencies. We do not work with freelance brokers charging illegal fees to Nigerian candidates.
+                  We partner directly with registered corporate employers or officially licensed recruitment agencies. We do not work with freelance brokers charging illegal fees to candidates.
                 </p>
               </div>
 

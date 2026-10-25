@@ -178,7 +178,7 @@ export const InformationGainSection: React.FC = () => {
             id="info-gain-heading"
             className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-[1.1]"
           >
-            What Every Nigerian Applicant{' '}
+            What Every Applicant{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA5EC] to-[#257CFF]">
               Needs to Know First
             </span>

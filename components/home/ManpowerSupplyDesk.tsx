@@ -10,58 +10,80 @@ import {
   FileCheck,
   ArrowRight,
   Globe2,
-  Stethoscope,
+  Factory,
+  Boxes,
   HardHat,
-  Flame,
-  Truck,
   Hotel,
-  Briefcase,
+  Sprout,
+  Wrench,
+  Sparkles,
+  Truck,
+  Stethoscope,
+  FileText,
+  Utensils,
+  Monitor,
+  Recycle,
+  ShoppingBag,
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 
 export const ManpowerSupplyDesk: React.FC = () => {
   const sectors = [
     {
-      name: 'Healthcare & Nursing',
-      icon: Stethoscope,
-      roles: 'Registered Nurses, Senior Care Assistants, Clinical Support',
-      destinations: 'UK NHS & Poland Care Facilities',
-      accent: 'border-blue-500/30 text-blue-400',
+      name: 'Manufacturing & Industrial Production',
+      icon: Factory,
     },
     {
-      name: 'Industrial & Welding',
-      icon: Flame,
-      roles: 'Certified MIG/MAG Welders, CNC Operators, Pipefitters',
-      destinations: 'Slovakia & Poland Heavy Industry',
-      accent: 'border-orange-500/30 text-orange-400',
+      name: 'Warehousing, Logistics & Supply Chain',
+      icon: Boxes,
     },
     {
-      name: 'Construction & Civil',
+      name: 'Construction & Civil Engineering',
       icon: HardHat,
-      roles: 'Site Supervisors, Scaffolders, Electricians, Carpenters',
-      destinations: 'Saudi Arabia (GCC) & EU Infrastructure',
-      accent: 'border-emerald-500/30 text-emerald-400',
     },
     {
-      name: 'Logistics & Warehousing',
-      icon: Truck,
-      roles: 'Reach-Truck Drivers, Inventory Handlers, Fleet Operators',
-      destinations: 'Central European Distribution Hubs',
-      accent: 'border-purple-500/30 text-purple-400',
-    },
-    {
-      name: 'Hospitality & Services',
+      name: 'Hospitality, Hotels & Catering',
       icon: Hotel,
-      roles: 'Chefs, Housekeeping Supervisors, Front Desk Staff',
-      destinations: 'Cyprus, Portugal & Gulf Resorts',
-      accent: 'border-teal-500/30 text-teal-400',
     },
     {
-      name: 'Technical & Engineering',
-      icon: Briefcase,
-      roles: 'Mechanical Techs, Solar Technicians, QA Inspectors',
-      destinations: 'European & Gulf Contracting Firms',
-      accent: 'border-sky-500/30 text-sky-400',
+      name: 'Agriculture, Farming & Poultry Production',
+      icon: Sprout,
+    },
+    {
+      name: 'Skilled Trades & Technical Services',
+      icon: Wrench,
+    },
+    {
+      name: 'Cleaning, Facility Management & Maintenance',
+      icon: Sparkles,
+    },
+    {
+      name: 'Transportation & Driving',
+      icon: Truck,
+    },
+    {
+      name: 'Healthcare & Social Care',
+      icon: Stethoscope,
+    },
+    {
+      name: 'Administration, HR & Office Support',
+      icon: FileText,
+    },
+    {
+      name: 'Food Processing & Packaging',
+      icon: Utensils,
+    },
+    {
+      name: 'Information Technology & Digital Services',
+      icon: Monitor,
+    },
+    {
+      name: 'Waste Management & Recycling',
+      icon: Recycle,
+    },
+    {
+      name: 'Retail, Sales & Customer Service',
+      icon: ShoppingBag,
     },
   ];
 
@@ -107,7 +129,7 @@ export const ManpowerSupplyDesk: React.FC = () => {
           </h2>
 
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
-            Sijam Consults Limited mobilizes verified, job-ready workforce cohorts from Nigeria and West Africa for international main contractors, healthcare networks, and corporate employers in Europe, the United Kingdom, and the Gulf.
+            Sijam Consults Limited mobilizes verified, job-ready workforce cohorts from Africa and Asia etc for international main contractors, and corporate employers in Europe, the United Kingdom, Australia, Canada, and the Gulf.
           </p>
         </div>
 
@@ -131,31 +153,20 @@ export const ManpowerSupplyDesk: React.FC = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {sectors.map((sec, idx) => {
               const Icon = sec.icon;
               return (
                 <div
                   key={idx}
-                  className="p-5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 transition-all duration-300 space-y-3 group"
+                  className="p-4 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-[#4DA5EC]/40 transition-all duration-300 flex items-center gap-3.5 group"
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
-                      <Icon className="w-5 h-5 text-[#4DA5EC]" />
-                    </div>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-slate-300">
-                      {sec.destinations}
-                    </span>
+                  <div className="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-[#257CFF]/20 group-hover:border-[#4DA5EC]/40 transition-colors">
+                    <Icon className="w-5 h-5 text-[#4DA5EC]" />
                   </div>
-
-                  <div>
-                    <h4 className="font-heading font-bold text-base text-white group-hover:text-[#4DA5EC] transition-colors">
-                      {sec.name}
-                    </h4>
-                    <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-                      {sec.roles}
-                    </p>
-                  </div>
+                  <h4 className="font-heading font-semibold text-sm text-white group-hover:text-[#4DA5EC] transition-colors leading-snug">
+                    {sec.name}
+                  </h4>
                 </div>
               );
             })}

@@ -9,9 +9,9 @@ import { generatePageMetadata } from '@/lib/seo/metadata';
 
 export async function generateMetadata(): Promise<Metadata> {
   return generatePageMetadata({
-    title: 'International Recruitment & Labour Supply | Overseas Job Placement Nigeria',
+    title: 'International Recruitment & Labour Supply | Global Workforce Mobility',
     description:
-      'Accredited international recruitment and labour supply for Nigerian professionals and skilled artisans. Work abroad Nigeria with verified employer contracts in Europe, UK, Middle East, Canada & Asia. Screening, visa processing, travel arrangements, and post-arrival support. Sijam Consults Limited, Kaduna. RC: 1715416.',
+      'Accredited international recruitment and labour supply for professionals and skilled artisans across Africa, Asia, and globally. Work abroad with verified employer contracts in Europe, UK, Australia, Canada, Middle East & Asia. Screening, visa processing, travel arrangements, and post-arrival support. Sijam Consults Limited, Kaduna. RC: 1715416.',
     path: '/services/recruitment-supply',
   });
 }

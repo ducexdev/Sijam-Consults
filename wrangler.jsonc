@@ -16,6 +16,12 @@
   "observability": {
     "enabled": true
   },
+  // Cloudflare Cron Triggers — scheduled background tasks
+  // "*/5 * * * *"  → Email outbox retry sweep (every 5 minutes)
+  // "0 6 * * *"    → Daily SERP cache refresh (06:00 UTC daily)
+  "triggers": {
+    "crons": ["*/5 * * * *"]
+  },
   // SECURITY NOTICE — Read before deploying:
   // NEXT_PUBLIC_* vars are baked into the JS bundle at build time.
   // They must NOT contain production secret values in a git-tracked file.

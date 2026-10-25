@@ -38,7 +38,7 @@ export const CORE_PATHWAYS: ServicePathwayItem[] = [
     title: 'International Recruitment & Manpower Solutions',
     tagline: 'Direct foreign employer quotas & B2B workforce sourcing',
     description:
-      'We connect qualified Nigerian professionals and skilled trades with accredited employers across the UK, Poland, Slovakia, and Saudi Arabia under transparent, legal contracts.',
+      'We connect qualified professionals across Africa, Asia etc and skilled trades with accredited employers across the UK, Poland, Slovakia, and Saudi Arabia under transparent, legal contracts.',
     scope: ['Employer quota verification', 'Candidate skills screening', 'Pre-departure orientation'],
     href: ROUTES.services.recruitmentSupply,
     icon: Briefcase,
@@ -48,10 +48,14 @@ export const CORE_PATHWAYS: ServicePathwayItem[] = [
   {
     id: 'work-permits',
     title: 'Work Permits & Employment Placement',
-    tagline: 'Statutory labor authorizations & consular dossier filing',
+    tagline: 'International work authorization and employment documentation support across the EU, UK, Australia, and Canada.',
     description:
-      'Expert advisory for Polish Voivodeship Type A permits, Slovakian single work permits, and UK Certificate of Sponsorship (CoS) compliance reviews.',
-    scope: ['Statutory permit filing', 'MFA document legalization', 'Embassy interview coaching'],
+      'Guidance on employer-sponsored work visas, work permits, employment contracts, supporting documents, and residence procedures.',
+    scope: [
+      'Work permit application support',
+      'Employment and sponsorship documentation',
+      'Document verification and application preparation',
+    ],
     href: ROUTES.services.workVisa,
     icon: FileCheck,
     tag: 'Statutory Filings',
@@ -99,7 +103,12 @@ export const CORE_PATHWAYS: ServicePathwayItem[] = [
     tagline: 'MFA Abuja authentication & consular verification',
     description:
       'End-to-end liaison for notarization, Ministry of Foreign Affairs (MFA) Abuja authentication, and bilateral foreign embassy attestation for educational and civil certificates.',
-    scope: ['MFA Abuja verification', 'Police clearance apostille', 'Embassy attestation seals'],
+    scope: [
+      'MFA Abuja attestation',
+      'Police clearance apostille',
+      'Embassy attestation seals',
+      'Ministry of Education certificate attestation',
+    ],
     href: ROUTES.services.documentLegalization,
     icon: FileText,
     tag: 'Authentication',
@@ -110,7 +119,7 @@ export const CORE_PATHWAYS: ServicePathwayItem[] = [
     title: 'Company Registration & Business Consultancy',
     tagline: 'European corporate setup & international trade advisory',
     description:
-      'Assistance with international business incorporation (including Poland Sp. z o.o.), corporate bank introductions, and European business residency compliance.',
+      'Assistance with international business creation, corporate bank introductions, and European business residency compliance.',
     scope: ['KRS registry filing', 'Corporate bank liaison', 'Commercial visa guidance'],
     href: ROUTES.services.businessRegistration,
     icon: Building2,

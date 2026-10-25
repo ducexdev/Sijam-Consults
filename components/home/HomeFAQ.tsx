@@ -16,13 +16,13 @@ const FAQ_ITEMS: FAQItem[] = [
     category: 'Job Seekers & Candidates',
     question: 'Does Sijam Consults assist individuals seeking international employment?',
     answer:
-      'Yes. Sijam Consults Limited connects qualified Nigerian professionals, artisans, healthcare personnel, and skilled workers with legitimate international career opportunities. We guide candidates through credential screening, trade testing, compliance documentation, and statutory application stages. We operate transparently and never charge illegal placement fees.',
+      'Yes. Sijam Consults Limited connects qualified professionals, artisans, healthcare personnel, and skilled workers across Africa, Asia, and globally with legitimate international career opportunities. We guide candidates through credential screening, trade testing, compliance documentation, and statutory application stages. We operate transparently and never charge illegal placement fees.',
   },
   {
     category: 'International Employers & B2B',
-    question: 'Can international employers hire Nigerian manpower through Sijam Consults?',
+    question: 'Can international employers hire manpower through Sijam Consults?',
     answer:
-      'Yes. Foreign employers, international staffing firms, and contractors can partner with our dedicated B2B Manpower Supply Desk to recruit pre-vetted, trade-tested Nigerian workers across construction, engineering, hospitality, healthcare, agriculture, and logistics under structured corporate agreements and verified labor quotas.',
+      'Yes. Foreign employers, international staffing firms, and contractors can partner with our dedicated B2B Manpower Supply Desk to recruit pre-vetted, trade-tested workforce cohorts from Africa, Asia, and international corridors across construction, engineering, hospitality, healthcare, agriculture, and logistics under structured corporate agreements and verified labor quotas.',
   },
   {
     category: 'Verification & Safety',

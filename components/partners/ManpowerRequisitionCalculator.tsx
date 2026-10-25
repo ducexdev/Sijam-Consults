@@ -194,7 +194,7 @@ export const ManpowerRequisitionCalculator: React.FC = () => {
   }, [state]);
 
   const generateWhatsAppInquiry = () => {
-    const text = `Hello Sijam Consults Corporate Bilateral Desk,\n\nWe represent an international contractor seeking manpower sourcing from Nigeria.\n\nRequisition Profile:\n• Industry: ${calculation.industryData.title}\n• Headcount: ${calculation.headcountMultiplier}\n• Destination Worksite: ${calculation.destinationData.countryName} (${calculation.destinationData.region})\n• Work Permit: ${calculation.destinationData.workPermitType}\n• Mobilization SLA: ${calculation.destinationData.mobilizationTime}\n• Deployment Tier: ${state.timelineTier === 'accelerated' ? 'Accelerated Priority' : 'Standard Schedule'}\n\nPlease share your B2B Manpower Supply Agreement, Trade-Testing Protocol, and Commercial Terms.`;
+    const text = `Hello Sijam Consults Corporate Bilateral Desk,\n\nWe represent an international contractor seeking international manpower sourcing.\n\nRequisition Profile:\n• Industry: ${calculation.industryData.title}\n• Headcount: ${calculation.headcountMultiplier}\n• Destination Worksite: ${calculation.destinationData.countryName} (${calculation.destinationData.region})\n• Work Permit: ${calculation.destinationData.workPermitType}\n• Mobilization SLA: ${calculation.destinationData.mobilizationTime}\n• Deployment Tier: ${state.timelineTier === 'accelerated' ? 'Accelerated Priority' : 'Standard Schedule'}\n\nPlease share your B2B Manpower Supply Agreement, Trade-Testing Protocol, and Commercial Terms.`;
     return encodeURIComponent(text);
   };
 
