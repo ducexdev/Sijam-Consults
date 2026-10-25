@@ -84,7 +84,7 @@ export const WorkPermitsTransparencySection: React.FC = () => {
                 Crucial Regulatory Notice &amp; Consular Integrity
               </h3>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                <strong>Sijam Consults Limited (CAC RC: 1715416)</strong> is an accredited educational, recruitment, and travel consultancy in Nigeria. We are <strong>not</strong> an embassy, high commission, or sovereign visa-issuing authority. The final grant or refusal of any work permit, visa, or entry clearance remains the sole statutory prerogative of respective foreign sovereign governments.
+                <strong>Sijam Consults Limited (RC: 1715416)</strong> is an accredited recruitment, educational, and travel consultancy in Nigeria. We are <strong>not</strong> an embassy, high commission, or sovereign visa-issuing authority. The final grant or refusal of any work permit, visa, or entry clearance remains the sole statutory prerogative of respective foreign sovereign governments.
               </p>
             </div>
           </div>
