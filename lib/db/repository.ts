@@ -30,6 +30,7 @@ import {
   NotificationRecord,
   EmailOutboxRecord,
 } from '@/lib/types/database';
+import { ServiceItem, CorporatePartner } from '@/lib/types';
 import { supabase, supabaseAdmin, isSupabaseConfigured } from '@/lib/supabase';
 import { SERVICES_DATA } from '@/lib/data/services';
 import { PARTNERS_DATA } from '@/lib/data/partners';
@@ -286,71 +287,39 @@ class DataStore {
 
   jobs: JobRecord[] = [
     {
-      id: 'a1000000-0000-0000-0000-000000000001',
-      slug: 'registered-general-nurse-poland-healthcare',
-      title: 'Registered General Nurse (Hospital Placement)',
-      employer_id: 'e1000000-0000-0000-0000-000000000001',
-      employer_name: 'EuroMed Care Sp. z o.o.',
+      id: 'a1000000-0000-0000-0000-000000000004',
+      slug: 'multi-skilled-general-worker-poland-construction-agriculture',
+      title: 'Multi-Skilled General Worker (Construction, Agriculture, Plumbing & Electrical Support)',
+      employer_id: 'e1000000-0000-0000-0000-000000000004',
+      employer_name: 'PolBuild Agrotechnika Sp. z o.o.',
       is_employer_verified: true,
-      category_id: 'healthcare-nursing',
+      category_id: 'engineering-construction',
       country: 'Poland',
-      location: 'Krakow, Poland',
+      location: 'Poznań & Wrocław, Poland',
       employment_type: 'Full-time',
-      salary_range: '€2,400 – €3,200 / month (gross)',
-      description: 'EuroMed Care, an accredited regional healthcare network in southern Poland, is recruiting certified international Registered General Nurses for acute inpatient wards.',
+      salary_range: '€1,850 – €2,600 / month (gross)',
+      description: 'PolBuild Agrotechnika is recruiting versatile, multi-skilled general workers for industrial facilities, agricultural greenhouses, and residential construction sites across western Poland.',
       responsibilities: [
-        'Deliver patient-centered nursing care in accordance with European clinical standards.',
-        'Administer prescribed medications, monitor vital signs, and maintain electronic clinical records.',
-        'Engage in intensive professional Polish language adaptation courses sponsored by the employer.',
+        'Perform general construction support including material movement, concrete assistance, and site preparation.',
+        'Assist certified technicians with basic electrical cable pulling, socket fittings, and conduit laying.',
+        'Support piping and plumbing installations, solvent welding, and sanitary fixtures setup.',
+        'Engage in seasonal agricultural greenhouse maintenance, harvesting, and packaging.',
       ],
       eligibility_requirements: [
-        'Bachelor of Nursing Science (BNSc) or Registered Nurse (RN) diploma with current NMCN license.',
-        'Minimum of 2 years post-qualification clinical experience in a hospital environment.',
-        'Clean criminal record and verifiable professional references.',
+        'Candidate Age Bracket: Verified between 21 and 45 years old at time of application.',
+        'Basic practical aptitude and demonstrable experience in one or more general worker sectors.',
+        'Valid International Passport with at least 18 months remaining validity.',
       ],
-      visa_support_details: 'The employer issues a formal Voivodeship labor permit authorization and provides subsidized initial accommodation. Sijam Consults provides independent document attestation.',
-      application_instructions: 'Submit your CV, NMCN license copy, and degree certificate.',
-      deadline: '2026-11-30',
+      visa_support_details: 'Host employer issues official Voivodeship Type A labor permit authorization with subsidized dormitory accommodation.',
+      application_instructions: 'Submit your CV highlighting your practical trade skills and international passport bio-data page.',
+      deadline: '2026-12-31',
       status: 'open',
       accepts_applications: true,
-      published_at: new Date(Date.now() - 86400000 * 20).toISOString(),
-      view_count: 142,
-      application_count: 8,
-      disclaimer: 'Notice of Statutory Independence: Sijam Consults Limited facilitates candidate file preparation and consular filing protocols. We do not guarantee hiring or visa issuance.',
-      created_at: new Date(Date.now() - 86400000 * 25).toISOString(),
-      updated_at: new Date().toISOString(),
-    },
-    {
-      id: 'a1000000-0000-0000-0000-000000000002',
-      slug: 'fullstack-software-engineer-warsaw',
-      title: 'Fullstack Software Engineer (TypeScript & Next.js)',
-      employer_id: 'e1000000-0000-0000-0000-000000000002',
-      employer_name: 'FinNova Technologies Poland',
-      is_employer_verified: true,
-      category_id: 'information-technology',
-      country: 'Poland',
-      location: 'Warsaw, Poland',
-      employment_type: 'Full-time',
-      salary_range: '€3,500 – €5,000 / month',
-      description: 'FinNova is a high-growth fintech building modern banking rails across Central Europe. We seek an experienced Fullstack Engineer with proven Next.js and TypeScript expertise.',
-      responsibilities: [
-        'Architect and build customer-facing web applications with React 19, Next.js, and TypeScript.',
-        'Design robust RESTful and GraphQL APIs integrated with secure banking microservices.',
-      ],
-      eligibility_requirements: [
-        '3+ years of professional software engineering experience.',
-        'Deep fluency in modern TypeScript, React, Next.js, and relational databases.',
-      ],
-      visa_support_details: 'Employer sponsors the full Polish Type-A work permit and relocation allowance.',
-      application_instructions: 'Submit your resume, GitHub profile link, and relevant work history.',
-      deadline: '2026-12-15',
-      status: 'open',
-      accepts_applications: true,
-      published_at: new Date(Date.now() - 86400000 * 15).toISOString(),
-      view_count: 98,
-      application_count: 5,
-      disclaimer: 'Notice of Statutory Independence: Sijam Consults Limited facilitates candidate file preparation and consular filing protocols.',
-      created_at: new Date(Date.now() - 86400000 * 20).toISOString(),
+      published_at: new Date(Date.now() - 86400000 * 5).toISOString(),
+      view_count: 50,
+      application_count: 1,
+      disclaimer: 'Notice of Statutory Independence: Sijam Consults Limited facilitates candidate verification and statutory consular dossier advisory.',
+      created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
       updated_at: new Date().toISOString(),
     },
   ];
@@ -359,43 +328,23 @@ class DataStore {
     {
       id: 'app-001',
       reference_code: 'APP-519284',
-      job_id: 'a1000000-0000-0000-0000-000000000001',
-      job_slug: 'registered-general-nurse-poland-healthcare',
-      job_title: 'Registered General Nurse (Hospital Placement)',
+      job_id: 'a1000000-0000-0000-0000-000000000004',
+      job_slug: 'multi-skilled-general-worker-poland-construction-agriculture',
+      job_title: 'Multi-Skilled General Worker (Construction, Agriculture, Plumbing & Electrical Support)',
       full_name: 'Tunde Adeyemi',
       email: 'tunde.adeyemi@example.com',
       phone: '+234 803 987 6543',
       city_country: 'Kaduna, Nigeria',
-      highest_education: 'Bachelor Degree (BNSc)',
+      highest_education: 'Technical College Certificate',
       years_experience: '2-4 years',
-      portfolio_url: 'https://linkedin.com/in/tunde-adeyemi-nurse',
-      cover_note: 'Licensed Registered Nurse with 3 years clinical ICU ward experience at Barau Dikko Teaching Hospital Kaduna. Current NMCN license.',
+      portfolio_url: 'https://linkedin.com/in/tunde-adeyemi-trades',
+      cover_note: 'Multi-skilled trade assistant with 3 years practical experience in masonry, electrical piping support, and general site operations.',
       confirmed_no_guarantees: true,
       ndpr_consent: true,
       status: 'screening',
       reviewed_by: '00000000-0000-0000-0000-000000000004',
-      internal_notes: 'NMCN license verified active. English communication excellent. Pre-interview scheduled.',
+      internal_notes: 'Trade test certificate verified. English communication good. Pre-screening passed.',
       created_at: new Date(Date.now() - 86400000 * 3).toISOString(),
-      updated_at: new Date().toISOString(),
-    },
-    {
-      id: 'app-002',
-      reference_code: 'APP-812390',
-      job_id: 'a1000000-0000-0000-0000-000000000002',
-      job_slug: 'fullstack-software-engineer-warsaw',
-      job_title: 'Fullstack Software Engineer (TypeScript & Next.js)',
-      full_name: 'Fatima Sanusi',
-      email: 'fatima.sanusi@example.com',
-      phone: '+234 812 345 9012',
-      city_country: 'Abuja, Nigeria',
-      highest_education: 'Bachelor Degree',
-      years_experience: '5-7 years',
-      portfolio_url: 'https://github.com/fatimasanusi',
-      cover_note: '5 years building TypeScript and React micro-frontends with Docker and PostgreSQL.',
-      confirmed_no_guarantees: true,
-      ndpr_consent: true,
-      status: 'submitted',
-      created_at: new Date(Date.now() - 86400000 * 1).toISOString(),
       updated_at: new Date().toISOString(),
     },
   ];
@@ -567,6 +516,9 @@ class DataStore {
       updated_at: new Date().toISOString(),
     },
   ];
+
+  services: ServiceItem[] = [...SERVICES_DATA];
+  partners: CorporatePartner[] = [...PARTNERS_DATA];
 }
 
 // Global singleton instance for local memory state
@@ -596,6 +548,42 @@ export const dbRepository = {
     };
   },
 
+  // --- Daily Time-Series Metrics (30-day sparklines via PostgreSQL RPC) ---
+  async getDailyMetrics30d(): Promise<{ date: string; consultations: number; applications: number; enquiries: number; testimonials: number; blog_posts: number }[]> {
+    if (isSupabaseConfigured) {
+      try {
+        const { data, error } = await supabaseAdmin.rpc('get_daily_metrics_30d');
+        if (!error && data && (data as unknown[]).length > 0) {
+          return (data as { metric_date: string; consultations: number; applications: number; enquiries: number; testimonials: number; blog_posts: number }[]).map((row) => ({
+            date: row.metric_date,
+            consultations: Number(row.consultations) || 0,
+            applications: Number(row.applications) || 0,
+            enquiries: Number(row.enquiries) || 0,
+            testimonials: Number(row.testimonials) || 0,
+            blog_posts: Number(row.blog_posts) || 0,
+          }));
+        }
+      } catch (err) {
+        console.error('Supabase getDailyMetrics30d RPC error:', err);
+      }
+    }
+    // Fallback: generate synthetic 30-day trend from local in-memory store
+    const days: { date: string; consultations: number; applications: number; enquiries: number; testimonials: number; blog_posts: number }[] = [];
+    for (let i = 29; i >= 0; i--) {
+      const d = new Date(Date.now() - i * 86400000);
+      const dateStr = d.toISOString().split('T')[0];
+      days.push({
+        date: dateStr,
+        consultations: i < 5 ? 1 : 0,
+        applications: i < 3 ? 1 : 0,
+        enquiries: i < 7 ? 1 : 0,
+        testimonials: 0,
+        blog_posts: 0,
+      });
+    }
+    return days;
+  },
+
   // --- Consultations ---
   async getConsultations(filter?: { status?: string; search?: string; service?: string }) {
     if (isSupabaseConfigured) {
@@ -608,7 +596,7 @@ export const dbRepository = {
           query = query.eq('service_slug', filter.service);
         }
         const { data, error } = await query.order('created_at', { ascending: false });
-        if (!error && data && data.length > 0) {
+        if (!error && data) {
           let list = data as ConsultationRequestRecord[];
           if (filter?.search) {
             const q = filter.search.toLowerCase();
@@ -823,7 +811,7 @@ export const dbRepository = {
           query = query.eq('status', filter.status);
         }
         const { data, error } = await query.order('scheduled_at', { ascending: false });
-        if (!error && data && data.length > 0) {
+        if (!error && data) {
           return data as ConsultationAppointmentRecord[];
         }
       } catch (err) {
@@ -947,7 +935,7 @@ export const dbRepository = {
           query = query.eq('category_id', filter.category);
         }
         const { data, error } = await query.order('created_at', { ascending: false });
-        if (!error && data && data.length > 0) {
+        if (!error && data) {
           let list = data as JobRecord[];
           if (filter?.search) {
             const q = filter.search.toLowerCase();
@@ -1387,11 +1375,154 @@ export const dbRepository = {
 
   // --- Services & Partners ---
   async getServices() {
+    if (isSupabaseConfigured) {
+      try {
+        const { data, error } = await supabaseAdmin
+          .from('services')
+          .select('*')
+          .eq('is_published', true)
+          .order('display_order', { ascending: true });
+        if (!error && data && data.length > 0) {
+          // Map Supabase row → ServiceItem shape
+          return data.map((row: Record<string, unknown>) => ({
+            id: row.id as string,
+            slug: row.slug as string,
+            title: row.title as string,
+            shortTitle: row.short_title as string,
+            group: row.service_group as string,
+            tagline: row.tagline as string,
+            heroHeadline: row.hero_headline as string,
+            summary: row.summary as string,
+            badge: row.badge as string | undefined,
+            whoIsThisFor: (row.who_is_this_for as string[]) || [],
+            assistanceOffered: (row.assistance_offered as string[]) || [],
+            keyBenefits: (row.key_benefits as string[]) || [],
+            requirements: (row.requirements as string[]) || [],
+            processSteps: (row.process_steps as Record<string, unknown>[]) || [],
+            faqs: (row.faqs as Record<string, unknown>[]) || [],
+            relatedServices: (row.related_services as string[]) || [],
+            videoUrl: row.video_url as string | undefined,
+            videoPoster: row.video_poster as string | undefined,
+            disclaimer: row.disclaimer as string,
+          })) as unknown as ServiceItem[];
+        }
+      } catch (err) {
+        console.error('Supabase getServices error:', err);
+      }
+    }
     return SERVICES_DATA;
   },
 
   async getPartners() {
+    if (isSupabaseConfigured) {
+      try {
+        const { data, error } = await supabaseAdmin
+          .from('partners')
+          .select('*')
+          .order('display_order', { ascending: true });
+        if (!error && data && data.length > 0) {
+          return data.map((row: Record<string, unknown>) => ({
+            id: row.id as string,
+            name: row.name as string,
+            category: row.category as string,
+            country: row.country as string,
+            logoUrl: row.logo_url as string,
+            description: row.description as string,
+            collaborationScope: row.collaboration_scope as string,
+            websiteUrl: row.website_url as string | undefined,
+          })) as unknown as CorporatePartner[];
+        }
+      } catch (err) {
+        console.error('Supabase getPartners error:', err);
+      }
+    }
     return PARTNERS_DATA;
+  },
+
+  async updateService(slug: string, updates: Partial<ServiceItem>): Promise<ServiceItem | null> {
+    if (isSupabaseConfigured) {
+      try {
+        await supabaseAdmin.from('services').update({
+          title: updates.title,
+          summary: updates.summary,
+          tagline: updates.tagline,
+          hero_headline: updates.heroHeadline,
+          badge: updates.badge,
+          is_published: updates.badge !== 'hidden',
+          updated_at: new Date().toISOString(),
+        }).eq('slug', slug);
+      } catch (err) {
+        console.error('Supabase updateService error:', err);
+      }
+    }
+    const idx = globalStore.services.findIndex((s) => s.slug === slug);
+    if (idx !== -1) {
+      globalStore.services[idx] = { ...globalStore.services[idx], ...updates };
+      return globalStore.services[idx];
+    }
+    return null;
+  },
+
+  async createPartner(partner: Omit<CorporatePartner, 'id'>): Promise<CorporatePartner> {
+    const newPartner: CorporatePartner = {
+      ...partner,
+      id: `partner-${Date.now()}`,
+    };
+    if (isSupabaseConfigured) {
+      try {
+        await supabaseAdmin.from('corporate_partners').insert([{
+          name: partner.name,
+          category: partner.category,
+          country: partner.country,
+          logo_url: partner.logoUrl,
+          description: partner.description,
+          collaboration_scope: partner.collaborationScope,
+          website_url: partner.websiteUrl,
+          is_active: true,
+        }]);
+      } catch (err) {
+        console.error('Supabase createPartner error:', err);
+      }
+    }
+    globalStore.partners.push(newPartner);
+    return newPartner;
+  },
+
+  async updatePartner(nameOrId: string, updates: Partial<CorporatePartner>): Promise<CorporatePartner | null> {
+    if (isSupabaseConfigured) {
+      try {
+        await supabaseAdmin.from('corporate_partners').update({
+          name: updates.name,
+          category: updates.category,
+          country: updates.country,
+          logo_url: updates.logoUrl,
+          description: updates.description,
+          collaboration_scope: updates.collaborationScope,
+          website_url: updates.websiteUrl,
+          updated_at: new Date().toISOString(),
+        }).or(`name.eq.${nameOrId},id.eq.${nameOrId}`);
+      } catch (err) {
+        console.error('Supabase updatePartner error:', err);
+      }
+    }
+    const idx = globalStore.partners.findIndex((p) => p.name === nameOrId || p.id === nameOrId);
+    if (idx !== -1) {
+      globalStore.partners[idx] = { ...globalStore.partners[idx], ...updates };
+      return globalStore.partners[idx];
+    }
+    return null;
+  },
+
+  async deletePartner(nameOrId: string): Promise<boolean> {
+    if (isSupabaseConfigured) {
+      try {
+        await supabaseAdmin.from('corporate_partners').delete().or(`name.eq.${nameOrId},id.eq.${nameOrId}`);
+      } catch (err) {
+        console.error('Supabase deletePartner error:', err);
+      }
+    }
+    globalStore.partners = globalStore.partners.filter((p) => p.name !== nameOrId && p.id !== nameOrId);
+    return true;
   },
 
   // --- Settings & Redirects ---

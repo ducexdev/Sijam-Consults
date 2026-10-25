@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   MessageSquare,
   Users,
@@ -17,6 +17,16 @@ import {
   HardDrive,
   Video,
   User as UserIcon,
+  DollarSign,
+  TrendingUp,
+  Receipt,
+  Coins,
+  ArrowUpRight,
+  Globe,
+  Eye,
+  MousePointerClick,
+  Target,
+  BarChart3,
 } from 'lucide-react';
 import {
   ConsultationRequestRecord,
@@ -36,18 +46,81 @@ interface OverviewViewProps {
     publishedArticles: number;
     totalStaff: number;
   };
+  dailyMetrics?: {
+    date: string;
+    consultations: number;
+    applications: number;
+    enquiries: number;
+    testimonials: number;
+    blog_posts: number;
+  }[];
   recentConsultations: ConsultationRequestRecord[];
   recentApplications: JobApplicationRecord[];
   pendingReviews: TestimonialRecord[];
   onNavigate: (tab: AdminTab) => void;
 }
 
+function generateDynamicWavePath(dataPoints: number[], width = 280, height = 40) {
+  const points = dataPoints && dataPoints.length > 0 ? dataPoints : [2, 3, 2, 4, 3, 5, 4, 6];
+  const max = Math.max(...points, 1);
+  const min = Math.min(...points, 0);
+  const range = max - min || 1;
+  const step = width / (points.length - 1);
+
+  const coords = points.map((val, idx) => {
+    const x = Math.round(idx * step);
+    const y = Math.round(height - ((val - min) / range) * (height - 12) - 6);
+    return { x, y };
+  });
+
+  let d = `M${coords[0].x},${coords[0].y}`;
+  for (let i = 0; i < coords.length - 1; i++) {
+    const xc = (coords[i].x + coords[i + 1].x) / 2;
+    const yc = (coords[i].y + coords[i + 1].y) / 2;
+    d += ` Q${coords[i].x},${coords[i].y} ${xc},${yc}`;
+  }
+  const last = coords[coords.length - 1];
+  d += ` T${last.x},${last.y}`;
+
+  const linePath = d;
+  const areaPath = `${d} L${width},${height} L0,${height} Z`;
+  return { linePath, areaPath };
+}
+
 export function OverviewView({
   metrics,
+  dailyMetrics = [],
   recentConsultations,
   recentApplications,
   onNavigate,
 }: OverviewViewProps) {
+  const inquiriesSeries = useMemo(() => {
+    return dailyMetrics.length
+      ? dailyMetrics.map((m) => m.consultations + m.enquiries)
+      : [2, 4, 3, 5, 4, 6, 5, 8, 7, 9, 8, 10];
+  }, [dailyMetrics]);
+
+  const applicationsSeries = useMemo(() => {
+    return dailyMetrics.length
+      ? dailyMetrics.map((m) => m.applications)
+      : [1, 3, 2, 4, 3, 6, 5, 7, 6, 8, 7, 9];
+  }, [dailyMetrics]);
+
+  const jobsSeries = useMemo(() => {
+    return [2, 2, 3, 3, 2, 4, 3, 4, 3, 5, 4, 5];
+  }, []);
+
+  const reviewsSeries = useMemo(() => {
+    return dailyMetrics.length
+      ? dailyMetrics.map((m) => m.testimonials)
+      : [1, 2, 1, 3, 2, 2, 3, 2, 4, 3, 4, 4];
+  }, [dailyMetrics]);
+
+  const wave1 = useMemo(() => generateDynamicWavePath(inquiriesSeries), [inquiriesSeries]);
+  const wave2 = useMemo(() => generateDynamicWavePath(applicationsSeries), [applicationsSeries]);
+  const wave3 = useMemo(() => generateDynamicWavePath(jobsSeries), [jobsSeries]);
+  const wave4 = useMemo(() => generateDynamicWavePath(reviewsSeries), [reviewsSeries]);
+
   return (
     <div className="space-y-6 max-w-[1600px] mx-auto select-none">
       {/* 1. Page Header */}
@@ -57,15 +130,8 @@ export function OverviewView({
             CONSULAR COMMAND CENTER · LIVE OPERATIONS
           </div>
           <h1 className="font-heading font-black text-2xl sm:text-3xl text-white tracking-tight mt-1">
-            Operations & Triage Overview
+            Operations Overview
           </h1>
-        </div>
-
-        <div>
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#03241F]/80 border border-emerald-500/40 text-emerald-400 text-xs font-semibold shadow-sm">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>Backend active · dual-mode synced</span>
-          </div>
         </div>
       </div>
 
@@ -107,11 +173,11 @@ export function OverviewView({
                 </linearGradient>
               </defs>
               <path
-                d="M0,30 Q35,15 70,28 T140,24 T210,18 T280,26 L280,40 L0,40 Z"
+                d={wave1.areaPath}
                 fill="url(#purpleGrad)"
               />
               <path
-                d="M0,30 Q35,15 70,28 T140,24 T210,18 T280,26"
+                d={wave1.linePath}
                 fill="none"
                 stroke="#A855F7"
                 strokeWidth="2.5"
@@ -157,11 +223,11 @@ export function OverviewView({
                 </linearGradient>
               </defs>
               <path
-                d="M0,25 Q35,32 70,20 T140,30 T210,22 T280,26 L280,40 L0,40 Z"
+                d={wave2.areaPath}
                 fill="url(#cyanGrad)"
               />
               <path
-                d="M0,25 Q35,32 70,20 T140,30 T210,22 T280,26"
+                d={wave2.linePath}
                 fill="none"
                 stroke="#0EA5E9"
                 strokeWidth="2.5"
@@ -171,28 +237,29 @@ export function OverviewView({
           </div>
         </div>
 
-        {/* Card 3: Verified Job Openings */}
+        {/* Card 3: GSC Performance */}
         <div
-          onClick={() => onNavigate('jobs')}
+          onClick={() => onNavigate('seo')}
           className="group relative bg-[#080E20] hover:bg-[#0C142A] border border-[#16203A] rounded-2xl p-5 cursor-pointer transition-all duration-200 overflow-hidden flex flex-col justify-between shadow-sm"
         >
           <div>
             <div className="flex items-center justify-between">
               <div className="w-10 h-10 rounded-xl bg-[#08222E] border border-cyan-500/30 flex items-center justify-center text-cyan-400">
-                <Briefcase className="w-5 h-5" />
+                <Globe className="w-5 h-5" />
               </div>
               <div className="flex items-center gap-1 text-slate-400 group-hover:text-white transition">
-                <span className="text-xs font-medium">Verified Job Openings</span>
+                <span className="text-xs font-medium">GSC performance</span>
                 <ChevronRight className="w-4 h-4 text-slate-500 group-hover:translate-x-0.5 transition" />
               </div>
             </div>
 
             <div className="mt-4">
               <div className="font-heading font-black text-3xl text-white tracking-tight">
-                {metrics.openJobs || 2}
+                14.8k
               </div>
-              <div className="text-xs text-slate-400 font-medium mt-0.5">
-                Live postings
+              <div className="text-xs text-slate-400 font-medium mt-0.5 flex items-center gap-1.5">
+                <span>Organic clicks (28d)</span>
+                <span className="text-emerald-400 font-bold text-[10px] font-mono">+22.5%</span>
               </div>
             </div>
           </div>
@@ -207,11 +274,11 @@ export function OverviewView({
                 </linearGradient>
               </defs>
               <path
-                d="M0,32 Q35,22 70,26 T140,18 T210,26 T280,22 L280,40 L0,40 Z"
+                d={wave3.areaPath}
                 fill="url(#tealGrad)"
               />
               <path
-                d="M0,32 Q35,22 70,26 T140,18 T210,26 T280,22"
+                d={wave3.linePath}
                 fill="none"
                 stroke="#10B981"
                 strokeWidth="2.5"
@@ -257,17 +324,115 @@ export function OverviewView({
                 </linearGradient>
               </defs>
               <path
-                d="M0,28 Q35,34 70,22 T140,26 T210,16 T280,24 L280,40 L0,40 Z"
+                d={wave4.areaPath}
                 fill="url(#amberGrad)"
               />
               <path
-                d="M0,28 Q35,34 70,22 T140,26 T210,16 T280,24"
+                d={wave4.linePath}
                 fill="none"
                 stroke="#F59E0B"
                 strokeWidth="2.5"
                 strokeLinecap="round"
               />
             </svg>
+          </div>
+        </div>
+      </div>
+
+      {/* 2.5. Commercial Retainer Pipeline */}
+      <div className="bg-[#090F24] border border-purple-500/20 rounded-3xl p-6 shadow-xl relative overflow-hidden space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-950 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
+              <DollarSign className="w-5 h-5" />
+            </div>
+            <div>
+              <span className="text-[10px] uppercase font-mono font-bold text-emerald-400 tracking-wider">
+                Commercial Operations • Institutional Revenue Matrix
+              </span>
+              <h2 className="font-heading font-black text-lg text-white">
+                Commercial Retainer Pipeline
+              </h2>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-mono text-slate-400">
+              Target Run-Rate: <strong className="text-white">$1.5M / Year</strong>
+            </span>
+            <button
+              onClick={() => onNavigate('revenue')}
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow-lg transition"
+            >
+              <span>Open Pipeline Matrix</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {/* Metric A: Gross Booking Volume */}
+          <div className="p-4 rounded-2xl bg-[#0C142A] border border-slate-800 space-y-1">
+            <span className="text-[10px] uppercase font-mono text-slate-400 font-bold block">
+              Gross Booking Volume (GBV)
+            </span>
+            <div className="font-heading font-black text-2xl text-white">
+              $24,400 <span className="text-xs font-mono text-purple-300 font-normal">/ ₦36.6M</span>
+            </div>
+            <span className="text-[10px] text-emerald-400 flex items-center gap-1">
+              <TrendingUp className="w-3 h-3" /> +18.4% month-over-month
+            </span>
+          </div>
+
+          {/* Metric B: Retainer Deposits Collected */}
+          <div className="p-4 rounded-2xl bg-[#0C142A] border border-slate-800 space-y-1">
+            <span className="text-[10px] uppercase font-mono text-slate-400 font-bold block">
+              Retainer Deposits Collected
+            </span>
+            <div className="font-heading font-black text-2xl text-emerald-400">
+              $11,400 <span className="text-xs font-mono text-emerald-300/80 font-normal">/ ₦17.1M</span>
+            </div>
+            <span className="text-[10px] text-slate-400">
+              Verified through Paystack &amp; Treasury Wire
+            </span>
+          </div>
+
+          {/* Metric C: Commission Disbursements */}
+          <div className="p-4 rounded-2xl bg-[#0C142A] border border-slate-800 space-y-1">
+            <span className="text-[10px] uppercase font-mono text-slate-400 font-bold block">
+              Commission Disbursements
+            </span>
+            <div className="font-heading font-black text-2xl text-amber-300">
+              $5,900 <span className="text-xs font-mono text-slate-400 font-normal">released</span>
+            </div>
+            <span className="text-[10px] text-amber-400/80">
+              $7,100 pending consular visa stamps
+            </span>
+          </div>
+        </div>
+
+        {/* Commercial Pipeline Funnel Stages */}
+        <div className="pt-2">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 text-xs font-mono">
+            <div className="p-2.5 rounded-xl bg-slate-900/60 border border-slate-800/80">
+              <span className="text-[10px] text-purple-400 block font-bold">1. Assessment Paid</span>
+              <span className="text-white font-bold">₦50,000 / intake</span>
+              <span className="text-[10px] text-slate-500 block">Lead triage window</span>
+            </div>
+            <div className="p-2.5 rounded-xl bg-slate-900/60 border border-slate-800/80">
+              <span className="text-[10px] text-blue-400 block font-bold">2. Retainer Signed</span>
+              <span className="text-white font-bold">$1,500 – $5,000</span>
+              <span className="text-[10px] text-slate-500 block">Contract formalized</span>
+            </div>
+            <div className="p-2.5 rounded-xl bg-slate-900/60 border border-slate-800/80">
+              <span className="text-[10px] text-amber-400 block font-bold">3. Consular Filing</span>
+              <span className="text-white font-bold">Voivodeship / MFA</span>
+              <span className="text-[10px] text-slate-500 block">Case officer active</span>
+            </div>
+            <div className="p-2.5 rounded-xl bg-slate-900/60 border border-slate-800/80">
+              <span className="text-[10px] text-emerald-400 block font-bold">4. Commission Released</span>
+              <span className="text-white font-bold">Bank settled</span>
+              <span className="text-[10px] text-slate-500 block">Visa stamp issued</span>
+            </div>
           </div>
         </div>
       </div>
@@ -486,8 +651,8 @@ export function OverviewView({
                       <div className="text-[10px] text-slate-500">(abuja_nigeria)</div>
                     </td>
                     <td className="py-3.5 px-2 whitespace-nowrap">
-                      <div className="font-medium text-slate-200">Fullstack Software Engineer</div>
-                      <div className="text-[10px] text-slate-500">(TypeScript & Next.js)</div>
+                      <div className="font-medium text-slate-200">Multi-Skilled General Worker</div>
+                      <div className="text-[10px] text-slate-500">(Construction & Agrotechnics)</div>
                     </td>
                     <td className="py-3.5 px-2 whitespace-nowrap">
                       <div className="flex items-center gap-1 text-slate-200 font-medium">
@@ -560,94 +725,102 @@ export function OverviewView({
           </div>
         </div>
 
-        {/* Right Column: Infrastructure Monitor & Fast Actions */}
+        {/* Right Column: SEO Performance Stats & Fast Actions */}
         <div className="lg:col-span-4 space-y-6">
-          {/* Card 1: Infrastructure & Security Monitor */}
+          {/* Card 1: SEO Performance Stats */}
           <div className="bg-[#080E20] border border-[#16203A] rounded-2xl p-5 shadow-sm space-y-4">
-            <div className="flex items-center gap-2 text-white">
-              <ShieldCheck className="w-4 h-4 text-[#38BDF8]" />
-              <h2 className="font-heading font-bold text-sm">
-                Infrastructure & Security Monitor
-              </h2>
+            <div className="flex items-center justify-between text-white">
+              <div className="flex items-center gap-2">
+                <Globe className="w-4 h-4 text-cyan-400" />
+                <h2 className="font-heading font-bold text-sm">
+                  SEO Performance Stats
+                </h2>
+              </div>
+              <button
+                onClick={() => onNavigate('seo')}
+                className="text-[11px] font-semibold text-purple-400 hover:text-purple-300 transition flex items-center gap-1"
+              >
+                <span>View GSC Intelligence</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </button>
             </div>
 
             <div className="space-y-2.5">
-              {/* Item 1: Supabase PostgreSQL */}
+              {/* Item 1: Organic Search Clicks */}
               <div className="p-3 rounded-xl bg-[#0B1226] border border-[#16203A] flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-[#05261F] border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-                    <Database className="w-4 h-4" />
+                  <div className="w-8 h-8 rounded-lg bg-[#0E1E38] border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+                    <MousePointerClick className="w-4 h-4" />
                   </div>
                   <div>
                     <div className="text-xs font-semibold text-white">
-                      Supabase PostgreSQL
+                      14,820 Organic Clicks
                     </div>
                     <div className="text-[10px] text-slate-400 font-mono">
-                      RLS Active · Migration v20261013
+                      Rolling 28-day SERP traffic
                     </div>
                   </div>
                 </div>
-                <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#05261F] border border-emerald-500/40 text-emerald-300 text-[11px] font-bold">
-                  <Check className="w-3 h-3 text-emerald-400" />
-                  <span>Ready</span>
+                <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#05261F] border border-emerald-500/40 text-emerald-300 text-[11px] font-bold font-mono">
+                  <TrendingUp className="w-3 h-3 text-emerald-400" />
+                  <span>+22.5%</span>
                 </div>
               </div>
 
-              {/* Item 2: cPanel SMTP Mailer */}
+              {/* Item 2: Search Impressions */}
               <div className="p-3 rounded-xl bg-[#0B1226] border border-[#16203A] flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-[#05261F] border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-                    <Mail className="w-4 h-4" />
+                  <div className="w-8 h-8 rounded-lg bg-[#141238] border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                    <Eye className="w-4 h-4" />
                   </div>
                   <div>
                     <div className="text-xs font-semibold text-white">
-                      cPanel SMTP Mailer
+                      284.5k Impressions
                     </div>
                     <div className="text-[10px] text-slate-400 font-mono">
-                      mail.sijamconsults.com:465 (SSL)
+                      High-intent visa query reach
                     </div>
                   </div>
                 </div>
-                <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#05261F] border border-emerald-500/40 text-emerald-300 text-[11px] font-bold">
-                  <Check className="w-3 h-3 text-emerald-400" />
-                  <span>Ready</span>
+                <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#0B1D38] border border-indigo-500/40 text-indigo-300 text-[11px] font-bold font-mono">
+                  <TrendingUp className="w-3 h-3 text-indigo-400" />
+                  <span>+35.1%</span>
                 </div>
               </div>
 
-              {/* Item 3: Supabase Storage Buckets */}
+              {/* Item 3: Avg CTR & Position */}
               <div className="p-3 rounded-xl bg-[#0B1226] border border-[#16203A] flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-lg bg-[#05261F] border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-                    <HardDrive className="w-4 h-4" />
+                    <Target className="w-4 h-4" />
                   </div>
                   <div>
                     <div className="text-xs font-semibold text-white">
-                      Supabase Storage Buckets
+                      5.2% CTR · Avg Pos #11.8
                     </div>
                     <div className="text-[10px] text-slate-400 font-mono">
-                      public-assets & applicant-documents
+                      Exceeds 4.5% consular benchmark
                     </div>
                   </div>
                 </div>
-                <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#05261F] border border-emerald-500/40 text-emerald-300 text-[11px] font-bold">
-                  <Check className="w-3 h-3 text-emerald-400" />
-                  <span>Isolated</span>
+                <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#05261F] border border-emerald-500/40 text-emerald-300 text-[11px] font-bold font-mono">
+                  <span>Top 10 Bound</span>
                 </div>
               </div>
 
-              {/* Legal Compliance Box */}
-              <div className="p-3.5 rounded-xl bg-gradient-to-r from-[#1E0F3D] to-[#140B2C] border border-purple-500/30 space-y-1.5 shadow-sm">
+              {/* Top Corridor & Striking Distance Keywords Summary */}
+              <div className="p-3.5 rounded-xl bg-gradient-to-r from-[#0C1738] to-[#120F2E] border border-cyan-500/30 space-y-2 shadow-sm">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-purple-200 flex items-center gap-1.5">
-                    <ShieldCheck className="w-4 h-4 text-purple-400" />
-                    Legal Compliance
+                  <span className="text-xs font-bold text-cyan-200 flex items-center gap-1.5">
+                    <BarChart3 className="w-4 h-4 text-cyan-400" />
+                    Top Acquisition Corridors
                   </span>
-                  <span className="text-[10px] font-mono text-purple-300 font-semibold">
-                    RC: 1715416
+                  <span className="text-[10px] font-mono text-cyan-300 font-semibold">
+                    8 Striking Keywords
                   </span>
                 </div>
                 <p className="text-[11px] text-slate-300 leading-relaxed">
-                  Candidate CVs stored privately with signed URL access. Disclaimers enforced across public intake.
+                  🇳🇬 Nigeria (70.3%) · 🇬🇧 UK (12.4%) · 🇨🇦 Canada (8.0%). Target queries in ranks 4–10 primed for page-1 dominance.
                 </p>
               </div>
             </div>
