@@ -11,7 +11,6 @@ import {
   Eye,
   MousePointerClick,
   ShieldCheck,
-  Sparkles,
   BarChart3,
   Zap,
   CheckCircle2,
@@ -224,15 +223,7 @@ export function SeoCommandView() {
               <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin text-purple-400' : 'text-slate-400'}`} />
               Re-run Health Audit
             </button>
-            <a
-              href="https://search.google.com/search-console"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold shadow-lg shadow-purple-600/20 transition"
-            >
-              <ExternalLink className="w-3.5 h-3.5" />
-              Open Google Search Console
-            </a>
+
           </div>
         </div>
 
@@ -367,18 +358,6 @@ export function SeoCommandView() {
       {/* ── TAB 1: STRIKING DISTANCE KEYWORDS (DEFAULT VIEW FROM SCREENSHOT) ── */}
       {activeSubTab === 'striking' && (
         <div className="space-y-4">
-          {/* Golden Strategy Banner */}
-          <div className="p-4 rounded-2xl bg-[#13100B] border border-amber-600/40 text-amber-200 text-xs flex items-start gap-3">
-            <Sparkles className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
-            <div className="leading-relaxed text-amber-100/90">
-              <strong className="text-amber-300">The Striking Distance Growth Strategy:</strong> Keywords ranking on
-              positions <strong>4 through 10</strong> are already trusted by Google but receive only a fraction of clicks
-              compared to positions #1–#3. Pushing these specific queries into the top 3 typically creates a{' '}
-              <strong className="text-white">300%–800% lift in organic consultation enquiries</strong> without spending
-              on paid ads.
-            </div>
-          </div>
-
           {/* Search Bar & Counter */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div className="relative flex-1 max-w-md w-full">
