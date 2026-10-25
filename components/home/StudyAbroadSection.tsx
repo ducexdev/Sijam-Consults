@@ -71,7 +71,7 @@ export const StudyAbroadSection: React.FC = () => {
           </h2>
 
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
-            Sijam Consults Limited guides Nigerian students into accredited international universities across Europe and North America with verified tuition discounts, transparent documentation, and personalized study visa packaging.
+            At Sijam Consults Limited, we turn international education ambitions into achievable opportunities. We guide students towards reputable, accredited universities across Europe, the UK, Canada, Australia, and the USA, providing personalized admission guidance, access to eligible tuition discounts and scholarship opportunities, transparent application processes, and tailored study visa support from application to preparation for departure.
           </p>
         </div>
 

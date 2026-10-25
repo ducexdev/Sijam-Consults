@@ -96,7 +96,7 @@ export const WorkPermitsTransparencySection: React.FC = () => {
                 <span>Zero Illegal Placement Fees</span>
               </div>
               <p className="text-xs text-slate-400 leading-relaxed">
-                We operate in full accordance with Nigerian statutory regulations and international ethical recruitment codes. We never levy hidden placement charges for verified corporate vacancies.
+                We uphold fair and transparent recruitment practices, ensuring that all applicable fees and contractual obligations are clearly communicated and handled in accordance with relevant laws.
               </p>
             </div>
 
@@ -116,7 +116,7 @@ export const WorkPermitsTransparencySection: React.FC = () => {
                 <span>Direct Employer Quotas</span>
               </div>
               <p className="text-xs text-slate-400 leading-relaxed">
-                We only advertise vacancies tied to verified bilateral agreements with foreign main contractors, healthcare groups, and accredited recruitment partners.
+                We only advertise vacancies tied to verified bilateral agreements with foreign main contractors, and accredited recruitment partners.
               </p>
             </div>
           </div>
