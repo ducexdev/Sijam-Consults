@@ -37,6 +37,8 @@ import { Accordion, type AccordionItem } from '@/components/ui/Accordion';
 import { ArticleDirectory } from '@/components/guides/ArticleDirectory';
 import { RelocationCorridorComparator } from '@/components/guides/RelocationCorridorComparator';
 import { GUIDES_DATA } from '@/lib/data/guides';
+import { dbRepository } from '@/lib/db/repository';
+import { blogRecordToGuideArticle } from '@/lib/data/blog';
 import { ROUTES, COMPANY } from '@/lib/routes';
 
 export const metadata: Metadata = {
@@ -202,7 +204,15 @@ const BLUEPRINT_STEPS = [
   },
 ];
 
-export default function GuidesPage() {
+export default async function GuidesPage() {
+  const dbGuides = await dbRepository.getBlogPosts({ type: 'guide', status: 'published' });
+  const dbArticles = dbGuides.map(blogRecordToGuideArticle);
+  const staticSlugs = new Set(GUIDES_DATA.map((g) => g.slug));
+  const allArticles = [
+    ...GUIDES_DATA,
+    ...dbArticles.filter((g) => !staticSlugs.has(g.slug)),
+  ];
+
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -635,7 +645,7 @@ export default function GuidesPage() {
             </p>
           </div>
 
-          <ArticleDirectory articles={GUIDES_DATA} basePath="guides" />
+          <ArticleDirectory articles={allArticles} basePath="guides" />
         </div>
       </section>
 

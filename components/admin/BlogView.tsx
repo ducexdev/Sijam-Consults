@@ -58,7 +58,8 @@ function CategoryBadge({ category }: { category: string }) {
     'study-abroad':   { label: 'Study Abroad',    cls: 'bg-cyan-950 text-cyan-300 border-cyan-800',    Icon: BookOpen },
     'travel-guide':   { label: 'Travel Guide',    cls: 'bg-blue-950 text-blue-300 border-blue-800',    Icon: Compass },
     'visa-guide':     { label: 'Visa Guide',      cls: 'bg-amber-950 text-amber-300 border-amber-800', Icon: Globe },
-    'work-visas':     { label: 'Work Permits',    cls: 'bg-purple-950 text-purple-300 border-purple-800', Icon: FileText },
+    'work-visas':         { label: 'Work Permits',    cls: 'bg-purple-950 text-purple-300 border-purple-800', Icon: FileText },
+    'work-relocation':    { label: 'Work Relocation', cls: 'bg-purple-950 text-purple-300 border-purple-800', Icon: FileText },
     'immigration-policy': { label: 'Immigration', cls: 'bg-rose-950 text-rose-300 border-rose-800',   Icon: FileText },
     'business-mobility':  { label: 'Business',   cls: 'bg-emerald-950 text-emerald-300 border-emerald-800', Icon: TrendingUp },
     'visitor-tourist':    { label: 'Tourist',     cls: 'bg-indigo-950 text-indigo-300 border-indigo-800', Icon: Compass },
@@ -135,6 +136,7 @@ function DonutChart({ published, draft, scheduled, total }: { published: number;
 export function BlogView({ posts, onRefresh }: BlogViewProps) {
   const [searchTerm, setSearchTerm]       = useState('');
   const [statusFilter, setStatusFilter]   = useState<string>('all');
+  const [typeFilter, setTypeFilter]       = useState<string>('all');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [currentPage, setCurrentPage]     = useState(1);
   const [isEditing, setIsEditing]         = useState(false);
@@ -185,6 +187,7 @@ export function BlogView({ posts, onRefresh }: BlogViewProps) {
   const filtered = useMemo(() => {
     return posts.filter(p => {
       if (statusFilter !== 'all' && p.status !== statusFilter) return false;
+      if (typeFilter !== 'all' && p.post_type !== typeFilter) return false;
       if (categoryFilter !== 'all' && p.category_id !== categoryFilter) return false;
       if (searchTerm.trim()) {
         const q = searchTerm.toLowerCase();
@@ -192,7 +195,7 @@ export function BlogView({ posts, onRefresh }: BlogViewProps) {
       }
       return true;
     });
-  }, [posts, statusFilter, categoryFilter, searchTerm]);
+  }, [posts, statusFilter, typeFilter, categoryFilter, searchTerm]);
 
   const totalPages  = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
   const paginated   = filtered.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
@@ -402,6 +405,14 @@ export function BlogView({ posts, onRefresh }: BlogViewProps) {
               <option value="archived">Archived</option>
             </select>
 
+            <select value={typeFilter} onChange={e => { setTypeFilter(e.target.value); setCurrentPage(1); }}
+              className="px-3 py-2.5 bg-[#07091c] border border-[#1a2744] rounded-xl text-xs text-slate-300 focus:outline-none focus:border-purple-500 cursor-pointer">
+              <option value="all">All Types</option>
+              <option value="guide">Destination Guides</option>
+              <option value="blog">Blog Posts</option>
+              <option value="news">News & Policy</option>
+            </select>
+
             <select value={categoryFilter} onChange={e => { setCategoryFilter(e.target.value); setCurrentPage(1); }}
               className="px-3 py-2.5 bg-[#07091c] border border-[#1a2744] rounded-xl text-xs text-slate-300 focus:outline-none focus:border-purple-500 cursor-pointer">
               <option value="all">All Categories</option>
@@ -410,8 +421,8 @@ export function BlogView({ posts, onRefresh }: BlogViewProps) {
               ))}
             </select>
 
-            {(searchTerm || statusFilter !== 'all' || categoryFilter !== 'all') && (
-              <button onClick={() => { setSearchTerm(''); setStatusFilter('all'); setCategoryFilter('all'); setCurrentPage(1); }}
+            {(searchTerm || statusFilter !== 'all' || typeFilter !== 'all' || categoryFilter !== 'all') && (
+              <button onClick={() => { setSearchTerm(''); setStatusFilter('all'); setTypeFilter('all'); setCategoryFilter('all'); setCurrentPage(1); }}
                 className="px-3 py-2.5 rounded-xl border border-slate-700 text-xs text-slate-400 hover:text-white hover:border-slate-600 transition">
                 Clear filters
               </button>
@@ -474,7 +485,18 @@ export function BlogView({ posts, onRefresh }: BlogViewProps) {
                               <div className="font-semibold text-white text-xs truncate max-w-[170px]" title={post.title}>
                                 {post.title}
                               </div>
-                              <div className="text-[10px] text-purple-400 font-mono truncate max-w-[170px]">/{post.slug}</div>
+                              <div className="flex items-center gap-1.5 mt-0.5">
+                                <span className={`px-1.5 py-0.2 rounded text-[9px] font-bold uppercase tracking-wider ${
+                                  post.post_type === 'guide'
+                                    ? 'bg-blue-950 text-blue-300 border border-blue-800'
+                                    : post.post_type === 'news'
+                                    ? 'bg-amber-950 text-amber-300 border border-amber-800'
+                                    : 'bg-purple-950 text-purple-300 border border-purple-800'
+                                }`}>
+                                  {post.post_type}
+                                </span>
+                                <span className="text-[10px] text-purple-400 font-mono truncate max-w-[130px]">/{post.slug}</span>
+                              </div>
                             </div>
                           </div>
                         </td>

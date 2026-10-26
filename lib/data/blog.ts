@@ -558,4 +558,4 @@ export function getRelatedPosts(slugs: string[]): BlogPost[] {
   return getPublishedPosts().filter((p) => slugs.includes(p.slug));
 }
 
-export { blogRecordToBlogPost, blogPostToBlogRecord } from './adapters';
+export { blogRecordToBlogPost, blogPostToBlogRecord, guideArticleToBlogRecord, blogRecordToGuideArticle } from './adapters';

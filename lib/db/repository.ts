@@ -37,7 +37,8 @@ import { supabase, supabaseAdmin, isSupabaseConfigured } from '@/lib/supabase';
 import { SERVICES_DATA } from '@/lib/data/services';
 import { PARTNERS_DATA } from '@/lib/data/partners';
 import { JOBS_DATA, jobListingToJobRecord } from '@/lib/data/jobs';
-import { BLOG_POSTS, blogPostToBlogRecord } from '@/lib/data/blog';
+import { BLOG_POSTS, blogPostToBlogRecord, guideArticleToBlogRecord } from '@/lib/data/blog';
+import { GUIDES_DATA } from '@/lib/data/guides';
 import { emailOutboxStore } from '@/lib/email/cpanel-smtp';
 import { SEED_SALT, SEED_PASSWORD_HASH } from '@/lib/auth/session';
 import { VIDEOS } from '@/lib/constants/videos';
@@ -1260,37 +1261,54 @@ export const dbRepository = {
 
   // --- Blog & Guides ---
   async getBlogPosts(filter?: { status?: string; type?: string }) {
+    let supabaseData: BlogPostRecord[] | null = null;
+
     if (isSupabaseConfigured) {
       try {
-        let query = supabaseAdmin.from('blog_posts').select('*');
-        if (filter?.status && filter.status !== 'all') {
-          query = query.eq('status', filter.status);
-        }
-        if (filter?.type && filter.type !== 'all') {
-          query = query.eq('post_type', filter.type);
-        }
-        const { data, error } = await query.order('created_at', { ascending: false });
-        if (!error && data && data.length > 0) {
-          return data as BlogPostRecord[];
+        // Fetch ALL posts from Supabase without status/type filter first,
+        // so we can merge with static seed data correctly.
+        const { data, error } = await supabaseAdmin
+          .from('blog_posts')
+          .select('*')
+          .order('created_at', { ascending: false });
+        if (!error && data) {
+          supabaseData = data as BlogPostRecord[];
         }
       } catch (err) {
         console.error('Supabase getBlogPosts error:', err);
       }
     }
-    let list = [...globalStore.blogPosts];
-    // Merge static BLOG_POSTS for any post not already in store
-    const storeSlugs = new Set(list.map((p) => p.slug));
+
+    // Start with Supabase records (or in-memory store if Supabase unavailable)
+    let list: BlogPostRecord[] = supabaseData
+      ? [...supabaseData]
+      : [...globalStore.blogPosts];
+
+    // Always merge static BLOG_POSTS and GUIDES_DATA for any slug not already present in the list.
+    // This ensures all static seed posts and destination guides (visible on /guides and /blog)
+    // are fully represented in the administrative hub even if Supabase only has a partial set.
+    const existingSlugs = new Set(list.map((p) => p.slug));
     for (const sp of BLOG_POSTS) {
-      if (!storeSlugs.has(sp.slug)) {
+      if (!existingSlugs.has(sp.slug)) {
         list.push(blogPostToBlogRecord(sp));
+        existingSlugs.add(sp.slug);
       }
     }
+    for (const guide of GUIDES_DATA) {
+      if (!existingSlugs.has(guide.slug)) {
+        list.push(guideArticleToBlogRecord(guide));
+        existingSlugs.add(guide.slug);
+      }
+    }
+
+    // Apply filters after the merge
     if (filter?.status && filter.status !== 'all') {
       list = list.filter((p) => p.status === filter.status);
     }
     if (filter?.type && filter.type !== 'all') {
       list = list.filter((p) => p.post_type === filter.type);
     }
+
     return list;
   },
 
@@ -1310,6 +1328,9 @@ export const dbRepository = {
 
     const staticPost = BLOG_POSTS.find((p) => p.slug === slug || p.id === slug);
     if (staticPost) return blogPostToBlogRecord(staticPost);
+
+    const staticGuide = GUIDES_DATA.find((g) => g.slug === slug || g.id === slug);
+    if (staticGuide) return guideArticleToBlogRecord(staticGuide);
 
     return null;
   },

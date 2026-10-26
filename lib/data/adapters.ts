@@ -1,4 +1,4 @@
-import type { JobListing, BlogPost, BlogCategory, BlogTag, BlogAuthor } from '../types';
+import type { JobListing, BlogPost, BlogCategory, BlogTag, BlogAuthor, GuideArticle } from '../types';
 import type { JobRecord, JobStatus, BlogPostRecord } from '../types/database';
 
 /**
@@ -174,5 +174,76 @@ export function blogPostToBlogRecord(item: BlogPost): BlogPostRecord {
     meta_description: item.seo?.description || null,
     canonical_url: item.seo?.canonicalUrl || null,
     tags: (item.tags || []).map((t) => t.name),
+  };
+}
+
+/**
+ * Adapter converting frontend GuideArticle format into database BlogPostRecord
+ */
+export function guideArticleToBlogRecord(item: GuideArticle): BlogPostRecord {
+  const catSlug = (item.category || 'Travel Guide')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-');
+
+  return {
+    id: item.id.startsWith('g100')
+      ? item.id
+      : `g1000000-0000-0000-0000-${item.id.replace(/[^0-9]/g, '').padEnd(12, '0').slice(-12)}`,
+    slug: item.slug,
+    post_type: 'guide',
+    title: item.title,
+    summary: item.summary,
+    category_id: catSlug,
+    key_takeaways: item.keyTakeaways || [],
+    sections: item.sections || [],
+    featured_image: item.featuredImage,
+    read_time_minutes: item.readTimeMinutes || 8,
+    author_id: 'author-james',
+    author_name: item.author?.name || 'James Samson',
+    author_role: item.author?.role || 'Managing Director & Principal Consultant',
+    author_avatar: item.author?.avatar || '/team/James-Samson.png',
+    status: 'published',
+    published_at: item.publishedDate,
+    created_at: item.publishedDate ? new Date(item.publishedDate).toISOString() : new Date().toISOString(),
+    updated_at: item.updatedDate ? new Date(item.updatedDate).toISOString() : new Date().toISOString(),
+    view_count: 240,
+    current_version: 1,
+    meta_title: `${item.title} | Sijam Consults Limited`,
+    meta_description: item.summary,
+    canonical_url: `https://sijamconsults.com/guides/${item.slug}`,
+    tags: item.tags || [],
+  };
+}
+
+/**
+ * Adapter converting database BlogPostRecord into frontend GuideArticle format
+ */
+export function blogRecordToGuideArticle(rec: BlogPostRecord): GuideArticle {
+  const categoryMap: Record<string, GuideArticle['category']> = {
+    'study-abroad': 'Study Abroad',
+    'work-relocation': 'Work Relocation',
+    'business-mobility': 'Business Mobility',
+    'visitor-advisory': 'Visitor Advisory',
+    'immigration-policies': 'Immigration Policies',
+  };
+
+  return {
+    id: rec.id,
+    slug: rec.slug,
+    title: rec.title,
+    summary: rec.summary,
+    category: categoryMap[rec.category_id] || 'Study Abroad',
+    publishedDate: rec.published_at || (rec.created_at ? rec.created_at.slice(0, 10) : '2026-08-01'),
+    updatedDate: rec.updated_at ? rec.updated_at.slice(0, 10) : '2026-10-01',
+    readTimeMinutes: rec.read_time_minutes || 8,
+    author: {
+      name: rec.author_name || 'James Samson',
+      role: rec.author_role || 'Managing Director & Principal Consultant',
+      avatar: rec.author_avatar || '/team/James-Samson.png',
+    },
+    featuredImage: rec.featured_image || '/blogs/Why-Study-Nursing-in-Canada-20262027.png',
+    tags: rec.tags || [],
+    keyTakeaways: rec.key_takeaways || [],
+    sections: rec.sections || [],
   };
 }
