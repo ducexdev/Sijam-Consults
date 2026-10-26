@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   Image as ImageIcon,
   HardDrive,
@@ -29,16 +29,26 @@ import {
   FileCode,
   Download,
   Info,
+  RefreshCw,
+  Trash2,
+  Filter,
+  Film,
+  Building2,
+  Users,
+  Compass,
 } from 'lucide-react';
+import { ALL_STATIC_ASSETS, StaticAssetItem } from '@/lib/data/static-assets';
 
-interface MediaItem {
+export interface MediaItem {
   name: string;
   path: string;
   size: string;
+  sizeBytes?: number;
   type: string;
   date: string;
   status?: string;
   publicUrl?: string | null;
+  category?: string;
   altText?: string;
   title?: string;
   caption?: string;
@@ -47,158 +57,73 @@ interface MediaItem {
 }
 
 const LOCAL_STORAGE_KEY = 'sijam_asset_seo_metadata_v1';
-
-const INITIAL_PUBLIC_ASSETS: MediaItem[] = [
-  {
-    name: 'logo.png',
-    path: 'brand/logo.png',
-    size: '92 KB',
-    type: 'image/png',
-    date: '2026-10-10',
-    publicUrl: '/brand/logo.png',
-    altText: 'Sijam Consults Limited - Official Corporate Immigration & Consular Advisory Logo',
-    title: 'Sijam Consults Limited Brand Identity',
-    caption: 'Official accredited trademark and corporate logo of Sijam Consults Limited (RC: 1715416).',
-    keywords: ['Sijam Consults', 'Corporate Logo', 'Immigration Advisory Nigeria'],
-    dimensions: '800 × 240',
-  },
-  {
-    name: 'James-Samson.png',
-    path: 'team/James-Samson.png',
-    size: '190 KB',
-    type: 'image/png',
-    date: '2026-10-10',
-    publicUrl: '/team/James-Samson.png',
-    altText: 'James Samson - Principal Executive Consultant at Sijam Consults Limited',
-    title: 'James Samson | Consular Practice Lead',
-    caption: 'Executive Lead specializing in European bilateral employment corridors and consular advocacy.',
-    keywords: ['James Samson', 'Immigration Consultant Kaduna', 'Consular Advisory Lead'],
-    dimensions: '600 × 600',
-  },
-  {
-    name: 'Blessing-Attabor.png',
-    path: 'team/Blessing-Attabor.png',
-    size: '145 KB',
-    type: 'image/png',
-    date: '2026-10-10',
-    publicUrl: '/team/Blessing-Attabor.png',
-    altText: 'Blessing Attabor - Senior Operations & Compliance Officer at Sijam Consults',
-    title: 'Blessing Attabor | Operations Lead',
-    caption: 'Oversees document legalization, verification workflows, and consular compliance packaging.',
-    keywords: ['Blessing Attabor', 'Compliance Officer', 'Document Legalization'],
-    dimensions: '600 × 600',
-  },
-  {
-    name: 'Salami-Zainab-Keyinde.png',
-    path: 'team/Salami-Zainab-Keyinde.png',
-    size: '145 KB',
-    type: 'image/png',
-    date: '2026-10-10',
-    publicUrl: '/team/Salami-Zainab-Keyinde.png',
-    altText: 'Salami Zainab Kehinde - Client Advisory & Student Admissions Lead',
-    title: 'Salami Zainab Kehinde | Admissions Specialist',
-    caption: 'Specialist guiding international student admissions and European scholarship placements.',
-    keywords: ['Zainab Kehinde', 'Study Abroad Advisor', 'European University Admissions'],
-    dimensions: '600 × 600',
-  },
-  {
-    name: 'Why-Study-Nursing-in-Canada-20262027.png',
-    path: 'blogs/Why-Study-Nursing-in-Canada-20262027.png',
-    size: '570 KB',
-    type: 'image/png',
-    date: '2026-10-11',
-    publicUrl: '/blogs/Why-Study-Nursing-in-Canada-20262027.png',
-    altText: 'Complete Guide to Studying Nursing in Canada 2026/2027 for Nigerian Students',
-    title: 'Study Nursing in Canada 2026/2027 Guide Hero',
-    caption: 'Accredited Canadian nursing programs with Post-Graduation Work Permit (PGWP) eligibility.',
-    keywords: ['Study Nursing Canada', 'PGWP Nursing', 'Nigerian Nurses in Canada'],
-    dimensions: '1200 × 675',
-  },
-  {
-    name: 'Ducex-Blog.png',
-    path: 'blogs/Ducex-Blog.png',
-    size: '702 KB',
-    type: 'image/png',
-    date: '2026-10-11',
-    publicUrl: '/blogs/Ducex-Blog.png',
-    altText: 'Sijam Consults Editorial & Legal Insights on European Relocation Frameworks',
-    title: 'European Relocation & Visa Advisory Editorial Banner',
-    caption: 'Legal breakdown of Voivodeship work permits and European bilateral employer quotas.',
-    keywords: ['European Work Permits', 'Legal Relocation', 'Schengen D Visa Guide'],
-    dimensions: '1200 × 675',
-  },
-  {
-    name: 'DS-CTA-1.png',
-    path: 'blogs/DS-CTA-1.png',
-    size: '600 KB',
-    type: 'image/png',
-    date: '2026-10-14',
-    publicUrl: '/blogs/DS-CTA-1.png',
-    altText: 'Book a Verified Consular Assessment with Sijam Consults Advisors',
-    title: 'Consular Assessment Call-To-Action Banner',
-    caption: 'One-on-one document verification and eligibility assessment with accredited case officers.',
-    keywords: ['Visa Consultation', 'Kaduna Visa Office', 'Sijam Consults Appointment'],
-    dimensions: '1200 × 400',
-  },
-  {
-    name: 'DS-CTA-2.png',
-    path: 'blogs/DS-CTA-2.png',
-    size: '1.0 MB',
-    type: 'image/png',
-    date: '2026-10-14',
-    publicUrl: '/blogs/DS-CTA-2.png',
-    altText: 'Overseas Employment Quota & Voivodeship Sponsorship Application Banner',
-    title: 'European Bilateral Employer Sponsorship CTA',
-    caption: 'Verified international employment placements with employer-sponsored work permits.',
-    keywords: ['Overseas Employment', 'Poland Hospital Corridors', 'Work Visa Sponsorship'],
-    dimensions: '1200 × 400',
-  },
-];
+const LOCAL_STORAGE_REPLACEMENTS = 'sijam_asset_replacements_v1';
+const LOCAL_STORAGE_DELETED = 'sijam_asset_deleted_paths_v1';
 
 const INITIAL_APPLICANT_DOCUMENTS: MediaItem[] = [
   {
-    name: 'CV_Tunde_Adeyemi_RN.pdf',
-    path: 'candidates/app-01/CV_Tunde_Adeyemi_RN.pdf',
-    size: '412 KB',
+    name: 'passport_scan_app_77492.pdf',
+    path: 'candidates/app_77492/passport_scan.pdf',
+    size: '1.4 MB',
     type: 'application/pdf',
-    date: '2026-10-12',
+    date: '2026-10-15',
     status: 'Encrypted',
-    title: 'Curriculum Vitae - Tunde Adeyemi (Registered Nurse)',
-    altText: 'Confidential Candidate CV for Polish Hospital Healthcare Mobility Corridor',
-    caption: 'Certified Nigerian Registered Nurse with 5+ years critical care experience.',
-    keywords: ['Candidate CV', 'Nursing Healthcare Mobility', 'Restricted File'],
+    category: 'docs',
+    dimensions: 'PDF Document',
   },
   {
-    name: 'CV_Ngozi_Eze_Developer.pdf',
-    path: 'candidates/app-02/CV_Ngozi_Eze_Developer.pdf',
-    size: '280 KB',
+    name: 'nmcn_nursing_license_app_77492.pdf',
+    path: 'candidates/app_77492/nmcn_license.pdf',
+    size: '890 KB',
     type: 'application/pdf',
-    date: '2026-10-12',
+    date: '2026-10-15',
     status: 'Encrypted',
-    title: 'Curriculum Vitae - Ngozi Eze (Software Developer)',
-    altText: 'Confidential Candidate CV for European Tech Talent Quota',
-    caption: 'Senior Fullstack Engineer candidate for Slovak tech work visa quota.',
-    keywords: ['Candidate CV', 'Software Engineering', 'Restricted File'],
+    category: 'docs',
+    dimensions: 'PDF Document',
   },
   {
-    name: 'Passport_Data_Page_Redacted.pdf',
-    path: 'candidates/app-01/Passport_Data_Page_Redacted.pdf',
-    size: '1.2 MB',
+    name: 'cac_incorporation_deal_9901.pdf',
+    path: 'candidates/deal_9901/cac_rc1715416.pdf',
+    size: '2.1 MB',
     type: 'application/pdf',
-    date: '2026-10-12',
-    status: 'Restricted',
-    title: 'International Passport Bio-Data Page (Redacted)',
-    altText: 'Encrypted Consular Document for Voivodeship Visa Filing',
-    caption: 'Verified biometric identification page with consular watermark.',
-    keywords: ['Passport Bio-Data', 'Consular Filing', 'Encrypted Document'],
+    date: '2026-10-14',
+    status: 'Encrypted',
+    category: 'docs',
+    dimensions: 'PDF Document',
   },
+  {
+    name: 'waec_scratch_verification_app_8812.pdf',
+    path: 'candidates/app_8812/waec_statement.pdf',
+    size: '450 KB',
+    type: 'application/pdf',
+    date: '2026-10-13',
+    status: 'Encrypted',
+    category: 'docs',
+    dimensions: 'PDF Document',
+  },
+];
+
+const CATEGORY_TABS = [
+  { id: 'all', label: 'All Assets', icon: LayoutGrid },
+  { id: 'branding', label: 'Brand & Logos', icon: ShieldCheck },
+  { id: 'team', label: 'Team & Leadership', icon: Users },
+  { id: 'blogs', label: 'Editorial & Blogs', icon: FileText },
+  { id: 'partners', label: 'Institutional Partners', icon: Building2 },
+  { id: 'reviews', label: 'Reviews & Avatars', icon: CheckCircle2 },
+  { id: 'visas', label: 'Consular Approvals', icon: Tag },
+  { id: 'docs', label: 'Documents & PDFs', icon: Download },
+  { id: 'media', label: 'Videos & Media', icon: Film },
 ];
 
 export function MediaView() {
   const [activeBucket, setActiveBucket] = useState<'public-assets' | 'applicant-documents'>('public-assets');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedFormat, setSelectedFormat] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const [publicAssets, setPublicAssets] = useState<MediaItem[]>(INITIAL_PUBLIC_ASSETS);
+
+  // Main Asset State
+  const [publicAssets, setPublicAssets] = useState<MediaItem[]>(ALL_STATIC_ASSETS);
   const [applicantDocuments, setApplicantDocuments] = useState<MediaItem[]>(INITIAL_APPLICANT_DOCUMENTS);
 
   // SEO Inspector Modal State
@@ -208,6 +133,16 @@ export function MediaView() {
   const [seoCaption, setSeoCaption] = useState('');
   const [seoKeywords, setSeoKeywords] = useState('');
   const [saveSuccessMsg, setSaveSuccessMsg] = useState(false);
+
+  // Replace Modal State
+  const [replacingItem, setReplacingItem] = useState<MediaItem | null>(null);
+  const [replacementFile, setReplacementFile] = useState<File | null>(null);
+  const [replacing, setReplacing] = useState(false);
+  const [replaceError, setReplaceError] = useState<string | null>(null);
+
+  // Delete Modal State
+  const [deletingItem, setDeletingItem] = useState<MediaItem | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   // Upload modal state
   const [isUploadOpen, setIsUploadOpen] = useState(false);
@@ -222,31 +157,48 @@ export function MediaView() {
   const [generatingSignedUrl, setGeneratingSignedUrl] = useState<string | null>(null);
   const [copiedSnippet, setCopiedSnippet] = useState<string | null>(null);
 
-  // Load saved SEO metadata from localStorage on client mount
+  // Toast State
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 3500);
+  };
+
+  // ─── 1. Load persisted overrides on client mount ────────────────────────────
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored) as Record<string, Partial<MediaItem>>;
-        setPublicAssets((prev) =>
-          prev.map((item) => {
-            const meta = parsed[item.path];
-            return meta ? { ...item, ...meta } : item;
+      // 1. Deleted paths
+      const deletedStored = localStorage.getItem(LOCAL_STORAGE_DELETED);
+      const deletedSet = new Set<string>(deletedStored ? JSON.parse(deletedStored) : []);
+
+      // 2. Replaced URLs & metadata
+      const replStored = localStorage.getItem(LOCAL_STORAGE_REPLACEMENTS);
+      const replMap = replStored ? JSON.parse(replStored) : {};
+
+      // 3. SEO Metadata
+      const seoStored = localStorage.getItem(LOCAL_STORAGE_KEY);
+      const seoMap = seoStored ? JSON.parse(seoStored) : {};
+
+      setPublicAssets((prev) =>
+        prev
+          .filter((item) => !deletedSet.has(item.path))
+          .map((item) => {
+            const repl = replMap[item.path];
+            const seo = seoMap[item.path];
+            return {
+              ...item,
+              ...(repl ? { publicUrl: repl.publicUrl, size: repl.size || item.size, date: repl.date || item.date } : {}),
+              ...(seo ? seo : {}),
+            };
           })
-        );
-        setApplicantDocuments((prev) =>
-          prev.map((item) => {
-            const meta = parsed[item.path];
-            return meta ? { ...item, ...meta } : item;
-          })
-        );
-      }
-    } catch {
-      // Ignore localStorage errors
+      );
+    } catch (err) {
+      console.warn('Error loading asset metadata from localStorage', err);
     }
   }, []);
 
-  // Fetch live file listings from Supabase Storage on mount
+  // ─── 2. Fetch live file listings from API on mount ──────────────────────────
   useEffect(() => {
     async function fetchStorageListings() {
       try {
@@ -258,12 +210,31 @@ export function MediaView() {
         if (publicRes.ok) {
           const json = await publicRes.json();
           if (json.success && json.files && json.files.length > 0) {
+            // Read deleted set
+            let deletedSet = new Set<string>();
+            try {
+              const d = localStorage.getItem(LOCAL_STORAGE_DELETED);
+              if (d) deletedSet = new Set(JSON.parse(d));
+            } catch {}
+
             setPublicAssets((prev) => {
               const fileMap = new Map(prev.map((f) => [f.path, f]));
-              const merged = json.files.map((f: MediaItem) => {
+              const merged: MediaItem[] = [];
+
+              for (const f of json.files) {
+                if (deletedSet.has(f.path)) continue;
                 const existing = fileMap.get(f.path);
-                return existing ? { ...f, ...existing } : f;
-              });
+                merged.push(existing ? { ...f, ...existing } : f);
+                fileMap.delete(f.path);
+              }
+
+              // Keep any existing items not in API response
+              for (const [, item] of fileMap) {
+                if (!deletedSet.has(item.path)) {
+                  merged.push(item);
+                }
+              }
+
               return merged;
             });
           }
@@ -274,11 +245,10 @@ export function MediaView() {
           if (json.success && json.files && json.files.length > 0) {
             setApplicantDocuments((prev) => {
               const fileMap = new Map(prev.map((f) => [f.path, f]));
-              const merged = json.files.map((f: MediaItem) => {
+              return json.files.map((f: MediaItem) => {
                 const existing = fileMap.get(f.path);
                 return existing ? { ...f, ...existing } : f;
               });
-              return merged;
             });
           }
         }
@@ -289,19 +259,63 @@ export function MediaView() {
     fetchStorageListings();
   }, []);
 
+  // ─── Filtered Items ────────────────────────────────────────────────────────
   const activeList = activeBucket === 'public-assets' ? publicAssets : applicantDocuments;
 
-  const filteredItems = activeList.filter((item) => {
-    if (!searchTerm.trim()) return true;
-    const q = searchTerm.toLowerCase();
+  const filteredItems = useMemo(() => {
+    return activeList.filter((item) => {
+      // Category filter (public assets only)
+      if (activeBucket === 'public-assets' && selectedCategory !== 'all') {
+        if (item.category !== selectedCategory) return false;
+      }
+
+      // Format filter
+      if (selectedFormat !== 'all') {
+        const ext = item.path.split('.').pop()?.toLowerCase();
+        if (selectedFormat === 'image' && !['png', 'jpg', 'jpeg', 'svg', 'webp'].includes(ext || '')) return false;
+        if (selectedFormat === 'pdf' && ext !== 'pdf') return false;
+        if (selectedFormat === 'video' && ext !== 'mp4') return false;
+      }
+
+      // Search term
+      if (searchTerm.trim()) {
+        const q = searchTerm.toLowerCase();
+        return (
+          item.name.toLowerCase().includes(q) ||
+          item.path.toLowerCase().includes(q) ||
+          (item.category && item.category.toLowerCase().includes(q)) ||
+          (item.altText && item.altText.toLowerCase().includes(q)) ||
+          (item.title && item.title.toLowerCase().includes(q)) ||
+          (item.caption && item.caption.toLowerCase().includes(q)) ||
+          (item.keywords && item.keywords.some((k) => k.toLowerCase().includes(q)))
+        );
+      }
+
+      return true;
+    });
+  }, [activeList, activeBucket, selectedCategory, selectedFormat, searchTerm]);
+
+  // ─── Helpers ───────────────────────────────────────────────────────────────
+  const getItemUrl = (item: MediaItem) => {
+    if (item.publicUrl) return item.publicUrl;
+    if (activeBucket === 'public-assets') return `/${item.path}`;
+    return '#';
+  };
+
+  const isImageFile = (item: MediaItem) => {
     return (
-      item.name.toLowerCase().includes(q) ||
-      item.path.toLowerCase().includes(q) ||
-      (item.altText && item.altText.toLowerCase().includes(q)) ||
-      (item.title && item.title.toLowerCase().includes(q)) ||
-      (item.caption && item.caption.toLowerCase().includes(q))
+      item.type.includes('image') ||
+      ['png', 'jpg', 'jpeg', 'webp', 'svg'].some((ext) => item.path.toLowerCase().endsWith(`.${ext}`))
     );
-  });
+  };
+
+  const isVideoFile = (item: MediaItem) => {
+    return item.type.includes('video') || item.path.toLowerCase().endsWith('.mp4');
+  };
+
+  const isPdfFile = (item: MediaItem) => {
+    return item.type.includes('pdf') || item.path.toLowerCase().endsWith('.pdf');
+  };
 
   const handleCopyText = (text: string, snippetId: string) => {
     navigator.clipboard.writeText(text);
@@ -309,6 +323,7 @@ export function MediaView() {
     setTimeout(() => setCopiedSnippet(null), 2500);
   };
 
+  // ─── SEO Inspector Modal Handlers ──────────────────────────────────────────
   const handleOpenInspector = (item: MediaItem) => {
     setInspectingItem(item);
     setSeoAltText(item.altText || '');
@@ -335,7 +350,6 @@ export function MediaView() {
       keywords: keywordsArray,
     };
 
-    // Update in state
     if (activeBucket === 'public-assets') {
       setPublicAssets((prev) =>
         prev.map((item) => (item.path === inspectingItem.path ? updatedItem : item))
@@ -348,7 +362,6 @@ export function MediaView() {
 
     setInspectingItem(updatedItem);
 
-    // Persist in localStorage
     try {
       const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
       const parsed = stored ? JSON.parse(stored) : {};
@@ -364,7 +377,202 @@ export function MediaView() {
     }
 
     setSaveSuccessMsg(true);
+    showToast(`SEO tags for ${inspectingItem.name} saved successfully.`);
     setTimeout(() => setSaveSuccessMsg(false), 3000);
+  };
+
+  // ─── Replace Asset Handlers ────────────────────────────────────────────────
+  const handleOpenReplace = (item: MediaItem) => {
+    setReplacingItem(item);
+    setReplacementFile(null);
+    setReplaceError(null);
+  };
+
+  const handleConfirmReplace = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!replacingItem || !replacementFile) return;
+
+    setReplacing(true);
+    setReplaceError(null);
+
+    try {
+      const formData = new FormData();
+      formData.append('file', replacementFile);
+      formData.append('targetPath', replacingItem.path);
+      formData.append('bucket', activeBucket);
+
+      const res = await fetch('/api/media/replace', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.message || 'Asset replacement failed.');
+      }
+
+      const timestamp = Date.now();
+      const updatedUrl = `/${replacingItem.path}?v=${timestamp}`;
+      const newSize = `${Math.max(1, Math.round(replacementFile.size / 1024))} KB`;
+
+      // Update state
+      const updatedItem: MediaItem = {
+        ...replacingItem,
+        size: newSize,
+        date: new Date().toISOString().split('T')[0],
+        publicUrl: updatedUrl,
+      };
+
+      if (activeBucket === 'public-assets') {
+        setPublicAssets((prev) =>
+          prev.map((item) => (item.path === replacingItem.path ? updatedItem : item))
+        );
+      } else {
+        setApplicantDocuments((prev) =>
+          prev.map((item) => (item.path === replacingItem.path ? updatedItem : item))
+        );
+      }
+
+      if (inspectingItem && inspectingItem.path === replacingItem.path) {
+        setInspectingItem(updatedItem);
+      }
+
+      // Persist replacement in localStorage
+      try {
+        const stored = localStorage.getItem(LOCAL_STORAGE_REPLACEMENTS);
+        const parsed = stored ? JSON.parse(stored) : {};
+        parsed[replacingItem.path] = {
+          publicUrl: updatedUrl,
+          size: newSize,
+          date: new Date().toISOString().split('T')[0],
+        };
+        localStorage.setItem(LOCAL_STORAGE_REPLACEMENTS, JSON.stringify(parsed));
+      } catch {}
+
+      showToast(`Asset ${replacingItem.name} was successfully replaced! Changes will reflect across the site.`);
+      setReplacingItem(null);
+      setReplacementFile(null);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Replacement failed';
+      setReplaceError(msg);
+    } finally {
+      setReplacing(false);
+    }
+  };
+
+  // ─── Delete Asset Handlers ────────────────────────────────────────────────
+  const handleOpenDelete = (item: MediaItem) => {
+    setDeletingItem(item);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!deletingItem) return;
+
+    setDeleting(true);
+    try {
+      const res = await fetch('/api/media/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          path: deletingItem.path,
+          bucket: activeBucket,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.message || 'Deletion failed.');
+      }
+
+      // Remove from state
+      if (activeBucket === 'public-assets') {
+        setPublicAssets((prev) => prev.filter((item) => item.path !== deletingItem.path));
+      } else {
+        setApplicantDocuments((prev) => prev.filter((item) => item.path !== deletingItem.path));
+      }
+
+      if (inspectingItem && inspectingItem.path === deletingItem.path) {
+        setInspectingItem(null);
+      }
+
+      // Persist deleted path
+      try {
+        const stored = localStorage.getItem(LOCAL_STORAGE_DELETED);
+        const parsed: string[] = stored ? JSON.parse(stored) : [];
+        if (!parsed.includes(deletingItem.path)) {
+          parsed.push(deletingItem.path);
+          localStorage.setItem(LOCAL_STORAGE_DELETED, JSON.stringify(parsed));
+        }
+      } catch {}
+
+      showToast(`Asset ${deletingItem.name} was successfully deleted.`);
+      setDeletingItem(null);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Deletion failed';
+      alert(`Error deleting asset: ${msg}`);
+    } finally {
+      setDeleting(false);
+    }
+  };
+
+  // ─── Upload New Asset Handler ──────────────────────────────────────────────
+  const handleUploadSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedFile) return;
+
+    setUploading(true);
+    setUploadError(null);
+    setUploadSuccess(null);
+
+    try {
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+      formData.append('bucket', activeBucket);
+      formData.append('folder', uploadFolder);
+
+      const res = await fetch('/api/media/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        setUploadSuccess(`Asset successfully uploaded: ${data.asset.path}`);
+        const cleanName = selectedFile.name;
+        const newItem: MediaItem = {
+          name: cleanName,
+          path: data.asset.path,
+          size: `${Math.max(1, Math.round(selectedFile.size / 1024))} KB`,
+          type: selectedFile.type,
+          date: new Date().toISOString().split('T')[0],
+          publicUrl: data.asset.publicUrl || `/${data.asset.path}`,
+          category: uploadFolder,
+          altText: cleanName.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' '),
+          title: cleanName.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' '),
+        };
+
+        if (activeBucket === 'public-assets') {
+          setPublicAssets((prev) => [newItem, ...prev]);
+        } else {
+          setApplicantDocuments((prev) => [newItem, ...prev]);
+        }
+
+        showToast(`Asset ${cleanName} uploaded successfully.`);
+        setTimeout(() => {
+          setIsUploadOpen(false);
+          setSelectedFile(null);
+          setUploadSuccess(null);
+        }, 1200);
+      } else {
+        setUploadError(data.message || 'Upload failed.');
+      }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Upload request failed';
+      setUploadError(msg);
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleGenerateSignedUrl = async (path: string) => {
@@ -388,97 +596,43 @@ export function MediaView() {
     }
   };
 
-  const handleUploadSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedFile) return;
-
-    setUploading(true);
-    setUploadError(null);
-    setUploadSuccess(null);
-
-    try {
-      const formData = new FormData();
-      formData.append('file', selectedFile);
-      formData.append('bucket', activeBucket);
-      formData.append('folder', uploadFolder);
-
-      const res = await fetch('/api/media/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const data = await res.json();
-
-      if (data.success) {
-        setUploadSuccess(`Asset successfully uploaded: ${data.asset.storage_path}`);
-        const cleanName = selectedFile.name;
-        const newItem: MediaItem = {
-          name: cleanName,
-          path: data.asset.storage_path,
-          size: `${Math.round(selectedFile.size / 1024)} KB`,
-          type: selectedFile.type,
-          date: new Date().toISOString().split('T')[0],
-          publicUrl: data.asset.public_url || `/${data.asset.storage_path}`,
-          altText: cleanName.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' '),
-          title: cleanName.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' '),
-        };
-
-        if (activeBucket === 'public-assets') {
-          setPublicAssets((prev) => [newItem, ...prev]);
-        } else {
-          setApplicantDocuments((prev) => [newItem, ...prev]);
-        }
-
-        setTimeout(() => {
-          setIsUploadOpen(false);
-          setSelectedFile(null);
-          setUploadSuccess(null);
-        }, 1500);
-      } else {
-        setUploadError(data.message || 'Upload failed.');
-      }
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Upload request failed';
-      setUploadError(msg);
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  const isImageFile = (item: MediaItem) => {
-    return (
-      item.type.includes('image') ||
-      /\.(png|jpg|jpeg|webp|gif|svg)$/i.test(item.name) ||
-      /\.(png|jpg|jpeg|webp|gif|svg)$/i.test(item.path)
-    );
-  };
-
-  const getItemUrl = (item: MediaItem) => {
-    if (item.publicUrl) return item.publicUrl;
-    if (item.path.startsWith('/')) return item.path;
-    return `/${item.path}`;
-  };
-
   return (
     <div className="space-y-6">
-      {/* ── Top Bar ── */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="fixed top-5 right-5 z-50 p-4 rounded-2xl bg-[#0B1224] border border-[#257CFF]/50 text-white shadow-2xl flex items-center gap-2.5 animate-in slide-in-from-top-2">
+          <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+          <span className="text-xs font-semibold">{toastMessage}</span>
+        </div>
+      )}
+
+      {/* ── Header: Title & Bucket Tabs ── */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider font-bold">
-            Asset Storage
-          </span>
-          <h1 className="font-heading font-extrabold text-2xl text-white mt-1">
-            Media &amp; Document Vault
-          </h1>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[10px] font-mono tracking-widest text-cyan-400 uppercase font-bold">
+              ASSET STORAGE &amp; VAULT
+            </span>
+            <span className="px-2 py-0.5 rounded-full text-[9px] font-mono bg-cyan-950 text-cyan-300 border border-cyan-800">
+              {publicAssets.length} Total Registered
+            </span>
+          </div>
+          <h2 className="font-heading font-extrabold text-2xl text-white">Media &amp; Document Vault</h2>
+          <p className="text-xs text-slate-400 mt-0.5">
+            Manage, replace, delete, and inspect all images, logos, documents, and videos across Sijam Consults.
+          </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2.5">
-          {/* Bucket Toggle */}
-          <div className="flex items-center gap-1 bg-[#0D1420] p-1 rounded-xl border border-slate-800">
+        <div className="flex items-center gap-3">
+          {/* Storage Bucket Switcher */}
+          <div className="flex p-1 bg-[#121B2B] border border-slate-800 rounded-2xl">
             <button
               type="button"
-              onClick={() => setActiveBucket('public-assets')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
+              onClick={() => {
+                setActiveBucket('public-assets');
+                setSelectedCategory('all');
+              }}
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold transition ${
                 activeBucket === 'public-assets'
                   ? 'bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white shadow-md'
                   : 'text-slate-400 hover:text-white'
@@ -489,10 +643,13 @@ export function MediaView() {
             </button>
             <button
               type="button"
-              onClick={() => setActiveBucket('applicant-documents')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
+              onClick={() => {
+                setActiveBucket('applicant-documents');
+                setSelectedCategory('all');
+              }}
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold transition ${
                 activeBucket === 'applicant-documents'
-                  ? 'bg-rose-950 text-rose-300 border border-rose-800'
+                  ? 'bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white shadow-md'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -510,7 +667,7 @@ export function MediaView() {
               setSelectedFile(null);
               setIsUploadOpen(true);
             }}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white text-xs font-semibold shadow-lg shadow-[#257CFF]/25 transition active:scale-[0.98]"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white text-xs font-semibold shadow-lg shadow-[#257CFF]/25 transition active:scale-[0.98]"
           >
             <Upload className="w-3.5 h-3.5" />
             Upload File
@@ -531,17 +688,67 @@ export function MediaView() {
         </div>
       )}
 
-      {/* ── Search, Filters, and View Switcher ── */}
+      {/* ── Category Filter Pills (Public Assets Only) ── */}
+      {activeBucket === 'public-assets' && (
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+          {CATEGORY_TABS.map((tab) => {
+            const Icon = tab.icon;
+            const count =
+              tab.id === 'all'
+                ? publicAssets.length
+                : publicAssets.filter((a) => a.category === tab.id).length;
+            const isSelected = selectedCategory === tab.id;
+
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setSelectedCategory(tab.id)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition border ${
+                  isSelected
+                    ? 'bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white border-transparent shadow-md'
+                    : 'bg-[#0B1224] text-slate-400 border-slate-800/80 hover:text-white hover:border-slate-700'
+                }`}
+              >
+                <Icon className="w-3.5 h-3.5" />
+                <span>{tab.label}</span>
+                <span
+                  className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono ${
+                    isSelected ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-400'
+                  }`}
+                >
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* ── Search, Format Filter, and View Mode Switcher ── */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-        <div className="relative flex-1 sm:max-w-md">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-2.5" />
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder={`Search ${activeBucket} by name, alt tag, or path...`}
-            className="w-full pl-10 pr-4 py-2 bg-[#121B2B] border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#4DA5EC]"
-          />
+        <div className="flex items-center gap-2 flex-1 sm:max-w-xl">
+          <div className="relative flex-1">
+            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-2.5" />
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder={`Search ${activeBucket} by name, alt tag, or path...`}
+              className="w-full pl-10 pr-4 py-2 bg-[#121B2B] border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#4DA5EC]"
+            />
+          </div>
+
+          <select
+            value={selectedFormat}
+            onChange={(e) => setSelectedFormat(e.target.value)}
+            className="px-3 py-2 bg-[#121B2B] border border-slate-800 rounded-xl text-xs text-slate-300 focus:outline-none focus:border-[#4DA5EC] cursor-pointer"
+          >
+            <option value="all">All Formats</option>
+            <option value="image">Images (PNG/JPG/SVG)</option>
+            <option value="pdf">PDF Documents</option>
+            <option value="video">Videos (MP4)</option>
+          </select>
         </div>
 
         <div className="flex items-center gap-3 self-end sm:self-center">
@@ -559,7 +766,7 @@ export function MediaView() {
                   ? 'bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white shadow-sm'
                   : 'text-slate-400 hover:text-white'
               }`}
-              title="Grid View (Image & File Previews)"
+              title="Grid View (Image &amp; File Previews)"
             >
               <LayoutGrid className="w-3.5 h-3.5" />
               <span className="text-[11px] hidden sm:inline">Grid</span>
@@ -586,15 +793,17 @@ export function MediaView() {
         <div className="bg-[#121B2B] rounded-2xl border border-slate-800 p-12 text-center text-slate-400">
           <HardDrive className="w-10 h-10 mx-auto text-slate-600 mb-2" />
           <p className="text-sm font-semibold text-slate-300">No assets found in {activeBucket}</p>
-          <p className="text-xs text-slate-500 mt-1">Try adjusting your search criteria or upload a new asset.</p>
+          <p className="text-xs text-slate-500 mt-1">Try adjusting your search criteria or category filter.</p>
         </div>
       ) : viewMode === 'grid' ? (
         /* ══════════════════════════════════════════════════════════════════════
-           GRID VIEW — VISIBLE THUMBNAILS & DIRECT SEO INSPECTOR ACTION
+           GRID VIEW — VISIBLE THUMBNAILS, REPLACE, DELETE & SEO ACTIONS
         ══════════════════════════════════════════════════════════════════════ */
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {filteredItems.map((item) => {
             const isImg = isImageFile(item);
+            const isVid = isVideoFile(item);
+            const isPdf = isPdfFile(item);
             const fileUrl = getItemUrl(item);
 
             return (
@@ -614,6 +823,15 @@ export function MediaView() {
                       className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
                       loading="lazy"
                     />
+                  ) : isVid ? (
+                    <div className="flex flex-col items-center justify-center gap-2 p-4 text-center">
+                      <div className="w-12 h-12 rounded-xl bg-purple-950/80 border border-purple-700/60 flex items-center justify-center text-purple-300 group-hover:scale-110 transition">
+                        <Film className="w-6 h-6" />
+                      </div>
+                      <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">
+                        HD Video Asset
+                      </span>
+                    </div>
                   ) : (
                     <div className="flex flex-col items-center justify-center gap-2 p-4 text-center">
                       <div className="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-blue-400 group-hover:scale-110 transition">
@@ -674,7 +892,7 @@ export function MediaView() {
                   <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between">
                     {item.altText ? (
                       <span
-                        className="inline-flex items-center gap-1 text-[10px] text-emerald-400 font-medium truncate max-w-[170px]"
+                        className="inline-flex items-center gap-1 text-[10px] text-emerald-400 font-medium truncate max-w-[150px]"
                         title={`Alt: "${item.altText}"`}
                       >
                         <CheckCircle2 className="w-3 h-3 shrink-0" />
@@ -687,7 +905,29 @@ export function MediaView() {
                       </span>
                     )}
 
+                    {/* Action Buttons: Replace, Delete, Copy, SEO */}
                     <div className="flex items-center gap-1">
+                      {/* Replace Button */}
+                      <button
+                        type="button"
+                        onClick={() => handleOpenReplace(item)}
+                        className="p-1.5 rounded-lg bg-blue-950/60 hover:bg-blue-900 text-blue-300 transition"
+                        title="Replace Asset (Update file across website)"
+                      >
+                        <RefreshCw className="w-3.5 h-3.5" />
+                      </button>
+
+                      {/* Delete Button */}
+                      <button
+                        type="button"
+                        onClick={() => handleOpenDelete(item)}
+                        className="p-1.5 rounded-lg bg-rose-950/60 hover:bg-rose-900 text-rose-300 transition"
+                        title="Delete Asset"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+
+                      {/* Copy URL / Signed URL */}
                       {activeBucket === 'public-assets' ? (
                         <button
                           type="button"
@@ -717,11 +957,12 @@ export function MediaView() {
                         </button>
                       )}
 
+                      {/* Inspect SEO */}
                       <button
                         type="button"
                         onClick={() => handleOpenInspector(item)}
                         className="p-1.5 rounded-lg bg-cyan-950/60 hover:bg-cyan-900 text-cyan-300 transition"
-                        title="Edit SEO & Alt Tag"
+                        title="Edit SEO &amp; Alt Tag"
                       >
                         <Tag className="w-3.5 h-3.5" />
                       </button>
@@ -734,7 +975,7 @@ export function MediaView() {
         </div>
       ) : (
         /* ══════════════════════════════════════════════════════════════════════
-           LIST VIEW — TABULAR DATA WITH DIRECT INSPECTION
+           LIST VIEW — TABULAR DATA WITH DIRECT INSPECTION & ACTIONS
         ══════════════════════════════════════════════════════════════════════ */
         <div className="bg-[#121B2B] rounded-2xl border border-slate-800 overflow-hidden shadow-xl">
           <div className="p-4 border-b border-slate-800 flex items-center justify-between">
@@ -750,6 +991,7 @@ export function MediaView() {
             {filteredItems.map((item) => {
               const fileUrl = getItemUrl(item);
               const isImg = isImageFile(item);
+              const isVid = isVideoFile(item);
 
               return (
                 <div
@@ -761,6 +1003,8 @@ export function MediaView() {
                     <div className="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 overflow-hidden flex items-center justify-center shrink-0">
                       {isImg ? (
                         <img src={fileUrl} alt={item.altText || item.name} className="w-full h-full object-cover" />
+                      ) : isVid ? (
+                        <Film className="w-5 h-5 text-purple-400" />
                       ) : (
                         <FileText className="w-5 h-5 text-blue-400" />
                       )}
@@ -768,6 +1012,11 @@ export function MediaView() {
                     <div className="min-w-0">
                       <div className="text-xs font-semibold text-white truncate flex items-center gap-2">
                         <span>{item.name}</span>
+                        {item.category && (
+                          <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-blue-950/80 text-blue-300 border border-blue-800/50 uppercase">
+                            {item.category}
+                          </span>
+                        )}
                         {item.altText ? (
                           <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-emerald-950/80 text-emerald-300 border border-emerald-800/50">
                             SEO Alt Configured
@@ -787,12 +1036,34 @@ export function MediaView() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3 shrink-0 self-end sm:self-center" onClick={(e) => e.stopPropagation()}>
-                    <div className="text-[11px] text-slate-400 font-mono text-right hidden md:block">
+                  <div className="flex items-center gap-2 shrink-0 self-end sm:self-center" onClick={(e) => e.stopPropagation()}>
+                    <div className="text-[11px] text-slate-400 font-mono text-right hidden md:block mr-2">
                       <div>{item.size}</div>
                       <div className="text-[10px] text-slate-500">{item.date}</div>
                     </div>
 
+                    {/* Replace Button */}
+                    <button
+                      type="button"
+                      onClick={() => handleOpenReplace(item)}
+                      className="px-2.5 py-1 rounded-lg bg-blue-950/60 hover:bg-blue-900 border border-blue-800/50 text-blue-300 text-[11px] font-medium transition flex items-center gap-1"
+                      title="Replace file across website"
+                    >
+                      <RefreshCw className="w-3 h-3" />
+                      <span>Replace</span>
+                    </button>
+
+                    {/* Delete Button */}
+                    <button
+                      type="button"
+                      onClick={() => handleOpenDelete(item)}
+                      className="p-1 rounded-lg bg-rose-950/60 hover:bg-rose-900 border border-rose-800/50 text-rose-300 transition"
+                      title="Delete asset"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+
+                    {/* SEO Tag Button */}
                     <button
                       type="button"
                       onClick={() => handleOpenInspector(item)}
@@ -803,6 +1074,7 @@ export function MediaView() {
                       <span>SEO</span>
                     </button>
 
+                    {/* Copy / Download URL */}
                     {activeBucket === 'public-assets' ? (
                       <div className="flex items-center gap-1.5">
                         <button
@@ -852,6 +1124,172 @@ export function MediaView() {
       )}
 
       {/* ══════════════════════════════════════════════════════════════════════
+         REPLACE ASSET MODAL
+      ══════════════════════════════════════════════════════════════════════ */}
+      {replacingItem && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-[#0B1224] border border-blue-700/60 rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl animate-in fade-in">
+            <div className="flex items-center justify-between p-5 border-b border-slate-800 bg-[#080E20]">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl bg-blue-950 border border-blue-500/40 flex items-center justify-center text-blue-400">
+                  <RefreshCw className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="font-heading font-extrabold text-base text-white">
+                    Replace Asset
+                  </h3>
+                  <p className="text-[11px] text-slate-400 font-mono truncate max-w-[280px]">
+                    /{replacingItem.path}
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setReplacingItem(null)}
+                className="p-1.5 rounded-xl bg-slate-900 text-slate-400 hover:text-white transition"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleConfirmReplace} className="p-6 space-y-4">
+              <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center gap-3">
+                <div className="w-14 h-14 rounded-lg bg-black overflow-hidden flex items-center justify-center shrink-0 border border-slate-800">
+                  {isImageFile(replacingItem) ? (
+                    <img src={getItemUrl(replacingItem)} alt={replacingItem.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <FileText className="w-6 h-6 text-blue-400" />
+                  )}
+                </div>
+                <div className="min-w-0">
+                  <div className="text-xs font-semibold text-white truncate">{replacingItem.name}</div>
+                  <div className="text-[10px] text-slate-400 font-mono">Current Size: {replacingItem.size}</div>
+                  <div className="text-[10px] text-cyan-400 font-mono mt-0.5">Will replace this exact asset path</div>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-2">
+                  Select New Replacement File
+                </label>
+                <input
+                  type="file"
+                  required
+                  onChange={(e) => {
+                    const f = e.target.files?.[0] || null;
+                    setReplacementFile(f);
+                  }}
+                  className="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-slate-300 focus:outline-none focus:border-[#4DA5EC] file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:bg-blue-950 file:text-blue-300 hover:file:bg-blue-900 cursor-pointer"
+                />
+              </div>
+
+              {replacementFile && (
+                <div className="p-3 rounded-xl bg-blue-950/40 border border-blue-800/60 text-xs text-blue-200 space-y-1">
+                  <div className="font-semibold text-white flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-blue-400" />
+                    New file selected: {replacementFile.name}
+                  </div>
+                  <div className="text-[11px] text-blue-300/80">
+                    Size: {Math.max(1, Math.round(replacementFile.size / 1024))} KB • Type: {replacementFile.type || 'file'}
+                  </div>
+                  <p className="text-[11px] text-slate-400 pt-1">
+                    Once replaced, all pages displaying this asset will automatically update to the new version.
+                  </p>
+                </div>
+              )}
+
+              {replaceError && (
+                <div className="p-3 rounded-xl bg-rose-950/60 border border-rose-800/80 text-rose-300 text-xs flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0" />
+                  <span>{replaceError}</span>
+                </div>
+              )}
+
+              <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-800">
+                <button
+                  type="button"
+                  onClick={() => setReplacingItem(null)}
+                  className="px-4 py-2 rounded-xl text-xs text-slate-400 hover:text-white transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={replacing || !replacementFile}
+                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 disabled:opacity-50 text-white text-xs font-semibold shadow-lg shadow-[#257CFF]/25 transition flex items-center gap-1.5 active:scale-[0.98]"
+                >
+                  {replacing ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      <span>Replacing Asset...</span>
+                    </>
+                  ) : (
+                    <>
+                      <RefreshCw className="w-3.5 h-3.5" />
+                      <span>Confirm Replacement</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ══════════════════════════════════════════════════════════════════════
+         DELETE ASSET CONFIRMATION MODAL
+      ══════════════════════════════════════════════════════════════════════ */}
+      {deletingItem && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-[#0B1224] border border-rose-800/80 rounded-3xl w-full max-w-md p-6 shadow-2xl space-y-4 animate-in fade-in">
+            <div className="w-12 h-12 rounded-2xl bg-rose-950/80 border border-rose-800 flex items-center justify-center text-rose-400 mx-auto">
+              <Trash2 className="w-6 h-6" />
+            </div>
+
+            <div className="text-center space-y-1">
+              <h3 className="font-heading font-extrabold text-base text-white">
+                Delete Asset?
+              </h3>
+              <p className="text-xs text-slate-400">
+                Are you sure you want to permanently remove <strong className="text-white">{deletingItem.name}</strong> from the vault?
+              </p>
+              <div className="text-[11px] font-mono text-slate-500 pt-1">
+                /{deletingItem.path}
+              </div>
+            </div>
+
+            <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-800">
+              <button
+                type="button"
+                onClick={() => setDeletingItem(null)}
+                className="px-4 py-2 rounded-xl text-xs text-slate-400 hover:text-white transition"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                disabled={deleting}
+                onClick={handleConfirmDelete}
+                className="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 disabled:opacity-50 text-white text-xs font-semibold shadow-lg shadow-rose-600/30 transition flex items-center gap-1.5"
+              >
+                {deleting ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    <span>Deleting...</span>
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Delete Asset</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ══════════════════════════════════════════════════════════════════════
          PROFESSIONAL ASSET SEO & METADATA INSPECTOR MODAL
       ══════════════════════════════════════════════════════════════════════ */}
       {inspectingItem && (
@@ -894,6 +1332,13 @@ export function MediaView() {
                         alt={inspectingItem.altText || inspectingItem.name}
                         className="w-full h-full object-contain p-2"
                       />
+                    ) : isVideoFile(inspectingItem) ? (
+                      <div className="text-center p-6 space-y-2">
+                        <Film className="w-12 h-12 text-purple-400 mx-auto" />
+                        <span className="text-xs font-mono text-slate-300 block">
+                          {inspectingItem.name}
+                        </span>
+                      </div>
                     ) : (
                       <div className="text-center p-6 space-y-2">
                         <FileText className="w-12 h-12 text-blue-400 mx-auto" />
@@ -942,6 +1387,26 @@ export function MediaView() {
                       <span>Upload Date:</span>
                       <span className="font-mono text-slate-300">{inspectingItem.date}</span>
                     </div>
+                  </div>
+
+                  {/* Quick Action: Replace & Delete inside Inspector */}
+                  <div className="flex items-center gap-2 pt-1">
+                    <button
+                      type="button"
+                      onClick={() => handleOpenReplace(inspectingItem)}
+                      className="flex-1 py-1.5 px-3 rounded-xl bg-blue-950/80 hover:bg-blue-900 border border-blue-700/60 text-blue-300 text-xs font-semibold flex items-center justify-center gap-1.5 transition"
+                    >
+                      <RefreshCw className="w-3 h-3" />
+                      <span>Replace Asset</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleOpenDelete(inspectingItem)}
+                      className="py-1.5 px-3 rounded-xl bg-rose-950/80 hover:bg-rose-900 border border-rose-800/60 text-rose-300 text-xs font-semibold flex items-center justify-center gap-1.5 transition"
+                    >
+                      <Trash2 className="w-3 h-3" />
+                      <span>Delete</span>
+                    </button>
                   </div>
                 </div>
 
@@ -1109,7 +1574,7 @@ export function MediaView() {
             <div className="flex items-center justify-between pb-3 border-b border-slate-800">
               <h3 className="font-heading font-bold text-base text-white flex items-center gap-2">
                 <Upload className="w-4 h-4 text-cyan-400" />
-                Upload to {activeBucket}
+                Upload File to {activeBucket}
               </h3>
               <button
                 type="button"
@@ -1123,7 +1588,7 @@ export function MediaView() {
             <form onSubmit={handleUploadSubmit} className="space-y-4 text-xs">
               <div>
                 <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">
-                  Destination Folder
+                  Destination Category / Folder
                 </label>
                 <select
                   value={uploadFolder}
@@ -1131,18 +1596,23 @@ export function MediaView() {
                   className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-[#4DA5EC]"
                 >
                   <option value="blogs">blogs/ (Editorial Graphics &amp; Heroes)</option>
+                  <option value="brand">brand/ (Trademarks, Logos, Certificates)</option>
                   <option value="team">team/ (Executive Staff Portraits)</option>
-                  <option value="branding">brand/ (Trademarks &amp; Logos)</option>
-                  <option value="candidates">candidates/ (Candidate Applications)</option>
+                  <option value="partners">partners/ (Institutional Logos &amp; Crests)</option>
+                  <option value="reviews">reviews/ (Testimonial Logos &amp; Avatars)</option>
+                  <option value="visas">visas/ (Consular Approval Documents)</option>
+                  <option value="docs">docs/ (Company Profile, Brochures, PDFs)</option>
+                  <option value="media">media/ (Videos &amp; Media Assets)</option>
                 </select>
               </div>
 
               <div>
                 <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">
-                  Select File (Max 10 MB)
+                  Select File (Images, PDF, Video — Max 15 MB)
                 </label>
                 <input
                   type="file"
+                  required
                   onChange={(e) => {
                     const f = e.target.files?.[0] || null;
                     setSelectedFile(f);
