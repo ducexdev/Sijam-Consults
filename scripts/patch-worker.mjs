@@ -151,5 +151,15 @@ if (fs.existsSync(nextAppDir) && fs.existsSync(openNextAssetsDir)) {
   }
 
   copyStaticHtml(nextAppDir);
+
+  // Copy pre-rendered 404 / _not-found HTML so Cloudflare Assets and Worker directly serve it for unmatched routes
+  const notFoundHtmlPath = path.join(nextAppDir, '_not-found.html');
+  if (fs.existsSync(notFoundHtmlPath)) {
+    fs.copyFileSync(notFoundHtmlPath, path.join(openNextAssetsDir, '404.html'));
+    fs.copyFileSync(notFoundHtmlPath, path.join(openNextAssetsDir, '_not-found.html'));
+    copiedCount += 2;
+    console.log('✓ Successfully copied 404.html and _not-found.html into .open-next/assets for instant 404 responses.');
+  }
+
   console.log(`✓ Successfully copied ${copiedCount} pre-rendered HTML pages into .open-next/assets for zero-CPU edge serving.`);
 }
