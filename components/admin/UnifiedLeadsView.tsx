@@ -396,10 +396,10 @@ export function UnifiedLeadsView({
         <div>
           <span className="text-xs font-mono text-purple-400 uppercase tracking-wider flex items-center gap-1.5 font-bold">
             <Zap className="w-3.5 h-3.5 text-amber-400" />
-            Client Acquisition Engine • Speed-to-Lead Triage Desk
+            Client Acquisition Engine Desk
           </span>
           <h1 className="font-heading font-extrabold text-2xl text-white mt-1">
-            Inbound Leads &amp; Triage Center
+            Leads &amp; Triage Center
           </h1>
         </div>
 
