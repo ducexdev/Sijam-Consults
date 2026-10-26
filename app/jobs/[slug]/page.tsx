@@ -60,11 +60,7 @@ export default async function JobDetailPage({
   const job = staticJob || (dbJob ? jobRecordToJobListing(dbJob) : null);
 
   if (!job) {
-    return (
-      <PublicLayout>
-        <JobDetailClientFallback slug={slug} />
-      </PublicLayout>
-    );
+    notFound();
   }
 
   return (

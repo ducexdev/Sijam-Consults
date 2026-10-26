@@ -61,7 +61,21 @@ export default {
                 if (reqOrResp instanceof Response) {
                     return reqOrResp;
                 }
-                return await serverHandler(reqOrResp, env, ctx, request.signal);
+                const serverResponse = await serverHandler(reqOrResp, env, ctx, request.signal);
+                // If server responded with 200 but content contains NEXT_HTTP_ERROR_FALLBACK;404,
+                // it means Next.js called notFound() internally but the status wasn't propagated.
+                // Re-clone the response with the correct 404 status.
+                if (serverResponse && serverResponse.status === 200) {
+                    const clone = serverResponse.clone();
+                    const text = await clone.text();
+                    if (text.includes('NEXT_HTTP_ERROR_FALLBACK;404') || text.includes('"digest":"NEXT_HTTP_ERROR_FALLBACK;404"')) {
+                        const headers = new Headers(serverResponse.headers);
+                        headers.set('x-corrected-status', '404');
+                        return new Response(text, { status: 404, headers });
+                    }
+                    return new Response(text, { status: serverResponse.status, headers: serverResponse.headers });
+                }
+                return serverResponse;
             });
         } catch (error) {
             console.error("[CRITICAL WORKER EXCEPTION]", error);
