@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Image as ImageIcon,
   HardDrive,
@@ -66,6 +66,35 @@ export function MediaView() {
   const [signedUrlModal, setSignedUrlModal] = useState<{ path: string; url: string; expiresAt: string } | null>(null);
   const [generatingSignedUrl, setGeneratingSignedUrl] = useState<string | null>(null);
   const [copiedPath, setCopiedPath] = useState<string | null>(null);
+
+  // Fetch live file listings from Supabase Storage on mount
+  useEffect(() => {
+    async function fetchStorageListings() {
+      try {
+        const [publicRes, docsRes] = await Promise.all([
+          fetch('/api/media/list?bucket=public-assets'),
+          fetch('/api/media/list?bucket=applicant-documents'),
+        ]);
+
+        if (publicRes.ok) {
+          const json = await publicRes.json();
+          if (json.success && json.files && json.files.length > 0) {
+            setPublicAssets(json.files);
+          }
+        }
+
+        if (docsRes.ok) {
+          const json = await docsRes.json();
+          if (json.success && json.files && json.files.length > 0) {
+            setApplicantDocuments(json.files);
+          }
+        }
+      } catch (err) {
+        console.error('[MediaView] Storage listing fetch error:', err);
+      }
+    }
+    fetchStorageListings();
+  }, []);
 
   const activeList = activeBucket === 'public-assets' ? publicAssets : applicantDocuments;
 

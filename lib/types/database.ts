@@ -392,3 +392,41 @@ export interface AuditLogRecord {
   user_agent?: string | null;
   created_at: string;
 }
+
+
+// ─── Commercial Retainer Pipeline & Deal Engine ───────────────────────────────
+
+export type RetainerStage =
+  | 'initial_assessment'
+  | 'consultation_paid'
+  | 'retainer_signed'
+  | 'document_filing'
+  | 'embassy_decision'
+  | 'commission_released';
+
+export interface RetainerDealRecord {
+  id: string;
+  reference_code: string;
+  client_id?: string;
+  client_name: string;
+  client_email: string;
+  client_phone: string;
+  service_category: string;
+  target_corridor: string;
+  deal_value_usd: number;
+  deal_value_ngn: number;
+  stage: RetainerStage;
+  consultation_fee_paid: boolean;
+  retainer_amount_paid_usd: number;
+  invoice_reference?: string | null;
+  payment_gateway?: 'paystack' | 'stripe' | 'wire_transfer' | null;
+  payment_verified_at?: string | null;
+  assigned_officer_id?: string | null;
+  assigned_officer_name?: string | null;
+  contract_signed_at?: string | null;
+  filing_date?: string | null;
+  expected_decision_date?: string | null;
+  decision_outcome?: 'approved' | 'review' | 'refused' | null;
+  created_at: string;
+  updated_at: string;
+}

@@ -193,7 +193,7 @@ export const HeroSection: React.FC = () => {
               <div className="absolute inset-0 rounded-2xl border border-[#4DA5EC]/0 group-hover:border-[#4DA5EC]/40 transition-all duration-500 pointer-events-none z-10" />
               <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
                 <iframe
-                  src="https://www.youtube.com/embed/LOB8JuM_Lrg?si=kJ-Cg1lNc5nmCbgz&rel=0&modestbranding=1"
+                  src="https://www.youtube.com/embed/tfTmmMTydm0?si=vlwTfEHV9dmPaLK8&rel=0&modestbranding=1"
                   title="Sijam Consults Limited — Official Company Video"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen

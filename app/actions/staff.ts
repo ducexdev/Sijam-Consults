@@ -5,6 +5,7 @@ import { dbRepository } from '@/lib/db/repository';
 import { getStaffSession } from './auth';
 import { generateSalt, hashPassword } from '@/lib/auth/session';
 import { AdminRole, ProfileRecord } from '@/lib/types/database';
+import { emailService } from '@/lib/email/smtp';
 
 /**
  * Server Action: Create a New Staff Member
@@ -199,6 +200,18 @@ export async function adminResetStaffPassword(
   const freshHash = hashPassword(newPassword, freshSalt);
 
   await dbRepository.updateStaffPassword(staffId, freshHash, freshSalt);
+
+  // Send credential reset notification directly to the staff member's email
+  try {
+    await emailService.sendSecurityToken(
+      staff.email,
+      newPassword.slice(0, 4) + '****', // Masked confirmation, not the actual password
+      staff.full_name
+    );
+  } catch (emailErr) {
+    console.error('[Staff Password Reset SMTP]:', emailErr);
+    // Non-fatal — password was reset, email delivery failure is logged only
+  }
 
   await dbRepository.recordAuditLog({
     user_id: caller.id,

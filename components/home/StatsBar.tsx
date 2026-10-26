@@ -25,7 +25,7 @@ const TRUST_INDICATORS: TrustIndicator[] = [
   },
   {
     label: 'Active International Corridors',
-    badge: 'UK, EU & Gulf',
+    badge: 'UK, EU & CA, AUS',
     detail: 'Poland, Slovakia, Cyprus, UK & Saudi Arabia',
     href: ROUTES.services.root,
     icon: Globe2,
@@ -42,7 +42,7 @@ const TRUST_INDICATORS: TrustIndicator[] = [
   {
     label: 'Physical Corporate Headquarters',
     badge: 'Kaduna, Nigeria',
-    detail: 'Suite A10, 2/4 Kachia Road Consultations',
+    detail: 'Suite A10, Kachia Road Consultations',
     href: ROUTES.contact,
     icon: Building2,
     accentColor: '#402493',

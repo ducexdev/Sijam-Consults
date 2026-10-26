@@ -322,12 +322,8 @@ export function TalentRecruitmentDesk({
       {/* ── Top Bar: Institutional Command Header ── */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 border-b border-slate-800/80">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/60 border border-emerald-500/30 text-emerald-300 text-[11px] font-mono font-bold uppercase tracking-wider mb-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
-            Consolidated Recruitment Engine • European Employer Partnerships
-          </div>
           <h1 className="font-heading font-extrabold text-2xl lg:text-3xl text-white tracking-tight flex items-center gap-3">
-            Talent Recruitment Desk &amp; Candidate Funnel
+            Talent Recruitment &amp; Candidates Desk
           </h1>
           <p className="text-xs text-slate-400 mt-1 max-w-2xl font-sans">
             End-to-end European talent placement: verified employer quotas, statutory Voivodeship permit sponsorship, and applicant consular credential tracking.

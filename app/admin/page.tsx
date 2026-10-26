@@ -36,6 +36,7 @@ export default async function AdminPage() {
     redirects,
     staffList,
     auditLogs,
+    dailyMetrics,
   ] = await Promise.all([
     dbRepository.getDashboardMetrics(),
     dbRepository.getConsultations(),
@@ -51,12 +52,14 @@ export default async function AdminPage() {
     dbRepository.getRedirects(),
     dbRepository.getStaffProfiles(),
     dbRepository.getAuditLogs(100),
+    dbRepository.getDailyMetrics30d(),
   ]);
 
   return (
     <AdminDashboardClient
       authenticatedStaff={profile}
       initialMetrics={metrics}
+      initialDailyMetrics={dailyMetrics}
       initialConsultations={consultations}
       initialContactMessages={contactMessages}
       initialJobs={jobs}

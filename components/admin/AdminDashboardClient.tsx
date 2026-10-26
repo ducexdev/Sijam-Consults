@@ -33,14 +33,19 @@ import { logoutStaff, changeOwnPassword } from '@/app/actions/auth';
 import { AdminHeader } from './AdminHeader';
 import { AdminSidebar, AdminTab } from './AdminSidebar';
 import { OverviewView } from './OverviewView';
+import { RevenuePipelineView } from './RevenuePipelineView';
+import { SeoCommandView } from './SeoCommandView';
 import { ConsultationsView } from './ConsultationsView';
 import { ContactMessagesView } from './ContactMessagesView';
+import { UnifiedLeadsView } from './UnifiedLeadsView';
+import { TalentRecruitmentDesk } from './TalentRecruitmentDesk';
 import { JobsView } from './JobsView';
 import { ApplicationsView } from './ApplicationsView';
 import { TestimonialsView } from './TestimonialsView';
 import { BlogView } from './BlogView';
-import { ServicesView } from './ServicesView';
+import { CatalogEcosystemView } from './CatalogEcosystemView';
 import { MediaView } from './MediaView';
+import { InfrastructureSettingsView } from './InfrastructureSettingsView';
 import { SettingsView } from './SettingsView';
 import { RedirectsView } from './RedirectsView';
 import { StaffView } from './StaffView';
@@ -58,6 +63,7 @@ interface AdminDashboardClientProps {
     publishedArticles: number;
     totalStaff: number;
   };
+  initialDailyMetrics?: { date: string; consultations: number; applications: number; enquiries: number; testimonials: number; blog_posts: number }[];
   initialConsultations: ConsultationRequestRecord[];
   initialContactMessages: ContactMessageRecord[];
   initialJobs: JobRecord[];
@@ -76,6 +82,7 @@ interface AdminDashboardClientProps {
 export function AdminDashboardClient({
   authenticatedStaff,
   initialMetrics,
+  initialDailyMetrics,
   initialConsultations,
   initialContactMessages,
   initialJobs,
@@ -233,6 +240,7 @@ export function AdminDashboardClient({
           {currentTab === 'overview' && (
             <OverviewView
               metrics={initialMetrics}
+              dailyMetrics={initialDailyMetrics}
               recentConsultations={initialConsultations}
               recentApplications={initialApplications}
               pendingReviews={initialTestimonials.filter((t) => t.status === 'pending_moderation')}
@@ -240,34 +248,42 @@ export function AdminDashboardClient({
             />
           )}
 
-          {currentTab === 'consultations' && (
-            <ConsultationsView
-              consultations={initialConsultations}
+          {currentTab === 'revenue' && (
+            <RevenuePipelineView
               staffList={initialStaffList}
+            />
+          )}
+
+          {currentTab === 'seo' && (
+            <SeoCommandView />
+          )}
+
+          {currentTab === 'consultations' && (
+            <UnifiedLeadsView
+              consultations={initialConsultations}
+              messages={initialContactMessages}
+              staffList={initialStaffList}
+              initialSegment="all"
               onRefresh={handleRefresh}
             />
           )}
 
           {currentTab === 'enquiries' && (
-            <ContactMessagesView
+            <UnifiedLeadsView
+              consultations={initialConsultations}
               messages={initialContactMessages}
+              staffList={initialStaffList}
+              initialSegment="enquiries"
               onRefresh={handleRefresh}
             />
           )}
 
-          {currentTab === 'jobs' && (
-            <JobsView
+          {(currentTab === 'jobs' || currentTab === 'applications') && (
+            <TalentRecruitmentDesk
               jobs={initialJobs}
               categories={initialJobCategories}
               employers={initialEmployers}
-              onRefresh={handleRefresh}
-            />
-          )}
-
-          {currentTab === 'applications' && (
-            <ApplicationsView
               applications={initialApplications}
-              jobs={initialJobs}
               onRefresh={handleRefresh}
             />
           )}
@@ -287,7 +303,7 @@ export function AdminDashboardClient({
           )}
 
           {currentTab === 'services' && (
-            <ServicesView
+            <CatalogEcosystemView
               services={initialServices}
               partners={initialPartners}
             />
@@ -295,11 +311,17 @@ export function AdminDashboardClient({
 
           {currentTab === 'media' && <MediaView />}
 
-          {currentTab === 'settings' && <SettingsView />}
-
-          {currentTab === 'redirects' && (
-            <RedirectsView
+          {(currentTab === 'settings' || currentTab === 'redirects' || currentTab === 'audit_logs') && (
+            <InfrastructureSettingsView
+              initialSubTab={
+                currentTab === 'redirects'
+                  ? 'redirects'
+                  : currentTab === 'audit_logs'
+                  ? 'audit_logs'
+                  : 'settings'
+              }
               redirects={initialRedirects}
+              auditLogs={initialAuditLogs}
               onRefresh={handleRefresh}
             />
           )}
@@ -309,10 +331,6 @@ export function AdminDashboardClient({
               staffList={initialStaffList}
               onRefresh={handleRefresh}
             />
-          )}
-
-          {currentTab === 'audit_logs' && (
-            <AuditLogsView logs={initialAuditLogs} />
           )}
         </main>
       </div>
