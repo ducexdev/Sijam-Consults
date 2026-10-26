@@ -62,7 +62,7 @@ export function RedirectsView({ redirects, onRefresh }: RedirectsViewProps) {
 
         <button
           onClick={() => setIsCreating(true)}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold shadow-lg transition self-start sm:self-auto"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white text-xs font-semibold shadow-lg shadow-[#257CFF]/25 transition self-start sm:self-auto"
         >
           <Plus className="w-4 h-4" />
           Add Redirect Rule
@@ -197,7 +197,7 @@ export function RedirectsView({ redirects, onRefresh }: RedirectsViewProps) {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold shadow-lg transition"
+                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white text-xs font-semibold shadow-lg shadow-[#257CFF]/25 transition"
                 >
                   {loading ? 'Creating...' : 'Create Redirect'}
                 </button>

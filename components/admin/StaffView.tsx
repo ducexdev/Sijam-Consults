@@ -277,7 +277,7 @@ export function StaffView({ staffList, onRefresh }: StaffViewProps) {
 
         <button
           onClick={() => setShowAddModal(true)}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#402493] to-[#257CFF] hover:opacity-95 text-xs font-bold uppercase tracking-wider text-white shadow-lg transition self-start sm:self-auto cursor-pointer"
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-[#257CFF]/25 transition self-start sm:self-auto cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>Provision New Staff</span>
@@ -644,7 +644,7 @@ export function StaffView({ staffList, onRefresh }: StaffViewProps) {
                 <button
                   type="submit"
                   disabled={actionLoading}
-                  className="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold shadow transition cursor-pointer"
+                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white text-xs font-semibold shadow-lg shadow-[#257CFF]/25 transition cursor-pointer"
                 >
                   {actionLoading ? 'Creating Profile...' : 'Save & Provision Account'}
                 </button>
@@ -706,7 +706,7 @@ export function StaffView({ staffList, onRefresh }: StaffViewProps) {
                 <button
                   type="submit"
                   disabled={actionLoading}
-                  className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold shadow transition cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white text-xs font-semibold shadow-lg shadow-[#257CFF]/25 transition cursor-pointer"
                 >
                   {actionLoading ? 'Updating...' : 'Set Password'}
                 </button>

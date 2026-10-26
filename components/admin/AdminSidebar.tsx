@@ -112,7 +112,7 @@ export function AdminSidebar({
           requiredPermission: 'consultations:view',
           badge: {
             count: counts.pendingConsultations || 4,
-            color: 'bg-purple-600 text-white',
+            color: 'bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white shadow-sm',
           },
         },
         {
@@ -222,14 +222,14 @@ export function AdminSidebar({
                   onClick={() => onSelectTab(item.id)}
                   className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition text-left ${
                     isActive
-                      ? 'bg-gradient-to-r from-purple-950/90 via-purple-900/60 to-purple-950/90 text-white border border-purple-500/40 shadow-[0_0_15px_rgba(147,51,234,0.25)] font-semibold'
+                      ? 'bg-gradient-to-r from-[#183168]/90 via-[#102450]/70 to-[#0c1836]/90 text-white border border-[#257CFF]/50 shadow-[0_0_15px_rgba(37,124,255,0.25)] font-semibold'
                       : 'text-slate-400 hover:text-white hover:bg-[#0B1024]'
                   }`}
                 >
                   <div className="flex items-center gap-2.5">
                     <Icon
                       className={`w-4 h-4 ${
-                        isActive ? 'text-purple-300' : 'text-slate-400 group-hover:text-slate-200'
+                        isActive ? 'text-[#4DA5EC]' : 'text-slate-400 group-hover:text-slate-200'
                       }`}
                     />
                     <span>{item.label}</span>

@@ -233,7 +233,7 @@ export function ServicesView({ services, partners, onRefresh }: ServicesViewProp
           {activeTab === 'partners' && (
             <button
               onClick={openNewPartnerModal}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow transition"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white font-bold text-xs shadow-lg shadow-[#257CFF]/25 transition"
             >
               <Plus className="w-3.5 h-3.5" />
               Register Corporate Partner
@@ -245,7 +245,7 @@ export function ServicesView({ services, partners, onRefresh }: ServicesViewProp
               onClick={() => setActiveTab('services')}
               className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${
                 activeTab === 'services'
-                  ? 'bg-purple-600 text-white shadow'
+                  ? 'bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white shadow'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -255,7 +255,7 @@ export function ServicesView({ services, partners, onRefresh }: ServicesViewProp
               onClick={() => setActiveTab('partners')}
               className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${
                 activeTab === 'partners'
-                  ? 'bg-purple-600 text-white shadow'
+                  ? 'bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white shadow'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -500,7 +500,7 @@ export function ServicesView({ services, partners, onRefresh }: ServicesViewProp
                 <button
                   type="submit"
                   disabled={actionLoading}
-                  className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold"
+                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white font-bold shadow-lg shadow-[#257CFF]/25"
                 >
                   {actionLoading ? 'Saving...' : 'Save Changes'}
                 </button>
@@ -622,7 +622,7 @@ export function ServicesView({ services, partners, onRefresh }: ServicesViewProp
                 <button
                   type="submit"
                   disabled={actionLoading}
-                  className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold"
+                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white font-bold shadow-lg shadow-[#257CFF]/25"
                 >
                   {actionLoading ? 'Saving...' : 'Save Partner'}
                 </button>

@@ -29,6 +29,8 @@ import {
   AuditLogRecord,
   NotificationRecord,
   EmailOutboxRecord,
+  RetainerDealRecord,
+  RetainerStage,
 } from '@/lib/types/database';
 import { ServiceItem, CorporatePartner } from '@/lib/types';
 import { supabase, supabaseAdmin, isSupabaseConfigured } from '@/lib/supabase';
@@ -134,6 +136,7 @@ const DEFAULT_STAFF: ProfileRecord[] = [
 // In-Memory Global Store for resilient fallback
 class DataStore {
   profiles: ProfileRecord[] = [...DEFAULT_STAFF];
+  retainerDeals: RetainerDealRecord[] = [];
   
   consultations: ConsultationRequestRecord[] = [
     {
@@ -1824,5 +1827,99 @@ export const dbRepository = {
     item.error_message = undefined;
     item.updated_at = new Date().toISOString();
     return item;
+  },
+
+  async getRetainerDeals(): Promise<RetainerDealRecord[]> {
+    if (isSupabaseConfigured) {
+      try {
+        const { data, error } = await supabaseAdmin
+          .from('retainer_deals')
+          .select('*')
+          .order('created_at', { ascending: false });
+        if (!error && data) return data as RetainerDealRecord[];
+      } catch (err) {
+        console.error('Supabase getRetainerDeals error:', err);
+      }
+    }
+    return [...globalStore.retainerDeals];
+  },
+
+  async createRetainerDeal(
+    deal: Omit<RetainerDealRecord, 'id' | 'created_at' | 'updated_at'>
+  ): Promise<RetainerDealRecord> {
+    const newDeal: RetainerDealRecord = {
+      id:
+        typeof crypto !== 'undefined' && crypto.randomUUID
+          ? crypto.randomUUID()
+          : `deal-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+      ...deal,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+
+    if (isSupabaseConfigured) {
+      try {
+        const { data, error } = await supabaseAdmin
+          .from('retainer_deals')
+          .insert(newDeal)
+          .select()
+          .maybeSingle();
+        if (!error && data) return data as RetainerDealRecord;
+      } catch (err) {
+        console.error('Supabase createRetainerDeal error:', err);
+      }
+    }
+
+    globalStore.retainerDeals.unshift(newDeal);
+    return newDeal;
+  },
+
+  async updateRetainerDeal(
+    id: string,
+    updates: Partial<RetainerDealRecord>
+  ): Promise<RetainerDealRecord | null> {
+    const updatedFields = {
+      ...updates,
+      updated_at: new Date().toISOString(),
+    };
+
+    if (isSupabaseConfigured) {
+      try {
+        const { data, error } = await supabaseAdmin
+          .from('retainer_deals')
+          .update(updatedFields)
+          .eq('id', id)
+          .select()
+          .maybeSingle();
+        if (!error && data) return data as RetainerDealRecord;
+      } catch (err) {
+        console.error('Supabase updateRetainerDeal error:', err);
+      }
+    }
+
+    const idx = globalStore.retainerDeals.findIndex((d: RetainerDealRecord) => d.id === id);
+    if (idx !== -1) {
+      globalStore.retainerDeals[idx] = { ...globalStore.retainerDeals[idx], ...updatedFields };
+      return globalStore.retainerDeals[idx];
+    }
+    return null;
+  },
+
+  async deleteRetainerDeal(id: string): Promise<boolean> {
+    if (isSupabaseConfigured) {
+      try {
+        const { error } = await supabaseAdmin
+          .from('retainer_deals')
+          .delete()
+          .eq('id', id);
+        if (!error) return true;
+      } catch (err) {
+        console.error('Supabase deleteRetainerDeal error:', err);
+      }
+    }
+
+    const initialLength = globalStore.retainerDeals.length;
+    globalStore.retainerDeals = globalStore.retainerDeals.filter((d: RetainerDealRecord) => d.id !== id);
+    return globalStore.retainerDeals.length < initialLength;
   },
 };

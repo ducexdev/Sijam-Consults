@@ -78,7 +78,7 @@ export function CatalogEcosystemView({ services, partners }: CatalogEcosystemVie
               onClick={() => setActiveTab('services')}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition ${
                 activeTab === 'services'
-                  ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
+                  ? 'bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white shadow-lg shadow-[#257CFF]/30'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -90,7 +90,7 @@ export function CatalogEcosystemView({ services, partners }: CatalogEcosystemVie
               onClick={() => setActiveTab('partners')}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition ${
                 activeTab === 'partners'
-                  ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
+                  ? 'bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white shadow-lg shadow-[#257CFF]/30'
                   : 'text-slate-400 hover:text-white'
               }`}
             >

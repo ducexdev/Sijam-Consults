@@ -25,6 +25,7 @@ import {
   BlogPostRecord,
   RedirectRecord,
   AuditLogRecord,
+  RetainerDealRecord,
 } from '@/lib/types/database';
 import { ServiceItem, CorporatePartner } from '@/lib/types';
 import { COMPANY } from '@/lib/routes';
@@ -77,6 +78,7 @@ interface AdminDashboardClientProps {
   initialRedirects: RedirectRecord[];
   initialStaffList: ProfileRecord[];
   initialAuditLogs: AuditLogRecord[];
+  initialDeals?: RetainerDealRecord[];
 }
 
 export function AdminDashboardClient({
@@ -96,6 +98,7 @@ export function AdminDashboardClient({
   initialRedirects,
   initialStaffList,
   initialAuditLogs,
+  initialDeals = [],
 }: AdminDashboardClientProps) {
   const router = useRouter();
 
@@ -251,6 +254,7 @@ export function AdminDashboardClient({
           {currentTab === 'revenue' && (
             <RevenuePipelineView
               staffList={initialStaffList}
+              initialDeals={initialDeals}
             />
           )}
 
@@ -428,7 +432,7 @@ export function AdminDashboardClient({
                 <button
                   type="submit"
                   disabled={pwdLoading}
-                  className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold shadow-lg transition"
+                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white text-xs font-semibold shadow-lg shadow-[#257CFF]/25 transition"
                 >
                   {pwdLoading ? 'Updating...' : 'Save New Password'}
                 </button>

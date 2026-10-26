@@ -840,7 +840,7 @@ export function TestimonialsView({ testimonials, onRefresh }: TestimonialsViewPr
             <p className="text-xs text-slate-400 mt-0.5">Real stories. Real people. Real impact. Keep your brand credible with verified testimonials and reviews.</p>
           </div>
         </div>
-        <button onClick={() => {}} className="relative z-10 bg-[#6366f1] hover:bg-[#4f46e5] text-white text-xs font-semibold px-4 py-2.5 rounded-xl flex items-center gap-1.5 transition shadow-lg shadow-indigo-600/20 shrink-0">
+        <button onClick={() => {}} className="relative z-10 bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white text-xs font-semibold px-4 py-2.5 rounded-xl flex items-center gap-1.5 transition shadow-lg shadow-[#257CFF]/25 shrink-0">
           <span>View Full Report</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </button>

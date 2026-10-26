@@ -206,7 +206,7 @@ export function SettingsView() {
               <button
                 type="submit"
                 disabled={loading}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold shadow-md transition shrink-0"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white text-xs font-semibold shadow-md shadow-[#257CFF]/25 transition shrink-0"
               >
                 <Send className="w-3.5 h-3.5" />
                 {loading ? 'Relaying...' : 'Send Test Email'}

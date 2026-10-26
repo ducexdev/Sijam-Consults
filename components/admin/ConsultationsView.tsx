@@ -860,7 +860,7 @@ export function ConsultationsView({
                 <button
                   type="submit"
                   disabled={actionLoading}
-                  className="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold shadow-lg transition cursor-pointer"
+                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white text-xs font-semibold shadow-lg shadow-[#257CFF]/25 transition cursor-pointer"
                 >
                   {actionLoading ? 'Saving...' : 'Save Triage & Notes'}
                 </button>
@@ -980,7 +980,7 @@ export function ConsultationsView({
                 <button
                   type="submit"
                   disabled={actionLoading}
-                  className="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold shadow-lg transition cursor-pointer"
+                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white text-xs font-semibold shadow-lg shadow-[#257CFF]/25 transition cursor-pointer"
                 >
                   {actionLoading
                     ? 'Dispatching...'

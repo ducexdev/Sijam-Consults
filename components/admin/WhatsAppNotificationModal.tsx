@@ -179,12 +179,12 @@ export function WhatsAppNotificationModal({
                     onClick={() => setSelectedTemplate(key)}
                     className={`p-3 rounded-2xl border text-left transition flex flex-col justify-between ${
                       isSelected
-                        ? 'bg-purple-950/50 border-purple-500 text-white shadow-[0_0_15px_rgba(168,85,247,0.15)]'
+                        ? 'bg-blue-950/50 border-[#257CFF] text-white shadow-[0_0_15px_rgba(37,124,255,0.25)]'
                         : 'bg-[#0E172E] border-[#1C2642] text-slate-300 hover:border-slate-700'
                     }`}
                   >
                     <span className="text-[11px] font-bold line-clamp-1">{tmpl.title}</span>
-                    <span className="text-[10px] text-purple-400 font-mono mt-1">
+                    <span className="text-[10px] text-cyan-400 font-mono mt-1">
                       {tmpl.category}
                     </span>
                   </button>

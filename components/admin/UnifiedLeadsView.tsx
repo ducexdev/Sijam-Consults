@@ -489,7 +489,7 @@ export function UnifiedLeadsView({
             onClick={() => setActiveSegment('all')}
             className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition ${
               activeSegment === 'all'
-                ? 'bg-purple-900/60 text-purple-200 border border-purple-600'
+                ? 'bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white shadow-md'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
@@ -499,12 +499,12 @@ export function UnifiedLeadsView({
             onClick={() => setActiveSegment('consultations')}
             className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 ${
               activeSegment === 'consultations'
-                ? 'bg-purple-900/60 text-purple-200 border border-purple-600'
+                ? 'bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white shadow-md'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
             <span>🎯 Consultations</span>
-            <span className="text-[10px] font-mono bg-purple-950 px-1.5 rounded-full text-purple-300">
+            <span className="text-[10px] font-mono bg-[#091024] px-1.5 rounded-full text-cyan-200">
               {consultations.length}
             </span>
           </button>
@@ -512,12 +512,12 @@ export function UnifiedLeadsView({
             onClick={() => setActiveSegment('enquiries')}
             className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 ${
               activeSegment === 'enquiries'
-                ? 'bg-purple-900/60 text-purple-200 border border-purple-600'
+                ? 'bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white shadow-md'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
             <span>✉️ Contact Inquiries</span>
-            <span className="text-[10px] font-mono bg-purple-950 px-1.5 rounded-full text-purple-300">
+            <span className="text-[10px] font-mono bg-[#091024] px-1.5 rounded-full text-cyan-200">
               {messages.length}
             </span>
           </button>

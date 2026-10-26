@@ -1254,7 +1254,7 @@ export function JobsView({ jobs, categories, employers, onRefresh }: JobsViewPro
             setStatusFilter('all');
             setCategoryFilter('all');
           }}
-          className="relative z-10 bg-[#6366f1] hover:bg-[#4f46e5] text-white text-xs font-semibold px-4 py-2.5 rounded-xl flex items-center gap-1.5 transition shadow-lg shadow-indigo-600/20 shrink-0"
+          className="relative z-10 bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white text-xs font-semibold px-4 py-2.5 rounded-xl flex items-center gap-1.5 transition shadow-lg shadow-[#257CFF]/25 shrink-0"
         >
           <span>Explore All Job Listings</span>
           <ArrowRight className="w-3.5 h-3.5" />
@@ -1677,7 +1677,7 @@ export function JobsView({ jobs, categories, employers, onRefresh }: JobsViewPro
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 py-2.5 text-xs font-semibold bg-purple-600 hover:bg-purple-500 text-white rounded-xl transition disabled:opacity-60 shadow-lg shadow-purple-600/20"
+                  className="flex-1 py-2.5 text-xs font-semibold bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white rounded-xl transition disabled:opacity-60 shadow-lg shadow-[#257CFF]/25"
                 >
                   {loading ? 'Saving...' : editingJob ? 'Save Changes' : 'Publish Job Listing'}
                 </button>

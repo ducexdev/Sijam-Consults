@@ -361,7 +361,7 @@ export function OverviewView({
             </span>
             <button
               onClick={() => onNavigate('revenue')}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow-lg transition"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white font-bold text-xs shadow-lg shadow-[#257CFF]/25 transition"
             >
               <span>Open Pipeline Matrix</span>
               <ChevronRight className="w-3.5 h-3.5" />

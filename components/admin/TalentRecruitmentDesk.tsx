@@ -344,7 +344,7 @@ export function TalentRecruitmentDesk({
               onClick={() => setViewMode('kanban')}
               className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
                 viewMode === 'kanban'
-                  ? 'bg-purple-600 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]'
+                  ? 'bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white shadow-[0_0_15px_rgba(37,124,255,0.4)]'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -355,7 +355,7 @@ export function TalentRecruitmentDesk({
               onClick={() => setViewMode('list')}
               className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
                 viewMode === 'list'
-                  ? 'bg-purple-600 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]'
+                  ? 'bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white shadow-[0_0_15px_rgba(37,124,255,0.4)]'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -367,9 +367,9 @@ export function TalentRecruitmentDesk({
           {/* Post Verified Vacancy CTA */}
           <button
             onClick={handleOpenCreateJob}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold shadow-[0_0_20px_rgba(147,51,234,0.35)] transition transform hover:-translate-y-0.5 active:translate-y-0"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white text-xs font-bold shadow-[0_0_20px_rgba(37,124,255,0.35)] transition transform hover:-translate-y-0.5 active:translate-y-0"
           >
-            <Sparkles className="w-4 h-4 text-purple-200" />
+            <Sparkles className="w-4 h-4 text-white" />
             Post Verified Vacancy
           </button>
         </div>
@@ -441,7 +441,7 @@ export function TalentRecruitmentDesk({
             </div>
             <button
               onClick={handleOpenCreateJob}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold shadow-lg transition"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white text-xs font-bold shadow-lg shadow-[#257CFF]/25 transition"
             >
               <Plus className="w-4 h-4" />
               Post First Verified Vacancy
@@ -846,7 +846,7 @@ export function TalentRecruitmentDesk({
                     type="button"
                     onClick={() => handleGenerateSignedCvUrl(selectedApplication)}
                     disabled={generatingUrl}
-                    className="w-full py-2.5 px-3 rounded-xl bg-purple-900/60 hover:bg-purple-800 text-purple-100 font-bold text-xs flex items-center justify-center gap-2 border border-purple-600 transition"
+                    className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-[#257CFF]/25 transition"
                   >
                     <FileText className="w-3.5 h-3.5" />
                     {generatingUrl

@@ -439,7 +439,7 @@ export function ClientDossierDrawer({
                     <button
                       type="submit"
                       disabled={!newNote.trim()}
-                      className="px-4 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white text-xs font-semibold shadow transition"
+                      className="px-4 py-1.5 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 disabled:opacity-50 text-white text-xs font-semibold shadow-lg shadow-[#257CFF]/25 transition"
                     >
                       Save Internal Note
                     </button>

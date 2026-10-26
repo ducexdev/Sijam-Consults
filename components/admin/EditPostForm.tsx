@@ -214,7 +214,7 @@ export function EditPostForm({ post }: EditPostFormProps) {
             <button
               onClick={() => handleSubmit()}
               disabled={loading}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#402493] text-white text-sm font-semibold hover:bg-[#331C79] transition disabled:opacity-60 shadow"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white text-sm font-semibold transition disabled:opacity-60 shadow-lg shadow-[#257CFF]/25"
             >
               {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Globe className="w-3.5 h-3.5" />}
               Save Changes
@@ -250,8 +250,8 @@ export function EditPostForm({ post }: EditPostFormProps) {
               onClick={() => setActiveTab(id)}
               className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition ${
                 activeTab === id
-                  ? 'bg-[#402493] text-white shadow-sm'
-                  : 'text-slate-600 hover:text-[#402493] hover:bg-slate-50'
+                  ? 'bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white shadow-sm'
+                  : 'text-slate-600 hover:text-[#257CFF] hover:bg-slate-50'
               }`}
             >
               <Icon className="w-3.5 h-3.5" />

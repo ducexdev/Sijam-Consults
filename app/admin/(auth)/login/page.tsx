@@ -211,7 +211,7 @@ export default function AdminLoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-[#402493] via-[#257CFF] to-[#5833C5] hover:opacity-95 text-white text-xs font-bold uppercase tracking-wider shadow-lg shadow-purple-950/40 transition cursor-pointer disabled:opacity-50 mt-2"
+                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white text-xs font-bold uppercase tracking-wider shadow-lg shadow-[#257CFF]/30 transition cursor-pointer disabled:opacity-50 mt-2"
               >
                 {loading ? (
                   <span>Authenticating Credentials...</span>

@@ -1158,7 +1158,7 @@ export function ApplicationsView({
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 py-2 text-xs font-semibold bg-[#4338ca] hover:bg-[#3730a3] text-white rounded-xl transition disabled:opacity-60 shadow-lg shadow-indigo-600/20"
+                  className="flex-1 py-2 text-xs font-semibold bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white rounded-xl transition disabled:opacity-60 shadow-lg shadow-[#257CFF]/25"
                 >
                   {loading ? 'Saving...' : 'Save Dossier Update'}
                 </button>

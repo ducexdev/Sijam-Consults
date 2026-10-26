@@ -236,7 +236,7 @@ export function MediaView() {
               setSelectedFile(null);
               setIsUploadOpen(true);
             }}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold shadow transition"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white text-xs font-semibold shadow-lg shadow-[#257CFF]/25 transition"
           >
             <Upload className="w-3.5 h-3.5" />
             Upload File
@@ -451,7 +451,7 @@ export function MediaView() {
                 <button
                   type="submit"
                   disabled={uploading || !selectedFile}
-                  className="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white text-xs font-semibold shadow transition"
+                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 disabled:opacity-50 text-white text-xs font-semibold shadow-lg shadow-[#257CFF]/25 transition"
                 >
                   {uploading ? 'Uploading...' : 'Upload Asset'}
                 </button>
@@ -502,7 +502,7 @@ export function MediaView() {
                 href={signedUrlModal.url}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold transition"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] hover:brightness-110 text-white text-xs font-semibold shadow-lg shadow-[#257CFF]/25 transition"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
                 Download Now

@@ -307,13 +307,13 @@ export function SeoCommandView() {
           onClick={() => setActiveSubTab('striking')}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition ${
             activeSubTab === 'striking'
-              ? 'bg-[#7C3AED] text-white shadow-lg shadow-purple-600/30'
+              ? 'bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white shadow-lg shadow-[#257CFF]/30'
               : 'text-slate-400 hover:text-white bg-[#070C1E] border border-[#172342]'
           }`}
         >
           <Target className="w-3.5 h-3.5" />
           <span>Striking Distance Keywords (Ranks 4–10)</span>
-          <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-purple-950/80 text-purple-300 border border-purple-500/30">
+          <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-[#091024] text-cyan-200 border border-cyan-500/30">
             {allKeywords.length}
           </span>
         </button>
@@ -322,7 +322,7 @@ export function SeoCommandView() {
           onClick={() => setActiveSubTab('pages')}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition ${
             activeSubTab === 'pages'
-              ? 'bg-[#7C3AED] text-white shadow-lg shadow-purple-600/30'
+              ? 'bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white shadow-lg shadow-[#257CFF]/30'
               : 'text-slate-400 hover:text-white bg-[#070C1E] border border-[#172342]'
           }`}
         >
@@ -334,7 +334,7 @@ export function SeoCommandView() {
           onClick={() => setActiveSubTab('audit')}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition ${
             activeSubTab === 'audit'
-              ? 'bg-[#7C3AED] text-white shadow-lg shadow-purple-600/30'
+              ? 'bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white shadow-lg shadow-[#257CFF]/30'
               : 'text-slate-400 hover:text-white bg-[#070C1E] border border-[#172342]'
           }`}
         >
@@ -346,7 +346,7 @@ export function SeoCommandView() {
           onClick={() => setActiveSubTab('gsc_auth')}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition ${
             activeSubTab === 'gsc_auth'
-              ? 'bg-[#7C3AED] text-white shadow-lg shadow-purple-600/30'
+              ? 'bg-gradient-to-r from-[#4DA5EC] to-[#257CFF] text-white shadow-lg shadow-[#257CFF]/30'
               : 'text-slate-400 hover:text-white bg-[#070C1E] border border-[#172342]'
           }`}
         >
