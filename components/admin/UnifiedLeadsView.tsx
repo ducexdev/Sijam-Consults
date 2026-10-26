@@ -19,7 +19,6 @@ import {
   User,
   ExternalLink,
   ChevronRight,
-  ShieldAlert,
   Zap,
   Flame,
   ArrowUpRight,
@@ -414,30 +413,6 @@ export function UnifiedLeadsView({
         </div>
       </div>
 
-      {/* ── Managing Director Escalation Alert (Loss Aversion Trigger) ── */}
-      {metrics.breached > 0 && (
-        <div className="p-4 rounded-2xl bg-gradient-to-r from-rose-950/80 via-[#1F0A12] to-rose-950/80 border border-rose-500/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-lg shadow-rose-950/40 animate-in fade-in">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-rose-950 border border-rose-600/60 flex items-center justify-center text-rose-400 shrink-0">
-              <ShieldAlert className="w-5 h-5 animate-pulse" />
-            </div>
-            <div>
-              <span className="font-heading font-black text-white text-xs uppercase tracking-wider block">
-                Managing Director Escalation — {metrics.breached} Files Breached (&gt; 60 Mins)
-              </span>
-              <span className="text-rose-200/80 text-[11px] mt-0.5 block leading-relaxed">
-                Conversion probability drops by 391% past the golden window. Immediate WhatsApp outreach or case officer re-assignment required.
-              </span>
-            </div>
-          </div>
-          <button
-            onClick={() => setActiveSegment('at_risk')}
-            className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs shrink-0 shadow-lg transition self-start sm:self-auto"
-          >
-            Triage Breached Leads Now →
-          </button>
-        </div>
-      )}
 
       {/* ── Executive SLA Metric Strip ── */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
